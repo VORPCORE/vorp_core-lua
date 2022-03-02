@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Hud Vorp</title>
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!--
+    <img class="icons" src="icons/gold_2.png"></img>
+    <p class="money">1050
+        <p class="cent">10</p>
+    </p>
+-->
+    <div class="Header__inner__3hvj8">
+        <div class="Header__player__2Slh1">
+            <div class="Header__balance__ydtLu">
+                <div class="Header__money__1WhKc">
+                    <span class="Header__roleToken__1QKqI" tabindex="0"><span class="Header__roleTokenIcon__3wGOj"></span><span id="rol">0</span></span>
+                    <span class="Header__gold__X-zov" tabindex="0"><span class="Header__goldIcon__1ypvO"></span><span id="gold">0<span class="Header__decimal__1eony2">0</span></span>
+                    </span>
+                    <span class="Header__cash__3sq0r" tabindex="0">$<span id="money">0<span class="Header__decimal__1eony">0</span></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="info"><span id="textid">ID 0</span> - <span id="textinfo">LVL: 0</span></div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="js/progressbar.js"></script>
+    <script src="js/progressbar.min.js"></script>
+
+    <script type="text/javascript">
+        $("document").ready(function() {
+
+            var info = document.getElementById("info");
+            var bar = new ProgressBar.Line(info, {
+                strokeWidth: 4,
+                easing: 'easeInOut',
+                duration: 1400,
+                color: '#FFEA82',
+                trailColor: '#eee',
+                trailWidth: 1,
+                svgStyle: {
+                    width: '100%',
+                    height: '100%'
+                },
+                from: {
+                    color: '#FFEA82'
+                },
+                to: {
+                    color: '#ED6A5A'
+                },
+                step: (state, bar) => {
+                    bar.path.setAttribute('stroke', state.color);
+                }
+            });
+
+            //bar.animate(1.0); // Number from 0.0 to 1.0
+
+            window.addEventListener("message", function(event) {
+                let item = event.data;
+                if (item !== undefined && item.type === "ui") {
+                    if (item.action === "update") {
+
+                        var ints1 = Math.trunc(item.moneyquanty + 0.00);
+                        var decimal1 = item.moneyquanty.toFixed(2).toString().substr(-2);
+                        var money = document.getElementById("money").innerHTML = ints1 + "<span class=\"Header__decimal__1eony\">" + decimal1 + "</span>";
+
+                        var ints2 = Math.trunc(item.goldquanty);
+                        var decimal2 = item.goldquanty.toFixed(2).toString().substr(-2);
+                        var gold = document.getElementById("gold").innerHTML = ints2 + "<span class=\"Header__decimal__1eony2\">" + decimal2 + "</span>";
+
+                        var ints3 = Math.trunc(item.rolquanty);
+                        var rol = document.getElementById("rol").innerHTML = ints3;
+
+                        var ints4 = item.serverId;
+                        document.getElementById("textid").innerText = "ID " + ints4;
+
+                        var ints5 = item.xp / 1000; //Divide by 1000 is 1 lvl
+                        var newvalue = ints5 % 1;
+                        var lvl = Math.trunc(ints5)
+
+                        bar.animate(newvalue);
+                        document.getElementById("textinfo").innerText = "LVL " + lvl;
+
+                    }
+                    if (item.action === "setmoney") {
+                        var ints = Math.trunc(item.moneyquanty);
+                        var decimal = item.moneyquanty.toFixed(2).toString().substr(-2);
+                        var money = document.getElementById("money").innerHTML = ints + "<span class=\"Header__decimal__1eony\">" + decimal + "</span>";
+                    }
+                    if (item.action === "setgold") {
+                        var ints = Math.trunc(item.goldquanty);
+                        var decimal = item.goldquanty.toFixed(2).toString().substr(-2);
+                        var gold = document.getElementById("gold").innerHTML = ints + "<span class=\"Header__decimal__1eony2\">" + decimal + "</span>";
+                    }
+                    if (item.action === "setrol") {
+                        var ints = Math.trunc(item.rolquanty);
+                        var rol = document.getElementById("rol").innerHTML = ints;
+                    }
+                    if (item.action === "setxp") {
+                        var ints = item.xp / 1000; //Divide by 1000 is 1 lvl
+                        var newvalue = ints % 1;
+                        var lvl = Math.trunc(ints)
+
+                        bar.animate(newvalue);
+                        document.getElementById("textinfo").innerText = "LVL " + lvl;
+                    }
+                    if (item.action === "hide") {
+                        document.body.style.display = "none";
+                    }
+                    if (item.action === "show") {
+                        document.body.style.display = "block";
+                    }
+
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

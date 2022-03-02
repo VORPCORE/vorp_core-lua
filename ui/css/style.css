@@ -1,0 +1,132 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url(../fonts/rdrlino-regular-webfont.woff);
+}
+
+@font-face {
+    font-family: myFirstFont;
+    src: url(../fonts/rdrlino-regular-webfont.woff);
+    font-weight: normal;
+}
+
+* {
+    font-family: myFirstFont;
+    box-sizing: inherit;
+    touch-action: manipulation;
+}
+
+body {
+    background-color: transparent;
+}
+
+.Header__inner__3hvj8 {
+    display: flex;
+    height: 60px;
+    margin: 0 auto;
+    max-width: 1420px;
+    padding: 0 10px;
+    position: relative;
+}
+
+.Header__player__2Slh1 {
+    align-items: center;
+    display: flex;
+    margin-left: auto;
+}
+
+.Header__balance__ydtLu {
+    display: flex;
+    /*font-size: 35px;*/
+    font-size: 1.7vw;
+}
+
+.Header__roleToken__1QKqI {
+    align-items: center;
+    background-position: 100%;
+    background-repeat: no-repeat;
+    color: #00aeef;
+    display: flex;
+    letter-spacing: 1px;
+    margin: 0px 10px 0 0;
+    padding: 0px 10px 0 22px;
+}
+
+.Header__roleTokenIcon__3wGOj {
+    background-image: url(../icons/token.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 1.3vw;
+    margin-right: 5px;
+    position: relative;
+    width: 1.3vw;
+}
+
+.Header__money__1WhKc {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+}
+
+.Header__gold__X-zov {
+    align-items: center;
+    color: #d89a2e;
+    display: flex;
+    letter-spacing: 1px;
+    padding: 0px 20px 0 0;
+}
+
+.Header__goldIcon__1ypvO {
+    background-image: url(../icons/gold_2.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 1.3vw;
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+    width: 1.3vw;
+}
+
+.Header__decimal__1eony2 {
+    /*font-size: 18px;*/
+    font-size: 1vw;
+    letter-spacing: 0;
+    text-decoration: underline #d89a2e;
+    ;
+    margin-left: 1px;
+    position: relative;
+}
+
+.Header__cash__3sq0r {
+    align-items: center;
+    display: flex;
+    letter-spacing: 1px;
+    color: #ffffff;
+    padding: 0px 10px 0 0;
+}
+
+.Header__decimal__1eony {
+    /*font-size: 18px;*/
+    font-size: 1vw;
+    letter-spacing: 0;
+    text-decoration: underline rgb(255, 255, 255);
+    margin-left: 1px;
+    position: relative;
+}
+
+#info {
+    position: absolute;
+    bottom: 45px;
+    left: 10px;
+    width: 200px;
+    height: 5px;
+}
+
+#textinfo {
+    color: white;
+    font-size: 0.8vw;
+}
+
+#textid {
+    color: white;
+    font-size: 0.8vw;
+}
