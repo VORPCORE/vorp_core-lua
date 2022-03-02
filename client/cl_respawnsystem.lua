@@ -92,6 +92,8 @@ Citizen.CreateThread(function()
                     end
                 end
             end
+        else
+            Citizen.Wait(500)
         end
     end
 end)
@@ -108,7 +110,8 @@ Citizen.CreateThread(function()
         elseif TimeToRespawn >= 0 and setDead then
             DrawText(Config.Langs["TitleOnDead"], Config["RespawnTitleFont"], 0.50, 0.50, 1.2, 1.2, 171, 3, 0, 255, true, true)
             DrawText(string.format(Config.Langs["SubTitleOnDead"], TimeToRespawn), Config["RespawnSubTitleFont"], 0.50, 0.60, 0.5, 0.5, 255, 255, 255, 255, true, true)
+        else
+            Citizen.Wait(500)
         end
     end
 end)
-
