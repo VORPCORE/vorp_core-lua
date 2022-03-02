@@ -1,4 +1,4 @@
-## VORP-CORE
+## VORP-CORE LUA
 This is the new VORP CORE for RedM made in LUA! Finally!
 
 If you have the C# version of the core and want to replace it, it's just drag and drop. Everything works without having to change anything!
