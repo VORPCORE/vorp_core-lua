@@ -13,9 +13,7 @@ local function GetDistanceFromPlayer(p)
 end
 
 Citizen.CreateThread(function()
-    while true do
-        if not UseIDHeads or  UseKeyMode == 0 then return end
-
+    while UseIDHeads and UseKeyMode ~= 0 do
         if IsControlPressed(0, keyShow) then
             showIds = true
         else
@@ -28,11 +26,7 @@ end)
 
 
 Citizen.CreateThread(function()
-    while true do
-        if not UseIDHeads then
-            return
-        end
-
+    while UseIDHeads do
         for _, i in ipairs(GetActivePlayers()) do
             if GetPlayerPed(i) ~= PlayerPedId() then
                 if PlayerTags[i] then
