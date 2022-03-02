@@ -78,7 +78,7 @@ function User(source, identifier, group, playerwarnings, license)
             self.Group(group)
         end
 
-        userData.getUsedCharacter = self._usercharacters[self.usedCharacterId].getCharacter()
+        userData.getUsedCharacter = self.UsedCharacter()
         userData.getUserCharacters = self.UserCharacters()
 
         userData.getNumOfCharacters = function()
@@ -102,6 +102,14 @@ function User(source, identifier, group, playerwarnings, license)
         end
 
         return userData
+    end
+
+    self.UsedCharacter = function()
+        if self._usercharacters[self.usedCharacterId] then
+           return self._usercharacters[self.usedCharacterId].getCharacter()
+        end
+
+        return {}
     end
 
     self.UserCharacters = function()
