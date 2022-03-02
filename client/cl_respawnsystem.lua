@@ -104,10 +104,11 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
 
         if IsEntityAttachedToAnyPed(PlayerPedId()) and setDead then
-            local carrier = GetCarrierAsPed(PlayerPedId())
+            local carrier = Citizen.InvokeNative(0x09B83E68DE004CD4, PlayerPedId())
             NetworkSetInSpectatorMode(true, carrier)
             DrawText(Config.Langs["YouAreCarried"], 4, 0.50, 0.30, 1.0, 1.0, 255, 255, 255, 255, true, true)
         elseif TimeToRespawn >= 0 and setDead then
+            NetworkSetInSpectatorMode(true, PlayerPedId())
             DrawText(Config.Langs["TitleOnDead"], Config["RespawnTitleFont"], 0.50, 0.50, 1.2, 1.2, 171, 3, 0, 255, true, true)
             DrawText(string.format(Config.Langs["SubTitleOnDead"], TimeToRespawn), Config["RespawnSubTitleFont"], 0.50, 0.60, 0.5, 0.5, 255, 255, 255, 255, true, true)
         else
