@@ -15,7 +15,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
     else
         local pos = json.decode(characters[sid].Coords())
 
-        if pos['x'] ~= nil then
+        if pos ~= nil and pos['x'] ~= nil then
             TriggerClientEvent("vorp:initPlayer", source, vector3(pos["x"], pos["y"], pos["z"]), pos["heading"], characters[sid].IsDead())
         end
 
