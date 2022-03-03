@@ -69,7 +69,7 @@ AddEventHandler('getCore', function(cb)
         if _users[sid] then
             return _users[sid].GetUser()
         else
-            return nil
+            return {}
         end
     end
 
