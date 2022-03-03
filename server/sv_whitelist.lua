@@ -70,6 +70,11 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         setKickReason(Config.Langs["NoSteam"])
     end
 
+    if _users[steamIdentifier] then --Save and delete
+        _users[steamIdentifier].SaveUser()
+        _users[steamIdentifier] = nil
+    end
+
     if whitelistActive then
         if whitelist[steamIdentifier] then
             deferrals.done()

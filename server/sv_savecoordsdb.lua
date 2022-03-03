@@ -6,7 +6,7 @@ RegisterNetEvent('vorp:saveLastCoords', function(lastCoords, lastHeading)
 
     LastCoordsInCache[source] = {lastCoords, lastHeading}
     
-    local characterCoords = json.encode({x = math.floor(lastCoords.x), y = math.floor(lastCoords.y), z = math.floor(lastCoords.z), heading = lastHeading})
+    local characterCoords = json.encode({x = math.floor(lastCoords.x), y = math.floor(lastCoords.y), z = math.floor(lastCoords.z), heading = math.floor(lastHeading)})
 
     _users[identifier].GetUsedCharacter().Coords(characterCoords)
 end)
