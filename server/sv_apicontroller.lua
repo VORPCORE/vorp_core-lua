@@ -92,7 +92,6 @@ AddEventHandler('getCore', function(cb)
     cb(coreData)
 end)
 
-
 AddEventHandler('vorp:addSuggestion', function(commandName, suggestion)
     table.insert(commandSuggestions, {
         name = commandName,
