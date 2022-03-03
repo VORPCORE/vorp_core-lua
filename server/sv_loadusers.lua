@@ -1,3 +1,4 @@
+_usersLoading = {}
 _users = {}
 
 function CheckConnected(identifier)
@@ -7,7 +8,9 @@ end
 
 function LoadUser(source, setKickReason, deferrals, identifier, license)
     local resultList = exports.ghmattimysql:executeSync("SELECT * FROM users WHERE identifier = ?", {identifier})
-    
+
+    _usersLoading[identifier] = true
+
     if #resultList > 0 then
         local user = resultList[1]
         if user["banned"] == 1 then
@@ -25,23 +28,26 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0)", {identifier})
 
         _users[identifier] = User(source, identifier, "user", 0, license)
-        deferrals.done();
+        deferrals.done()
     end
 end
 
 AddEventHandler('playerDropped', function()
     local identifier = GetSteamID(source)
+
     --SaveCoordsDB.LastCoordsInCache.Remove(player);
-    if _users[identifier] then
+    if _users[identifier] and not _usersLoading[identifier] then
         _users[identifier].SaveUser()
         _users[identifier] = nil
+        print(string.format("Saved player %s.", GetPlayerName(source)))
     end
-    print(string.format("Saved player %s.", GetPlayerName(source)))
 end)
 
 RegisterNetEvent('vorp:playerSpawn', function()
     local source = source
     local identifier = GetSteamID(source)
+
+    _usersLoading[identifier] = false
     
     if _users[identifier] then
         --Debug.WriteLine("Characters loaded "+_users[identifier].Numofcharacters);
