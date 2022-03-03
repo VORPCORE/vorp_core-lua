@@ -12,7 +12,7 @@ function LoadModel(hash)
     end
 end
 
-function LoadModel(hash)
+function LoadTexture(hash)
     if not DoesStreamedTextureDictExist(texture) then
         RequestStreamedTextureDict(hash)
         while not HasStreamedTextureDictLoaded(hash) do
