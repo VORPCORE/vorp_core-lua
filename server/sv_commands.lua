@@ -1,5 +1,4 @@
-
-TriggerEvent("chat:addSuggestion", "/setgroup", "set group to user\n Example: /setgroup playerid mod")
+TriggerEvent("vorp:addSuggestion", "/setgroup", "set group to user\n Example: /setgroup playerid mod")
 RegisterCommand("setgroup", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -29,7 +28,7 @@ RegisterCommand("setgroup", function(source, args, rawCommand)
     end
 end, false)
 
-TriggerEvent("chat:addSuggestion", "/setjob", "set job to user\n Example: /setjob playerid medic");
+TriggerEvent("vorp:addSuggestion", "/setjob", "set job to user\n Example: /setjob playerid medic");
 RegisterCommand("setjob", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -59,7 +58,7 @@ RegisterCommand("setjob", function(source, args, rawCommand)
     end
 end, false)
 
-TriggerEvent("chat:addSuggestion", "/addmoney", "add money to user\n Example: /addmoney playerid moneytype quantity");
+TriggerEvent("vorp:addSuggestion", "/addmoney", "add money to user\n Example: /addmoney playerid moneytype quantity");
 RegisterCommand("addmoney", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -79,7 +78,7 @@ RegisterCommand("addmoney", function(source, args, rawCommand)
     end
 end, false)
 
-TriggerEvent("chat:addSuggestion", "/delmoney", "remove money to user\n Example: /delmoney playerid moneytype quantity");
+TriggerEvent("vorp:addSuggestion", "/delmoney", "remove money to user\n Example: /delmoney playerid moneytype quantity");
 RegisterCommand("delmoney", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -99,7 +98,7 @@ RegisterCommand("delmoney", function(source, args, rawCommand)
     end
 end, false)
 
-TriggerEvent("chat:addSuggestion", "/addwhitelist", "Example: /addwhitelist 11000010c8aa16e");
+TriggerEvent("vorp:addSuggestion", "/addwhitelist", "Example: /addwhitelist 11000010c8aa16e");
 RegisterCommand("addwhitelist", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
