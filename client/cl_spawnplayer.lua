@@ -11,9 +11,15 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
     TeleportToCoords(coords.x, coords.y, coords.z, heading)
 
     if isdead then
-        TriggerServerEvent("vorp:PlayerForceRespawn")
-        TriggerEvent("vorp:PlayerForceRespawn")
-        resspawnPlayer()
+        if not Config.CombatLogDeath then 
+            TriggerServerEvent("vorp:PlayerForceRespawn")
+            TriggerEvent("vorp:PlayerForceRespawn")
+            resspawnPlayer()
+        else
+            Citizen.Wait(8000) --Don't think this is needed...
+            TriggerEvent("vorp_inventory:CloseInv")
+            SetEntityHealth(PlayerPedId(),0,0)
+        end
     end
 end)
 
