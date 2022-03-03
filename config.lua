@@ -13,6 +13,8 @@ Config = {
   KeySwapVoiceRange =  0x80F28E95,
   DefaultVoiceRange =  5.0,
   VoiceRanges = {2.0, 5.0, 12.0},
+  
+  CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned 
 
   RespawnTime =  25, -- 25 seconds
   RespawnKey =  0xDFF812F9,
