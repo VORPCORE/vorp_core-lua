@@ -13,9 +13,9 @@ function LoadModel(hash)
 end
 
 function LoadTexture(hash)
-    if not DoesStreamedTextureDictExist(texture) then
-        RequestStreamedTextureDict(hash)
-        while not HasStreamedTextureDictLoaded(hash) do
+    if not Citizen.InvokeNative(0x7332461FC59EB7EC, texture) then
+        Citizen.InvokeNative(0xC1BA29DF5631B0F8, hash)
+        while not Citizen.InvokeNative(0x54D6900929CCF162, hash) do
             --Debug.WriteLine($"Waiting for texture {hash} load!");
             Citizen.Wait(0)
         end
