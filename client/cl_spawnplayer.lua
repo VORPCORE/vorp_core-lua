@@ -24,6 +24,11 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
 end)
 
 RegisterNetEvent('vorp:SelectedCharacter', function()
+    local playerPedId = PlayerPedId()
+    local playerCoords, playerHeading = GetEntityCoords(playerPedId, true, true), GetEntityHeading(playerPedId)
+
+    TriggerServerEvent("vorp:saveLastCoords", playerCoords, playerHeading)
+        
     firstSpawn = false
 
     SetMinimapHideFow(true)
