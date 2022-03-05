@@ -140,11 +140,12 @@ function User(source, identifier, group, playerwarnings, license)
 
     self.addCharacter = function(firstname, lastname, skin, comps)
         local newChar = Character(self.source, self._identifier, -1, Config.initGroup, Config.initJob, Config.initJobGrade, firstname, lastname, "{}", "{}", "{}", Config.initMoney, Config.initGold, Config.initRol, Config.initXp, false, skin, comps)
-        local charidentifier = newChar.SaveNewCharacterInDb()
-        newChar.CharIdentifier(charidentifier)
-        self._usercharacters[charidentifier] = newChar
-        --Debug.WriteLine("Added new character with identifier " + _usercharacters[charidentifier].PlayerVar.Identifiers["steam"]);
-        self.UsedCharacterId(charidentifier)
+        
+        newChar.SaveNewCharacterInDb(function(id)
+            newChar.CharIdentifier(id)
+            self._usercharacters[id] = newChar
+            self.UsedCharacterId(id)
+        end)
     end
 
     self.delCharacter = function(charIdentifier)

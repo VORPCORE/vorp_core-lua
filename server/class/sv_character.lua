@@ -233,9 +233,10 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         self.IsDead(dead)
     end
 
-    self.SaveNewCharacterInDb = function()
-        local character = exports.ghmattimysql:executeSync("INSERT INTO characters(`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", {self.Identifier(), self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.Inventory(), self.Job(), self.Status(), self.Firstname(), self.Lastname(), self.Skin(), self.Comps(), self.Jobgrade(), self.Coords(), self.IsDead()})
-        return character.insertId
+    self.SaveNewCharacterInDb = function(cb)
+        exports.ghmattimysql:execute("INSERT INTO characters(`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", {self.Identifier(), self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.Inventory(), self.Job(), self.Status(), self.Firstname(), self.Lastname(), self.Skin(), self.Comps(), self.Jobgrade(), self.Coords(), self.IsDead()}, function(character)
+            cb(character.insertId)
+        end)
     end
 
     self.DeleteCharacter = function()
