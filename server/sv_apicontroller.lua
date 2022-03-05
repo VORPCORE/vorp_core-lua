@@ -64,12 +64,14 @@ AddEventHandler('getCore', function(cb)
     local coreData = {}
 
     coreData.getUser = function(source)
+        if source == nil then return nil end
+            
         local sid = GetSteamID(source)
 
         if _users[sid] then
             return _users[sid].GetUser()
         else
-            return {}
+            return nil
         end
     end
 
