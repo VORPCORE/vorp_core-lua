@@ -32,9 +32,9 @@ Citizen.CreateThread(function()
                 if PlayerTags[i] then
                     if IsMpGamerTagActive(PlayerTags[i]) then
                         if GetDistanceFromPlayer(i) < distanceConfig and showIds then
-                            SetMpGamerTagVisibility(PlayerTags[i], 2)
+                            Citizen.InvokeNative(0x93171DDDAB274EB8, PlayerTags[i], 2)
                         else
-                            SetMpGamerTagVisibility(PlayerTags[i], 0)
+                            Citizen.InvokeNative(0x93171DDDAB274EB8, PlayerTags[i], 0)
                         end
                     else
                         local tagId = CreateMpGamerTag(i, GetPlayerServerId(i), false, false, "", 0)
