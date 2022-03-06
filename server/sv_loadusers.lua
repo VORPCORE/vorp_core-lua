@@ -80,4 +80,14 @@ end)
 Citizen.CreateThread(function()
     --Loop to save all players
     --each 5 minutes maybe add config for this? and toggle?
+    while true do
+        Citizen.Wait(300000)
+
+        for k,v in pairs(_users) do
+            v.SaveUser()
+        end
+
+        print('Saved all players')
+    end
 end)
+
