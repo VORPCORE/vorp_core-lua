@@ -15,6 +15,7 @@ Config = {
   VoiceRanges = {2.0, 5.0, 12.0},
   
   CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned 
+  ShowUiDeath = true, -- show or hide the UI if player is dead 
 
   RespawnTime =  25, -- 25 seconds
   RespawnKey =  0xDFF812F9,

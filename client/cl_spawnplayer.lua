@@ -8,7 +8,7 @@ function setPVP()
 end
 
 RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
-    TeleportToCoords(coords.x, coords.y, coords.z, heading)
+    TeleportToCoords(coords.x+0.0, coords.y+0.0, coords.z+0.0, heading+0.0)
 
     if isdead then
         if not Config.CombatLogDeath then 

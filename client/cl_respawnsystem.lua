@@ -64,7 +64,9 @@ Citizen.CreateThread(function()
             AnimpostfxPlay("DeathFailMP01")
             DisplayHud(false)
             DisplayRadar(false)
-            TriggerEvent("vorp:showUi", false)
+            if not Config["ShowUiDeath"] then 
+                TriggerEvent("vorp:showUi", false)
+            end
             TimeToRespawn = Config["RespawnTime"]
 
             while TimeToRespawn >= 0 and setDead do
