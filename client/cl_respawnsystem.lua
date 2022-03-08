@@ -83,8 +83,8 @@ Citizen.CreateThread(function()
                 if not IsEntityAttachedToAnyPed(PlayerPedId()) then
 					local GetCoords = GetEntityCoords(PlayerPedId())
                     NetworkSetInSpectatorMode(false, PlayerPedId())
-                    DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z+0.40, Config.Langs["TitleOnDead"])
-					DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z+0.20, Config.Langs["SubTitlePressKey"])
+                    DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z, Config.Langs["TitleOnDead"])
+					DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z-0.20, Config.Langs["SubTitlePressKey"])
                     --DrawText(Config.Langs["SubTitlePressKey"], Config["RespawnSubTitleFont"], 0.50, 0.50, 1.0, 1.0, 255, 255, 255, 255, true, true)
                     if IsControlJustPressed(0, keyPress) then
                         TriggerServerEvent("vorp:PlayerForceRespawn")
@@ -119,7 +119,8 @@ Citizen.CreateThread(function()
             NetworkSetInSpectatorMode(false, PlayerPedId())
             --DrawText(Config.Langs["TitleOnDead"], Config["RespawnTitleFont"], 0.50, 0.50, 1.2, 1.2, 171, 3, 0, 255, true, true)
             --DrawText(string.format(Config.Langs["SubTitleOnDead"], TimeToRespawn), Config["RespawnSubTitleFont"], 0.50, 0.60, 0.5, 0.5, 255, 255, 255, 255, true, true)
-			DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z-0.2, Config.Langs["RespawnIn"]..TimeToRespawn..Config.Langs["SecondsMove"])
+            DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z, Config.Langs["TitleOnDead"])
+            DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z-0.2, Config.Langs["RespawnIn"]..TimeToRespawn..Config.Langs["SecondsMove"])
         else
             Citizen.Wait(500)
         end
