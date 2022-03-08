@@ -1,22 +1,43 @@
-local drp_active = Config["ActiveDRP"]
---[[
-//public DiscRichPresence()
-//{
-//    Tick += setPresence;
-//}
+-- Rich Presence Discord for RedM
+-- read the readme.txt for instructions
+local playercount
+Citizen.CreateThread(function()
+	while true do
+       
+		SetDiscordAppId(Config.appid)
 
-//[Tick]
-//public async Task setPresence()
-//{
-//    await Delay(60000);
-//    if (drp_active)
-//    {
-//        //Debug.WriteLine(GetConfig.Config["DiscordAppId"].ToString());
-//        //SetDiscordAppId(GetConfig.Config["DiscordAppId"].ToString());
-//        //SetRichPresence(GetConfig.Config["RichPresenceText"].ToString());
-//        //SetDiscordRichPresenceAsset(GetConfig.Config["DiscordRichPresenceAsset"].ToString());
-//        //SetDiscordRichPresenceAssetText(GetConfig.Config["DiscordRichPresenceAssetText"].ToString());
-//        //SetDiscordRichPresenceAssetSmall(GetConfig.Config["DiscordRichPresenceAssetSmall"].ToString());
-//        //SetDiscordRichPresenceAssetSmallText(GetConfig.Config["DiscordRichPresenceAssetSmallText"].ToString());
-//    }
-//}]]
+        
+		SetDiscordRichPresenceAsset(Config.biglogo)
+
+
+        SetDiscordRichPresenceAssetText(Config.biglogodesc)
+       
+        
+        SetDiscordRichPresenceAssetSmall(Config.smalllogo)
+
+        -- hover text for the "small" icon.(OPTIONAL)
+        SetDiscordRichPresenceAssetSmallText(Config.smalllogodesc)
+
+        SetDiscordRichPresenceAction(0, "Join Discord", Config.discordlink)
+        
+        TriggerServerEvent("syn_rich:getplayers")
+        while playercount == nil do 
+            Wait(500)
+        end
+        if Config.shownameandid then
+            local pId = GetPlayerServerId(PlayerId())
+            local pName = GetPlayerName(PlayerId())    
+            SetRichPresence(playercount.."/"..Config.maxplayers.." - ID: "..pId.." | "..pName)
+        else
+            SetRichPresence(playercount.."/"..Config.maxplayers)
+        end
+		Citizen.Wait(60000) -- 1 min update
+        playercount = nil
+	end
+end)
+
+
+RegisterNetEvent("syn_rich:update")
+AddEventHandler("syn_rich:update", function(x)
+	playercount = x
+end)
