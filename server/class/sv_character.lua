@@ -249,7 +249,24 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.SaveCharacterInDb = function()
-        exports.ghmattimysql:execute("UPDATE characters SET `group` = ?,`money` = ?,`gold` = ?,`rol` = ?,`xp` = ?,`job` = ?, `status` = ?,`firstname` = ?, `lastname` = ?, `jobgrade` = ?,`coords` = ?,`isdead` = ? WHERE `identifier` = ? AND `charidentifier` = ?", {self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.Job(), self.Status(), self.Firstname(), self.Lastname(), self.Jobgrade(), self.Coords(), self.IsDead(), self.Identifier(), self.CharIdentifier()})
+        local character = self 
+
+        local group = character.Group()
+        local money =  character.Money()
+        local gold =  character.Gold()
+        local rol =  character.Rol()
+        local xp =  character.Xp()
+        local job =  character.Job()
+        local status = character.Status()
+        local firstname =  character.Firstname()
+        local lastname = character.Lastname()
+        local jobgrade = character.Jobgrade()
+        local coords = character.Coords()
+        local isdead = character.IsDead()
+        local charid =  character.CharIdentifier()
+
+        exports.ghmattimysql:execute("UPDATE characters SET `group` = ?,`money` = ?,`gold` = ?,`rol` = ?,`xp` = ?,`job` = ?, `status` = ?,`firstname` = ?, `lastname` = ?, `jobgrade` = ?,`coords` = ?,`isdead` = ? WHERE `charidentifier` = ?"
+        , {group, money, gold, rol, xp, job, status, firstname, lastname, jobgrade, coords, isdead, charid})
     end
 
     return self
