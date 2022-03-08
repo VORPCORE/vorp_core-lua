@@ -83,8 +83,8 @@ Citizen.CreateThread(function()
                 if not IsEntityAttachedToAnyPed(PlayerPedId()) then
 					local GetCoords = GetEntityCoords(PlayerPedId())
                     NetworkSetInSpectatorMode(false, PlayerPedId())
+                    DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z+0.40, Config.Langs["TitleOnDead"])
 					DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z+0.20, Config.Langs["SubTitlePressKey"])
-					DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z+0.40, Config.Langs["RespawnSubTitleFont"])
                     --DrawText(Config.Langs["SubTitlePressKey"], Config["RespawnSubTitleFont"], 0.50, 0.50, 1.0, 1.0, 255, 255, 255, 255, true, true)
                     if IsControlJustPressed(0, keyPress) then
                         TriggerServerEvent("vorp:PlayerForceRespawn")
@@ -112,14 +112,14 @@ Citizen.CreateThread(function()
             local carrier = Citizen.InvokeNative(0x09B83E68DE004CD4, PlayerPedId())
             NetworkSetInSpectatorMode(false, PlayerPedId())
 			ProcessCamControls()
-			DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z+0.20, "Alguem está te a carregar Não te podes levantar.")
+			DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z+0.20, Config.Langs["YouAreCarried"])
             --DrawText(Config.Langs["YouAreCarried"], 4, 0.50, 0.30, 1.0, 1.0, 255, 255, 255, 255, true, true)
         elseif TimeToRespawn >= 0 and setDead then
 			ProcessCamControls()
             NetworkSetInSpectatorMode(false, PlayerPedId())
             --DrawText(Config.Langs["TitleOnDead"], Config["RespawnTitleFont"], 0.50, 0.50, 1.2, 1.2, 171, 3, 0, 255, true, true)
             --DrawText(string.format(Config.Langs["SubTitleOnDead"], TimeToRespawn), Config["RespawnSubTitleFont"], 0.50, 0.60, 0.5, 0.5, 255, 255, 255, 255, true, true)
-			DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z+0.20, "~e~MORTO~q~ Tempo de Respawn ~e~"..TimeToRespawn.."~q~ s \n [ W ][ A ][ S ][ D ] Movimento Camara")
+			DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z-0.2, Config.Langs["RespawnIn"]..TimeToRespawn..Config.Langs["SecondsMove"])
         else
             Citizen.Wait(500)
         end

@@ -1,14 +1,14 @@
 Config = {
   initGold =  0.0,
-  initMoney=  120.0,
+  initMoney=  200.0,
   initRol =  0.0,
   initXp =  0,
-  initJob =  "none",
+  initJob =  "unemployed",
   initJobGrade =  0,
   initGroup =  "user",
   Whitelist =  false,
   AllowWhitelistAutoUpdate =  false,
-  MaxCharacters =  1,
+  MaxCharacters =  5,
   ActiveVoiceChat =  false,
   KeySwapVoiceRange =  0x80F28E95,
   DefaultVoiceRange =  5.0,
@@ -17,7 +17,7 @@ Config = {
   CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned 
   ShowUiDeath = true, -- show or hide the UI if player is dead 
 
-  RespawnTime =  25, -- 25 seconds
+  RespawnTime =  300, -- 25 seconds
   RespawnKey =  0xDFF812F9,
   RespawnTitleFont =  1,
   RespawnSubTitleFont =  1,
@@ -25,27 +25,41 @@ Config = {
   hospital =  {
     Valentine = {
       name = "Valentine",
-      x = -325.8,
-      y = 759.7,
-      z = 120.7,
-      h = 303.6
+      x = -283.83,
+      y = 806.4,
+      z =  119.38,
+      h = 321.76
     },
-    Blackwater = {
-      name = "Blackwater",
-      x = -870.5,
-      y = -1282.5,
-      z = 42.1,
-      h = 8.8
+    Saint = {
+      name = "Saint",
+      x = 2721.4562,
+      y = -1446.0975,
+      z =  46.2303,
+      h = 321.76
     },
-    SaintDenis = {
-      name = "SaintDenis",
-      x = 2720.791,
-      y = -1228.876,
-      z = 50.5676,
-      h = 166.054
-    }
+    Armadillo = {
+      name = "Armadillo",
+      x = -3742.5,
+      y = -2600.9,
+      z =  -13.23,
+      h = 321.76
+    },
+    bw = {
+      name = "bw",
+      x = -723.9527,
+      y = -1242.8358,
+      z =  44.7341,
+      h = 321.76
+    },
+    rhodes = {
+      name = "rhodes",
+      x = 1229.0,
+      y = -1306.1,
+      z =  76.9,
+      h = 321.76
+    },
   },
-  HeadId =  true,
+  HeadId =  false,
   HeadIdDistance =  15,
   ModeKey =  true,
   KeyShowIds =  "0x8CC9CD42", -- Press X 
@@ -71,8 +85,10 @@ Config.Langs = {
   CheckingIdentifier = "Checking Identifiers",
   LoadingUser = "Loading User",
   BannedUser = "You Are Banned",
-  TitleOnDead = "You have died!",
-  SubTitleOnDead = "You will respawn in %s seconds",
+  TitleOnDead = "/alertdoctor in chat to request doctors aid",
+  SubTitleOnDead = "You can respawn in %s seconds",
+  RespawnIn = "You can respawn in  ~e~",
+  SecondsMove = "~q~ seconds",
   SubTitlePressKey = "Press ~e~E~q~ to respawn",
   YouAreCarried = "You are being carried by a person",
 
