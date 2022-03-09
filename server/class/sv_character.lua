@@ -1,3 +1,38 @@
+--- Deep copies a table into a new table.
+-- Tables used as keys are also deep copied, as are metatables
+-- @param orig The table to copy
+-- @return Returns a copy of the input table
+local function deep_copy(orig)
+  local copy
+  if type(orig) == "table" then
+    copy = {}
+    for orig_key, orig_value in next, orig, nil do
+      copy[deep_copy(orig_key)] = deep_copy(orig_value)
+    end
+    setmetatable(copy, deep_copy(getmetatable(orig)))
+  else
+    copy = orig
+  end
+  return copy
+end
+  
+--- Copies a table into a new table.
+-- neither sub tables nor metatables will be copied.
+-- @param orig The table to copy
+-- @return Returns a copy of the input table
+local function shallow_copy(orig)
+  local copy
+  if type(orig) == "table" then
+    copy = {}
+    for orig_key, orig_value in pairs(orig) do
+      copy[orig_key] = orig_value
+    end
+  else -- number, string, boolean, etc
+    copy = orig
+  end
+  return copy
+end
+
 --Class for user characters
 function Character(source, identifier, charIdentifier, group, job, jobgrade, firstname, lastname, inventory, status, coords, money, gold, rol, xp, isdead, skin, comps)
     local self = {}
@@ -52,7 +87,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.Skin = function(value)
         if value ~= nil then
             self.skin = value
-            exports.ghmattimysql:execute("UPDATE characters SET `skinPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?", {value, self.Identifier(), self.CharIdentifier()})
+            exports.ghmattimysql:execute("UPDATE characters SET `skinPlayer` = ? WHERE `charidentifier` = ?", {value, self.CharIdentifier()})
         end
 
         return self.skin
@@ -61,7 +96,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.Comps = function(value)
         if value ~= nil then
             self.comps = value
-            exports.ghmattimysql:execute("UPDATE characters SET `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?", {value, self.Identifier(), self.CharIdentifier()})
+            exports.ghmattimysql:execute("UPDATE characters SET `compPlayer` = ? WHERE `charidentifier` = ?", {value, self.CharIdentifier()})
         end
 
         return self.comps
@@ -240,16 +275,16 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.DeleteCharacter = function()
-        exports.ghmattimysql:execute("DELETE FROM characters WHERE `identifier` = ? AND `charidentifier` = ? ", {self.Identifier(), self.CharIdentifier()})
+        exports.ghmattimysql:execute("DELETE FROM characters WHERE `charidentifier` = ? ", {self.CharIdentifier()})
     end
 
     self.SaveCharacterCoords = function(coords)
         self.Coords(coords)
-        exports.ghmattimysql:execute("UPDATE characters SET `coords` = ? WHERE `identifier` = ? AND `charidentifier` = ?", {self.Coords(), self.Identifier(), self.CharIdentifier()})
+        exports.ghmattimysql:execute("UPDATE characters SET `coords` = ? WHERE `charidentifier` = ?", {self.Coords(), self.CharIdentifier()})
     end
 
     self.SaveCharacterInDb = function()
-        local character = self 
+        local character = deep_copy(self);
 
         local group = character.Group()
         local money =  character.Money()

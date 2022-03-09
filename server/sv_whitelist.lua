@@ -100,7 +100,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     
     --Debug.WriteLine($"{playerName} is connecting with (Identifier: [{steamIdentifier}])");
 
-    exports.ghmattimysql:execute("SELECT * FROM characters WHERE identifier LIKE ?", { steamIdentifier }, function(result)
+    exports.ghmattimysql:execute("SELECT * FROM characters WHERE `identifier` = ?", { steamIdentifier }, function(result)
         if #result ~= 0 then
             local inventory = "{}"
             if not result[1].inventory == nil then

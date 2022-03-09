@@ -1,6 +1,6 @@
 
-RegisterServerEvent("syn_rich:getplayers")
-AddEventHandler("syn_rich:getplayers", function()
+RegisterServerEvent("vorprich:getplayers")
+AddEventHandler("vorprich:getplayers", function()
 local playerCount = #GetPlayers()
-TriggerClientEvent("syn_rich:update",source,playerCount)
+TriggerClientEvent("vorprich:update",source,playerCount)
 end)

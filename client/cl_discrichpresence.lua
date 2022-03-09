@@ -20,7 +20,7 @@ Citizen.CreateThread(function()
 
         SetDiscordRichPresenceAction(0, "Join Discord", Config.discordlink)
         
-        TriggerServerEvent("syn_rich:getplayers")
+        TriggerServerEvent("vorprich:getplayers")
         while playercount == nil do 
             Wait(500)
         end
@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
 end)
 
 
-RegisterNetEvent("syn_rich:update")
-AddEventHandler("syn_rich:update", function(x)
+RegisterNetEvent("vorprich:update")
+AddEventHandler("vorprich:update", function(x)
 	playercount = x
 end)
