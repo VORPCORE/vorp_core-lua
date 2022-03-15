@@ -34,7 +34,16 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
     end
 end
 
+AddEventHandler('playerDropped', function()
+    local identifier = GetSteamID(source)
 
+    --SaveCoordsDB.LastCoordsInCache.Remove(player);
+    if _users[identifier] and not _usersLoading[identifier] then
+        _users[identifier].SaveUser()
+        _users[identifier] = nil
+        print(string.format("Saved player %s.", GetPlayerName(source)))
+    end
+end)
 
 RegisterNetEvent('vorp:playerSpawn', function()
     local source = source
@@ -67,67 +76,18 @@ RegisterNetEvent('vorp:getUser', function(cb)
     });]]
 end)
 
---Loop to save all players
---each 5 minutes maybe add config for this? and toggle?
 
-
-local lastSaveTime = GetGameTimer();
 Citizen.CreateThread(function()
+    --Loop to save all players
+    --each 5 minutes maybe add config for this? and toggle?
     while true do
-        Citizen.Wait(0)
-        if (GetGameTimer() - lastSaveTime > (1000 * 60) * 5) then
-            for k,v in pairs(_users) do
-                v.SaveUser()
-            end
-          lastSaveTime = GetGameTimer();
-        end
-    end
-end)
+        Citizen.Wait(180000)
 
-AddEventHandler('playerDropped', function()
-    local identifier = GetSteamID(source)
-    --SaveCoordsDB.LastCoordsInCache.Remove(player);
-    if _users[identifier] and not _usersLoading[identifier] then
-        _users[identifier].SaveUser()
-        _users[identifier] = nil
-        print(string.format("Saved player %s.", GetPlayerName(source)))
-    end
-end)
-
-
-
-AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
-    if eventData.secondsRemaining == 60 then
-        CreateThread(function()
-            Wait(45000)
-            for k,v in pairs(_users) do
-                v.SaveUser()
-            end
-        end)
-    end
-end)
-
---[[ RegisterCommand('saveserver', function(source, args)
-    if source == 0 then
         for k,v in pairs(_users) do
             v.SaveUser()
         end
+
+       -- print('Saved all players')
     end
-    print("Saving all users")
 end)
 
-RegisterCommand('saveme', function(source, args)
-    local identifier = GetSteamID(source)
-    if _users[identifier] and not _usersLoading[identifier] then
-        _users[identifier].SaveUser()
-        print(string.format("Saved player WITH COMMAND %s.", GetPlayerName(source)))
-    end
-end) ]]
-
---[[ AddEventHandler("onResourceStop",function(resourceName)
-    if resourceName == GetCurrentResourceName() then
-        for k,v in pairs(_users) do
-            v.SaveUser()
-        end
-    end
-end) ]]
