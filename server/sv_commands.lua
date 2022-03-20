@@ -87,7 +87,7 @@ TriggerEvent("vorp:addSuggestion", "/addmoney", "add money to user",{
    {name = "ID", help='player ID'},
    {name = "type", help='Money 0 Gold 1'},
    {name = "Quantity", help='Quantity to give'},
- }
+ })
     
 RegisterCommand("addmoney", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
@@ -114,7 +114,7 @@ TriggerEvent("vorp:addSuggestion", "/delmoney", "remove money from user",{
    {name = "ID", help='player ID'},
    {name = "type", help='Money 0 Gold 1'},
    {name = "Quantity", help='Quantity to remove from User'},    
- }
+ })
         
 RegisterCommand("delmoney", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
@@ -139,7 +139,7 @@ end, false)
    ---------------HELP DISPLAY ------------
 TriggerEvent("vorp:addSuggestion", "/addwhitelist", "Example: /addwhitelist 11000010c8aa16e",{
    {name = "AddWhiteList", help=' steam ID like this > 11000010c8aa16e'},               
-  }
+  })
             
             
 RegisterCommand("addwhitelist", function(source, args, rawCommand)
