@@ -6,7 +6,7 @@
 
 
             ---------------HELP DISPLAY ------------
-TriggerEvent("vorp:addSuggestion", "/setgroup", "set group to user."{
+TriggerEvent("vorp:addSuggestion", "/setgroup", "set group to user.",{
         {name = "ID", help='player ID'},
         {name = "Group", help='Group Name'}
     })
@@ -44,7 +44,7 @@ end, false)
 
 
    ---------------HELP DISPLAY ------------
-TriggerEvent("vorp:addSuggestion", "/setjob", "set job to user."{
+TriggerEvent("vorp:addSuggestion", "/setjob", "set job to user.",{
         {name = "ID", help='player ID'},
         {name = "Job", help='Job Name'},
         {name = "Rank", help=' player Rank'},
@@ -83,7 +83,7 @@ end, false)
 
 
    ---------------HELP DISPLAY ------------
-TriggerEvent("vorp:addSuggestion", "/addmoney", "add money to user" {
+TriggerEvent("vorp:addSuggestion", "/addmoney", "add money to user",{
    {name = "ID", help='player ID'},
    {name = "type", help='Money 0 Gold 1'},
    {name = "Quantity", help='Quantity to give'},
@@ -110,7 +110,7 @@ end, false)
     
 
        ---------------HELP DISPLAY ------------
-TriggerEvent("vorp:addSuggestion", "/delmoney", "remove money to user\n Example: /delmoney playerid moneytype quantity"{
+TriggerEvent("vorp:addSuggestion", "/delmoney", "remove money from user",{
    {name = "ID", help='player ID'},
    {name = "type", help='Money 0 Gold 1'},
    {name = "Quantity", help='Quantity to remove from User'},    
@@ -137,7 +137,7 @@ end, false)
         
         
    ---------------HELP DISPLAY ------------
-TriggerEvent("vorp:addSuggestion", "/addwhitelist", "Example: /addwhitelist 11000010c8aa16e"{
+TriggerEvent("vorp:addSuggestion", "/addwhitelist", "Example: /addwhitelist 11000010c8aa16e",{
    {name = "AddWhiteList", help=' steam ID like this > 11000010c8aa16e'},               
   }
             
