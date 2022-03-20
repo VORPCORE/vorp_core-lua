@@ -1,3 +1,7 @@
+----------------------------------------------------------------------------
+------------           VORP SHARED CONFIG                       ------------
+----------------------------------------------------------------------------
+
 Config = {
   initGold =  0.0,
   initMoney=  200.0,
@@ -21,7 +25,7 @@ Config = {
   RespawnKey =  0xDFF812F9,
   RespawnTitleFont =  1,
   RespawnSubTitleFont =  1,
---  "RespawnCoords =  [ -353.08, 752.11, 116.0, 321.76 ], // X, Y, Z, Heading
+ ---------------------------- RESPAWN COORDS ------------------------------------
   hospital =  {
     Valentine = {
       name = "Valentine",
@@ -59,22 +63,25 @@ Config = {
       h = 321.76
     },
   },
+ ----------------------------------------------------------------------------- 
   HeadId =  false,
   HeadIdDistance =  15,
   ModeKey =  true,
   KeyShowIds =  "0x8CC9CD42", -- Press X 
-
   ActiveEagleEye =  true,
   ActiveDeadEye =  false,
 
-
 }
+---------------------------------------------------------------------------------------
 
+--------------------------- COMMAND PERMISSION GROUP ----------------------------------
 Config.Group{
   Admin = "admin", --- group for all commands including whitelist 
   Mod = "Modertor", --- second group for whitelist
 }
+---------------------------------------------------------------------------------------
 
+------------------------------- TRANSLATE ---------------------------------------------
 Config.Langs = {
   IsConnected = "🚫 Duplicated account connected (steam | rockstar)",
   NoSteam = "🚫 You have to have Steam open, please open Steam & restart RedM",
@@ -92,8 +99,10 @@ Config.Langs = {
 
   VoiceRangeChanged = "Voice chat range changed to %s meters"
 }
+--------------------------------------------------------------------------------------
 
 
+-----------------------------BUILT IN RICH PRESENCE DISCORD --------------------------
 Config.maxplayers = 128
 Config.appid = nil -- Application ID (Replace this with you own)
 Config.biglogo = "synred" -- image assets name for the "large" icon.
@@ -102,3 +111,4 @@ Config.smalllogo = "smallboy"  -- image assets name for the "small" icon.(OPTION
 Config.smalllogodesc = "Join us for a good time" -- text when hover over image 
 Config.discordlink = "https://discord.gg/" -- discord link 
 Config.shownameandid = true --show player steam name and id 
+--------------------------------------------------------------------------------------
