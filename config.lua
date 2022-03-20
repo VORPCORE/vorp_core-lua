@@ -70,6 +70,11 @@ Config = {
 
 }
 
+Config.Group{
+  Admin = "admin", --- group for all commands including whitelist 
+  Mod = "Modertor", --- second group for whitelist
+}
+
 Config.Langs = {
   IsConnected = "🚫 Duplicated account connected (steam | rockstar)",
   NoSteam = "🚫 You have to have Steam open, please open Steam & restart RedM",
