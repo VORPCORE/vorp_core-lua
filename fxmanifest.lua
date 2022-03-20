@@ -20,15 +20,7 @@ server_scripts {
 server_exports {'vorpAPI'}
 
 files {
-  'ui/hud.html',
-  'ui/js/progressbar.js',
-  'ui/js/progressbar.min.js',
-  'ui/js/progressbar.min.js.map',
-  'ui/hud.html',
-  'ui/css/style.css',
-  'ui/fonts/rdrlino-regular-webfont.woff',
-  'ui/icons/gold_2.png',
-  'ui/icons/token.png',
+  'ui/**/*'
 }
 
 ui_page 'ui/hud.html'
