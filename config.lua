@@ -75,7 +75,7 @@ Config = {
 ---------------------------------------------------------------------------------------
 
 --------------------------- COMMAND PERMISSION GROUP ----------------------------------
-Config.Group{
+Config.Group = {
   Admin = "admin", --- group for all commands including whitelist 
   Mod = "Modertor", --- second group for whitelist
 }
