@@ -144,8 +144,8 @@ end, false)
 -- TRANSLATE HERE
 -- TODO ADD TO CONFIG
 
-RegisterServerEvent("onClientResourceStarted")
-AddEventHandler("onClientResourceStarted",function()
+RegisterServerEvent("vorp:chatSuggestion")  
+AddEventHandler("vorp:chatSuggestion",function()
     local _source = source
 
     TriggerClientEvent("chat:addSuggestion",_source, "/setgroup", "set group to user.",{
