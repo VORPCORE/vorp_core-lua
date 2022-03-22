@@ -47,6 +47,7 @@ end)
 AddEventHandler('playerSpawned', function(spawnInfo)
     Citizen.Wait(4000)
     TriggerServerEvent("vorp:playerSpawn")
+    TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger 
 end)
 
 Citizen.CreateThread(function()

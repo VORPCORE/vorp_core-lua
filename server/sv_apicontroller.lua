@@ -1,4 +1,4 @@
-local commandSuggestions = {}
+
 
 AddEventHandler('vorp:getCharacter', function(player, cb)
     local sid = GetSteamID(player)
@@ -94,15 +94,4 @@ AddEventHandler('getCore', function(cb)
     cb(coreData)
 end)
 
-AddEventHandler('vorp:addSuggestion', function(commandName, suggestion)
-    table.insert(commandSuggestions, {
-        name = commandName,
-        help = suggestion
-    })
-end)
 
-RegisterNetEvent('chat:init', function()
-    local source = source
-    Citizen.Wait(2000)
-    TriggerClientEvent('chat:addSuggestions', source, commandSuggestions)
-end)

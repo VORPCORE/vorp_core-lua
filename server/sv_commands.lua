@@ -1,16 +1,11 @@
 
 ------------------------------------------------------------------------
-     -------                VORP ADMIN COMMANDS             --------
+--------                  VORP ADMIN COMMANDS                   --------
 ------------------------------------------------------------------------
-
-
-
-            ---------------HELP DISPLAY ------------
-TriggerEvent("vorp:addSuggestion", "/setgroup", "set group to user.",{
-        {name = "ID", help='player ID'},
-        {name = "Group", help='Group Name'}
-    })
-
+-- TODO 
+-- MAKE COMMAND ONLY SHOWING FOR GROUP
+-- ADD MORE ADMIN COMMANDS
+-- WEBHOOK FOR EACH COMMAND 
 
 RegisterCommand("setgroup", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
@@ -40,15 +35,6 @@ RegisterCommand("setgroup", function(source, args, rawCommand)
         TriggerEvent("vorp:setGroup", target, newgroup)
     end
 end, false)
-
-
-
-   ---------------HELP DISPLAY ------------
-TriggerEvent("vorp:addSuggestion", "/setjob", "set job to user.",{
-        {name = "ID", help='player ID'},
-        {name = "Job", help='Job Name'},
-        {name = "Rank", help=' player Rank'},
-    })
 
 
 RegisterCommand("setjob", function(source, args, rawCommand)
@@ -81,14 +67,6 @@ RegisterCommand("setjob", function(source, args, rawCommand)
 end, false)
 
 
-
-   ---------------HELP DISPLAY ------------
-TriggerEvent("vorp:addSuggestion", "/addmoney", "add money to user",{
-   {name = "ID", help='player ID'},
-   {name = "type", help='Money 0 Gold 1'},
-   {name = "Quantity", help='Quantity to give'},
- })
-    
 RegisterCommand("addmoney", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -108,13 +86,6 @@ RegisterCommand("addmoney", function(source, args, rawCommand)
     end
 end, false)
     
-
-       ---------------HELP DISPLAY ------------
-TriggerEvent("vorp:addSuggestion", "/delmoney", "remove money from user",{
-   {name = "ID", help='player ID'},
-   {name = "type", help='Money 0 Gold 1'},
-   {name = "Quantity", help='Quantity to remove from User'},    
- })
         
 RegisterCommand("delmoney", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
@@ -136,12 +107,6 @@ RegisterCommand("delmoney", function(source, args, rawCommand)
 end, false)
         
         
-   ---------------HELP DISPLAY ------------
-TriggerEvent("vorp:addSuggestion", "/addwhitelist", "Example: /addwhitelist 11000010c8aa16e",{
-   {name = "AddWhiteList", help=' steam ID like this > 11000010c8aa16e'},               
-  })
-            
-            
 RegisterCommand("addwhitelist", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -173,3 +138,47 @@ RegisterCommand("addwhitelist", function(source, args, rawCommand)
         end)
     end
 end, false)
+
+
+
+-----------------------------------------------------------------------------------
+----------                        CHAT ADD SUGGESTION                --------------
+-----------------------------------------------------------------------------------
+-- TRANSLATE HERE
+-- TODO ADD TO CONFIG
+
+
+RegisterServerEvent("vorp:chatSuggestion")  
+AddEventHandler("vorp:chatSuggestion",function()
+    local _source = source
+
+    TriggerClientEvent("chat:addSuggestion",_source, "/setgroup", "set group to user.",{
+        {name = "ID", help='player ID'},
+        {name = "Group", help='Group Name'},
+        
+    })
+
+    TriggerClientEvent("chat:addSuggestion",_source, "/setjob", "set job to user.",{
+        {name = "ID", help='player ID'},
+        {name = "Job", help='Job Name'},
+        {name = "Rank", help=' player Rank'},
+    })
+
+    TriggerClientEvent("chat:addSuggestion",_source, "/addmoney", "add money to user",{
+        {name = "ID", help='player ID'},
+        {name = "type", help='Money 0 Gold 1'},
+        {name = "Quantity", help='Quantity to give'},
+    })
+
+    TriggerClientEvent("chat:addSuggestion", _source, "/delmoney", "remove money from user",{
+        {name = "ID", help='player ID'},
+        {name = "type", help='Money 0 Gold 1'},
+        {name = "Quantity", help='Quantity to remove from User'},    
+    })
+
+    TriggerClientEvent("chat:addSuggestion",_source, "/addwhitelist", "Example: /addwhitelist 11000010c8aa16e",{
+        {name = "AddWhiteList", help=' steam ID like this > 11000010c8aa16e'},               
+    })
+             
+
+end)
