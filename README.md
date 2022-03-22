@@ -6,7 +6,7 @@ If you have the C# version of the core and want to replace it, it's just drag an
 For more questions message me on Discord: goncalobsccosta#9041
 
 ## Requirements
-- [ghmattimysql](https://github.com/GHMatti/ghmattimysql/releases)
+- [ghmattimysql](https://github.com/VORPCORE/ghmattimysql-oxmysql) 
 - [VORP-Inputs](https://github.com/VORPCORE/VORP-Inputs/releases)
 - [VORP-Character](https://github.com/VORPCORE/VORP-Character/releases)
 
