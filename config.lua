@@ -21,13 +21,15 @@ Config = {
   
   CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned 
   ShowUiDeath = true, -- show or hide the UI if player is dead 
-  camDeath = true, -- enable or disable the camera death function
+  camDeath = false, -- enable or disable the camera death function
   
-  RespawnTime =  300, -- 25 seconds
+  RespawnTime =  10, -- 25 seconds
   RespawnKey =  0xDFF812F9,
   RespawnTitleFont =  1, -- for the draw text message
   RespawnSubTitleFont =  1, -- for the draw text message sub title font
-  sprite = true, -- enable sprite or disable 
+  
+  sprite = true, --- enable text with sprite or disable
+  spriteGrey = false, -- if set to false will enable RED sprite true will be grey
  ---------------------------- RESPAWN COORDS ------------------------------------
   hospital =  {
     Valentine = {
