@@ -98,7 +98,7 @@ Config.Langs = {
   RespawnIn = "You can respawn in  ~e~",
   SecondsMove = "~q~ seconds",
   YouAreCarried = "You are being carried by a person",
-  VoiceRangeChanged = "Voice chat range changed to %s meters"
+  VoiceRangeChanged = "Voice chat range changed to %s meters",
   promptLabel = "Respawn",  -- prompt label.   
   prompt = "Press",  -- prompt group label 
 }
