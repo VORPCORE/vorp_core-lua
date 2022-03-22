@@ -2,7 +2,10 @@
 ------------------------------------------------------------------------
 --------                  VORP ADMIN COMMANDS                   --------
 ------------------------------------------------------------------------
-
+-- TODO 
+-- MAKE COMMAND ONLY SHOWING FOR GROUP
+-- ADD MORE ADMIN COMMANDS
+-- WEBHOOK FOR EACH COMMAND 
 
 RegisterCommand("setgroup", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
@@ -143,6 +146,7 @@ end, false)
 -----------------------------------------------------------------------------------
 -- TRANSLATE HERE
 -- TODO ADD TO CONFIG
+
 
 RegisterServerEvent("vorp:chatSuggestion")  
 AddEventHandler("vorp:chatSuggestion",function()
