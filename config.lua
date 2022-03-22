@@ -27,7 +27,7 @@ Config = {
   RespawnKey =  0xDFF812F9,
   RespawnTitleFont =  1, -- for the draw text message
   RespawnSubTitleFont =  1, -- for the draw text message sub title font
-  sprite = true -- enable sprite or disable 
+  sprite = true, -- enable sprite or disable 
  ---------------------------- RESPAWN COORDS ------------------------------------
   hospital =  {
     Valentine = {
