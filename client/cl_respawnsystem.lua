@@ -135,12 +135,9 @@ Citizen.CreateThread(function()
             NetworkSetInSpectatorMode(false, PlayerPedId())
 			ProcessCamControls()
 			DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z+0.20, Config.Langs["YouAreCarried"])
-            --DrawText(Config.Langs["YouAreCarried"], 4, 0.50, 0.30, 1.0, 1.0, 255, 255, 255, 255, true, true)
         elseif TimeToRespawn >= 0 and setDead then
 			ProcessCamControls()
             NetworkSetInSpectatorMode(false, PlayerPedId())
-            --DrawText(Config.Langs["TitleOnDead"], Config["RespawnTitleFont"], 0.50, 0.50, 1.2, 1.2, 171, 3, 0, 255, true, true)
-            --DrawText(string.format(Config.Langs["SubTitleOnDead"], TimeToRespawn), Config["RespawnSubTitleFont"], 0.50, 0.60, 0.5, 0.5, 255, 255, 255, 255, true, true)
             DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z, Config.Langs["TitleOnDead"])
             DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z-0.2, Config.Langs["RespawnIn"]..TimeToRespawn..Config.Langs["SecondsMove"])
         else
@@ -228,6 +225,7 @@ function ProcessNewPosition()
     return pos
 end
 
+local spriteGrey = Config.spriteGrey
 local sprite = Config.sprite
 function DrawText3D(x, y, z, text)
 	local onScreen,_x,_y=GetScreenCoordFromWorldCoord(x, y, z)
@@ -243,8 +241,11 @@ function DrawText3D(x, y, z, text)
 		DisplayText(str,_x,_y)
 		local factor = (string.len(text)) / 225
 		if sprite then
-		   DrawSprite("generic_textures", "hud_menu_4a", _x, _y+0.0125,0.015+ factor, 0.03, 0.1, 35, 35, 35, 190, 0)
-		   --DrawSprite("feeds", "toast_bg", _x, _y+0.0125,0.015+ factor, 0.03, 0.1, 100, 1, 1, 190, 0)
-	        end
+            if spriteGrey then
+		        DrawSprite("generic_textures", "hud_menu_4a", _x, _y+0.0125,0.015+ factor, 0.03, 0.1, 35, 35, 35, 190, 0)
+            else
+               DrawSprite("feeds", "toast_bg", _x, _y+0.0125,0.015+ factor, 0.03, 0.1, 100, 1, 1, 190, 0)
+            end
+	    end
 	end
 end
