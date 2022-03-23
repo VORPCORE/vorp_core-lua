@@ -22,6 +22,7 @@ Config = {
   CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned 
   ShowUiDeath = true, -- show or hide the UI if player is dead 
   camDeath = false, -- enable or disable the camera death function
+  HideUi = false, --show or hide the UI for a more immersive experience
   
   RespawnTime =  10, -- 25 seconds
   RespawnKey =  0xDFF812F9,
