@@ -19,10 +19,12 @@ Config = {
   DefaultVoiceRange =  5.0,
   VoiceRanges = {2.0, 5.0, 12.0},
   
-  CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned 
+ 
+  -------------------------------- UI --------------------------------
+  HideUi = false, --show or hide the UI includes cores gold cash ID and level bar -- note the cash gold ID are in the inventory. you can disable this one
+  HideRadar = true -- show or hide radar for everyone 
   ShowUiDeath = true, -- show or hide the UI if player is dead 
   camDeath = false, -- enable or disable the camera death function
-  HideUi = false, --show or hide the UI for a more immersive experience
   
   RespawnTime =  10, -- 25 seconds
   RespawnKey =  0xDFF812F9,
@@ -32,6 +34,8 @@ Config = {
   sprite = true, --- enable text with sprite or disable
   spriteGrey = false, -- if set to false will enable RED sprite true will be grey
  ---------------------------- RESPAWN COORDS ------------------------------------
+  CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned 
+  
   hospital =  {
     Valentine = {
       name = "Valentine",
