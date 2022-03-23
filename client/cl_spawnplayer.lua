@@ -88,9 +88,11 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(3000)
         if Config["HideUi"] then
-            DisplayHud(false)
-            DisplayRadar(false)        
+            DisplayHud(false)      
             TriggerEvent("vorp:showUi", false)
+        end
+        if Config["HideRadar"] then
+           DisplayRadar(false) 
         end
         if not firstSpawn then
             local playerPedId = PlayerPedId()
