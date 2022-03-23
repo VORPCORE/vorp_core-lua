@@ -3,6 +3,7 @@ local TimeToRespawn = 1
 local cam = nil
 local angleY = 0.0
 local angleZ = 0.0
+local prompts = GetRandomIntInRange(0, 0xffffff)
 
 RegisterNetEvent('vorp:resurrectPlayer', function()
     resurrectPlayer()
@@ -55,6 +56,24 @@ function resurrectPlayer()
 end
 
 Citizen.CreateThread(function()
+    Citizen.Wait(5000)
+    local str = Config.Langs.prompt
+    local keyPress = Config["RespawnKey"]
+	prompt = PromptRegisterBegin()
+	PromptSetControlAction(prompt, keyPress)
+	str = CreateVarString(10, 'LITERAL_STRING', str)
+	PromptSetText(prompt, str)
+	PromptSetEnabled(prompt, 1)
+	PromptSetVisible(prompt, 1)
+	PromptSetStandardMode(prompt,1)
+    PromptSetHoldMode(prompt, 1)
+	PromptSetGroup(prompt, prompts)
+	Citizen.InvokeNative(0xC5F428EE08FA7F2C,prompt,true)
+	PromptRegisterEnd(prompt)
+end)
+
+
+Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if IsPlayerDead(PlayerId()) then
@@ -68,15 +87,18 @@ Citizen.CreateThread(function()
             DisplayRadar(false)
             --TriggerEvent("vorp:showUi", false)
             TimeToRespawn = Config["RespawnTime"]
+           
 			StartDeathCam()
+            
             while TimeToRespawn >= 0 and setDead do
                 Citizen.Wait(1000)
                 TimeToRespawn = TimeToRespawn - 1
                 exports["spawnmanager"].setAutoSpawn(false)
             end
 			
-            local keyPress = Config["RespawnKey"]
+           
             local pressKey = false
+            local promptLabel = Config.Langs["promptLabel"]
 			
             while not pressKey and setDead do
                 Citizen.Wait(0)
@@ -84,9 +106,9 @@ Citizen.CreateThread(function()
 					local GetCoords = GetEntityCoords(PlayerPedId())
                     NetworkSetInSpectatorMode(false, PlayerPedId())
                     DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z, Config.Langs["TitleOnDead"])
-					DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z-0.20, Config.Langs["SubTitlePressKey"])
-                    --DrawText(Config.Langs["SubTitlePressKey"], Config["RespawnSubTitleFont"], 0.50, 0.50, 1.0, 1.0, 255, 255, 255, 255, true, true)
-                    if IsControlJustPressed(0, keyPress) then
+                    local label  = CreateVarString(10, 'LITERAL_STRING', promptLabel)
+                    PromptSetActiveGroupThisFrame(prompts, label)
+                    if Citizen.InvokeNative(0xC92AC953F0A982AE,prompt) then
                         TriggerServerEvent("vorp:PlayerForceRespawn")
                         TriggerEvent("vorp:PlayerForceRespawn")
                         DoScreenFadeOut(3000)
@@ -113,12 +135,9 @@ Citizen.CreateThread(function()
             NetworkSetInSpectatorMode(false, PlayerPedId())
 			ProcessCamControls()
 			DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z+0.20, Config.Langs["YouAreCarried"])
-            --DrawText(Config.Langs["YouAreCarried"], 4, 0.50, 0.30, 1.0, 1.0, 255, 255, 255, 255, true, true)
         elseif TimeToRespawn >= 0 and setDead then
 			ProcessCamControls()
             NetworkSetInSpectatorMode(false, PlayerPedId())
-            --DrawText(Config.Langs["TitleOnDead"], Config["RespawnTitleFont"], 0.50, 0.50, 1.2, 1.2, 171, 3, 0, 255, true, true)
-            --DrawText(string.format(Config.Langs["SubTitleOnDead"], TimeToRespawn), Config["RespawnSubTitleFont"], 0.50, 0.60, 0.5, 0.5, 255, 255, 255, 255, true, true)
             DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z, Config.Langs["TitleOnDead"])
             DrawText3D(GetCoords.x,GetCoords.y,GetCoords.z-0.2, Config.Langs["RespawnIn"]..TimeToRespawn..Config.Langs["SecondsMove"])
         else
@@ -127,15 +146,17 @@ Citizen.CreateThread(function()
     end
 end)
 
-
+camDeath = Config.camDeath
 
 function StartDeathCam()
     Citizen.CreateThread(function()
-        ClearFocus()
-        local playerPed = PlayerPedId()
-        cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(playerPed), 0, 0, 0, GetGameplayCamFov())
-        SetCamActive(cam, true)
-        RenderScriptCams(true, true, 1000, true, false)
+        if camDeath then
+            ClearFocus()
+            local playerPed = PlayerPedId()
+            cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(playerPed), 0, 0, 0, GetGameplayCamFov())
+            SetCamActive(cam, true)
+            RenderScriptCams(true, true, 1000, true, false)
+        end
     end)
 end
 
@@ -204,7 +225,8 @@ function ProcessNewPosition()
     return pos
 end
 
-
+local spriteGrey = Config.spriteGrey
+local sprite = Config.sprite
 function DrawText3D(x, y, z, text)
 	local onScreen,_x,_y=GetScreenCoordFromWorldCoord(x, y, z)
 	local px,py,pz=table.unpack(GetGameplayCamCoord())  
@@ -218,7 +240,12 @@ function DrawText3D(x, y, z, text)
 		SetTextDropshadow(1, 1, 0, 0, 200)
 		DisplayText(str,_x,_y)
 		local factor = (string.len(text)) / 225
-		--DrawSprite("generic_textures", "hud_menu_4a", _x, _y+0.0125,0.015+ factor, 0.03, 0.1, 35, 35, 35, 190, 0)
-		--DrawSprite("feeds", "toast_bg", _x, _y+0.0125,0.015+ factor, 0.03, 0.1, 100, 1, 1, 190, 0)
+		if sprite then
+            if spriteGrey then
+		        DrawSprite("generic_textures", "hud_menu_4a", _x, _y+0.0125,0.015+ factor, 0.03, 0.1, 35, 35, 35, 190, 0)
+            else
+               DrawSprite("feeds", "toast_bg", _x, _y+0.0125,0.015+ factor, 0.03, 0.1, 100, 1, 1, 190, 0)
+            end
+	    end
 	end
 end

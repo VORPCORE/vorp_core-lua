@@ -10,6 +10,7 @@ Config = {
   initJob =  "unemployed",
   initJobGrade =  0,
   initGroup =  "user",
+  
   Whitelist =  false,
   AllowWhitelistAutoUpdate =  false,
   MaxCharacters =  5,
@@ -20,11 +21,15 @@ Config = {
   
   CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned 
   ShowUiDeath = true, -- show or hide the UI if player is dead 
-
-  RespawnTime =  300, -- 25 seconds
+  camDeath = false, -- enable or disable the camera death function
+  
+  RespawnTime =  10, -- 25 seconds
   RespawnKey =  0xDFF812F9,
-  RespawnTitleFont =  1,
-  RespawnSubTitleFont =  1,
+  RespawnTitleFont =  1, -- for the draw text message
+  RespawnSubTitleFont =  1, -- for the draw text message sub title font
+  
+  sprite = true, --- enable text with sprite or disable
+  spriteGrey = false, -- if set to false will enable RED sprite true will be grey
  ---------------------------- RESPAWN COORDS ------------------------------------
   hospital =  {
     Valentine = {
@@ -94,10 +99,10 @@ Config.Langs = {
   SubTitleOnDead = "You can respawn in %s seconds",
   RespawnIn = "You can respawn in  ~e~",
   SecondsMove = "~q~ seconds",
-  SubTitlePressKey = "Press ~e~E~q~ to respawn",
   YouAreCarried = "You are being carried by a person",
-
-  VoiceRangeChanged = "Voice chat range changed to %s meters"
+  VoiceRangeChanged = "Voice chat range changed to %s meters",
+  promptLabel = "Respawn",  -- prompt label.   
+  prompt = "Press",  -- prompt group label 
 }
 --------------------------------------------------------------------------------------
 
