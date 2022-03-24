@@ -125,7 +125,10 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(3000)
+
         UI()  
+
+
         if not firstSpawn then
             local player = PlayerPedId()
             local playerCoords, playerHeading = GetEntityCoords(player, true, true), GetEntityHeading(player)
