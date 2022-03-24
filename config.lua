@@ -22,8 +22,13 @@ Config = {
   CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned 
   ShowUiDeath = true, -- show or hide the UI if player is dead 
   camDeath = false, -- enable or disable the camera death function
-  HideUi = false, --show or hide the UI for a more immersive experience
-  
+
+  ------------------------- SHOW OR HIDE UI's --------------------------------
+  HideUi = true, --show or hide the UI includes  gold cash ID and level bar  the cash gold ID are now being displayed in the inventory. you can disable this one if yo ulike it more
+  mapTypeOnFoot = 3, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on foot
+  mapTypeOnMount = 1, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on horse
+
+  -----------------------------------------------------------------------------------
   RespawnTime =  10, -- 25 seconds
   RespawnKey =  0xDFF812F9,
   RespawnTitleFont =  1, -- for the draw text message
