@@ -88,7 +88,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(3000)
         if Config["HideUi"] then
-            DisplayHud(false)
+           
             DisplayRadar(false)        
             TriggerEvent("vorp:showUi", false)
         end
