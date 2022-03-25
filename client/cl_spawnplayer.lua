@@ -94,31 +94,28 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        local player = PlayerPedId()
+        local pped = PlayerPedId()
         local count = 0
-        local playerOnMout = IsPedOnMount(player)
-        local playerOnVeh = IsPedInAnyVehicle(player,false)
 
-        if IsControlPressed(0, 0xCEFD9220) then -- E
-            SetRelationshipBetweenGroups(1, playerHash, playerHash) -- 1 friendly 
+        if IsControlPressed(0, 0xCEFD9220) then
+            SetRelationshipBetweenGroups(1, playerHash, playerHash)
             active = true
             Citizen.Wait(4000)
         end
 
-        if not playerOnMout and not playerOnVeh and active then
-            SetRelationshipBetweenGroups(5, playerHash, playerHash) -- 5 hate 
-            active = false 
-        elseif active and playerOnMout or playerOnVeh  then
-            if playerOnVeh then 
+        if not IsPedOnMount(pped) and not IsPedInAnyVehicle(pped, false) and active then
+            SetRelationshipBetweenGroups(5, playerHash, playerHash)
+            active = false
+        elseif active and IsPedOnMount(pped) or IsPedInAnyVehicle(pped, false) then
+            if IsPedInAnyVehicle(pped, false) then
                 --Nothing?
-            elseif GetPedInVehicleSeat(GetMount(player), -1) == player then
+            elseif GetPedInVehicleSeat(GetMount(pped), -1) == pped then
                 SetRelationshipBetweenGroups(5, playerHash, playerHash)
                 active = false
             end
         end
     end
 end)
-
 
 
 
