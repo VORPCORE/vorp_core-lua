@@ -6,6 +6,7 @@ local mapTypeOnMount = Config.mapTypeOnMount
 local playerCores = Config.playerCores
 local horseCores = Config.horseCores
 local mapTypeOnFoot = Config.mapTypeOnFoot
+local enableTypeRadar = Config.enableTypeRadar
 
 
 
@@ -23,13 +24,14 @@ function UI()
     if Config.HideUi then
         TriggerEvent("vorp:showUi", false)
     end
+    if enableTypeRadar then
+        if not playerOnMout and not playerOnVeh then
+            SetMinimapType(mapTypeOnFoot)
 
-    if not playerOnMout and not playerOnVeh then
-        SetMinimapType(mapTypeOnFoot)
-       
-    elseif  playerOnMout or playerOnVeh  then
-        SetMinimapType(mapTypeOnMount)
-      
+        elseif  playerOnMout or playerOnVeh  then
+            SetMinimapType(mapTypeOnMount)
+
+        end
     end
 end
 ----------------------------------------------------------------------
