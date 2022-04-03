@@ -141,7 +141,7 @@ end, false)
 
 ---------------------------------------------------------------------------------------------------
 ------------------------------------------ ADDITEM ------------------------------------------------
-RegisterCommand("additem", function(source, args)
+RegisterCommand("additems", function(source, args)
   
     if args ~= nil then
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -162,7 +162,7 @@ end)
 ---------------------------------------------------------------------------------------------------
 ----------------------------------------- ADD WEAPON ----------------------------------------------
 
-RegisterCommand("addweapon", function(source, args)
+RegisterCommand("addweapons", function(source, args)
 
     if args ~= nil then
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -291,7 +291,7 @@ AddEventHandler("vorp:chatSuggestion",function()
         {name = "AddWhiteList", help=' steam ID like this > 11000010c8aa16e'},               
     })
           
-    TriggerClientEvent("chat:addSuggestion",_source, "/additem", " VORPcore command to give items.",{
+    TriggerClientEvent("chat:addSuggestion",_source, "/additems", " VORPcore command to give items.",{
         {name = "Id", help='player ID'},
         {name = "Item", help='item name'},
         {name = "Quantity", help='amount of items to give'},
@@ -310,7 +310,7 @@ AddEventHandler("vorp:chatSuggestion",function()
     TriggerClientEvent("chat:addSuggestion",_source, "/delhorse", " VORPcore command to delete horses.",{
     })
 
-    TriggerClientEvent("chat:addSuggestion",_source, "/addweapon", " VORPcore command to give weapons.",{
+    TriggerClientEvent("chat:addSuggestion",_source, "/addweapons", " VORPcore command to give weapons.",{
         {name = "Id", help='player ID'},
         {name = "Weapon", help='Weapon hash name'},
         
