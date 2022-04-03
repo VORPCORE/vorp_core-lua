@@ -175,7 +175,7 @@ RegisterCommand("addweapons", function(source, args)
                 if canCarry then
                     if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
                         VORP.createWeapon(tonumber(id), weaponHash)
-                        TriggerClientEvent("vorp:TipRight", _source, "You gave a "..weaponHash, 3000)
+                       
                     else 
                         TriggerClientEvent("vorp:Tip", source, Config.Langs["NoPermissions"], 4000)
                     end
