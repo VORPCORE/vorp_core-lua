@@ -48,7 +48,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
         else
             Citizen.Wait(8000) -- this is needed to ensure the player has enough time to load in their character before it kills them. other wise they revive when the character loads in
             TriggerEvent("vorp_inventory:CloseInv")
-            SetEntityHealth(Player,0,0)
+            SetEntityHealth(PlayerPedId(),0,0)
         end
     end
 end)
