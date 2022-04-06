@@ -18,3 +18,8 @@ end)
 RegisterNetEvent('vorp:Tip', function(text, miliseconds)
     exports["vorp_core"]:DisplayTip(text, miliseconds)
 end)
+
+-------- play soundfrontend -------------
+RegisterNetEvent('vorp:PlaySoundFrontEnd', function(category,name)
+	PlayFrontendSound(category,name)
+end)
