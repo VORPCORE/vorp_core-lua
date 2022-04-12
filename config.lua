@@ -3,19 +3,20 @@
 ----------------------------------------------------------------------------
 
 Config = {
-
   ----------------------------------------------------------------------------
   ----------------------- STARTING POINT -------------------------------------
   initGold     =  0.0, 
   initMoney    =  200.0,
   initRol      =  0.0,
-  initXp       =  0,
-  initJob      =  "unemployed",
-  initJobGrade =  0,
-  initGroup    =  "user",
+  initXp       =  0, 
+  initJob      =  "unemployed", -- leave it like this
+  initJobGrade =  0, -- leave it like this
+  initGroup    =  "user", -- leave it like this
   Whitelist     =  false, -- LEAVE TO FALSE IT'S NOT WORKING
   AllowWhitelistAutoUpdate =  false,
   MaxCharacters =  5, --MAX ALLOWED TO BE CREATED
+  maxHealth = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
+  maxStamina = 4,-- 10 is FULL 0 IS EMPTY define max outer core for players
 
   ------------------------------------------------------------------------------
   ------------------------------ WEBHOOKS --------------------------------------
@@ -30,7 +31,7 @@ Config = {
   -----------------------------------------------------------------------------
   ------------------------- SHOW OR HIDE UI's ---------------------------------
 
-  HideUi          = true, --show or hide the UI includes  gold cash ID and level bar  the cash gold ID are now being displayed in the inventory. you can disable this one if yo ulike it more
+  HideUi          = true, --show or hide the UI includes  gold cash ID and level bar  the cash gold ID are now being displayed in the inventory. you can disable this one if yo u like it more
   mapTypeOnFoot   = 1, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on foot
   mapTypeOnMount  = 1,-- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on horse
   enableTypeRadar = false, --- if true the above will work, if false players can choose their radar type in the game settings.
