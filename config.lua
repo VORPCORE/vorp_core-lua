@@ -98,7 +98,7 @@ Config = {
   --------------------------- COMMAND PERMISSION -----------------------------
   Group = {
     Admin = "admin", --- group for all commands 
-    Mod = "modertor", --- second group for all commands 
+    Mod = "moderator", --- second group for all commands 
   },
 
   --------------------------------------------------------------------------------------
@@ -125,8 +125,8 @@ Config = {
     BannedUser         = "You Are Banned",
     TitleOnDead        = "Do /alertdoctor in chat to request doctors aid",
     SubTitleOnDead     = "You can respawn in %s seconds",
-    RespawnIn          = "You can respawn in",
-    SecondsMove        = "seconds",
+    RespawnIn          = "You can respawn in ",
+    SecondsMove        = " seconds",
     YouAreCarried      = "You are being carried by a person",
     VoiceRangeChanged  = "Voice chat range changed to %s meters",
     promptLabel        = "Respawn",  -- prompt label.   
