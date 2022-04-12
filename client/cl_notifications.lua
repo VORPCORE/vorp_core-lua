@@ -20,7 +20,7 @@ AddEventHandler('vorp:TipRight', function(text, duration)
 end)
 
 RegisterNetEvent('vorp:Tip')
-AddEventHandler('vorp:tip', function(text, duration)
+AddEventHandler('vorp:Tip', function(text, duration)
     exports.vorp_core:DisplayTip(tostring(text), tonumber(duration))
 end)
 
