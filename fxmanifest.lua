@@ -24,7 +24,7 @@ client_scripts {
   'client/cl_spawnplayer.lua',
   'client/cl_uicore.lua',
   'client/cl_voicechat.lua',
-  `client/cl_dataview.lua `
+  'client/cl_dataview.lua'
 }
 
 server_scripts {
