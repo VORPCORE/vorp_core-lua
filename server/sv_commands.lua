@@ -151,7 +151,7 @@ RegisterCommand("additems", function(source, args)
             local count =  args[3]
 
             if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
-                VORP.addItem(source, item, count)
+                VORP.addItem(id, item, count)
             else
                 TriggerClientEvent("vorp:Tip", source, Config.Langs["NoPermissions"], 4000)
             end
