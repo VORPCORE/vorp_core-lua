@@ -11,21 +11,14 @@ For more questions message me on Discord: goncalobsccosta#9041
 - [VORP-Character](https://github.com/VORPCORE/VORP-Character/releases) -- use the premade server
 
 ## How to install (Remember to download the lastest releases)
-* Download ghmattimysql
-* Copy and paste ``ghmattimysql`` folder to ``resources/ghmattimysql``
-* Delete file ``resources/ghmattimysql/config.json``
-* Add ``set mysql_connection_string "mysql://root:@localhost/vorp?acquireTimeout=60000&connectTimeout=60000"`` to your server.cfg file
-* Add ``ensure ghmattimysql`` to your ``server.cfg`` file
-
-* To change the language of the core go to ``resources/vorp_core/config.lua`` and change the default language (Same for other scripts)
-* Copy and paste ``vorp_core`` folder to ``resources/[vorp]`` (Same for other scripts)
+* Rename the folder to ``vorp_core``
+* To change the language of the core go to ``vorp_core/config.lua`` and change the default language (Same for other scripts)
+* Copy and paste  ``vorp_core`` folder to ``resources/[vorp_core]``(Same for other scripts)
 * Add ensure ``vorp_core`` to your ``server.cfg`` file (Same for other scripts)
 * Example Server.cfg
 
-```cfg
-set mysql_connection_string "mysql://root:yourDBpassword(If you dont have one, leave this blank)@localhost/vorp?acquireTimeout=60000&connectTimeout=60000"
-
 #These resources will start by default.
+```
 stop sessionmanager
 stop webadmin
 stop monitor
@@ -67,9 +60,12 @@ ensure vorp_woodcutter
 The scripts may have an SQL file, you need to create a database and execute the SQL files.
 
 We recommend to download and add the all the scripts to the server together before creating a character if you are going to test the scripts (Specially for vorp_metabolism and vorp_inventory).
-We also recommend using the 2619 version of server artifacts.
+We also recommend using the latest version of server artifacts.
 
 Now you are ready!
+
+for support 
+[Discord](https://discord.gg/DHGVAbCj7N)
 
 ## Wiki
 [Wiki VORP Core](http://docs.vorpcore.com:3000/home)
