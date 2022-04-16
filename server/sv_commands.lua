@@ -5,8 +5,9 @@
 -- ADD MORE ADMIN COMMANDS
 -- WEBHOOK FOR EACH COMMAND 
 
-------------------------------------- START ---------------------------------------
 
+---------------------------------------------------------------------------------------------------
+------------------------------------------ SETGROUP ------------------------------------------------
 RegisterCommand("setgroup", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -36,7 +37,8 @@ RegisterCommand("setgroup", function(source, args, rawCommand)
     end
 end, false)
 
-
+---------------------------------------------------------------------------------------------------
+------------------------------------------ SETJOB  ------------------------------------------------
 RegisterCommand("setjob", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -66,7 +68,8 @@ RegisterCommand("setjob", function(source, args, rawCommand)
     end
 end, false)
 
-
+---------------------------------------------------------------------------------------------------
+------------------------------------------ ADDCASH/GOLD ------------------------------------------------
 RegisterCommand("addmoney", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -86,7 +89,8 @@ RegisterCommand("addmoney", function(source, args, rawCommand)
     end
 end, false)
     
-        
+---------------------------------------------------------------------------------------------------
+------------------------------------------ DELLMONEY ------------------------------------------------
 RegisterCommand("delmoney", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -106,7 +110,8 @@ RegisterCommand("delmoney", function(source, args, rawCommand)
     end
 end, false)
         
-        
+---------------------------------------------------------------------------------------------------
+------------------------------------------ WHITELIST ------------------------------------------------  
 RegisterCommand("addwhitelist", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
@@ -141,74 +146,74 @@ end, false)
 
 ---------------------------------------------------------------------------------------------------
 ------------------------------------------ ADDITEM ------------------------------------------------
-RegisterCommand("additems", function(source, args)
-  
-    if args ~= nil then
-        TriggerEvent("vorp:getCharacter", source, function(user)
-            VORP = exports.vorp_inventory:vorp_inventoryApi()
-            local id =  args[1]
-            local item =  args[2]
-            local count =  args[3]
+RegisterCommand("additems", function(source, args, rawCommand)
+    TriggerEvent("vorp:getCharacter", source, function(user)
+        VORP = exports.vorp_inventory:vorp_inventoryApi()
+        local id =  args[1]
+        local item =  args[2]
+        local count =  args[3]
 
+        if args ~= nil then
             if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
                 VORP.addItem(id, item, count)
             else
                 TriggerClientEvent("vorp:Tip", source, Config.Langs["NoPermissions"], 4000)
             end
-        end)
-    end
-end)
+        end
+    end)
+    
+end,false)
 
 ---------------------------------------------------------------------------------------------------
 ----------------------------------------- ADD WEAPON ----------------------------------------------
 
-RegisterCommand("addweapons", function(source, args)
-
-    if args ~= nil then
-        TriggerEvent("vorp:getCharacter", source, function(user)
-            local _source = source 
-            VORP = exports.vorp_inventory:vorp_inventoryApi()
-            local id = args[1]
-            local weaponHash = tostring(args[2])
-
+RegisterCommand("addweapons", function(source, args, rawCommand)
+    TriggerEvent("vorp:getCharacter", source, function(user)
+        local _source = source 
+        VORP = exports.vorp_inventory:vorp_inventoryApi()
+        local id = args[1]
+        local weaponHash = tostring(args[2])
+        if args ~= nil then
             TriggerEvent("vorpCore:canCarryWeapons", tonumber(id), 1, function(canCarry)
                 if canCarry then
                     if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
                         VORP.createWeapon(tonumber(id), weaponHash)
-                       
+                        
                     else 
                         TriggerClientEvent("vorp:Tip", source, Config.Langs["NoPermissions"], 4000)
                     end
                 else
-                  
-                   
+                    
+                    
                     TriggerClientEvent("vorp:Tip", source, Config.Langs.cantCarry, 4000)
                 end
             end)
-        end)
-    end
-end)
+        end
+    end)
+    
+end,false)
 
 ------------------------------------------------------------------------------------------------------
 ---------------------------------------- REVIVE ------------------------------------------------------
 RegisterCommand("revive", function(source, args)
-    if args ~= nil then
-        TriggerEvent("vorp:getCharacter", source, function(user)
-            local id =  args[1]
-            local _source = source 
-
+    
+    TriggerEvent("vorp:getCharacter", source, function(user)
+        local id =  args[1]
+        local _source = source 
+        if args ~= nil then
             if user.group == Config.Group.Admin or user.group == Config.Group.Mod then 
                 TriggerClientEvent('vorp:resurrectPlayer', id)
             else 
                 TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000) 
             end
-        end)
-    end
-end)
+        end
+    end)
+    
+end,false)
 
 ------------------------------------------------------------------------------------------------------
 ------------------------------------ TP TO MARKER ----------------------------------------------------
-RegisterCommand("tpm", function(source, args)
+RegisterCommand("tpm", function(source)
     TriggerEvent("vorp:getCharacter", source, function(user)
         local _source = source
      
@@ -218,25 +223,33 @@ RegisterCommand("tpm", function(source, args)
             TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
         end
     end)
-end)
+end,false)
 
 
 ------------------------------------------------------------------------------------------------------
 -------------------------------------- DELETE WAGONS -------------------------------------------------
 
-RegisterCommand("delwagon", function(source )
+RegisterCommand("delwagons", function(source, args)
     TriggerEvent("vorp:getCharacter", source, function(user)
         local _source = source
+        local radius = tonumber(args[1])
+        if radius ~= nil then
 
-        if user.group == Config.Group.Admin or user.group == Config.Group.Mod then 
-            TriggerClientEvent("vorp:delWagon",_source)
-        else
-            TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
+            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then 
+            
+                    if radius >= 1 then
+                        TriggerClientEvent("vorp:deleteVehicle",_source, radius)
+                    end
+            
+            else
+                TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
+            end
         end
     end)
-end)
+end,false)
 
-
+-------------------------------------------------------------------------------------------------------
+-------------------------------------- DELETE HORSE ---------------------------------------------------
 RegisterCommand("delhorse", function(source)
     TriggerEvent("vorp:getCharacter", source, function(user)
         local _source = source
@@ -248,10 +261,27 @@ RegisterCommand("delhorse", function(source)
         end
     end)
 
-end)
+end,false)
 
 
- 
+
+RegisterCommand("healplayer", function(source, args,rawCommand)
+    TriggerEvent("vorp:getCharacter", source, function(user)
+
+        local _source = source
+        local playerId = tonumber(args[1])
+        if args ~= nil then
+            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then 
+                TriggerClientEvent('vorp:heal',_source, playerId)
+
+            else
+                TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000) 
+            end
+        end
+    end)
+    
+end,false)
+
 ---------------------------------------------------------------------------------------------------------
 ----------------------------------- CHAT ADD SUGGESTION --------------------------------------------------
 
@@ -304,7 +334,8 @@ AddEventHandler("vorp:chatSuggestion",function()
     TriggerClientEvent("chat:addSuggestion",_source, "/tpm", " VORPcore command  teleport to marker set on the map.",{
     })
 
-    TriggerClientEvent("chat:addSuggestion",_source, "/delwagon", " VORPcore command to delete wagons.",{
+    TriggerClientEvent("chat:addSuggestion",_source, "/delwagons", " VORPcore command to delete wagons within radius.",{
+        {name = "radius", help='add a number from 1 to any'},
     })
 
     TriggerClientEvent("chat:addSuggestion",_source, "/delhorse", " VORPcore command to delete horses.",{
@@ -316,5 +347,8 @@ AddEventHandler("vorp:chatSuggestion",function()
         
     })
 
+    TriggerClientEvent("chat:addSuggestion",_source, "/healplayer", " VORPcore command to heal players.",{
+        {name = "Id", help='player ID'},
+    })
 
 end)
