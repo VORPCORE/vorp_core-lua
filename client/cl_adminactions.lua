@@ -1,8 +1,6 @@
 ------------------------------------------------------------------------------------------------------------
 --------------------------------------------- ADMIN ACTIONS ------------------------------------------------
 
-
-
 function TeleportAndFoundGroundAsync(tpCoords)
     local groundZ = 0.0
     local foundGround = false
@@ -47,87 +45,176 @@ function TeleportToWaypoint()
 end
 
 
-local distanceToCheck = 5.0
-local numRetries = 5
 
-function DeleteGivenVehicle( wagon, timeoutMax )
-    local timeout = 0 
+function GetVehicleInDirection()
+	local playerPed    = PlayerPedId()
+	local playerCoords = GetEntityCoords(playerPed)
+	local inDirection  = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 5.0, 0.0)
+	local rayHandle    = StartExpensiveSynchronousShapeTestLosProbe(playerCoords, inDirection, 10, playerPed, 0)
+	local numRayHandle, hit, endCoords, surfaceNormal, entityHit = GetShapeTestResult(rayHandle)
 
-    SetEntityAsMissionEntity( wagon, true, true )
-    DeleteVehicle( wagon )
+	if hit == 1 and GetEntityType(entityHit) == 2 then
+		local entityCoords = GetEntityCoords(entityHit)
+		return entityHit, entityCoords
+	end
 
-    if ( DoesEntityExist( wagon ) ) then
-		TriggerEvent("vorp:TipRight", "VORP: Failed to delete wagon, trying again...", 4000)
-        
-        while ( DoesEntityExist( wagon ) and timeout < timeoutMax ) do 
-            DeleteVehicle( wagon )
-            if ( not DoesEntityExist( wagon ) ) then 
-			TriggerEvent("vorp:TipRight", "VORP: Vehicle deleted.", 4000)
-            end 
+	return nil
+end
 
-            timeout = timeout + 1 
-            Citizen.Wait( 500 )
+local entityEnumerator = {
+    __gc = function(enum)
+        if enum.destructor and enum.handle then
+            enum.destructor(enum.handle)
+        end
 
-            if ( DoesEntityExist( wagon ) and ( timeout == timeoutMax - 1 ) ) then
-				TriggerEvent("vorp:TipRight", "VORP: Failed to delete wagon after " .. timeoutMax .. " retries.", 4000)
-            end 
-        end 
-   
-    end 
-end 
+        enum.destructor = nil
+        enum.handle = nil
+    end
+}
 
+local function EnumerateEntities(initFunc, moveFunc, disposeFunc)
+    return coroutine.wrap(function()
+        local iter, id = initFunc()
+        if not id or id == 0 then
+            disposeFunc(iter)
+            return
+        end
 
-function GetVehicleInDirection( entFrom, coordFrom, coordTo )
-	local rayHandle = StartShapeTestRay( coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, -1, entFrom, 7 )
-    local _, _, _, _, wagon = GetShapeTestResult( rayHandle )
-    if ( IsEntityAVehicle( wagon) ) then 
-        return wagon
-    end 
+        local enum = {handle = iter, destructor = disposeFunc}
+        setmetatable(enum, entityEnumerator)
+
+        local next = true
+        repeat
+        coroutine.yield(id)
+        next, id = moveFunc(iter)
+        until not next
+
+        enum.destructor, enum.handle = nil, nil
+        disposeFunc(iter)
+    end)
 end
 
 
 
-RegisterNetEvent('vorp:delWagon')
-AddEventHandler('vorp:delWagon', function()
+
+function EnumerateVehicles()
+    return EnumerateEntities(FindFirstVehicle, FindNextVehicle, EndFindVehicle)
+end
+
+
+function GetVehicles()
+    local vehicles = {}
+
+    for vehicle in EnumerateVehicles() do
+        table.insert(vehicles, vehicle)
+    end
+
+    return vehicles
+end
+
+
+function GetVehiclesInArea(coords, area)
+    local vehicles       = GetVehicles()
+    local vehiclesInArea = {}
+
+    for i=1, #vehicles, 1 do
+        local vehicleCoords = GetEntityCoords(vehicles[i])
+        local distance      = GetDistanceBetweenCoords(vehicleCoords, coords.x, coords.y, coords.z, true)
+
+        if distance <= area then
+            table.insert(vehiclesInArea, vehicles[i])
+        end
+    end
+
+    return vehiclesInArea
+end
+
+
+
+
+function HealPlayer()
+    ---------- get player ----------
     local player = PlayerPedId()
-   
+    local closestPlayerPed = player
+    ----------- stamina ----------------
+    local health = GetAttributeCoreValue(closestPlayerPed, 0)
+    local newHealth = health + 100
+    local stamina = GetAttributeCoreValue(closestPlayerPed, 1)
+    local newStamina = stamina + 100
+    ----------- health -----------------
+    local health2 = GetEntityHealth(closestPlayerPed)
+    local newHealth2 = health2 + 100
+    Citizen.InvokeNative(0xC6258F41D86676E0, closestPlayerPed, 0, newHealth)
+    Citizen.InvokeNative(0xC6258F41D86676E0, closestPlayerPed, 1, newStamina) 
+    -------- set health ------------
+    SetEntityHealth(closestPlayerPed, newHealth2)
+end
 
-    if ( DoesEntityExist( player ) and not IsEntityDead( player ) ) then 
-        local pos = GetEntityCoords( player )
-
-        if ( IsPedSittingInAnyVehicle( player ) ) then 
-            local wagon = GetVehiclePedIsIn( player, false )
-
-            if ( GetPedInVehicleSeat( wagon, -1 ) == player ) then 
-                DeleteGivenVehicle( wagon, numRetries )
-            else 
-				TriggerEvent("vorp:TipRight", Config.Langs.mustBeSeated, 4000) 
-            end 
-        else
-            local inFrontOfPlayer = GetOffsetFromEntityInWorldCoords( player, 0.0, distanceToCheck, 0.0 )
-            local wagon = GetVehicleInDirection( player, pos, inFrontOfPlayer )
-            if ( DoesEntityExist( wagon ) ) then 
-                DeleteGivenVehicle( wagon, numRetries )
-            else 
-				TriggerEvent("vorp:TipRight", Config.Langs.wagonInFront, 4000) 
-            end 
-        end 
-    end 
-end)
-
-
-RegisterNetEvent('vorp:delHorse')
-AddEventHandler('vorp:delHorse', function()
-	local player = PlayerPedId()
+function delHorse()
+    local player = PlayerPedId()
     local mount   = GetMount(player)
     if IsPedOnMount(player) then
         DeleteEntity(mount)
     
     end
+end
+
+
+RegisterNetEvent('vorp:deleteVehicle')
+AddEventHandler('vorp:deleteVehicle', function(radius)
+    local player = PlayerPedId()
+
+    if radius and tonumber(radius) then
+        radius = tonumber(radius) + 0.01
+        local vehicles = GetVehiclesInArea(GetEntityCoords(player), radius)
+        for k,entity in ipairs(vehicles) do
+            local attempt = 0
+
+            while not NetworkHasControlOfEntity(entity) and attempt < 100 and DoesEntityExist(entity) do
+                Wait(100)
+                NetworkRequestControlOfEntity(entity)
+                attempt = attempt + 1
+            end
+
+            if DoesEntityExist(entity) and NetworkHasControlOfEntity(entity) then
+			    SetEntityAsMissionEntity(entity, true, true)
+                DeleteVehicle(entity)
+            end
+        end
+    else
+        local vehicle, attempt = GetVehicleInDirection(), 0
+
+        if IsPedInAnyVehicle(player, true) then
+            vehicle = GetVehiclePedIsIn(player, false)
+        end
+
+        while not NetworkHasControlOfEntity(vehicle) and attempt < 100 and DoesEntityExist(vehicle) do
+            Wait(100)
+            NetworkRequestControlOfEntity(vehicle)
+            attempt = attempt + 1
+        end
+
+        if DoesEntityExist(vehicle) and NetworkHasControlOfEntity(vehicle) then
+			SetEntityAsMissionEntity(vehicle, true, true)
+            DeleteVehicle(vehicle)
+
+        end
+    end
+end)
+
+
+RegisterNetEvent('vorp:delHorse')
+AddEventHandler('vorp:delHorse', function()
+	delHorse()
 end)
 
 
 RegisterNetEvent('vorp:teleportWayPoint')
 AddEventHandler('vorp:teleportWayPoint', function(WayPoint)
 	TeleportToWaypoint()
+end)
+
+RegisterNetEvent('vorp:heal')
+AddEventHandler('vorp:heal', function()
+    HealPlayer()
 end)
