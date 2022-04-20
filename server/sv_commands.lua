@@ -43,14 +43,16 @@ RegisterCommand("setjob", function(source, args, rawCommand)
     if source > 0 then -- it's a player.
         TriggerEvent("vorp:getCharacter", source, function(user)
              if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
-                local target, newjob = args[1], args[2]
+                local target, newjob, jobgrade = args[1], args[2], args[3]
 
                 if newjob == nil or newjob == '' then
-                    TriggerClientEvent("vorp:Tip", source, "ERROR: Use Correct Sintaxis", 4000)
-                    return
+                    if jobgrade == nil or jobgrade == '' then
+                        TriggerClientEvent("vorp:Tip", source, "ERROR: Use Correct Sintaxis", 4000)
+                        return
+                    end
                 end
 
-                TriggerEvent("vorp:setJob", target, newjob)
+                TriggerEvent("vorp:setJob", target, newjob, jobgrade)
                 TriggerClientEvent("vorp:Tip", source, string.format("Target %s have new job %s", target, newjob), 4000)
             else
                 TriggerClientEvent("vorp:Tip", source, Config.Langs["NoPermissions"], 4000)
