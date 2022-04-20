@@ -44,11 +44,12 @@ AddEventHandler('vorp:removeXp', function(player, quantity)
     end
 end)
 
-AddEventHandler('vorp:setJob', function(player, job)
+AddEventHandler('vorp:setJob', function(player, job, jobgrade)
     local sid = GetSteamID(player)
 
     if _users[sid] ~= nil then
         _users[sid].GetUsedCharacter().setJob(job)
+        _users[sid].GetUsedCharacter().setJobGrade(jobgrade)
     end
 end)
 
