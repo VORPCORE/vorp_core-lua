@@ -110,39 +110,7 @@ RegisterCommand("delmoney", function(source, args, rawCommand)
     end
 end, false)
         
----------------------------------------------------------------------------------------------------
------------------------------------------- WHITELIST ------------------------------------------------  
-RegisterCommand("addwhitelist", function(source, args, rawCommand)
-    if source > 0 then -- it's a player.
-        TriggerEvent("vorp:getCharacter", source, function(user)
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
-                local steamId = args[1]
-                exports.ghmattimysql:execute("SELECT * FROM whitelist WHERE identifier = ?", {steamId}, function(result)
-                    if #result == 0 then
-                        exports.ghmattimysql:execute("INSERT INTO whitelist (`identifier`) VALUES (?)", {steamId})
-                        AddUserToWhitelist(steamId)
-                        TriggerClientEvent("vorp:Tip", source, string.format("Added %s to whitelist", steamId), 4000);
-                    else
-                        TriggerClientEvent("vorp:Tip", source, string.format("%s Is Whitelisted %s", steamId, steamId), 4000);
-                    end
-                end)
-            else
-                TriggerClientEvent("vorp:Tip", source, Config.Langs["NoPermissions"], 4000)
-            end
-        end)
-    else
-        local steamId = args[1]
-        exports.ghmattimysql:execute("SELECT * FROM whitelist WHERE identifier = ?", {steamId}, function(result)
-            if #result == 0 then
-                exports.ghmattimysql:execute("INSERT INTO whitelist (`identifier`) VALUES (?)", {steamId})
-                AddUserToWhitelist(steamId)
-                print(string.format("Added %s to whitelist", steamId))
-            else
-                print(string.format("%s Is Whitelisted %s", steamId, steamId))
-            end
-        end)
-    end
-end, false)
+
 
 ---------------------------------------------------------------------------------------------------
 ------------------------------------------ ADDITEM ------------------------------------------------
