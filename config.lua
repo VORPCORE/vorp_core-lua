@@ -21,8 +21,8 @@ Config = {
   ------------------------------------------------------------------------------
   ------------------------------ WEBHOOKS --------------------------------------
 
-  Logs         = true,
-  webhookColor = 16711680,
+  Logs         = true, -- SET TO FALSE IF YOU DONT WANT LOGS
+  webhookColor = 16711680, --EMBED COLOR
   name         = "VORP", --NAME OF EMBED
   logo         = "https://via.placeholder.com/30x30", --HEAD LOGO
   footerLogo   = "https://via.placeholder.com/30x30", --FOOTER LOGO
