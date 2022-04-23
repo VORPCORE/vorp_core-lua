@@ -7,10 +7,10 @@ function CheckConnected(identifier)
 end
 
 function LoadUser(source, setKickReason, deferrals, identifier, license)
-    local resultList = exports.ghmattimysql:executeSync("SELECT * FROM users WHERE identifier = ?", {identifier})
+    local resultList = exports.ghmattimysql:executeSync("SELECT * FROM users WHERE identifier = ?", { identifier })
 
     _usersLoading[identifier] = true
-    
+
     print(string.format("Loading player %s.", GetPlayerName(source)))
 
     if #resultList > 0 then
@@ -27,7 +27,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         deferrals.done()
     else
         --New User
-        exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0)", {identifier})
+        exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0)", { identifier })
 
         _users[identifier] = User(source, identifier, "user", 0, license)
         deferrals.done()
@@ -50,7 +50,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
     local identifier = GetSteamID(source)
 
     _usersLoading[identifier] = false
-    
+
     if _users[identifier] then
         --Debug.WriteLine("Characters loaded "+_users[identifier].Numofcharacters);
         _users[identifier].Source(source)
@@ -61,7 +61,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
                 TriggerEvent("vorp_SpawnUniqueCharacter", source)
             else
                 TriggerEvent("vorp_GoToSelectionMenu", source)
-            end 
+            end
         end
     end
 end)
@@ -83,11 +83,10 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(180000)
 
-        for k,v in pairs(_users) do
+        for k, v in pairs(_users) do
             v.SaveUser()
         end
 
-       -- print('Saved all players')
+        -- print('Saved all players')
     end
 end)
-
