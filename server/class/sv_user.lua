@@ -32,7 +32,7 @@ function User(source, identifier, group, playerwarnings, license)
     self.Group = function(value)
         if value ~= nil then
             self._group = value
-            exports.ghmattimysql:execute("UPDATE users SET `group` = ? WHERE `identifier` = ?", { self._group, self.Identifier()})
+            exports.ghmattimysql:execute("UPDATE users SET `group` = ? WHERE `identifier` = ?", { self._group, self.Identifier() })
         end
 
         return self._group
@@ -41,7 +41,7 @@ function User(source, identifier, group, playerwarnings, license)
     self.Playerwarnings = function(value)
         if value ~= nil then
             self._playerwarnings = value
-            exports.ghmattimysql:execute("UPDATE users SET `warnings` = ? WHERE `identifier` = ?", { self._playerwarnings, self.Identifier()})
+            exports.ghmattimysql:execute("UPDATE users SET `warnings` = ? WHERE `identifier` = ?", { self._playerwarnings, self.Identifier() })
         end
 
         return self._playerwarnings
@@ -50,13 +50,6 @@ function User(source, identifier, group, playerwarnings, license)
     self.GetUser = function()
         local character, userCharacters, userData = {}, {}, {}
 
-        --if self._usercharacters[self.usedCharacterId] then
-         --   character = self._usercharacters[self.usedCharacterId].getCharacter()
-        --end
-
-        --for k,v in ipairs(self._usercharacters) do
-        --    table.insert(userCharacters, v.getCharacter())
-        --end
 
         userData.getIdentifier = function()
             return self.Identifier()
@@ -106,7 +99,7 @@ function User(source, identifier, group, playerwarnings, license)
 
     self.UsedCharacter = function()
         if self._usercharacters[self.usedCharacterId] then
-           return self._usercharacters[self.usedCharacterId].getCharacter()
+            return self._usercharacters[self.usedCharacterId].getCharacter()
         end
 
         return {}
@@ -114,18 +107,18 @@ function User(source, identifier, group, playerwarnings, license)
 
     self.UserCharacters = function()
         local userCharacters = {}
-        for k,v in pairs(self._usercharacters) do
+        for k, v in pairs(self._usercharacters) do
             table.insert(userCharacters, v.getCharacter())
         end
         return userCharacters
     end
 
     self.LoadCharacters = function()
-        exports.ghmattimysql:execute("SELECT * FROM characters WHERE identifier =?", {self._identifier}, function(usercharacters)
+        exports.ghmattimysql:execute("SELECT * FROM characters WHERE identifier =?", { self._identifier }, function(usercharacters)
             self.Numofcharacters(#usercharacters)
 
             if #usercharacters > 0 then
-                for k,character in ipairs(usercharacters) do
+                for k, character in ipairs(usercharacters) do
                     if character['identifier'] ~= nil then
                         local newCharacter = Character(self.source, self._identifier, character["charidentifier"], character["group"], character["job"], character["jobgrade"], character["firstname"], character["lastname"], character["inventory"], character["status"], character["coords"], character["money"], character["gold"], character["rol"], character["xp"], character["isdead"], character["skinPlayer"], character["compPlayer"])
 
@@ -140,7 +133,7 @@ function User(source, identifier, group, playerwarnings, license)
 
     self.addCharacter = function(firstname, lastname, skin, comps)
         local newChar = Character(self.source, self._identifier, -1, Config.initGroup, Config.initJob, Config.initJobGrade, firstname, lastname, "{}", "{}", "{}", Config.initMoney, Config.initGold, Config.initRol, Config.initXp, false, skin, comps)
-        
+
         newChar.SaveNewCharacterInDb(function(id)
             newChar.CharIdentifier(id)
             self._usercharacters[id] = newChar
@@ -171,7 +164,7 @@ function User(source, identifier, group, playerwarnings, license)
     end
 
     self.SaveUser = function()
-        for k,character in pairs(self._usercharacters) do
+        for k, character in pairs(self._usercharacters) do
             character.SaveCharacterInDb()
         end
     end

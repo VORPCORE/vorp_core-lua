@@ -1,5 +1,3 @@
-
-
 AddEventHandler('vorp:getCharacter', function(player, cb)
     local sid = GetSteamID(player)
 
@@ -66,7 +64,7 @@ AddEventHandler('getCore', function(cb)
 
     coreData.getUser = function(source)
         if source == nil then return nil end
-            
+
         local sid = GetSteamID(source)
 
         if _users[sid] then
@@ -91,8 +89,6 @@ AddEventHandler('getCore', function(cb)
     coreData.sendLog = function(msg, type)
         --Nothing
     end
-    
+
     cb(coreData)
 end)
-
-
