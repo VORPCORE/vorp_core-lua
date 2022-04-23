@@ -41,6 +41,10 @@ exports('vorpAPI',function()
     self.setJob = function(source,jobname)
         TriggerEvent("vorp:setJob",source,jobname)
     end
+
+    self.setJobGrade = function(source,jobgrade)
+        TriggerEvent("vorp:setJobGrade",source,jobgrade)
+    end
     
     self.setGroup = function(source,groupname)
         TriggerEvent("vorp:setGroup",source,groupname)
