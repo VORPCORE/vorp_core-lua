@@ -225,6 +225,10 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         self.Job(newjob)
     end
 
+    self.setJobGrade = function(jobgrade)
+        self.Jobgrade(jobgrade)
+    end
+
     self.setGroup = function(newgroup)
         self.Group(newgroup)
     end
