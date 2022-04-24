@@ -4,8 +4,8 @@ AddEventHandler('vorp:NotifyLeft', function(title, text, dic, icon, duration)
    exports.vorp_core:DisplayLeftNotification(tostring(title), tostring(text), tostring(dic), tostring(icon), tonumber(duration))
 end)
 
-RegisterNetEvent('vorp:NotifyTop '  )
-AddEventHandler('vorp:NotifyTop',    function(text, location, duration)
+RegisterNetEvent('vorp:NotifyTop')
+AddEventHandler('vorp:NotifyTop', function(text, location, duration)
        exports.vorp_core:DisplayTopCenterNotification(tostring(text),tostring(location), tonumber(duration))
 end) 
 
@@ -31,7 +31,7 @@ AddEventHandler('vorp:PlaySoundFrontEnd', function(category,name)
 	PlayFrontendSound(category,name)
 end)
 
-RegisterNetEvent('vorp: ')
+RegisterNetEvent('vorp:ShowAdvancedRightNotification')
 AddEventHandler('vorp:ShowAdvancedRightNotification', function(text, dict, icon, text_color, duration)
     local _dict = dict
     local _icon = icon
