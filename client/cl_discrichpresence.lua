@@ -4,10 +4,10 @@ local playercount
 Citizen.CreateThread(function()
 	while true do
        
-		SetDiscordAppId(Config.appid)
+	SetDiscordAppId(Config.appid)
 
         
-		SetDiscordRichPresenceAsset(Config.biglogo)
+	SetDiscordRichPresenceAsset(Config.biglogo)
 
 
         SetDiscordRichPresenceAssetText(Config.biglogodesc)
@@ -18,7 +18,7 @@ Citizen.CreateThread(function()
         -- hover text for the "small" icon.(OPTIONAL)
         SetDiscordRichPresenceAssetSmallText(Config.smalllogodesc)
 
-        SetDiscordRichPresenceAction(0, "Join Discord", Config.discordlink)
+        SetDiscordRichPresenceAction(0, Config.richpresencebutton, Config.discordlink)
         
         TriggerServerEvent("vorprich:getplayers")
         while playercount == nil do 
@@ -31,7 +31,7 @@ Citizen.CreateThread(function()
         else
             SetRichPresence(playercount.."/"..Config.maxplayers)
         end
-		Citizen.Wait(60000) -- 1 min update
+	Citizen.Wait(60000) -- 1 min update
         playercount = nil
 	end
 end)
