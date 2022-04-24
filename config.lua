@@ -134,6 +134,7 @@ Config = {
   smalllogo = "smallboy", -- image assets name for the "small" icon.(OPTIONAL)
   smalllogodesc = "Join us for a good time", -- text when hover over image
   discordlink = "https://discord.gg/", -- discord link
+  richpresencebutton = "Join Discord", --set button text for Rich Presence Button
   shownameandid = true, --show player steam name and id
 
 
