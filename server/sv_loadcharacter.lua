@@ -10,7 +10,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
 
     if characters[sid] == nil then
         characters[sid] = Character(source, sid, nil, "user", "unemployed", nil, nil, nil, "{}")
-        
+
         TriggerClientEvent("vorpcharacter:createPlayer", source)
     else
         local pos = json.decode(characters[sid].Coords())

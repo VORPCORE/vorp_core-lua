@@ -1,5 +1,3 @@
-
-
 AddEventHandler('vorp:getCharacter', function(player, cb)
     local sid = GetSteamID(player)
 
@@ -44,11 +42,12 @@ AddEventHandler('vorp:removeXp', function(player, quantity)
     end
 end)
 
-AddEventHandler('vorp:setJob', function(player, job)
+AddEventHandler('vorp:setJob', function(player, job, jobgrade)
     local sid = GetSteamID(player)
 
     if _users[sid] ~= nil then
         _users[sid].GetUsedCharacter().setJob(job)
+        _users[sid].GetUsedCharacter().setJobGrade(jobgrade)
     end
 end)
 
@@ -65,7 +64,7 @@ AddEventHandler('getCore', function(cb)
 
     coreData.getUser = function(source)
         if source == nil then return nil end
-            
+
         local sid = GetSteamID(source)
 
         if _users[sid] then
@@ -90,8 +89,6 @@ AddEventHandler('getCore', function(cb)
     coreData.sendLog = function(msg, type)
         --Nothing
     end
-    
+
     cb(coreData)
 end)
-
-
