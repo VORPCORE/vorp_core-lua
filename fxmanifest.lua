@@ -29,5 +29,5 @@ ui_page 'ui/hud.html'
 --dont touch
 version '1.0'
 vorp_checker 'yes'
-vorp_name '^4Self Check'
+vorp_name '^4Self Check^3'
 vorp_github 'https://github.com/VORPCORE/vorp-core-lua'
