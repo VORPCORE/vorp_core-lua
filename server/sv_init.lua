@@ -104,7 +104,7 @@ end
 function Checker()
 
     print("^3VORPcore Version check ")
-    print("^4Resources found")
+    print("^2Resources found")
     print('')
     for i, v in pairs(ScriptList) do
         if string.find(v.NewestVersion, v.Version) then
