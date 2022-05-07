@@ -32,17 +32,17 @@ Config = {
   ---------------------------- WEBHOOK FOR EACH LOG -----------------------------
   --CHANGE THE LINKS
 
-  SetgroupWebhook   = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --SETJOB
-  SetjobWebhook     = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --SETGROUP
-  AddmoneyWebhook   = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --ADDMONEY
-  DelMoneyWebhook   = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --DELMONEY
-  AddItemsWebhook   = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --ADDITEMS
-  AddWeaponsWebhook = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --ADDWEAPONS
-  DelWagonsWebhook  = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --DELWAGONS
-  TpmWebhook        = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --TPM
-  DelHorseWebhook   = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --DELHORSE
-  HealPlayerWebhook = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --HEALPLAYER
-  ReviveWebhook     = "https://discord.com/api/webhooks/952537644259221544/EdqpLMoDJJx0b-eXJJn3m4cOUhktW21YY2nr-8pq8XEbsMZYEYbL8t6LO5dIzavr9tzE", --REVIVE
+  SetgroupWebhook   = "", --SETJOB
+  SetjobWebhook     = "", --SETGROUP
+  AddmoneyWebhook   = "", --ADDMONEY
+  DelMoneyWebhook   = "", --DELMONEY
+  AddItemsWebhook   = "", --ADDITEMS
+  AddWeaponsWebhook = "", --ADDWEAPONS
+  DelWagonsWebhook  = "", --DELWAGONS
+  TpmWebhook        = "", --TPM
+  DelHorseWebhook   = "", --DELHORSE
+  HealPlayerWebhook = "", --HEALPLAYER
+  ReviveWebhook     = "", --REVIVE
 
   ------------------------------------------------------------------------------
   ---------------------------- VOICE -------------------------------------------
