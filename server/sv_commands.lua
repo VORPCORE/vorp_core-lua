@@ -178,7 +178,7 @@ RegisterCommand("additems", function(source, args, rawCommand)
                 VORP.addItem(id, item, count)
                 TriggerEvent("vorp:addItemsWebhook", "📋` /additems command` ", message, color)
             else
-                TriggerClientEvent("vorp:Tip", source, Config.Langs["NoPermissions"], 4000)
+                TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
             end
         end
     end)
