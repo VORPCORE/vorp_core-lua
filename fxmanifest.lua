@@ -25,3 +25,8 @@ files {
 }
 
 ui_page 'ui/hud.html'
+
+version '1.0'
+vorp_checker 'yes'
+vorp_name '^4Self Check'
+vorp_github 'https://github.com/outsider31000/vorp-core-lua'
