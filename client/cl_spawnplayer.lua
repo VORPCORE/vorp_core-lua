@@ -57,7 +57,7 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
     local player = PlayerPedId()
     local playerCoords, playerHeading = GetEntityCoords(player, true, true), GetEntityHeading(player)
     local playerId = PlayerId()
-    TriggerServerEvent("vorp:saveLastCoords", playerCoords, playerHeading)
+    --TriggerServerEvent("vorp:saveLastCoords", playerCoords, playerHeading)
         
     firstSpawn = false
 
