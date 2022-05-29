@@ -9,7 +9,7 @@ shared_scripts {
 }
 
 client_scripts {
-  'client/Notifications.js',
+  'client/Notifications.lua',
   'client/cl_*.lua',
 }
 
