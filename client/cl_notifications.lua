@@ -62,12 +62,12 @@ AddEventHandler('vorp:ShowBottomRight', function(text, duration)
     exports.vorp_core:showBottomRight(tostring(text), tonumber(duration))
 end)
 
---new not working
+--new
 
---[[RegisterNetEvent('vorp:failmissioNotifY')
+RegisterNetEvent('vorp:failmissioNotifY')
 AddEventHandler('vorp:failmissioNotifY', function(title, subtitle, duration)
     exports.vorp_core:failmissioNotifY(tostring(title), tostring(subtitle), tonumber(duration))
-end)]]
+end)
 
 --new
 RegisterNetEvent('vorp:deadplayerNotifY')
@@ -111,5 +111,5 @@ end)
 --TriggerEvent('vorp:ShowBottomRight', "your text", 4000)
 --TriggerEvent('vorp:failmissioNotifY', "your text", "msg", 4000)
 --TriggerEvent('vorp:deadplayerNotifY', title, audioRef, audioName, duration)
---TriggerEvent('vorp:updatemissioNotify', notifid, utitle, umsg, duration)
+--TriggerEvent('vorp:updatemissioNotify', notifid, "title ", "msg , duration) notifid leave it like that.
 --TriggerEvent('vorp:warningNotify', title, msg, audioRef, audioName, duration)
