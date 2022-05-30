@@ -97,7 +97,7 @@ end)
 
 -- how to use
 --
--- TriggerEvent('vorp:NotifyLeft', "first text", "second text", "generic_textures", "tick", 4000)
+-- TriggerEvent('vorp:NotifyLeft', "first text", "second text", "generic_textures", "tick", 4000, "COLOR_WHITE")
 -- TriggerEvent('vorp:Tip', "your text", 4000)
 -- TriggerEvent('vorp:NotifyTop', "your text", "TOWN_ARMADILLO", 4000)
 -- TriggerEvent('vorp:TipRight', "your text",  4000)
