@@ -148,6 +148,8 @@ function HealPlayer()
     Citizen.InvokeNative(0xC6258F41D86676E0, closestPlayerPed, 1, newStamina) 
     -------- set health ------------
     SetEntityHealth(closestPlayerPed, newHealth2)
+    TriggerEvent("vorpmetabolism:setValue", "Thirst", 1000)
+    TriggerEvent("vorpmetabolism:setValue", "Hunger", 1000)
 end
 
 function delHorse()
