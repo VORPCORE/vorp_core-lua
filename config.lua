@@ -12,11 +12,11 @@ Config = {
   initJob                  = "unemployed", -- leave it like this
   initJobGrade             = 0, -- leave it like this
   initGroup                = "user", -- leave it like this
-  Whitelist                = false, -- LEAVE TO FALSE IT'S NOT WORKING
+  Whitelist                = false, 
   AllowWhitelistAutoUpdate = false,
-  MaxCharacters            = 5, --MAX ALLOWED TO BE CREATED
-  maxHealth                = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
-  maxStamina               = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
+  MaxCharacters            = 1, --MAX ALLOWED TO BE CREATED
+  maxHealth                = 5, -- 10 is FULL 0 IS EMPTY define max outer core for players
+  maxStamina               = 1, -- 10 is FULL 0 IS EMPTY define max outer core for players
 
   ------------------------------------------------------------------------------
   ------------------------------ WEBHOOKS --------------------------------------
@@ -43,11 +43,12 @@ Config = {
   DelHorseWebhook   = "", --DELHORSE
   HealPlayerWebhook = "", --HEALPLAYER
   ReviveWebhook     = "", --REVIVE
+  WhitelistWebhook  = "", --WHITELIST
 
   ------------------------------------------------------------------------------
   ---------------------------- VOICE -------------------------------------------
-  ActiveVoiceChat   = false,
-  KeySwapVoiceRange = 0x80F28E95, --[L] KEY
+  ActiveVoiceChat   = true,
+  KeySwapVoiceRange = 0xD82E0BD2, --[P] KEY
   DefaultVoiceRange = 5.0,
   VoiceRanges       = { 2.0, 5.0, 12.0 },
 
@@ -55,20 +56,20 @@ Config = {
   ------------------------- SHOW OR HIDE UI's ----------------------------------
 
   HideUi          = true, --show or hide the UI includes  gold cash ID and level bar  the cash gold ID are now being displayed in the inventory. you can disable this one if yo u like it more
-  mapTypeOnFoot   = 3, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on foot
-  mapTypeOnMount  = 3, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on horse
-  enableTypeRadar = false, --- if true the above will work, if false players can choose their radar type in the game settings.
+  mapTypeOnFoot   = 0, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on foot
+  mapTypeOnMount  = 0, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on horse
+  enableTypeRadar = true, --- if true the above will work, if false players can choose their radar type in the game settings.
 
   -------------------------------------------------------------------------------
   ------------------------------- RESPAWN ---------------------------------------
 
-  RespawnTime = 10, --seconds
+  RespawnTime = 300, --seconds
   RespawnKey = 0xDFF812F9, --[E] KEY
   RespawnTitleFont = 1, -- for the draw text message
   RespawnSubTitleFont = 1, -- for the draw text message sub title font
   CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned
   ShowUiDeath = true, -- show or hide the UI if player is dead
-  camDeath = false, -- enable or disable the camera death function
+  camDeath = true, -- enable or disable the camera death function
   sprite = true, --- enable text with sprite or disable
   spriteGrey = false, -- if set to false will enable RED sprite true will be grey
 
@@ -112,7 +113,7 @@ Config = {
   -----------------------------------------------------------------------------
   HeadId = false,
   HeadIdDistance = 15,
-  ModeKey = true,
+  ModeKey = false,
   KeyShowIds = "0x8CC9CD42", -- Press X
   ActiveEagleEye = true,
   ActiveDeadEye = false,
@@ -127,7 +128,7 @@ Config = {
 
   --------------------------------------------------------------------------------------
   -----------------------------BUILT IN RICH PRESENCE DISCORD --------------------------
-  maxplayers = 128, -- change to the number of players that can get in to your server
+  maxplayers = 32, -- change to the number of players that can get in to your server
   appid = nil, -- Application ID (Replace this with you own)
   biglogo = "synred", -- image assets name for the "large" icon.
   biglogodesc = " Redm Server Connect: ", -- text when hover over image
@@ -143,7 +144,7 @@ Config = {
   Langs = {
     IsConnected        = "🚫 Duplicated account connected (steam | rockstar)",
     NoSteam            = "🚫 You have to have Steam open, please open Steam & restart RedM",
-    NoInWhitelist      = "🚫 You are not in the Whitelist",
+    NoInWhitelist      = "🚫 You are not in the Whitelist. Send in discord channel #user-id your user-id: ",
     NoPermissions      = "You don't have enough permissions",
     CheckingIdentifier = "Checking Identifiers",
     LoadingUser        = "Loading User",
