@@ -47,8 +47,8 @@ Config = {
 
   ------------------------------------------------------------------------------
   ---------------------------- VOICE -------------------------------------------
-  ActiveVoiceChat   = true,
-  KeySwapVoiceRange = 0xD82E0BD2, --[P] KEY
+  ActiveVoiceChat   = false,
+  KeySwapVoiceRange = 0x80F28E95, --[L] KEY
   DefaultVoiceRange = 5.0,
   VoiceRanges       = { 2.0, 5.0, 12.0 },
 
@@ -56,20 +56,20 @@ Config = {
   ------------------------- SHOW OR HIDE UI's ----------------------------------
 
   HideUi          = true, --show or hide the UI includes  gold cash ID and level bar  the cash gold ID are now being displayed in the inventory. you can disable this one if yo u like it more
-  mapTypeOnFoot   = 0, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on foot
-  mapTypeOnMount  = 0, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on horse
-  enableTypeRadar = true, --- if true the above will work, if false players can choose their radar type in the game settings.
+  mapTypeOnFoot   = 3, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on foot
+  mapTypeOnMount  = 3, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on horse
+  enableTypeRadar = false, --- if true the above will work, if false players can choose their radar type in the game settings.
 
   -------------------------------------------------------------------------------
   ------------------------------- RESPAWN ---------------------------------------
 
-  RespawnTime = 300, --seconds
+  RespawnTime = 10, --seconds
   RespawnKey = 0xDFF812F9, --[E] KEY
   RespawnTitleFont = 1, -- for the draw text message
   RespawnSubTitleFont = 1, -- for the draw text message sub title font
   CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned
   ShowUiDeath = true, -- show or hide the UI if player is dead
-  camDeath = true, -- enable or disable the camera death function
+  camDeath = false, -- enable or disable the camera death function
   sprite = true, --- enable text with sprite or disable
   spriteGrey = false, -- if set to false will enable RED sprite true will be grey
 
@@ -113,7 +113,7 @@ Config = {
   -----------------------------------------------------------------------------
   HeadId = false,
   HeadIdDistance = 15,
-  ModeKey = false,
+  ModeKey = true,
   KeyShowIds = "0x8CC9CD42", -- Press X
   ActiveEagleEye = true,
   ActiveDeadEye = false,
@@ -128,7 +128,7 @@ Config = {
 
   --------------------------------------------------------------------------------------
   -----------------------------BUILT IN RICH PRESENCE DISCORD --------------------------
-  maxplayers = 32, -- change to the number of players that can get in to your server
+  maxplayers = 128, -- change to the number of players that can get in to your server
   appid = nil, -- Application ID (Replace this with you own)
   biglogo = "synred", -- image assets name for the "large" icon.
   biglogodesc = " Redm Server Connect: ", -- text when hover over image
