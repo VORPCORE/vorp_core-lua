@@ -14,9 +14,9 @@ Config = {
   initGroup                = "user", -- leave it like this
   Whitelist                = false, 
   AllowWhitelistAutoUpdate = false,
-  MaxCharacters            = 1, --MAX ALLOWED TO BE CREATED
-  maxHealth                = 5, -- 10 is FULL 0 IS EMPTY define max outer core for players
-  maxStamina               = 1, -- 10 is FULL 0 IS EMPTY define max outer core for players
+  MaxCharacters            = 5, --MAX ALLOWED TO BE CREATED
+  maxHealth                = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
+  maxStamina               = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
 
   ------------------------------------------------------------------------------
   ------------------------------ WEBHOOKS --------------------------------------
