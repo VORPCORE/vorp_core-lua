@@ -56,7 +56,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
     end
     Wait(10000) -- wait to load in 
     ExecuteCommand("rc") -- reload clothing
-    Wait(2000)
+    Wait(8000)
     ShutdownLoadingScreen()
 end)
 
