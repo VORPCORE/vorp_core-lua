@@ -161,6 +161,9 @@ Config = {
     mustBeSeated       = "VORP: You must be in the driver's seat!",
     wagonInFront       = "VORP: You must be seated or near a wagon to delete it!",
     cantCarry          = "VORP: Can't carry more weapons!",
+    Hold               = "HOLD ON!!",
+    Load               = "You are loading in",
+    Almost             = "Almost there..."
   },
 
 
