@@ -3,9 +3,10 @@ DROP TABLE IF EXISTS `whitelist`;
 CREATE TABLE `whitelist`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `status` boolean,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `identifier`(`identifier`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,

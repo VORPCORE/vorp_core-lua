@@ -100,6 +100,11 @@ RegisterServerEvent('vorp:healPlayerWebhook')
 AddEventHandler('vorp:healPlayerWebhook', function(title, description, text, color)
     Discord(Config.HealPlayerWebhook, title, description, text, color)
 end)
+
+RegisterServerEvent('vorp:whitelistWebhook')
+AddEventHandler('vorp:whitelistWebhook', function(title, description, text, color)
+    Discord(Config.WhitelistWebhook, title, description, text, color)
+end)
 -----------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------ RICH PRESENCE --------------------------------------------------------
 RegisterServerEvent("vorprich:getplayers")

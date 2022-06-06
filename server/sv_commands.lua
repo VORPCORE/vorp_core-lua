@@ -360,6 +360,65 @@ RegisterCommand("healplayer", function(source, args, rawCommand)
 end, false)
 
 ---------------------------------------------------------------------------------------------------------
+----------------------------------- WHITELIST ACTIONS =--------------------------------------------------
+
+RegisterCommand("wlplayer", function(source, args, rawCommand)
+    local _source = source
+    if _source > 0 then -- it's a player.
+        TriggerEvent("vorp:getCharacter", _source, function(user)
+            local target = tonumber(args[1])
+            local Identifier = GetPlayerIdentifier(_source)
+            local discordIdentity = GetIdentity(_source, "discord")
+            local discordId = string.sub(discordIdentity, 9)
+            local steamName = GetPlayerName(_source)
+            local text = "Was whitelisted"
+            local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. target .. "`\n **Action:** `" .. text .. "`"
+            if args then
+                if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                    TriggerEvent("vorp:whitelistWebhook", "📋` /wlplayer command` ", message, color)
+                    TriggerEvent("vorp:whitelistPlayer", target)
+                else
+                    TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
+                end
+            end
+            
+        end)
+    else
+        local target = tonumber(args[1])
+
+        TriggerEvent("vorp:whitelistPlayer", target)
+    end
+end)
+
+RegisterCommand("unwlplayer", function(source, args, rawCommand)
+    local _source = source
+    if _source > 0 then -- it's a player.
+        TriggerEvent("vorp:getCharacter", _source, function(user)
+            local target = tonumber(args[1])
+            local Identifier = GetPlayerIdentifier(_source)
+            local discordIdentity = GetIdentity(_source, "discord")
+            local discordId = string.sub(discordIdentity, 9)
+            local steamName = GetPlayerName(_source)
+            local text = "was unwhitelisted"
+            local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. target .. "`\n **Action:** `" .. text .. "`"
+            if args then
+                if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                    TriggerEvent("vorp:whitelistWebhook", "📋` /unwlplayer command` ", message, color)
+                    TriggerEvent("vorp:unwhitelistPlayer", target)
+                else
+                    TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
+                end
+            end
+            
+        end)
+    else
+        local target = tonumber(args[1])
+
+        TriggerEvent("vorp:unwhitelistPlayer", target)
+    end
+end)
+
+---------------------------------------------------------------------------------------------------------
 ----------------------------------- CHAT ADD SUGGESTION --------------------------------------------------
 
 -- TRANSLATE HERE
@@ -428,6 +487,15 @@ AddEventHandler("vorp:chatSuggestion", function()
     TriggerClientEvent("chat:addSuggestion", _source, "/healplayer", " VORPcore command to heal players.", {
         { name = "Id", help = 'player ID' },
     })
+
+    TriggerClientEvent("chat:addSuggestion", _source, "/wlplayer", " VORPcore command to add players to whitelist.", {
+        { name = "Id", help = 'player ID from Discord user-id' },
+    })
+
+    TriggerClientEvent("chat:addSuggestion", _source, "/unwlplayer", " VORPcore command to remove players from whitelist.", {
+        { name = "Id", help = 'player ID from Discord user-id' },
+    })
+
 
 
 end)

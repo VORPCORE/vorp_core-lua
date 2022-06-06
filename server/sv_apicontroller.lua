@@ -59,6 +59,14 @@ AddEventHandler('vorp:setGroup', function(player, group)
     end
 end)
 
+AddEventHandler('vorp:whitelistPlayer', function(id)
+    AddUserToWhitelistById(id)
+end)
+
+AddEventHandler('vorp:unwhitelistPlayer', function(id)
+    RemoveUserFromWhitelistById(id)
+end)
+
 AddEventHandler('getCore', function(cb)
     local coreData = {}
 

@@ -12,7 +12,7 @@ Config = {
   initJob                  = "unemployed", -- leave it like this
   initJobGrade             = 0, -- leave it like this
   initGroup                = "user", -- leave it like this
-  Whitelist                = false, -- LEAVE TO FALSE IT'S NOT WORKING
+  Whitelist                = false, 
   AllowWhitelistAutoUpdate = false,
   MaxCharacters            = 5, --MAX ALLOWED TO BE CREATED
   maxHealth                = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
@@ -43,6 +43,7 @@ Config = {
   DelHorseWebhook   = "", --DELHORSE
   HealPlayerWebhook = "", --HEALPLAYER
   ReviveWebhook     = "", --REVIVE
+  WhitelistWebhook  = "", --WHITELIST
 
   ------------------------------------------------------------------------------
   ---------------------------- VOICE -------------------------------------------
@@ -143,7 +144,7 @@ Config = {
   Langs = {
     IsConnected        = "🚫 Duplicated account connected (steam | rockstar)",
     NoSteam            = "🚫 You have to have Steam open, please open Steam & restart RedM",
-    NoInWhitelist      = "🚫 You are not in the Whitelist",
+    NoInWhitelist      = "🚫 You are not in the Whitelist. Send in discord channel #user-id your user-id: ",
     NoPermissions      = "You don't have enough permissions",
     CheckingIdentifier = "Checking Identifiers",
     LoadingUser        = "Loading User",
