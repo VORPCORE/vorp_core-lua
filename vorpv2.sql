@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS `characters`;
 CREATE TABLE `characters`  (
   `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `charidentifier` int(11) NOT NULL AUTO_INCREMENT,
+   `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `group` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT 'user',
   `money` double(11, 2) NULL DEFAULT 0,
   `gold` double(11, 2) NULL DEFAULT 0,
