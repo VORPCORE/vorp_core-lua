@@ -37,7 +37,7 @@ end
 ------------------------------ SPAWN PLAYER ----------------------------------------
 
 RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
-    local player = PlayerPedId()
+
 
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost)
 
@@ -51,14 +51,29 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
         else
             Citizen.Wait(8000) -- this is needed to ensure the player has enough time to load in their character before it kills them. other wise they revive when the character loads in
             TriggerEvent("vorp_inventory:CloseInv")
-            SetEntityHealth(player, 0, 0)
+            SetEntityHealth(PlayerPedId(), 0, 0)
         end
+    else
+        Wait(10000) -- wait to load in 
+        ExecuteCommand("rc") -- reload clothing
+        Wait(5000)
+        ShutdownLoadingScreen()
+        ------- to make sure health and stamina are filled ----------
+        Wait(11000)
+        local health = GetAttributeCoreValue(PlayerPedId(), 0)
+        local newHealth = health + 100
+        local stamina = GetAttributeCoreValue(PlayerPedId(), 1)
+        local newStamina = stamina + 100
+        Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 0, newHealth)
+        Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 1, newStamina)
+        SetEntityHealth(PlayerPedId(), newHealth)
+
     end
-    Wait(10000) -- wait to load in 
-    ExecuteCommand("rc") -- reload clothing
-    Wait(8000)
-    ShutdownLoadingScreen()
+
+
+
 end)
+
 
 
 RegisterNetEvent('vorp:SelectedCharacter', function()
