@@ -62,3 +62,14 @@ function TeleportToCoords(x, y, z, heading)
     SetEntityCoords(playerPedId, x, y, z, true, true, true, false)
     if heading ~= nil then SetEntityHeading(playerPedId, heading) end
 end
+
+--- show playerd ID prompt when focus on players
+Citizen.CreateThread(function()
+    while true do
+        Wait(500)
+        for _, player in ipairs(GetActivePlayers()) do
+            local ped = GetPlayerPed(player)
+            SetPedPromptName(ped, "Player ID " .. tostring(GetPlayerServerId(player)))
+        end
+    end
+end)
