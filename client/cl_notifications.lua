@@ -100,7 +100,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(10)
         local event = GetNumberOfEvents(0)
         if event > 0 then
-            for i = 0, size - 1 do
+            for i = 0, event - 1 do
                 local eventAtIndex = GetEventAtIndex(0, i)
                 if eventAtIndex == GetHashKey("EVENT_CHALLENGE_GOAL_COMPLETE") or eventAtIndex == GetHashKey("EVENT_CHALLENGE_REWARD") or eventAtIndex == GetHashKey("EVENT_DAILY_CHALLENGE_STREAK_COMPLETED") then
                     Citizen.InvokeNative(0x6035E8FBCA32AC5E)
