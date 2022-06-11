@@ -1,3 +1,15 @@
+<1.2>
+- Bans and warns
+- update 
+-   cl_adminactions.lua
+-   sv_commands.lua
+-   sv_bans.lua
+-   sv_logs.lua
+-   sv_whitelist.lua
+-   sv_loadusers.lua
+-   vorpv2.sql
+-   config.lua file 
+- update fxmanifest.lua if you dont the version check will fail
 <1.1>
 - fix for incorrect data when player crashes when in selectchar area
 - update cl_spanwplayer.lua file 

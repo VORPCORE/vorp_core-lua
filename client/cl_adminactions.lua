@@ -162,6 +162,25 @@ function delHorse()
 end
 
 
+
+function BanPlayerByUserId(target, banTime)
+    TriggerServerEvent("vorpbans:addtodb", true, target, banTime)
+end
+
+function UnbanPlayerByUserId(target)
+    TriggerServerEvent("vorpbans:addtodb", false, target, 0)
+end
+
+function WarnPlayerByUserId(target)
+    TriggerServerEvent("vorpwarns:addtodb", true, target)
+end
+
+function UnwarnPlayerByUserId(target)
+    TriggerServerEvent("vorpwarns:addtodb", false, target)
+end
+
+
+
 RegisterNetEvent('vorp:deleteVehicle')
 AddEventHandler('vorp:deleteVehicle', function(radius)
     local player = PlayerPedId()
@@ -219,4 +238,24 @@ end)
 RegisterNetEvent('vorp:heal')
 AddEventHandler('vorp:heal', function()
     HealPlayer()
+end)
+
+RegisterNetEvent('vorp:ban')
+AddEventHandler('vorp:ban', function(target, banTime)
+    BanPlayerByUserId(target, banTime)
+end)
+
+RegisterNetEvent('vorp:unban')
+AddEventHandler('vorp:unban', function(target)
+    UnbanPlayerByUserId(target)
+end)
+
+RegisterNetEvent('vorp:warn')
+AddEventHandler('vorp:warn', function(target)
+    WarnPlayerByUserId(target)
+end)
+
+RegisterNetEvent('vorp:unwarn')
+AddEventHandler('vorp:unwarn', function(target)
+    UnwarnPlayerByUserId(target)
 end)
