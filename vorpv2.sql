@@ -1,6 +1,4 @@
-
-DROP TABLE IF EXISTS `whitelist`;
-CREATE TABLE `whitelist`  (
+CREATE TABLE IF NOT EXISTS `whitelist`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `status` boolean,
@@ -19,8 +17,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-DROP TABLE IF EXISTS `characters`;
-CREATE TABLE `characters`  (
+CREATE TABLE IF NOT EXISTS `characters`  (
   `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `charidentifier` int(11) NOT NULL AUTO_INCREMENT,
   `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
@@ -43,3 +40,12 @@ CREATE TABLE `characters`  (
   INDEX `charidentifier`(`charidentifier`) USING BTREE,
   CONSTRAINT `FK_characters_users` FOREIGN KEY (`identifier`) REFERENCES `users` (`identifier`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
+
+
+-------------ANY NEW UPDATES TO THE TABLES ABOVE NEED TO HAVE TABLE ALTERS ALSO ADDED BELOW FOR THOSE WHO ALREADY HAVE SERVERS RUNNING.
+-- The following updates tables that were not included in the original table (Support for those who already have the tables above)
+ALTER TABLE `users` ALTER COLUMN  `banned` boolean;
+ALTER TABLE `users` ADD `banneduntil` int(10) DEFAULT 0;
+ALTER TABLE `whitelist` ADD `status` boolean
+
+
