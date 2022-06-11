@@ -370,9 +370,10 @@ RegisterCommand("wlplayer", function(source, args, rawCommand)
             local Identifier = GetPlayerIdentifier(_source)
             local discordIdentity = GetIdentity(_source, "discord")
             local discordId = string.sub(discordIdentity, 9)
+            local ip = GetPlayerEndpoint(_source)
             local steamName = GetPlayerName(_source)
             local text = "Was whitelisted"
-            local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. target .. "`\n **Action:** `" .. text .. "`"
+            local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
             if args then
                 if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
                     TriggerEvent("vorp:whitelistWebhook", "📋` /wlplayer command` ", message, color)
@@ -399,8 +400,9 @@ RegisterCommand("unwlplayer", function(source, args, rawCommand)
             local discordIdentity = GetIdentity(_source, "discord")
             local discordId = string.sub(discordIdentity, 9)
             local steamName = GetPlayerName(_source)
-            local text = "was unwhitelisted"
-            local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. target .. "`\n **Action:** `" .. text .. "`"
+            local ip = GetPlayerEndpoint(_source)
+            local text = "Was unwhitelisted"
+            local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
             if args then
                 if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
                     TriggerEvent("vorp:whitelistWebhook", "📋` /unwlplayer command` ", message, color)
@@ -417,6 +419,104 @@ RegisterCommand("unwlplayer", function(source, args, rawCommand)
         TriggerEvent("vorp:unwhitelistPlayer", target)
     end
 end)
+
+---------------------------------------------------------------------------------------------------------
+--------------------------------------- BANS - WARNS ----------------------------------------------------
+RegisterCommand("ban", function(source, args, rawCommand)
+    local _source = source
+    TriggerEvent("vorp:getCharacter", _source, function(user)
+        local target = tonumber(args[1])
+        local banTime = tonumber(args[2])
+        local datetime = os.time(os.date("!*t"))
+        datetime = datetime + banTime*3600
+        local Identifier = GetPlayerIdentifier(_source)
+        local discordIdentity = GetIdentity(_source, "discord")
+        local discordId = string.sub(discordIdentity, 9)
+        local ip = GetPlayerEndpoint(_source)
+        local steamName = GetPlayerName(_source)
+        local text = "Was banned"
+        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+        if args then
+            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                TriggerEvent("vorp:banWarnWebhook", "📋` /ban command` ", message, color)
+                TriggerClientEvent("vorp:ban", _source, target, datetime)
+            else
+                TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
+            end
+        end
+        
+    end)
+end)
+
+RegisterCommand("unban", function(source, args, rawCommand)
+    local _source = source
+    TriggerEvent("vorp:getCharacter", _source, function(user)
+        local target = tonumber(args[1])
+        local Identifier = GetPlayerIdentifier(_source)
+        local discordIdentity = GetIdentity(_source, "discord")
+        local discordId = string.sub(discordIdentity, 9)
+        local steamName = GetPlayerName(_source)
+        local ip = GetPlayerEndpoint(_source)
+        local text = "Was unbanned"
+        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+        if args then
+            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                TriggerEvent("vorp:banWarnWebhook", "📋` /unban command` ", message, color)
+                TriggerClientEvent("vorp:unban", _source, target)
+            else
+                TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
+            end
+        end
+        
+    end)
+end)
+
+RegisterCommand("warn", function(source, args, rawCommand)
+    local _source = source
+    TriggerEvent("vorp:getCharacter", _source, function(user)
+        local target = tonumber(args[1])
+        local Identifier = GetPlayerIdentifier(_source)
+        local discordIdentity = GetIdentity(_source, "discord")
+        local discordId = string.sub(discordIdentity, 9)
+        local ip = GetPlayerEndpoint(_source)
+        local steamName = GetPlayerName(_source)
+        local text = "Was warned"
+        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+        if args then
+            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                TriggerEvent("vorp:banWarnWebhook", "📋` /warn command` ", message, color)
+                TriggerClientEvent("vorp:warn", _source, target)
+            else
+                TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
+            end
+        end
+        
+    end)
+end)
+
+RegisterCommand("unwarn", function(source, args, rawCommand)
+    local _source = source
+    TriggerEvent("vorp:getCharacter", _source, function(user)
+        local target = tonumber(args[1])
+        local Identifier = GetPlayerIdentifier(_source)
+        local discordIdentity = GetIdentity(_source, "discord")
+        local discordId = string.sub(discordIdentity, 9)
+        local steamName = GetPlayerName(_source)
+        local ip = GetPlayerEndpoint(_source)
+        local text = "Was unwarned"
+        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+        if args then
+            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                TriggerEvent("vorp:banWarnWebhook", "📋` /unwarn command` ", message, color)
+                TriggerClientEvent("vorp:unwarn", _source, target)
+            else
+                TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
+            end
+        end
+        
+    end)
+end)
+
 
 ---------------------------------------------------------------------------------------------------------
 ----------------------------------- CHAT ADD SUGGESTION --------------------------------------------------
@@ -496,6 +596,22 @@ AddEventHandler("vorp:chatSuggestion", function()
         { name = "Id", help = 'player ID from Discord user-id' },
     })
 
+    TriggerClientEvent("chat:addSuggestion", _source, "/ban", " VORPcore command to ban players.", {
+        { name = "Id", help = 'player ID from Discord user-id' },
+        { name = "Time", help = 'Time of ban in hours' },
+    })
+
+    TriggerClientEvent("chat:addSuggestion", _source, "/unban", " VORPcore command to unban players.", {
+        { name = "Id", help = 'player ID from Discord user-id' },
+    })
+
+    TriggerClientEvent("chat:addSuggestion", _source, "/warn", " VORPcore command to warn players.", {
+        { name = "Id", help = 'player ID from Discord user-id' },
+    })
+
+    TriggerClientEvent("chat:addSuggestion", _source, "/unwarn", " VORPcore command to unwarn players.", {
+        { name = "Id", help = 'player ID from Discord user-id' },
+    })
 
 
 end)

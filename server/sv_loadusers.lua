@@ -16,8 +16,15 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
     if #resultList > 0 then
         local user = resultList[1]
         if user["banned"] == 1 then
-            deferrals.done(Config.Langs["BannedUser"])
-            setKickReason(Config.Langs["BannedUser"])
+            local bannedUntilTime = user["banneduntil"]
+            local currentTime = tonumber(os.time(os.date("!*t")))
+            if bannedUntilTime > currentTime then
+                local bannedUntil = os.date(Config.Langs["DateTimeFormat"], bannedUntilTime+Config.TimeZoneDifference*3600)
+                deferrals.done(Config.Langs["BannedUser"]..bannedUntil..Config.Langs["TimeZone"])
+                setKickReason(Config.Langs["BannedUser"]..bannedUntil..Config.Langs["TimeZone"])
+            else
+                TriggerEvent("vorpbans:addtodb", false, IdentifiersToId[identifier], 0)
+            end
         end
 
         _users[identifier] = User(source, identifier, user["group"], user["warnings"], license)

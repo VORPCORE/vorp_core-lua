@@ -105,6 +105,11 @@ RegisterServerEvent('vorp:whitelistWebhook')
 AddEventHandler('vorp:whitelistWebhook', function(title, description, text, color)
     Discord(Config.WhitelistWebhook, title, description, text, color)
 end)
+
+RegisterServerEvent('vorp:banWarnWebhook')
+AddEventHandler('vorp:banWarnWebhook', function(title, description, text, color)
+    Discord(Config.BanWarnWebhook, title, description, text, color)
+end)
 -----------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------ RICH PRESENCE --------------------------------------------------------
 RegisterServerEvent("vorprich:getplayers")

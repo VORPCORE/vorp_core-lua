@@ -1,4 +1,5 @@
-local whitelist, identifiersToId, whitelistActive, currentFreeId = {}, {}, Config.Whitelist, 1
+local whitelist,  whitelistActive, currentFreeId = {}, Config.Whitelist, 1
+IdentifiersToId, IdsToIdentifiers = {}, {}
 
 -- function AddUserToWhitelist(identifier)
 --     local id = identifiersToId[identifier]
@@ -28,7 +29,8 @@ local function LoadWhitelist()
         if #result > 0 then
             for k,v in ipairs(result) do
                 whitelist[v.id] = v.status
-                identifiersToId[v.identifier] = v.id
+                IdsToIdentifiers[v.id] = v.identifier
+                IdentifiersToId[v.identifier] = v.id
             end
             currentFreeId = #whitelist+1
         end
@@ -43,7 +45,8 @@ local function SetUpdateWhitelistPolicy()
             if #result > 0 then
                 for k,v in ipairs(result) do
                     whitelist[v.id] = v.status
-                    identifiersToId[v.identifier] = v.id
+                    IdsToIdentifiers[v.id] = v.identifier
+                    IdentifiersToId[v.identifier] = v.id
                 end
                 currentFreeId = #whitelist+1
             end
@@ -72,11 +75,11 @@ function GetLicenseID(src)
 end
 
 function InsertIntoWhitelist(identifier)
-    if identifiersToId[identifier] then
-        return identifiersToId[identifier]
+    if IdentifiersToId[identifier] then
+        return IdentifiersToId[identifier]
     end
 
-    identifiersToId[identifier] = currentFreeId
+    IdentifiersToId[identifier] = currentFreeId
     whitelist[currentFreeId] = false
 
     exports.ghmattimysql:execute("INSERT INTO whitelist (identifier, status) VALUES (@identifier, @status)", {['@identifier'] = identifier, ['@status']=false}, function(result) end)
@@ -111,7 +114,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     end
 
     if whitelistActive then
-        playerWlId = identifiersToId[steamIdentifier]
+        playerWlId = IdentifiersToId[steamIdentifier]
         if whitelist[playerWlId] then
             deferrals.done()
             userEntering = true

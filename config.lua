@@ -12,7 +12,7 @@ Config = {
   initJob                  = "unemployed", -- leave it like this
   initJobGrade             = 0, -- leave it like this
   initGroup                = "user", -- leave it like this
-  Whitelist                = false, -- if true set up webhook bellow thats where you get the user id to whitelist them when they try to join,  then in game use the command to whitelist a user. or remove
+  Whitelist                = false, 
   AllowWhitelistAutoUpdate = false,
   MaxCharacters            = 5, --MAX ALLOWED TO BE CREATED
   maxHealth                = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
@@ -44,6 +44,7 @@ Config = {
   HealPlayerWebhook = "", --HEALPLAYER
   ReviveWebhook     = "", --REVIVE
   WhitelistWebhook  = "", --WHITELIST
+  BanWarnWebhook    = "", --BANS/WARNS
 
   ------------------------------------------------------------------------------
   ---------------------------- VOICE -------------------------------------------
@@ -117,6 +118,7 @@ Config = {
   KeyShowIds = "0x8CC9CD42", -- Press X
   ActiveEagleEye = true,
   ActiveDeadEye = false,
+  TimeZoneDifference = 1, -- Your time zone difference with UTC in winter time
 
   ----------------------------------------------------------------------------
   --------------------------- COMMAND PERMISSION -----------------------------
@@ -148,7 +150,12 @@ Config = {
     NoPermissions      = "You don't have enough permissions",
     CheckingIdentifier = "Checking Identifiers",
     LoadingUser        = "Loading User",
-    BannedUser         = "You Are Banned",
+    BannedUser         = "You Are Banned Until ",
+    DateTimeFormat     = "%d/%m/%y %H:%M:%S", -- Set wished DateTimeFormat for output in ban notification
+    TimeZone           = " CET", -- Set your timezone
+    DropReasonBanned   = "You were banned from the server until ",
+    Warned             = "You were warned",
+    Unwarned           = "You were unwarned",
     TitleOnDead        = "Do /alertdoctor in chat to request doctors aid",
     SubTitleOnDead     = "You can respawn in %s seconds",
     RespawnIn          = "You can respawn in ",
@@ -161,9 +168,6 @@ Config = {
     mustBeSeated       = "VORP: You must be in the driver's seat!",
     wagonInFront       = "VORP: You must be seated or near a wagon to delete it!",
     cantCarry          = "VORP: Can't carry more weapons!",
-    Hold               = "HOLD ON!!",
-    Load               = "You are loading in",
-    Almost             = "Almost there..."
   },
 
 
