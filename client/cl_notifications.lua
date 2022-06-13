@@ -2,9 +2,10 @@ RegisterNetEvent('vorp:NotifyLeft')
 AddEventHandler('vorp:NotifyLeft', function(firsttext, secondtext, dict, icon, duration, color)
     local _dict = dict
     local _icon = icon
+    local _color = color or "COLOR_WHITE"
     LoadTexture(_dict)
 
-    exports.vorp_core:DisplayLeftNotification(tostring(firsttext), tostring(secondtext), tostring(_dict), tostring(_icon), tonumber(duration), tostring(color))
+    exports.vorp_core:DisplayLeftNotification(tostring(firsttext), tostring(secondtext), tostring(_dict), tostring(_icon), tonumber(duration), tostring(_color))
 end)
 
 
