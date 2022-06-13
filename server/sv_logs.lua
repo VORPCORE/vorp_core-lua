@@ -110,6 +110,11 @@ RegisterServerEvent('vorp:banWarnWebhook')
 AddEventHandler('vorp:banWarnWebhook', function(title, description, text, color)
     Discord(Config.BanWarnWebhook, title, description, text, color)
 end)
+
+RegisterServerEvent('vorp:newPlayerWebhook')
+AddEventHandler('vorp:newPlayerWebhook', function(title, description, text, color)
+    Discord(Config.NewPlayerWebhook, title, description, text, color)
+end)
 -----------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------ RICH PRESENCE --------------------------------------------------------
 RegisterServerEvent("vorprich:getplayers")

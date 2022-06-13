@@ -45,6 +45,7 @@ Config = {
   ReviveWebhook     = "", --REVIVE
   WhitelistWebhook  = "", --WHITELIST
   BanWarnWebhook    = "", --BANS/WARNS
+  NewPlayerWebhook  = "", --NEWPLAYER
 
   ------------------------------------------------------------------------------
   ---------------------------- VOICE -------------------------------------------
