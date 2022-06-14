@@ -1,4 +1,4 @@
-local whitelist,  whitelistActive, currentFreeId = {}, Config.Whitelist, 1
+local whitelist,  whitelistActive = {}, Config.Whitelist
 IdentifiersToId, IdsToIdentifiers = {}, {}
 
 -- function AddUserToWhitelist(identifier)
@@ -32,7 +32,6 @@ local function LoadWhitelist()
                 IdsToIdentifiers[v.id] = v.identifier
                 IdentifiersToId[v.identifier] = v.id
             end
-            currentFreeId = #whitelist+1
         end
     end)
 end
@@ -48,7 +47,6 @@ local function SetUpdateWhitelistPolicy()
                     IdsToIdentifiers[v.id] = v.identifier
                     IdentifiersToId[v.identifier] = v.id
                 end
-                currentFreeId = #whitelist+1
             end
         end)
     end
@@ -78,15 +76,19 @@ function InsertIntoWhitelist(identifier)
     if IdentifiersToId[identifier] then
         return IdentifiersToId[identifier]
     end
-
+    
+    exports.ghmattimysql:executeSync("INSERT INTO whitelist (identifier, status) VALUES (@identifier, @status)", {['@identifier'] = identifier, ['@status']=false}, function(result) end)
+    local entryList = exports.ghmattimysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
+    local currentFreeId
+    if #entryList > 0 then
+        local entry = entryList[1]
+        currentFreeId = entry["id"]
+    end
     IdentifiersToId[identifier] = currentFreeId
+    IdsToIdentifiers[currentFreeId] = identifier
     whitelist[currentFreeId] = false
 
-    exports.ghmattimysql:execute("INSERT INTO whitelist (identifier, status) VALUES (@identifier, @status)", {['@identifier'] = identifier, ['@status']=false}, function(result) end)
-
-    currentFreeId = currentFreeId + 1
-
-    return currentFreeId-1
+    return currentFreeId
 end
 
 Citizen.CreateThread(function()
