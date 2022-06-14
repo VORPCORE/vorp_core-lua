@@ -5,8 +5,12 @@ AddEventHandler("vorpbans:addtodb", function (status, id, datetime)
     if status == true then
         for _, player in ipairs(GetPlayers()) do
             if sid == GetPlayerIdentifiers(player)[1] then
-                local bannedUntil = os.date(Config.Langs["DateTimeFormat"], datetime+Config.TimeZoneDifference*3600)
-                DropPlayer(player, Config.Langs["DropReasonBanned"]..bannedUntil..Config.Langs["TimeZone"])
+                if datetime == 0 then
+                    DropPlayer(player, "You were banned permanently!")
+                else
+                    local bannedUntil = os.date(Config.Langs["DateTimeFormat"], datetime+Config.TimeZoneDifference*3600)
+                    DropPlayer(player, Config.Langs["DropReasonBanned"]..bannedUntil..Config.Langs["TimeZone"])
+                end
                 break
             end
         end

@@ -426,15 +426,36 @@ RegisterCommand("ban", function(source, args, rawCommand)
     local _source = source
     TriggerEvent("vorp:getCharacter", _source, function(user)
         local target = tonumber(args[1])
-        local banTime = tonumber(args[2])
         local datetime = os.time(os.date("!*t"))
-        datetime = datetime + banTime*3600
+        local banTime
+        local text
+        if args[2]:sub(-1) == 'd' then
+            banTime = tonumber(args[2]:sub(1,-2))
+            banTime = banTime*24
+        elseif args[2]:sub(-1) == 'w' then
+            banTime = tonumber(args[2]:sub(1,-2))
+            banTime = banTime*168
+        elseif args[2]:sub(-1) == 'm' then
+            banTime = tonumber(args[2]:sub(1,-2))
+            banTime = banTime*720
+        elseif args[2]:sub(-1) == 'y' then
+            banTime = tonumber(args[2]:sub(1,-2))
+            banTime = banTime*8760
+        else
+            banTime = tonumber(args[2])
+        end
+        if banTime == 0 then
+            datetime = 0
+            text = "Was banned permanently"
+        else
+            datetime = datetime + banTime*3600
+            text = "Was banned until "..os.date(Config.Langs["DateTimeFormat"], datetime+Config.TimeZoneDifference*3600)..Config.Langs["TimeZone"]
+        end
         local Identifier = GetPlayerIdentifier(_source)
         local discordIdentity = GetIdentity(_source, "discord")
         local discordId = string.sub(discordIdentity, 9)
         local ip = GetPlayerEndpoint(_source)
         local steamName = GetPlayerName(_source)
-        local text = "Was banned"
         local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
         if args then
             if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
@@ -598,7 +619,7 @@ AddEventHandler("vorp:chatSuggestion", function()
 
     TriggerClientEvent("chat:addSuggestion", _source, "/ban", " VORPcore command to ban players.", {
         { name = "Id", help = 'player ID from Discord user-id' },
-        { name = "Time", help = 'Time of ban in hours' },
+        { name = "Time", help = 'Time of ban' },
     })
 
     TriggerClientEvent("chat:addSuggestion", _source, "/unban", " VORPcore command to unban players.", {
