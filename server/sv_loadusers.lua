@@ -67,7 +67,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
             local entry = entryList[1]
             userid = entry["id"]
         end
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. identifier .. "` \n**Discord:** <@" .. discordId .. "\n **User-Id:** `" .. userid
+        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .."`"
         TriggerEvent("vorp:newPlayerWebhook", "📋` New player joined server` ", message, color)
 
         _users[identifier] = User(source, identifier, "user", 0, license)

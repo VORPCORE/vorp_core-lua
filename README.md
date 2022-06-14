@@ -49,6 +49,19 @@ ensure vorp_woodcutter
 - API to work with other scripts and exports
 - refer to WIKI (link bellow )
 
+## Bans, warns and whitelists
+
+Whitelisting, banning and warning is based on static user-ids that can be changed only in the database. 
+**Important!** Setup the *NewPlayerWebhook* to get player's user-id on first connection.
+- to ban use `/ban <user-id> <length>[d/w/m/y]`, where d is days, w is weeks, m is months (30 days a month), y is years (365 days a year) or nothing for hours. Example `/ban 1 3d` for 3 days ban or `/ban 1 12` for 12 hours ban
+- to ban permamnently `/ban <user-id> 0`
+- to unban `/unban <user-id>`
+- to warn `/warn <user-id>`
+- to unwarn `/unwarn <user-id>`
+- to whitelist `/wlplayer <user-id>`
+- to unwhitelist `/unwlplayer <user-id>`
+The user-id will be send to your discord **only** when *NewPlayerWebhook* is setup in config.
+![image](https://i.imgur.com/cWlyIC8.png)
 
 ## Note
 
