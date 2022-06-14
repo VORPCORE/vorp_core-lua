@@ -15,10 +15,15 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
 
     if #resultList > 0 then
         local user = resultList[1]
-        if user["banned"] == 1 then
+        if user["banned"] == true then
             local bannedUntilTime = user["banneduntil"]
+            print(bannedUntilTime)
             local currentTime = tonumber(os.time(os.date("!*t")))
-            if bannedUntilTime > currentTime then
+
+            if bannedUntilTime == 0 then
+                deferrals.done("You are banned permanently!")
+                setKickReason("You are banned permanently!")
+            elseif bannedUntilTime > currentTime then
                 local bannedUntil = os.date(Config.Langs["DateTimeFormat"], bannedUntilTime+Config.TimeZoneDifference*3600)
                 deferrals.done(Config.Langs["BannedUser"]..bannedUntil..Config.Langs["TimeZone"])
                 setKickReason(Config.Langs["BannedUser"]..bannedUntil..Config.Langs["TimeZone"])
