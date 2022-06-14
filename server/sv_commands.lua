@@ -619,7 +619,7 @@ AddEventHandler("vorp:chatSuggestion", function()
 
     TriggerClientEvent("chat:addSuggestion", _source, "/ban", " VORPcore command to ban players.", {
         { name = "Id", help = 'player ID from Discord user-id' },
-        { name = "Time", help = 'Time of ban in hours' },
+        { name = "Time", help = 'Time of ban' },
     })
 
     TriggerClientEvent("chat:addSuggestion", _source, "/unban", " VORPcore command to unban players.", {
