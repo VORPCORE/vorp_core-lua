@@ -17,7 +17,6 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         local user = resultList[1]
         if user["banned"] == true then
             local bannedUntilTime = user["banneduntil"]
-            print(bannedUntilTime)
             local currentTime = tonumber(os.time(os.date("!*t")))
 
             if bannedUntilTime == 0 then
