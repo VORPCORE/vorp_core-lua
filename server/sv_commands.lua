@@ -550,89 +550,128 @@ RegisterServerEvent("vorp:chatSuggestion")
 AddEventHandler("vorp:chatSuggestion", function()
     local _source = source
 
+    TriggerEvent("vorp:getCharacter", _source, function(user)
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/setgroup", "VORPcore command set group to user.", {
-        { name = "Id", help = 'player ID' },
-        { name = "Group", help = 'Group Name' },
+        if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            TriggerClientEvent("chat:addSuggestion", _source, "/setgroup", "VORPcore command set group to user.", {
+                { name = "Id", help = 'player ID' },
+                { name = "Group", help = 'Group Name' },
 
-    })
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/setjob", "VORPcore command set job to user.", {
-        { name = "Id", help = 'player ID' },
-        { name = "Job", help = 'Job Name' },
-        { name = "Rank", help = ' player Rank' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/setjob", "VORPcore command set job to user.", {
+                { name = "Id", help = 'player ID' },
+                { name = "Job", help = 'Job Name' },
+                { name = "Rank", help = ' player Rank' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/addmoney", "VORPcore command add money/gold to user", {
-        { name = "Id", help = 'player ID' },
-        { name = "Type", help = 'Money 0 Gold 1' },
-        { name = "Quantity", help = 'Quantity to give' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/addmoney", "VORPcore command add money/gold to user", {
+                { name = "Id", help = 'player ID' },
+                { name = "Type", help = 'Money 0 Gold 1' },
+                { name = "Quantity", help = 'Quantity to give' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/delcurrency", "VORPcore command remove money/gold from user", {
-        { name = "Id", help = 'player ID' },
-        { name = "Type", help = 'Money 0 Gold 1' },
-        { name = "Quantity", help = 'Quantity to remove from User' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/delcurrency", "VORPcore command remove money/gold from user", {
+                { name = "Id", help = 'player ID' },
+                { name = "Type", help = 'Money 0 Gold 1' },
+                { name = "Quantity", help = 'Quantity to remove from User' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/addwhitelist", "VORPcore command Example: /addwhitelist 11000010c8aa16e", {
-        { name = "AddWhiteList", help = ' steam ID like this > 11000010c8aa16e' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/addwhitelist", "VORPcore command Example: /addwhitelist 11000010c8aa16e", {
+                { name = "AddWhiteList", help = ' steam ID like this > 11000010c8aa16e' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/additems", " VORPcore command to give items.", {
-        { name = "Id", help = 'player ID' },
-        { name = "Item", help = 'item name' },
-        { name = "Quantity", help = 'amount of items to give' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/additems", " VORPcore command to give items.", {
+                { name = "Id", help = 'player ID' },
+                { name = "Item", help = 'item name' },
+                { name = "Quantity", help = 'amount of items to give' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/reviveplayer", " VORPcore command to revive.", {
-        { name = "Id", help = 'player ID' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/reviveplayer", " VORPcore command to revive.", {
+                { name = "Id", help = 'player ID' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/tpm", " VORPcore command  teleport to marker set on the map.", {
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/tpm", " VORPcore command  teleport to marker set on the map.", {
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/delwagons", " VORPcore command to delete wagons within radius.", {
-        { name = "radius", help = 'add a number from 1 to any' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/delwagons", " VORPcore command to delete wagons within radius.", {
+                { name = "radius", help = 'add a number from 1 to any' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/delhorse", " VORPcore command to delete horses.", {
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/delhorse", " VORPcore command to delete horses.", {
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/addweapons", " VORPcore command to give weapons.", {
-        { name = "Id", help = 'player ID' },
-        { name = "Weapon", help = 'Weapon hash name' },
+            TriggerClientEvent("chat:addSuggestion", _source, "/addweapons", " VORPcore command to give weapons.", {
+                { name = "Id", help = 'player ID' },
+                { name = "Weapon", help = 'Weapon hash name' },
 
-    })
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/healplayer", " VORPcore command to heal players.", {
-        { name = "Id", help = 'player ID' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/healplayer", " VORPcore command to heal players.", {
+                { name = "Id", help = 'player ID' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/wlplayer", " VORPcore command to add players to whitelist.", {
-        { name = "Id", help = 'player ID from Discord user-id' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/wlplayer", " VORPcore command to add players to whitelist.", {
+                { name = "Id", help = 'player ID from Discord user-id' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/unwlplayer", " VORPcore command to remove players from whitelist.", {
-        { name = "Id", help = 'player ID from Discord user-id' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/unwlplayer", " VORPcore command to remove players from whitelist.", {
+                { name = "Id", help = 'player ID from Discord user-id' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/ban", " VORPcore command to ban players.", {
-        { name = "Id", help = 'player ID from Discord user-id' },
-        { name = "Time", help = 'Time of ban' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/ban", " VORPcore command to ban players.", {
+                { name = "Id", help = 'player ID from Discord user-id' },
+                { name = "Time", help = 'Time of ban' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/unban", " VORPcore command to unban players.", {
-        { name = "Id", help = 'player ID from Discord user-id' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/unban", " VORPcore command to unban players.", {
+                { name = "Id", help = 'player ID from Discord user-id' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/warn", " VORPcore command to warn players.", {
-        { name = "Id", help = 'player ID from Discord user-id' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/warn", " VORPcore command to warn players.", {
+                { name = "Id", help = 'player ID from Discord user-id' },
+            })
 
-    TriggerClientEvent("chat:addSuggestion", _source, "/unwarn", " VORPcore command to unwarn players.", {
-        { name = "Id", help = 'player ID from Discord user-id' },
-    })
+            TriggerClientEvent("chat:addSuggestion", _source, "/unwarn", " VORPcore command to unwarn players.", {
+                { name = "Id", help = 'player ID from Discord user-id' },
+            })
+        else
+            TriggerClientEvent("chat:removeSuggestion", _source, "/setgroup")
 
+            TriggerClientEvent("chat:removeSuggestion", _source, "/setjob")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/addmoney")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/delcurrency")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/addwhitelist")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/additems")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/reviveplayer")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/tpm")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/delwagons")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/delhorse")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/addweapons")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/healplayer")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/wlplayer")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/unwlplayer")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/ban")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/unban")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/warn")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/unwarn")
+        end
+    end)
 
 end)
