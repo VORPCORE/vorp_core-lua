@@ -30,17 +30,23 @@ function Discord(webhook, title, description, text, color)
 end
 
 function GetIdentity(source, identity)
-    local num = 0
-    local num2 = GetNumPlayerIdentifiers(source)
+    -- local num = 0
+    -- local num2 = GetNumPlayerIdentifiers(source)
 
-    if GetNumPlayerIdentifiers(source) > 0 then
-        local ident = nil
-        while num < num2 and not ident do
-            local a = GetPlayerIdentifier(source, num)
-            if string.find(a, identity) then ident = a end
-            num = num + 1
+    -- if GetNumPlayerIdentifiers(source) > 0 then
+    --     local ident = nil
+    --     while num < num2 and not ident do
+    --         local a = GetPlayerIdentifier(source, num)
+    --         if string.find(a, identity) then ident = a end
+    --         num = num + 1
+    --     end
+    --     return ident;
+    -- end
+    
+    for k,v in pairs(GetPlayerIdentifiers(source))do
+        if string.sub(v, 1, string.len(identity..":")) == identity..":" then
+            return v
         end
-        return ident;
     end
 end
 

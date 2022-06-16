@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS `whitelist`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `status` boolean,
+  `firstconnection` boolean DEFAULT TRUE,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `identifier`(`identifier`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
@@ -47,5 +48,4 @@ CREATE TABLE IF NOT EXISTS `characters`  (
 ALTER TABLE `users` ALTER COLUMN  `banned` boolean;
 ALTER TABLE `users` ADD `banneduntil` int(10) DEFAULT 0;
 ALTER TABLE `whitelist` ADD `status` boolean
-
-
+ALTER TABLE `whitelist` ADD `firstconnection` boolean

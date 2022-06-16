@@ -77,7 +77,8 @@ function InsertIntoWhitelist(identifier)
         return IdentifiersToId[identifier]
     end
     
-    exports.ghmattimysql:executeSync("INSERT INTO whitelist (identifier, status) VALUES (@identifier, @status)", {['@identifier'] = identifier, ['@status']=false}, function(result) end)
+    exports.ghmattimysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firstcon)",
+                                    {['@identifier'] = identifier, ['@status']=false, ['@firstcon']=true}, function(result) end)
     local entryList = exports.ghmattimysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     local currentFreeId
     if #entryList > 0 then
