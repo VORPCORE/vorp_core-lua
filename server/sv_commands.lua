@@ -11,8 +11,8 @@
 RegisterCommand("setgroup", function(source, args, rawCommand)
     local _source = source
     if _source > 0 then -- it's a player.
-        TriggerEvent("vorp:getCharacter", _source, function(user)
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        TriggerEvent("vorp:getUser", _source, function(user)
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                 local target, newgroup = args[1], args[2]
                 local Identifier = GetPlayerIdentifier(_source)
                 local discordIdentity = GetIdentity(_source, "discord")
@@ -52,8 +52,8 @@ end, false)
 RegisterCommand("setjob", function(source, args, rawCommand)
     local _source = source
     if _source > 0 then -- it's a player.
-        TriggerEvent("vorp:getCharacter", _source, function(user)
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        TriggerEvent("vorp:getUser", _source, function(user)
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                 local target, newjob, jobgrade = args[1], args[2], args[3]
                 local Identifier = GetPlayerIdentifier(_source)
                 local discordIdentity = GetIdentity(_source, "discord")
@@ -95,8 +95,8 @@ end, false)
 RegisterCommand("addmoney", function(source, args, rawCommand)
     local _source = source
     if _source > 0 then -- it's a player.
-        TriggerEvent("vorp:getCharacter", _source, function(user)
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        TriggerEvent("vorp:getUser", _source, function(user)
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                 local target, montype, quantity = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
                 local Identifier = GetPlayerIdentifier(_source)
                 local discordIdentity = GetIdentity(_source, "discord")
@@ -126,9 +126,9 @@ RegisterCommand("delcurrency", function(source, args, rawCommand)
     local _source = source
 
     if _source > 0 then -- it's a player.
-        TriggerEvent("vorp:getCharacter", _source, function(user)
+        TriggerEvent("vorp:getUser", _source, function(user)
 
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                 local target, montype, quantity = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
 
                 local Identifier = GetPlayerIdentifier(_source)
@@ -161,7 +161,7 @@ end, false)
 ------------------------------------------ ADDITEM ------------------------------------------------
 RegisterCommand("additems", function(source, args, rawCommand)
     local _source = source
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         VORP = exports.vorp_inventory:vorp_inventoryApi()
         local id = args[1]
         local item = args[2]
@@ -174,7 +174,7 @@ RegisterCommand("additems", function(source, args, rawCommand)
         local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **PlayerId** `" .. id .. "` \n**Item given** `" .. item .. "` \n **Count**`" .. count .. "`"
 
         if args ~= nil then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                 VORP.addItem(id, item, count)
                 TriggerEvent("vorp:addItemsWebhook", "📋` /additems command` ", message, color)
             else
@@ -191,7 +191,7 @@ end, false)
 RegisterCommand("addweapons", function(source, args, rawCommand)
     local _source = source
 
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         VORP = exports.vorp_inventory:vorp_inventoryApi()
         local id = args[1]
         local weaponHash = tostring(args[2])
@@ -206,7 +206,7 @@ RegisterCommand("addweapons", function(source, args, rawCommand)
         if args ~= nil then
             TriggerEvent("vorpCore:canCarryWeapons", tonumber(id), 1, function(canCarry)
                 if canCarry then
-                    if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                    if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                         VORP.createWeapon(tonumber(id), weaponHash)
                         TriggerEvent("vorp:addWeaponsWebhook", "📋` /addweapons command` ", message, color)
                     else
@@ -228,7 +228,7 @@ end, false)
 RegisterCommand("reviveplayer", function(source, args)
     local _source = source
 
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         local id = args[1]
 
         local Identifier = GetPlayerIdentifier(_source)
@@ -240,7 +240,7 @@ RegisterCommand("reviveplayer", function(source, args)
         local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **PlayerId** `" .. id .. "`\n **Action:** `" .. text .. "`"
 
         if args ~= nil then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
 
                 TriggerEvent("vorp:reviveWebhook", "📋` /revive command` ", message, color)
                 TriggerClientEvent('vorp:resurrectPlayer', id)
@@ -258,7 +258,7 @@ end, false)
 RegisterCommand("tpm", function(source)
     local _source = source
 
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         local Identifier = GetPlayerIdentifier(_source)
         local discordIdentity = GetIdentity(_source, "discord")
         local discordId = string.sub(discordIdentity, 9)
@@ -267,7 +267,7 @@ RegisterCommand("tpm", function(source)
         local text = "Used TPM"
         local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **Action:** `" .. text .. "`"
 
-        if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
             TriggerClientEvent('vorp:teleportWayPoint', _source)
             TriggerEvent("vorp:tpmWebhook", "📋` /Tpm command` ", message, color)
         else
@@ -283,7 +283,7 @@ end, false)
 RegisterCommand("delwagons", function(source, args)
     local _source = source
 
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         local radius = tonumber(args[1])
 
         local Identifier = GetPlayerIdentifier(_source)
@@ -296,7 +296,7 @@ RegisterCommand("delwagons", function(source, args)
 
         if radius ~= nil then
 
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
 
                 if radius >= 1 then
                     TriggerClientEvent("vorp:deleteVehicle", _source, radius)
@@ -315,7 +315,7 @@ end, false)
 RegisterCommand("delhorse", function(source)
     local _source = source
 
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         local Identifier = GetPlayerIdentifier(_source)
         local discordIdentity = GetIdentity(_source, "discord")
         local discordId = string.sub(discordIdentity, 9)
@@ -323,7 +323,7 @@ RegisterCommand("delhorse", function(source)
         local steamName = GetPlayerName(_source)
         local text = "Used delhorse"
         local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **Action:** `" .. text .. "`"
-        if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
             TriggerClientEvent("vorp:delHorse", _source)
             TriggerEvent("vorp:delHorseWebhook", "📋` /delhorse command` ", message, color)
         else
@@ -338,7 +338,7 @@ end, false)
 RegisterCommand("healplayer", function(source, args, rawCommand)
     local _source = source
 
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         local playerId = tonumber(args[1])
         local Identifier = GetPlayerIdentifier(_source)
         local discordIdentity = GetIdentity(_source, "discord")
@@ -348,7 +348,7 @@ RegisterCommand("healplayer", function(source, args, rawCommand)
         local text = "Was healed"
         local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **PlayerId:** `" .. playerId .. "`\n **Action:** `" .. text .. "`"
         if args ~= nil then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                 TriggerClientEvent('vorp:heal', _source, playerId)
                 TriggerEvent("vorp:healPlayerWebhook", "📋` /healplayer command` ", message, color)
             else
@@ -365,7 +365,7 @@ end, false)
 RegisterCommand("wlplayer", function(source, args, rawCommand)
     local _source = source
     if _source > 0 then -- it's a player.
-        TriggerEvent("vorp:getCharacter", _source, function(user)
+        TriggerEvent("vorp:getUser", _source, function(user)
             local target = tonumber(args[1])
             local Identifier = GetPlayerIdentifier(_source)
             local discordIdentity = GetIdentity(_source, "discord")
@@ -375,7 +375,7 @@ RegisterCommand("wlplayer", function(source, args, rawCommand)
             local text = "Was whitelisted"
             local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
             if args then
-                if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                     TriggerEvent("vorp:whitelistWebhook", "📋` /wlplayer command` ", message, color)
                     TriggerEvent("vorp:whitelistPlayer", target)
                 else
@@ -394,7 +394,7 @@ end)
 RegisterCommand("unwlplayer", function(source, args, rawCommand)
     local _source = source
     if _source > 0 then -- it's a player.
-        TriggerEvent("vorp:getCharacter", _source, function(user)
+        TriggerEvent("vorp:getUser", _source, function(user)
             local target = tonumber(args[1])
             local Identifier = GetPlayerIdentifier(_source)
             local discordIdentity = GetIdentity(_source, "discord")
@@ -404,7 +404,7 @@ RegisterCommand("unwlplayer", function(source, args, rawCommand)
             local text = "Was unwhitelisted"
             local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
             if args then
-                if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                     TriggerEvent("vorp:whitelistWebhook", "📋` /unwlplayer command` ", message, color)
                     TriggerEvent("vorp:unwhitelistPlayer", target)
                 else
@@ -424,7 +424,7 @@ end)
 --------------------------------------- BANS - WARNS ----------------------------------------------------
 RegisterCommand("ban", function(source, args, rawCommand)
     local _source = source
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         local target = tonumber(args[1])
         local datetime = os.time(os.date("!*t"))
         local banTime
@@ -458,7 +458,7 @@ RegisterCommand("ban", function(source, args, rawCommand)
         local steamName = GetPlayerName(_source)
         local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
         if args then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                 TriggerEvent("vorp:banWarnWebhook", "📋` /ban command` ", message, color)
                 TriggerClientEvent("vorp:ban", _source, target, datetime)
             else
@@ -471,7 +471,7 @@ end)
 
 RegisterCommand("unban", function(source, args, rawCommand)
     local _source = source
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         local target = tonumber(args[1])
         local Identifier = GetPlayerIdentifier(_source)
         local discordIdentity = GetIdentity(_source, "discord")
@@ -481,7 +481,7 @@ RegisterCommand("unban", function(source, args, rawCommand)
         local text = "Was unbanned"
         local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
         if args then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                 TriggerEvent("vorp:banWarnWebhook", "📋` /unban command` ", message, color)
                 TriggerClientEvent("vorp:unban", _source, target)
             else
@@ -494,7 +494,7 @@ end)
 
 RegisterCommand("warn", function(source, args, rawCommand)
     local _source = source
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         local target = tonumber(args[1])
         local Identifier = GetPlayerIdentifier(_source)
         local discordIdentity = GetIdentity(_source, "discord")
@@ -504,7 +504,7 @@ RegisterCommand("warn", function(source, args, rawCommand)
         local text = "Was warned"
         local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
         if args then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                 TriggerEvent("vorp:banWarnWebhook", "📋` /warn command` ", message, color)
                 TriggerClientEvent("vorp:warn", _source, target)
             else
@@ -517,7 +517,7 @@ end)
 
 RegisterCommand("unwarn", function(source, args, rawCommand)
     local _source = source
-    TriggerEvent("vorp:getCharacter", _source, function(user)
+    TriggerEvent("vorp:getUser", _source, function(user)
         local target = tonumber(args[1])
         local Identifier = GetPlayerIdentifier(_source)
         local discordIdentity = GetIdentity(_source, "discord")
@@ -527,7 +527,7 @@ RegisterCommand("unwarn", function(source, args, rawCommand)
         local text = "Was unwarned"
         local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
         if args then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
                 TriggerEvent("vorp:banWarnWebhook", "📋` /unwarn command` ", message, color)
                 TriggerClientEvent("vorp:unwarn", _source, target)
             else
@@ -550,9 +550,8 @@ RegisterServerEvent("vorp:chatSuggestion")
 AddEventHandler("vorp:chatSuggestion", function()
     local _source = source
 
-    TriggerEvent("vorp:getCharacter", _source, function(user)
-
-        if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+    TriggerEvent("vorp:getUser", _source, function(user)
+        if user.getGroup == Config.Group.Admin or user.getGroup == Config.Group.Mod then
             TriggerClientEvent("chat:addSuggestion", _source, "/setgroup", "VORPcore command set group to user.", {
                 { name = "Id", help = 'player ID' },
                 { name = "Group", help = 'Group Name' },

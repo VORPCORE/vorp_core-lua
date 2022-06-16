@@ -6,6 +6,14 @@ AddEventHandler('vorp:getCharacter', function(player, cb)
     end
 end)
 
+AddEventHandler('vorp:getUser', function(player, cb)
+    local sid = GetSteamID(player)
+
+    if _users[sid] ~= nil then
+        cb(_users[sid].GetUser())
+    end
+end)
+
 AddEventHandler('vorp:addMoney', function(player, typeCash, quantity)
     local sid = GetSteamID(player)
 
