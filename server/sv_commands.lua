@@ -11,15 +11,24 @@
 RegisterCommand("setgroup", function(source, args, rawCommand)
     local _source = source
     if _source > 0 then -- it's a player.
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.setGroup.Command')
+
         TriggerEvent("vorp:getCharacter", _source, function(user)
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if ace or user.group == Config.Group.Admin or
+                user.group == Config.Group.Mod then
                 local target, newgroup = args[1], args[2]
                 local Identifier = GetPlayerIdentifier(_source)
                 local discordIdentity = GetIdentity(_source, "discord")
                 local discordId = string.sub(discordIdentity, 9)
                 local ip = GetPlayerEndpoint(_source)
                 local steamName = GetPlayerName(_source)
-                local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n**PlayerID** `" .. target .. "` \n**Group given** `" .. newgroup .. "`"
+                local message = "**Steam name: **`" ..
+                    steamName ..
+                    "`**\nIdentifier**`" ..
+                    Identifier ..
+                    "` \n**Discord:** <@" ..
+                    discordId ..
+                    ">**\nIP: **`" .. ip .. "`\n**PlayerID** `" .. target .. "` \n**Group given** `" .. newgroup .. "`"
 
                 if newgroup == nil or newgroup == '' then
                     TriggerClientEvent("vorp:Tip", _source, "ERROR: Use Correct Sintaxis", 4000)
@@ -52,15 +61,26 @@ end, false)
 RegisterCommand("setjob", function(source, args, rawCommand)
     local _source = source
     if _source > 0 then -- it's a player.
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.setJob.Command')
         TriggerEvent("vorp:getCharacter", _source, function(user)
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if ace or user.group == Config.Group.Admin or
+                user.group == Config.Group.Mod then
                 local target, newjob, jobgrade = args[1], args[2], args[3]
                 local Identifier = GetPlayerIdentifier(_source)
                 local discordIdentity = GetIdentity(_source, "discord")
                 local discordId = string.sub(discordIdentity, 9)
                 local ip = GetPlayerEndpoint(_source)
                 local steamName = GetPlayerName(_source)
-                local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **PlayerID** `" .. target .. "` \n**Job given** `" .. newjob .. "`\n **Grade:** `" .. jobgrade .. "`"
+                local message = "**Steam name: **`" ..
+                    steamName ..
+                    "`**\nIdentifier**`" ..
+                    Identifier ..
+                    "` \n**Discord:** <@" ..
+                    discordId ..
+                    ">**\nIP: **`" ..
+                    ip ..
+                    "`\n **PlayerID** `" ..
+                    target .. "` \n**Job given** `" .. newjob .. "`\n **Grade:** `" .. jobgrade .. "`"
 
                 if newjob == nil or newjob == '' then
                     if jobgrade == nil or jobgrade == '' then
@@ -95,15 +115,26 @@ end, false)
 RegisterCommand("addmoney", function(source, args, rawCommand)
     local _source = source
     if _source > 0 then -- it's a player.
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.addMoney.Command')
         TriggerEvent("vorp:getCharacter", _source, function(user)
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if ace or user.group == Config.Group.Admin or
+                user.group == Config.Group.Mod then
                 local target, montype, quantity = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
                 local Identifier = GetPlayerIdentifier(_source)
                 local discordIdentity = GetIdentity(_source, "discord")
                 local discordId = string.sub(discordIdentity, 9)
                 local ip = GetPlayerEndpoint(_source)
                 local steamName = GetPlayerName(_source)
-                local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n**PlayerId:** `" .. target .. "` \n **Type** `" .. montype .. "` \n**Quantity** `" .. quantity .. "`"
+                local message = "**Steam name: **`" ..
+                    steamName ..
+                    "`**\nIdentifier**`" ..
+                    Identifier ..
+                    "` \n**Discord:** <@" ..
+                    discordId ..
+                    ">**\nIP: **`" ..
+                    ip ..
+                    "`\n**PlayerId:** `" ..
+                    target .. "` \n **Type** `" .. montype .. "` \n**Quantity** `" .. quantity .. "`"
 
                 TriggerEvent("vorp:addMoney", target, montype, quantity)
                 TriggerClientEvent("vorp:Tip", _source, string.format("Added %s to %s", target, quantity), 4000)
@@ -126,17 +157,27 @@ RegisterCommand("delcurrency", function(source, args, rawCommand)
     local _source = source
 
     if _source > 0 then -- it's a player.
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.delCurrency.Command')
         TriggerEvent("vorp:getCharacter", _source, function(user)
 
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if ace or user.group == Config.Group.Admin or
+                user.group == Config.Group.Mod then
                 local target, montype, quantity = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
-
                 local Identifier = GetPlayerIdentifier(_source)
                 local discordIdentity = GetIdentity(_source, "discord")
                 local discordId = string.sub(discordIdentity, 9)
                 local ip = GetPlayerEndpoint(_source)
                 local steamName = GetPlayerName(_source)
-                local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n**PlayerId:** `" .. target .. "` \n **Type** `" .. montype .. "` \n**Quantity** `" .. quantity .. "`"
+                local message = "**Steam name: **`" ..
+                    steamName ..
+                    "`**\nIdentifier**`" ..
+                    Identifier ..
+                    "` \n**Discord:** <@" ..
+                    discordId ..
+                    ">**\nIP: **`" ..
+                    ip ..
+                    "`\n**PlayerId:** `" ..
+                    target .. "` \n **Type** `" .. montype .. "` \n**Quantity** `" .. quantity .. "`"
 
                 print(message)
                 TriggerEvent("vorp:removeMoney", target, montype, quantity)
@@ -171,10 +212,19 @@ RegisterCommand("additems", function(source, args, rawCommand)
         local discordId = string.sub(discordIdentity, 9)
         local ip = GetPlayerEndpoint(_source)
         local steamName = GetPlayerName(_source)
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **PlayerId** `" .. id .. "` \n**Item given** `" .. item .. "` \n **Count**`" .. count .. "`"
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.additems.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" ..
+            discordId ..
+            ">**\nIP: **`" ..
+            ip .. "`\n **PlayerId** `" .. id .. "` \n**Item given** `" .. item .. "` \n **Count**`" .. count .. "`"
 
-        if args ~= nil then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        if args then
+            if ace or user.group == Config.Group.Admin or
+                user.group == Config.Group.Mod then
                 VORP.addItem(id, item, count)
                 TriggerEvent("vorp:addItemsWebhook", "📋` /additems command` ", message, color)
             else
@@ -195,18 +245,25 @@ RegisterCommand("addweapons", function(source, args, rawCommand)
         VORP = exports.vorp_inventory:vorp_inventoryApi()
         local id = args[1]
         local weaponHash = tostring(args[2])
-
         local Identifier = GetPlayerIdentifier(_source)
         local discordIdentity = GetIdentity(_source, "discord")
         local discordId = string.sub(discordIdentity, 9)
         local ip = GetPlayerEndpoint(_source)
         local steamName = GetPlayerName(_source)
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **PlayerId** `" .. id .. "` \n**Weapon given** `" .. weaponHash .. "`"
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.addweapons.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" ..
+            discordId ..
+            ">**\nIP: **`" .. ip .. "`\n **PlayerId** `" .. id .. "` \n**Weapon given** `" .. weaponHash .. "`"
 
-        if args ~= nil then
+        if args then
             TriggerEvent("vorpCore:canCarryWeapons", tonumber(id), 1, function(canCarry)
                 if canCarry then
-                    if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                    if ace or user.group == Config.Group.Admin or
+                        user.group == Config.Group.Mod then
                         VORP.createWeapon(tonumber(id), weaponHash)
                         TriggerEvent("vorp:addWeaponsWebhook", "📋` /addweapons command` ", message, color)
                     else
@@ -227,7 +284,6 @@ end, false)
 ---------------------------------------- REVIVE ------------------------------------------------------
 RegisterCommand("reviveplayer", function(source, args)
     local _source = source
-
     TriggerEvent("vorp:getCharacter", _source, function(user)
         local id = args[1]
 
@@ -237,10 +293,18 @@ RegisterCommand("reviveplayer", function(source, args)
         local ip = GetPlayerEndpoint(_source)
         local steamName = GetPlayerName(_source)
         local text = "Was Revived"
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **PlayerId** `" .. id .. "`\n **Action:** `" .. text .. "`"
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.reviveplayer.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" ..
+            discordId .. ">**\nIP: **`" .. ip .. "`\n **PlayerId** `" .. id .. "`\n **Action:** `" .. text .. "`"
 
-        if args ~= nil then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        if args then
+            print("revive pass")
+            if ace or user.group == Config.Group.Admin or
+                user.group == Config.Group.Mod then
 
                 TriggerEvent("vorp:reviveWebhook", "📋` /revive command` ", message, color)
                 TriggerClientEvent('vorp:resurrectPlayer', id)
@@ -265,9 +329,15 @@ RegisterCommand("tpm", function(source)
         local ip = GetPlayerEndpoint(_source)
         local steamName = GetPlayerName(_source)
         local text = "Used TPM"
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **Action:** `" .. text .. "`"
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.tpm.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **Action:** `" .. text .. "`"
 
-        if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        if ace or user.group == Config.Group.Admin or
+            user.group == Config.Group.Mod then
             TriggerClientEvent('vorp:teleportWayPoint', _source)
             TriggerEvent("vorp:tpmWebhook", "📋` /Tpm command` ", message, color)
         else
@@ -292,11 +362,19 @@ RegisterCommand("delwagons", function(source, args)
         local ip = GetPlayerEndpoint(_source)
         local steamName = GetPlayerName(_source)
         local text = "Used delwagons"
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **Action:** `" .. text .. "` \n **Radius:** `" .. radius .. "`"
+        local ace
+        IsPlayerAceAllowed(_source, 'vorpcore.delwagons.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" ..
+            discordId .. ">**\nIP: **`" .. ip .. "`\n **Action:** `" .. text .. "` \n **Radius:** `" .. radius .. "`"
 
-        if radius ~= nil then
+        if radius then
 
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if ace or user.group == Config.Group.Admin or
+                user.group == Config.Group.Mod then
 
                 if radius >= 1 then
                     TriggerClientEvent("vorp:deleteVehicle", _source, radius)
@@ -322,10 +400,17 @@ RegisterCommand("delhorse", function(source)
         local ip = GetPlayerEndpoint(_source)
         local steamName = GetPlayerName(_source)
         local text = "Used delhorse"
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **Action:** `" .. text .. "`"
-        if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.delhorse.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "`\n **Action:** `" .. text .. "`"
+        if ace or user.group == Config.Group.Admin or
+            user.group == Config.Group.Mod then
             TriggerClientEvent("vorp:delHorse", _source)
             TriggerEvent("vorp:delHorseWebhook", "📋` /delhorse command` ", message, color)
+
         else
             TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
         end
@@ -346,9 +431,16 @@ RegisterCommand("healplayer", function(source, args, rawCommand)
         local ip = GetPlayerEndpoint(_source)
         local steamName = GetPlayerName(_source)
         local text = "Was healed"
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **PlayerId:** `" .. playerId .. "`\n **Action:** `" .. text .. "`"
-        if args ~= nil then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.healplayer.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" ..
+            discordId .. ">**\nIP: **`" .. ip .. "` \n **PlayerId:** `" .. playerId .. "`\n **Action:** `" .. text .. "`"
+        if args then
+            if ace or user.group == Config.Group.Admin or
+                user.group == Config.Group.Mod then
                 TriggerClientEvent('vorp:heal', _source, playerId)
                 TriggerEvent("vorp:healPlayerWebhook", "📋` /healplayer command` ", message, color)
             else
@@ -373,16 +465,24 @@ RegisterCommand("wlplayer", function(source, args, rawCommand)
             local ip = GetPlayerEndpoint(_source)
             local steamName = GetPlayerName(_source)
             local text = "Was whitelisted"
-            local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+            local ace = IsPlayerAceAllowed(_source, 'vorpcore.wlplayer.Command')
+            local message = "**Steam name: **`" ..
+                steamName ..
+                "`**\nIdentifier**`" ..
+                Identifier ..
+                "` \n**Discord:** <@" ..
+                discordId ..
+                ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
             if args then
-                if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                if ace or user.group == Config.Group.Admin or
+                    user.group == Config.Group.Mod then
                     TriggerEvent("vorp:whitelistWebhook", "📋` /wlplayer command` ", message, color)
                     TriggerEvent("vorp:whitelistPlayer", target)
                 else
                     TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
                 end
             end
-            
+
         end)
     else
         local target = tonumber(args[1])
@@ -390,6 +490,7 @@ RegisterCommand("wlplayer", function(source, args, rawCommand)
         TriggerEvent("vorp:whitelistPlayer", target)
     end
 end)
+
 
 RegisterCommand("unwlplayer", function(source, args, rawCommand)
     local _source = source
@@ -402,16 +503,24 @@ RegisterCommand("unwlplayer", function(source, args, rawCommand)
             local steamName = GetPlayerName(_source)
             local ip = GetPlayerEndpoint(_source)
             local text = "Was unwhitelisted"
-            local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+            local ace = IsPlayerAceAllowed(_source, 'vorpcore.unwlplayer.Command')
+            local message = "**Steam name: **`" ..
+                steamName ..
+                "`**\nIdentifier**`" ..
+                Identifier ..
+                "` \n**Discord:** <@" ..
+                discordId ..
+                ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
             if args then
-                if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                if ace or user.group == Config.Group.Admin or
+                    user.group == Config.Group.Mod then
                     TriggerEvent("vorp:whitelistWebhook", "📋` /unwlplayer command` ", message, color)
                     TriggerEvent("vorp:unwhitelistPlayer", target)
                 else
                     TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
                 end
             end
-            
+
         end)
     else
         local target = tonumber(args[1])
@@ -430,17 +539,17 @@ RegisterCommand("ban", function(source, args, rawCommand)
         local banTime
         local text
         if args[2]:sub(-1) == 'd' then
-            banTime = tonumber(args[2]:sub(1,-2))
-            banTime = banTime*24
+            banTime = tonumber(args[2]:sub(1, -2))
+            banTime = banTime * 24
         elseif args[2]:sub(-1) == 'w' then
-            banTime = tonumber(args[2]:sub(1,-2))
-            banTime = banTime*168
+            banTime = tonumber(args[2]:sub(1, -2))
+            banTime = banTime * 168
         elseif args[2]:sub(-1) == 'm' then
-            banTime = tonumber(args[2]:sub(1,-2))
-            banTime = banTime*720
+            banTime = tonumber(args[2]:sub(1, -2))
+            banTime = banTime * 720
         elseif args[2]:sub(-1) == 'y' then
-            banTime = tonumber(args[2]:sub(1,-2))
-            banTime = banTime*8760
+            banTime = tonumber(args[2]:sub(1, -2))
+            banTime = banTime * 8760
         else
             banTime = tonumber(args[2])
         end
@@ -448,24 +557,32 @@ RegisterCommand("ban", function(source, args, rawCommand)
             datetime = 0
             text = "Was banned permanently"
         else
-            datetime = datetime + banTime*3600
-            text = "Was banned until "..os.date(Config.Langs["DateTimeFormat"], datetime+Config.TimeZoneDifference*3600)..Config.Langs["TimeZone"]
+            datetime = datetime + banTime * 3600
+            text = "Was banned until " ..
+                os.date(Config.Langs["DateTimeFormat"], datetime + Config.TimeZoneDifference * 3600) ..
+                Config.Langs["TimeZone"]
         end
         local Identifier = GetPlayerIdentifier(_source)
         local discordIdentity = GetIdentity(_source, "discord")
         local discordId = string.sub(discordIdentity, 9)
         local ip = GetPlayerEndpoint(_source)
         local steamName = GetPlayerName(_source)
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.ban.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" ..
+            discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
         if args then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if ace or user.group == Config.Group.Admin or user.group == Config.Group.Mod then
                 TriggerEvent("vorp:banWarnWebhook", "📋` /ban command` ", message, color)
                 TriggerClientEvent("vorp:ban", _source, target, datetime)
             else
                 TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
             end
         end
-        
+
     end)
 end)
 
@@ -479,16 +596,22 @@ RegisterCommand("unban", function(source, args, rawCommand)
         local steamName = GetPlayerName(_source)
         local ip = GetPlayerEndpoint(_source)
         local text = "Was unbanned"
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.unban.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" ..
+            discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
         if args then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if ace or user.group == Config.Group.Admin or user.group == Config.Group.Mod then
                 TriggerEvent("vorp:banWarnWebhook", "📋` /unban command` ", message, color)
                 TriggerClientEvent("vorp:unban", _source, target)
             else
                 TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
             end
         end
-        
+
     end)
 end)
 
@@ -502,16 +625,22 @@ RegisterCommand("warn", function(source, args, rawCommand)
         local ip = GetPlayerEndpoint(_source)
         local steamName = GetPlayerName(_source)
         local text = "Was warned"
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.warn.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" ..
+            discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
         if args then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if ace or user.group == Config.Group.Admin or user.group == Config.Group.Mod then
                 TriggerEvent("vorp:banWarnWebhook", "📋` /warn command` ", message, color)
                 TriggerClientEvent("vorp:warn", _source, target)
             else
                 TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
             end
         end
-        
+
     end)
 end)
 
@@ -525,16 +654,22 @@ RegisterCommand("unwarn", function(source, args, rawCommand)
         local steamName = GetPlayerName(_source)
         local ip = GetPlayerEndpoint(_source)
         local text = "Was unwarned"
-        local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. Identifier .. "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+        local ace = IsPlayerAceAllowed(_source, 'vorpcore.unwarn.Command')
+        local message = "**Steam name: **`" ..
+            steamName ..
+            "`**\nIdentifier**`" ..
+            Identifier ..
+            "` \n**Discord:** <@" ..
+            discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
         if args then
-            if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+            if ace or user.group == Config.Group.Admin or user.group == Config.Group.Mod then
                 TriggerEvent("vorp:banWarnWebhook", "📋` /unwarn command` ", message, color)
                 TriggerClientEvent("vorp:unwarn", _source, target)
             else
                 TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
             end
         end
-        
+
     end)
 end)
 
@@ -565,19 +700,22 @@ AddEventHandler("vorp:chatSuggestion", function()
                 { name = "Rank", help = ' player Rank' },
             })
 
-            TriggerClientEvent("chat:addSuggestion", _source, "/addmoney", "VORPcore command add money/gold to user", {
-                { name = "Id", help = 'player ID' },
-                { name = "Type", help = 'Money 0 Gold 1' },
-                { name = "Quantity", help = 'Quantity to give' },
-            })
+            TriggerClientEvent("chat:addSuggestion", _source, "/addmoney", "VORPcore command add money/gold to user",
+                {
+                    { name = "Id", help = 'player ID' },
+                    { name = "Type", help = 'Money 0 Gold 1' },
+                    { name = "Quantity", help = 'Quantity to give' },
+                })
 
-            TriggerClientEvent("chat:addSuggestion", _source, "/delcurrency", "VORPcore command remove money/gold from user", {
+            TriggerClientEvent("chat:addSuggestion", _source, "/delcurrency",
+                "VORPcore command remove money/gold from user", {
                 { name = "Id", help = 'player ID' },
                 { name = "Type", help = 'Money 0 Gold 1' },
                 { name = "Quantity", help = 'Quantity to remove from User' },
             })
 
-            TriggerClientEvent("chat:addSuggestion", _source, "/addwhitelist", "VORPcore command Example: /addwhitelist 11000010c8aa16e", {
+            TriggerClientEvent("chat:addSuggestion", _source, "/addwhitelist",
+                "VORPcore command Example: /addwhitelist 11000010c8aa16e", {
                 { name = "AddWhiteList", help = ' steam ID like this > 11000010c8aa16e' },
             })
 
@@ -591,10 +729,12 @@ AddEventHandler("vorp:chatSuggestion", function()
                 { name = "Id", help = 'player ID' },
             })
 
-            TriggerClientEvent("chat:addSuggestion", _source, "/tpm", " VORPcore command  teleport to marker set on the map.", {
+            TriggerClientEvent("chat:addSuggestion", _source, "/tpm",
+                " VORPcore command  teleport to marker set on the map.", {
             })
 
-            TriggerClientEvent("chat:addSuggestion", _source, "/delwagons", " VORPcore command to delete wagons within radius.", {
+            TriggerClientEvent("chat:addSuggestion", _source, "/delwagons",
+                " VORPcore command to delete wagons within radius.", {
                 { name = "radius", help = 'add a number from 1 to any' },
             })
 
@@ -611,11 +751,13 @@ AddEventHandler("vorp:chatSuggestion", function()
                 { name = "Id", help = 'player ID' },
             })
 
-            TriggerClientEvent("chat:addSuggestion", _source, "/wlplayer", " VORPcore command to add players to whitelist.", {
+            TriggerClientEvent("chat:addSuggestion", _source, "/wlplayer",
+                " VORPcore command to add players to whitelist.", {
                 { name = "Id", help = 'player ID from Discord user-id' },
             })
 
-            TriggerClientEvent("chat:addSuggestion", _source, "/unwlplayer", " VORPcore command to remove players from whitelist.", {
+            TriggerClientEvent("chat:addSuggestion", _source, "/unwlplayer",
+                " VORPcore command to remove players from whitelist.", {
                 { name = "Id", help = 'player ID from Discord user-id' },
             })
 

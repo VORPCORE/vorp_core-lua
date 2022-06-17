@@ -1,3 +1,15 @@
+<1.3>
+- vorp core now uses ace permissions you can use discord ace perms and give discord roles to give staff permissions to the core mommands like /tpm
+- remove display commands if player does not have permission to use. so normal players wont be able to type any admin command
+- added loading screen to the config 
+- added loading screen timer to the config
+- it shows loading screen if you enter while dead, if you enter while alive or if combatlog is set to true. with different langs
+- update all files including config.lua and fxmanifest
+- there is a new table for the sql you need to run that sql 
+- add this and run it.
+- ALTER TABLE `whitelist`
+- ADD COLUMN `firstconnection` boolean DEFAULT TRUE AFTER `status` 
+- if any questions or doubts use discord for support
 <1.2>
 - Bans and warns
 - update 

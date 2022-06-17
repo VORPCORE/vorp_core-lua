@@ -3,8 +3,6 @@ local active = false
 local playerHash = GetHashKey("PLAYER")
 
 local mapTypeOnMount = Config.mapTypeOnMount
-local playerCores = Config.playerCores
-local horseCores = Config.horseCores
 local mapTypeOnFoot = Config.mapTypeOnFoot
 local enableTypeRadar = Config.enableTypeRadar
 
@@ -18,7 +16,7 @@ end
 
 --------------------------- UI RADAR SHOW OR HIDE ---------------------
 function UI()
-    local player = PlayerPedId()  
+    local player = PlayerPedId()
     local playerOnMout = IsPedOnMount(player)
     local playerOnVeh = IsPedInAnyVehicle(player)
     if Config.HideUi then
@@ -28,40 +26,71 @@ function UI()
         if not playerOnMout and not playerOnVeh then
             SetMinimapType(mapTypeOnFoot)
 
-        elseif  playerOnMout or playerOnVeh  then
+        elseif playerOnMout or playerOnVeh then
             SetMinimapType(mapTypeOnMount)
 
         end
     end
 end
+
 ------------------------------ SPAWN PLAYER ----------------------------------------
 
 RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
-
-
-    Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost)
 
     TeleportToCoords(coords.x + 0.0, coords.y + 0.0, coords.z + 0.0, heading + 0.0)
 
     if isdead then
         if not Config.CombatLogDeath then
+            --start loading screen
+            if Config.Loadinscreen then
+                Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.forcedrespawn, Config.Langs.forced,
+                    Config.Langs.Almost)
+            end
             TriggerServerEvent("vorp:PlayerForceRespawn")
             TriggerEvent("vorp:PlayerForceRespawn")
             resspawnPlayer()
+            Wait(Config.LoadinScreenTimer)
+            -- ExecuteCommand("rc")
+            Wait(1000)
+            --shut down loading screen
             ShutdownLoadingScreen()
+
+            Wait(7000)
+            -- ensure health and stamina
+            local health = GetAttributeCoreValue(PlayerPedId(), 0)
+            local newHealth = health + 100
+            local stamina = GetAttributeCoreValue(PlayerPedId(), 1)
+            local newStamina = stamina + 100
+            Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 0, newHealth)
+            Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 1, newStamina)
+            SetEntityHealth(PlayerPedId(), newHealth)
+
         else
-            Citizen.Wait(8000) -- this is needed to ensure the player has enough time to load in their character before it kills them. other wise they revive when the character loads in
+            if Config.Loadinscreen then
+                Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Holddead, Config.Langs.Loaddead,
+                    Config.Langs.Almost)
+            end
+            Wait(8000) -- this is needed to ensure the player has enough time to load in their character before it kills them. other wise they revive when the character loads in
             TriggerEvent("vorp_inventory:CloseInv")
             SetEntityHealth(PlayerPedId(), 0, 0)
+            Wait(4000)
             ShutdownLoadingScreen()
+
+
         end
     else
-        Wait(10000) -- wait to load in 
-        ExecuteCommand("rc") -- reload clothing
-        Wait(5000)
-        ShutdownLoadingScreen()
+        if Config.Loadinscreen then
+            Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost)
+            Wait(Config.LoadinScreenTimer) -- wait to load in
+            --ExecuteCommand("rc") -- reload clothing
+            Wait(1000)
+            ShutdownLoadingScreen()
+
+        end
+
         ------- to make sure health and stamina are filled ----------
-        Wait(11000)
+        Wait(4000)
+
         local health = GetAttributeCoreValue(PlayerPedId(), 0)
         local newHealth = health + 100
         local stamina = GetAttributeCoreValue(PlayerPedId(), 1)
@@ -75,15 +104,13 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
 
 
 end)
+-------------------------------------------------------------------------------------------------
 
 
 
 RegisterNetEvent('vorp:SelectedCharacter', function()
-    local player = PlayerPedId()
-    local playerCoords, playerHeading = GetEntityCoords(player, true, true), GetEntityHeading(player)
     local playerId = PlayerId()
-    --TriggerServerEvent("vorp:saveLastCoords", playerCoords, playerHeading)
-        
+
     firstSpawn = false
 
     SetMinimapHideFow(true)
@@ -97,22 +124,27 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
     end
 
     setPVP()
-  
+    DisplayHud(true) -- show HUD
+    SetMinimapHideFow(true) -- enable FOW
 end)
 
 AddEventHandler('playerSpawned', function(spawnInfo)
     Citizen.Wait(4000)
     TriggerServerEvent("vorp:playerSpawn")
     TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger 
-
-
+    DisplayHud(false) --hide HUD on player select char
+    SetMinimapHideFow(false) -- hide map fog of war
 end)
 
+-- disable RDR HUDS
 Citizen.CreateThread(function()
     while true do
+        Citizen.Wait(0)
         DisableControlAction(0, 0x580C4473, true) -- Disable hud
         DisableControlAction(0, 0xCF8A4ECA, true) -- Disable hud
-        Citizen.Wait(0)
+        DisableControlAction(0, 0x9CC7A1A4, true) -- disable special ability when open hud
+        DisableControlAction(0, 0x1F6D95E5, true) -- diable f4 key that contains HUD
+
     end
 end)
 
@@ -122,7 +154,6 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         local pped = PlayerPedId()
-        local count = 0
 
         if IsControlPressed(0, 0xCEFD9220) then
             SetRelationshipBetweenGroups(1, playerHash, playerHash)
@@ -149,10 +180,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(3000)
-
-        UI()  
-
-
+        UI()
         if not firstSpawn then
             local player = PlayerPedId()
             local playerCoords, playerHeading = GetEntityCoords(player, true, true), GetEntityHeading(player)
@@ -160,7 +188,3 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
-
-
-
