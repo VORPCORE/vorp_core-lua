@@ -78,8 +78,8 @@ end)
 
 --new
 RegisterNetEvent('vorp:updatemissioNotify')
-AddEventHandler('vorp:updatemissioNotify', function(notifid, utitle, umsg, duration)
-    exports.vorp_core:updatemissioNotify(notifid, tostring(utitle), tostring(umsg), tonumber(duration))
+AddEventHandler('vorp:updatemissioNotify', function(utitle, umsg, duration)
+    exports.vorp_core:updatemissioNotify(tostring(utitle), tostring(umsg), tonumber(duration))
 end)
 
 --new
@@ -127,5 +127,5 @@ end)
 --TriggerEvent('vorp:ShowBottomRight', "your text", 4000)
 --TriggerEvent('vorp:failmissioNotifY', "your text", "msg", 4000)
 --TriggerEvent('vorp:deadplayerNotifY', title, audioRef, audioName, duration)
---TriggerEvent('vorp:updatemissioNotify', notifid, "title ", "msg , duration) notifid leave it like that.
+--TriggerEvent('vorp:updatemissioNotify', "title ", "msg , duration) 
 --TriggerEvent('vorp:warningNotify', title, msg, audioRef, audioName, duration)
