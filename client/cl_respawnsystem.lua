@@ -9,6 +9,12 @@ RegisterNetEvent('vorp:resurrectPlayer', function()
     resurrectPlayer()
 end)
 
+-- new event to trigger respawn function from server
+RegisterNetEvent('vorp_core:respawnPlayer', function()
+    resspawnPlayer()
+end)
+
+
 function resspawnPlayer()
     local currentHospital, minDistance, playerCoords = '', -1, GetEntityCoords(PlayerPedId(), true, true)
 
