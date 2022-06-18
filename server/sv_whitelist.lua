@@ -34,7 +34,6 @@ end
 local function SetUpdateWhitelistPolicy()
     while Config.AllowWhitelistAutoUpdate do
         Citizen.Wait(3600000) --change this value if you want to have update from SQL not every 1 hour
-        whitelist = {}
         _whitelist = {}
         exports.ghmattimysql:execute("SELECT * FROM whitelist", {}, function(result)
             if #result > 0 then
