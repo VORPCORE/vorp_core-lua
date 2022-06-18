@@ -124,16 +124,16 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
     end
 
     setPVP()
-    DisplayHud(true) -- show HUD
-    SetMinimapHideFow(true) -- enable FOW
+   -- DisplayHud(true) -- show HUD
+   -- SetMinimapHideFow(true) -- enable FOW
 end)
 
 AddEventHandler('playerSpawned', function(spawnInfo)
     Citizen.Wait(4000)
     TriggerServerEvent("vorp:playerSpawn")
     TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger 
-    DisplayHud(false) --hide HUD on player select char
-    SetMinimapHideFow(false) -- hide map fog of war
+   -- DisplayHud(false) --hide HUD on player select char
+  --  SetMinimapHideFow(false) -- hide map fog of war
 end)
 
 -- disable RDR HUDS
