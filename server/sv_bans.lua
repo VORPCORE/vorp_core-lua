@@ -1,6 +1,6 @@
 RegisterNetEvent("vorpbans:addtodb")
 AddEventHandler("vorpbans:addtodb", function (status, id, datetime)
-    local sid = IdsToIdentifiers[id]
+    local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
 
     if status == true then
         for _, player in ipairs(GetPlayers()) do
@@ -21,7 +21,7 @@ end)
 
 RegisterNetEvent("vorpwarns:addtodb")
 AddEventHandler("vorpwarns:addtodb", function (status, id)
-    local sid = IdsToIdentifiers[id]
+    local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
 
     local resultList = exports.ghmattimysql:executeSync("SELECT * FROM users WHERE identifier = ?", { sid })
 
