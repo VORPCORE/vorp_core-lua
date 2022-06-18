@@ -1,5 +1,3 @@
--- local whitelist,  whitelistActive = {}, Config.Whitelist
--- IdentifiersToId, IdsToIdentifiers = {}, {}
 _whitelist = {}
 
 -- function AddUserToWhitelist(identifier)
@@ -16,14 +14,10 @@ _whitelist = {}
 
 function AddUserToWhitelistById(id)
     _whitelist[id].GetEntry().setStatus(true)
-    -- whitelist[id] = true
-    -- exports.ghmattimysql:execute('UPDATE whitelist SET status = @status where id = @id', {['@status'] = true, ['@id']=id}, function(result) end)
 end
 
 function RemoveUserFromWhitelistById(id)
     _whitelist[id].GetEntry().setStatus(false)
-    -- whitelist[id] = false
-    -- exports.ghmattimysql:execute('UPDATE whitelist SET status = @status where id = @id', {['@status'] = false, ['@id']=id}, function(result) end)
 end
 
 local function LoadWhitelist()
@@ -31,9 +25,6 @@ local function LoadWhitelist()
     exports.ghmattimysql:execute('SELECT * FROM whitelist', {}, function(result)
         if #result > 0 then
             for k,v in ipairs(result) do
-                -- whitelist[v.id] = v.status
-                -- IdsToIdentifiers[v.id] = v.identifier
-                -- IdentifiersToId[v.identifier] = v.id
                 _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.firstconnection)
             end
         end
@@ -48,9 +39,6 @@ local function SetUpdateWhitelistPolicy()
         exports.ghmattimysql:execute("SELECT * FROM whitelist", {}, function(result)
             if #result > 0 then
                 for k,v in ipairs(result) do
-                    -- whitelist[v.id] = v.status
-                    -- IdsToIdentifiers[v.id] = v.identifier
-                    -- IdentifiersToId[v.identifier] = v.id
                     _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.firstconnection)
                 end
             end
@@ -99,9 +87,6 @@ function InsertIntoWhitelist(identifier)
         local entry = entryList[1]
         currentFreeId = entry["id"]
     end
-    -- IdentifiersToId[identifier] = currentFreeId
-    -- IdsToIdentifiers[currentFreeId] = identifier
-    -- whitelist[currentFreeId] = false
     _whitelist[currentFreeId] = Whitelist(currentFreeId, identifier, false, true)
 
     return currentFreeId
