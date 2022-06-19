@@ -550,13 +550,17 @@ RegisterCommand("ban", function(source, args, rawCommand)
         elseif args[2]:sub(-1) == 'y' then
             banTime = tonumber(args[2]:sub(1, -2))
             banTime = banTime * 8760
-        else
+        elseif args[2]:sub(-1) == 'h' then
+            banTime = tonumber(args[2]:sub(1, -2))
+        elseif tonumber(args[2]) then
             banTime = tonumber(args[2])
+        else
+            banTime = nil
         end
         if banTime == 0 then
             datetime = 0
             text = "Was banned permanently"
-        else
+        elseif banTime then
             datetime = datetime + banTime * 3600
             text = "Was banned until " ..
                 os.date(Config.Langs["DateTimeFormat"], datetime + Config.TimeZoneDifference * 3600) ..
@@ -574,7 +578,7 @@ RegisterCommand("ban", function(source, args, rawCommand)
             Identifier ..
             "` \n**Discord:** <@" ..
             discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
-        if args then
+        if args and banTime then
             if ace or user.group == Config.Group.Admin or user.group == Config.Group.Mod then
                 TriggerEvent("vorp:banWarnWebhook", "📋` /ban command` ", message, color)
                 TriggerClientEvent("vorp:ban", _source, target, datetime)
@@ -763,7 +767,7 @@ AddEventHandler("vorp:chatSuggestion", function()
 
             TriggerClientEvent("chat:addSuggestion", _source, "/ban", " VORPcore command to ban players.", {
                 { name = "Id", help = 'player ID from Discord user-id' },
-                { name = "Time", help = 'Time of ban' },
+                { name = "Time", help = 'Time of ban: <length>[h/d/w/m/y]' },
             })
 
             TriggerClientEvent("chat:addSuggestion", _source, "/unban", " VORPcore command to unban players.", {

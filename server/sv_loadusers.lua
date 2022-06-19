@@ -27,42 +27,9 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
                 deferrals.done(Config.Langs["BannedUser"]..bannedUntil..Config.Langs["TimeZone"])
                 setKickReason(Config.Langs["BannedUser"]..bannedUntil..Config.Langs["TimeZone"])
             else
-                TriggerEvent("vorpbans:addtodb", false, IdentifiersToId[identifier], 0)
+                TriggerEvent("vorpbans:addtodb", false, GetUserId(identifier), 0)
             end
         end
-
-        -- local retvalList = exports.ghmattimysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
-        -- if #retvalList == 0 then --whitelist disabled, send user-id for existing users on first connection
-        --     local discordIdentity = GetIdentity(source, "discord")
-        --     local discordId = string.sub(discordIdentity, 9)
-        --     local steamName = GetPlayerName(source)
-        --     local userid
-        --     exports.ghmattimysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firtscon)",
-        --                                     {['@identifier'] = identifier, ['@status']=false, ['@firstcon'] = false})
-        --     local entryList = exports.ghmattimysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
-        --     if #entryList > 0 then
-        --         local entry = entryList[1]
-        --         userid = entry["id"]
-        --     end
-        --     local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:** `" .. identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .."`"
-        --     TriggerEvent("vorp:newPlayerWebhook", "📋` New player joined server` ", message, color)
-        -- elseif Config.Whitelist then --whitelist enabled, send user-id for existing users on first connection
-        --     local discordIdentity = GetIdentity(source, "discord")
-        --     local discordId = string.sub(discordIdentity, 9)
-        --     local steamName = GetPlayerName(source)
-        --     local userid
-        --     local firstCon
-        --     if #retvalList > 0 then
-        --         local entry = retvalList[1]
-        --         userid = entry["id"]
-        --         firstCon = entry["firstconnection"]
-        --     end
-        --     local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:** `" .. identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .."`"
-        --     if firstCon then
-        --         TriggerEvent("vorp:newPlayerWebhook", "📋` New player joined server` ", message, color)
-        --         exports.ghmattimysql:execute('UPDATE whitelist SET firstconnection = @firstcon where id = @id', {['@firstcon'] = false, ['@id']=userid}, function(result) end)
-        --     end
-        -- end
 
         _users[identifier] = User(source, identifier, user["group"], user["warnings"], license)
 
@@ -72,22 +39,6 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
     else
         --New User
         exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0)", { identifier })
-        -- local discordIdentity = GetIdentity(source, "discord")
-        -- local discordId = string.sub(discordIdentity, 9)
-        -- local steamName = GetPlayerName(source)
-        -- local userid
-        -- if Config.Whitelist == false then
-        --     exports.ghmattimysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firtscon)",
-        --                                     {['@identifier'] = identifier, ['@status']=false, ['@firstcon'] = false})
-        -- end
-        -- local entryList = exports.ghmattimysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
-        -- if #entryList > 0 then
-        --     local entry = entryList[1]
-        --     userid = entry["id"]
-        -- end
-        -- local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier**`" .. identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .."`"
-        -- TriggerEvent("vorp:newPlayerWebhook", "📋` New player joined server` ", message, color)
-
         _users[identifier] = User(source, identifier, "user", 0, license)
         deferrals.done()
     end
@@ -110,25 +61,32 @@ AddEventHandler('playerJoining', function()
     local retvalList = exports.ghmattimysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     if not Config.Whitelist then
         if #retvalList == 0 then
-            exports.ghmattimysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firtscon)",
+            exports.ghmattimysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firstcon)",
                                             {['@identifier'] = identifier, ['@status']=false, ['@firstcon'] = true})
             retvalList = exports.ghmattimysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
         end
     end
+    Wait(30000)
     local discordIdentity = GetIdentity(_source, "discord")
-    local discordId = "" --string.sub(discordIdentity, 9)
+    local discordId
+    if discordIdentity then
+        discordId = discordIdentity:sub(9)
+    else
+        discordId = ""
+    end
     local steamName = GetPlayerName(_source)
     local userid
-    local firstCon
     if #retvalList > 0 then
         local entry = retvalList[1]
         userid = entry["id"]
-        firstCon = entry["firstconnection"]
+    end
+    if not _whitelist[userid] then
+        _whitelist[userid] = Whitelist(userid, identifier, false, true)
     end
     local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:** `" .. identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .."`"
-    if firstCon then
+    if _whitelist[userid].GetEntry().getFirstconnection() then
         TriggerEvent("vorp:newPlayerWebhook", "📋` New player joined server` ", message, color)
-        exports.ghmattimysql:execute('UPDATE whitelist SET firstconnection = @firstcon where id = @id', {['@firstcon'] = false, ['@id']=userid}, function(result) end)
+        _whitelist[userid].GetEntry().setFirstconnection(false)
     end
 end)
 

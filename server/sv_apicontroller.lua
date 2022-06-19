@@ -100,3 +100,25 @@ AddEventHandler('getCore', function(cb)
 
     cb(coreData)
 end)
+
+AddEventHandler('getWhitelistTables', function(cb)
+    local whitelistData = {}
+
+    whitelistData.getEntry = function(identifier)
+        if identifier == nil then return nil end
+
+        local userid = GetUserId(identifier)
+
+        if _whitelist[userid] then
+            return _whitelist[userid].GetEntry()
+        else
+            return nil
+        end
+    end
+    
+    whitelistData.getEntries = function()
+        return _whitelist
+    end
+
+    cb(whitelistData)
+end)

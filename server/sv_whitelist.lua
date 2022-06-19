@@ -1,5 +1,4 @@
-local whitelist,  whitelistActive = {}, Config.Whitelist
-IdentifiersToId, IdsToIdentifiers = {}, {}
+_whitelist = {}
 
 -- function AddUserToWhitelist(identifier)
 --     local id = identifiersToId[identifier]
@@ -14,13 +13,11 @@ IdentifiersToId, IdsToIdentifiers = {}, {}
 -- end
 
 function AddUserToWhitelistById(id)
-    whitelist[id] = true
-    exports.ghmattimysql:execute('UPDATE whitelist SET status = @status where id = @id', {['@status'] = true, ['@id']=id}, function(result) end)
+    _whitelist[id].GetEntry().setStatus(true)
 end
 
 function RemoveUserFromWhitelistById(id)
-    whitelist[id] = false
-    exports.ghmattimysql:execute('UPDATE whitelist SET status = @status where id = @id', {['@status'] = false, ['@id']=id}, function(result) end)
+    _whitelist[id].GetEntry().setStatus(false)
 end
 
 local function LoadWhitelist()
@@ -28,9 +25,7 @@ local function LoadWhitelist()
     exports.ghmattimysql:execute('SELECT * FROM whitelist', {}, function(result)
         if #result > 0 then
             for k,v in ipairs(result) do
-                whitelist[v.id] = v.status
-                IdsToIdentifiers[v.id] = v.identifier
-                IdentifiersToId[v.identifier] = v.id
+                _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.firstconnection)
             end
         end
     end)
@@ -39,13 +34,11 @@ end
 local function SetUpdateWhitelistPolicy()
     while Config.AllowWhitelistAutoUpdate do
         Citizen.Wait(3600000) --change this value if you want to have update from SQL not every 1 hour
-        whitelist = {}
+        _whitelist = {}
         exports.ghmattimysql:execute("SELECT * FROM whitelist", {}, function(result)
             if #result > 0 then
                 for k,v in ipairs(result) do
-                    whitelist[v.id] = v.status
-                    IdsToIdentifiers[v.id] = v.identifier
-                    IdentifiersToId[v.identifier] = v.id
+                    _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.firstconnection)
                 end
             end
         end)
@@ -72,9 +65,17 @@ function GetLicenseID(src)
 	return sid
 end
 
+function GetUserId(identifier)
+    for k,v in pairs(_whitelist) do
+        if v.GetEntry().getIdentifier() == identifier then
+            return v.GetEntry().getId()
+        end 
+    end
+end
+
 function InsertIntoWhitelist(identifier)
-    if IdentifiersToId[identifier] then
-        return IdentifiersToId[identifier]
+    if GetUserId(identifier) then
+        return GetUserId(identifier)
     end
     
     exports.ghmattimysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firstcon)",
@@ -85,9 +86,7 @@ function InsertIntoWhitelist(identifier)
         local entry = entryList[1]
         currentFreeId = entry["id"]
     end
-    IdentifiersToId[identifier] = currentFreeId
-    IdsToIdentifiers[currentFreeId] = identifier
-    whitelist[currentFreeId] = false
+    _whitelist[currentFreeId] = Whitelist(currentFreeId, identifier, false, true)
 
     return currentFreeId
 end
@@ -116,9 +115,9 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         _users[steamIdentifier] = nil
     end
 
-    if whitelistActive then
-        playerWlId = IdentifiersToId[steamIdentifier]
-        if whitelist[playerWlId] then
+    if Config.Whitelist then
+        playerWlId = GetUserId(steamIdentifier)
+        if _whitelist[playerWlId] and _whitelist[playerWlId].GetEntry().getStatus() then
             deferrals.done()
             userEntering = true
         else
