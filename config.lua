@@ -178,6 +178,7 @@ Config = {
     forcedrespawn      = "YOU WILL BE RESPAWNED",
     forced             = "Because you left the server while dead",
     sit                = "you need to be steated",
+    NotifyChar         = "Once you ~e~delete ~q~a character theres no going back!"
   },
 
 
