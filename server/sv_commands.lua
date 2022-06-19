@@ -688,10 +688,10 @@ end)
 RegisterServerEvent("vorp:chatSuggestion")
 AddEventHandler("vorp:chatSuggestion", function()
     local _source = source
-
+    local ace = IsPlayerAceAllowed(_source, 'vorpcore.showAllCommands')
     TriggerEvent("vorp:getCharacter", _source, function(user)
 
-        if user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+        if ace or user.group == Config.Group.Admin or user.group == Config.Group.Mod then
             TriggerClientEvent("chat:addSuggestion", _source, "/setgroup", "VORPcore command set group to user.", {
                 { name = "Id", help = 'player ID' },
                 { name = "Group", help = 'Group Name' },
