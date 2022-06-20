@@ -126,6 +126,7 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
     setPVP()
     DisplayRadar(true) -- show HUD
     SetMinimapHideFow(true) -- enable FOW
+    TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger 
 end)
 
 AddEventHandler('playerSpawned', function(spawnInfo)
@@ -135,14 +136,9 @@ AddEventHandler('playerSpawned', function(spawnInfo)
     SetMinimapHideFow(false) -- hide map fog of war
     Wait(2000)
     TriggerServerEvent("vorp:playerSpawn")
-    TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger 
-
     Wait(4000) -- wait to load in
     ShutdownLoadingScreen()
     Wait(6000)
-    TriggerEvent('vorp:NotifyLeft', "~e~IMPORTANT!", Config.Langs.NotifyChar,
-        "minigames_hud", "five_finger_burnout", 20000,
-        "COLOR_RED")
 end)
 
 -- disable RDR HUDS
