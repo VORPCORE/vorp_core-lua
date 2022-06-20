@@ -101,11 +101,15 @@ RegisterNetEvent('vorp:playerSpawn', function()
         _users[identifier].Source(source)
         if _users[identifier].Numofcharacters() <= 0 then
             TriggerEvent("vorp_CreateNewCharacter", source)
+            Wait(7000)
+            TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!",Config.Langs.NotifyChar,"minigames_hud", "five_finger_burnout", 6000,"COLOR_RED")
         else
             if Config["MaxCharacters"] == 1 and _users[identifier].Numofcharacters() <= 1 then
                 TriggerEvent("vorp_SpawnUniqueCharacter", source)
             else
                 TriggerEvent("vorp_GoToSelectionMenu", source)
+                Wait(14000)
+                TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!",Config.Langs.NotifyCharSelect, "minigames_hud", "five_finger_burnout",6000, "COLOR_RED")
             end
         end
     end
