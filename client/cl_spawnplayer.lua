@@ -136,9 +136,11 @@ AddEventHandler('playerSpawned', function(spawnInfo)
     SetMinimapHideFow(false) -- hide map fog of war
     Wait(2000)
     TriggerServerEvent("vorp:playerSpawn")
-    Wait(4000) -- wait to load in
+    Wait(6000) -- wait to load in
+    ExecuteCommand("rc") --reload char
+    Wait(2000)
+    ExecuteCommand("rc") --ensure it was reloaded
     ShutdownLoadingScreen()
-    Wait(6000)
 end)
 
 -- disable RDR HUDS
