@@ -6,12 +6,16 @@ local mapTypeOnMount = Config.mapTypeOnMount
 local mapTypeOnFoot = Config.mapTypeOnFoot
 local enableTypeRadar = Config.enableTypeRadar
 
-
-
+pvp = Config.PVP
 
 function setPVP()
-    NetworkSetFriendlyFireOption(true)
-    SetRelationshipBetweenGroups(5, playerHash, playerHash)
+    NetworkSetFriendlyFireOption(pvp)
+
+    if pvp then
+        SetRelationshipBetweenGroups(5, playerHash, playerHash)
+    else
+        SetRelationshipBetweenGroups(1, playerHash, playerHash)
+    end
 end
 
 --------------------------- UI RADAR SHOW OR HIDE ---------------------

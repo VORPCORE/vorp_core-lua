@@ -36,4 +36,12 @@ end,false)
 TriggerEvent("chat:addSuggestion","/cleartask", " VORPcore command to use if you are stuck on an animation.")
 
 -------------------------------------------------------------------------------------------------------------
--------------------------------------------- HIDEUI ---------------------------------------------------------
+-------------------------------------------- PVP Toggle ---------------------------------------------------------
+if Config.PVPToggle then
+    RegisterCommand("pvp",function()
+        pvp = not pvp
+        TriggerEvent("vorp:TipRight", Config.Langs.PVPNotify ..tostring(pvp) , 4000)
+    end) 
+    TriggerEvent("chat:addSuggestion","/pvp", " VORPcore command to TOGGLE pvp for your character.")
+end
+-------------------------------------------------------------------------------------------------------------
