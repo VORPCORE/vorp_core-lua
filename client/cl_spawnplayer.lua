@@ -164,6 +164,8 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         local pped = PlayerPedId()
 
+        setPVP() --update pvp so that the command/toggle can be used.
+
         if IsControlPressed(0, 0xCEFD9220) then
             SetRelationshipBetweenGroups(1, playerHash, playerHash)
             active = true
