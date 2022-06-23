@@ -19,6 +19,12 @@ Config = {
   maxStamina               = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
   savePlayersTimer         = 10000, -- this will tell the core in how many miliseconds should all players be saved to the database, decreasing may reduce performance
   ------------------------------------------------------------------------------
+  ------------------------------ UI CORES --------------------------------------
+  HideOnlyDEADEYE = true,
+  HidePlayersCore = false,
+  HideHorseCores = false,
+  
+  ------------------------------------------------------------------------------
   ------------------------------ WEBHOOKS --------------------------------------
 
   Logs         = true, -- SET TO FALSE IF YOU DONT WANT LOGS
