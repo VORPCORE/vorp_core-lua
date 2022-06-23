@@ -73,3 +73,30 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
+
+Citizen.CreateThread(function()
+
+    if Config.HideOnlyDEADEYE then
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 3, 2) --deadeye
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 4, 2) --deadeye
+    end
+    if Config.HidePlayersCore then
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 1, 2) -- stamina outter
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 2, 2) -- stamina inner
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 3, 2) --deadeye outter
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 4, 2) --deadeye inner
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 5, 2) --health outter
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 6, 2) -- health inner
+
+    end
+    if Config.HideHorseCores then
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 7, 2) -- health
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 8, 2) -- health inner
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 9, 2) -- stamina 
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 10, 2) -- stamina inner
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 11, 2) -- courage
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 12, 2) --courage inner
+
+    end
+end)
