@@ -6,12 +6,16 @@ local mapTypeOnMount = Config.mapTypeOnMount
 local mapTypeOnFoot = Config.mapTypeOnFoot
 local enableTypeRadar = Config.enableTypeRadar
 
-
-
+pvp = Config.PVP
 
 function setPVP()
-    NetworkSetFriendlyFireOption(true)
-    SetRelationshipBetweenGroups(5, playerHash, playerHash)
+    NetworkSetFriendlyFireOption(pvp)
+
+    if pvp then
+        SetRelationshipBetweenGroups(5, playerHash, playerHash)
+    else
+        SetRelationshipBetweenGroups(1, playerHash, playerHash)
+    end
 end
 
 --------------------------- UI RADAR SHOW OR HIDE ---------------------
@@ -161,6 +165,8 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         local pped = PlayerPedId()
+
+        setPVP() --update pvp so that the command/toggle can be used.
 
         if IsControlPressed(0, 0xCEFD9220) then
             SetRelationshipBetweenGroups(1, playerHash, playerHash)

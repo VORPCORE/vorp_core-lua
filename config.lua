@@ -17,7 +17,10 @@ Config = {
   MaxCharacters            = 5, --MAX ALLOWED TO BE CREATED
   maxHealth                = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
   maxStamina               = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
+  PVP                      = true, -- Can players attack/hurt one another
+  PVPToggle                = true, -- If true, players can set their own pvp state
   savePlayersTimer         = 10000, -- this will tell the core in how many miliseconds should all players be saved to the database, decreasing may reduce performance
+
   ------------------------------------------------------------------------------
   ------------------------------ UI CORES --------------------------------------
   HideOnlyDEADEYE = true,
@@ -185,8 +188,9 @@ Config = {
     forced             = "Because you left the server while dead",
     sit                = "you need to be steated",
     NotifyChar         = "you must set your char height to 1.0 there will bugs if you dont.",
-    NotifyCharSelect   = "Once you ~e~delete ~q~a character theres no going back!"
-
+    NotifyCharSelect   = "Once you ~e~delete ~q~a character theres no going back!",
+    PVPNotifyOn        = "PVP On ",
+    PVPNotifyOff       = "PVP Off" 
   },
 
 
