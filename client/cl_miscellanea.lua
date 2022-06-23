@@ -79,7 +79,6 @@ Citizen.CreateThread(function()
 
     if Config.HideOnlyDEADEYE then
         Citizen.InvokeNative(0xC116E6DF68DCE667, 3, 2) --deadeye
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 4, 2) --deadeye
     end
     if Config.HidePlayersCore then
         Citizen.InvokeNative(0xC116E6DF68DCE667, 1, 2) -- stamina outter
