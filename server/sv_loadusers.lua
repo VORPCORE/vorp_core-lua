@@ -85,7 +85,10 @@ AddEventHandler('playerJoining', function()
     end
     local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:** `" .. identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .."`"
     if _whitelist[userid].GetEntry().getFirstconnection() then
-        TriggerEvent("vorp:newPlayerWebhook", "📋` New player joined server` ", message, color)
+            
+         if steamName then
+           TriggerEvent("vorp:newPlayerWebhook", "📋` New player joined server` ", message, color)
+        end
         _whitelist[userid].GetEntry().setFirstconnection(false)
     end
 end)
