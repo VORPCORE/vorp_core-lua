@@ -31,14 +31,14 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
             end
         end
 
-        _users[identifier] = User(source, identifier, user["group"], user["warnings"], license)
+        _users[identifier] = User(source, identifier, user["group"], user["warnings"], license, user["char"])
 
         _users[identifier].LoadCharacters()
 
         deferrals.done()
     else
         --New User
-        exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0)", { identifier })
+        exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0, 'false')", { identifier })
         _users[identifier] = User(source, identifier, "user", 0, license)
         deferrals.done()
     end
@@ -46,6 +46,7 @@ end
 
 AddEventHandler('playerDropped', function()
     local identifier = GetSteamID(source)
+    local steamName = GetPlayerName(source)
 
     --SaveCoordsDB.LastCoordsInCache.Remove(player);
     if _users[identifier] and not _usersLoading[identifier] then
@@ -53,6 +54,9 @@ AddEventHandler('playerDropped', function()
         _users[identifier] = nil
         print(string.format("Saved player %s.", GetPlayerName(source)))
     end
+    
+    exports.ghmattimysql:execute("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ", {steamName, identifier})
+
 end)
 
 AddEventHandler('playerJoining', function()
@@ -107,9 +111,9 @@ RegisterNetEvent('vorp:playerSpawn', function()
             Wait(7000)
             TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!",Config.Langs.NotifyChar,"minigames_hud", "five_finger_burnout", 6000,"COLOR_RED")
         else
-            if Config["MaxCharacters"] == 1 and _users[identifier].Numofcharacters() <= 1 then
+            if _users[identifier]._charperm == "false" and _users[identifier].Numofcharacters() <= 1 then
                 TriggerEvent("vorp_SpawnUniqueCharacter", source)
-            else
+            elseif _users[identifier]._charperm == "true" then
                 TriggerEvent("vorp_GoToSelectionMenu", source)
                 Wait(14000)
                 TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!",Config.Langs.NotifyCharSelect, "minigames_hud", "five_finger_burnout",6000, "COLOR_RED")
