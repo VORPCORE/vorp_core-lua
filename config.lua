@@ -14,12 +14,20 @@ Config = {
   initGroup                = "user", -- leave it like this
   Whitelist                = false,
   AllowWhitelistAutoUpdate = false,
-  MaxCharacters            = 5, --MAX ALLOWED TO BE CREATED
   maxHealth                = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
   maxStamina               = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
   PVP                      = true, -- Can players attack/hurt one another
   PVPToggle                = true, -- If true, players can set their own pvp state
   savePlayersTimer         = 10000, -- this will tell the core in how many miliseconds should all players be saved to the database, decreasing may reduce performance
+
+  ------------------------------------------------------------------------------
+  --------------------------- MULTICHARACTER -----------------------------------
+  SaveSteamNameDB          = true, -- TRUE if you want save steamname on character DB when player drop (need to update SQL)
+  UseCharPermission        = true, -- TRUE if you want give multicharacter on selected players (need to update SQL) | if you change TRUE to FALSE player logs with first character created
+  MaxCharacters            = 5, --MAX ALLOWED TO BE CREATED [if UseCharPermission = true, SELECTED players(with command) can create MaxCharacters characters / if UseCharPermission = false, players can create MaxCharacters characters]
+
+  AddCharCommand           = "addchar", -- Works only if UseCharPermission = true
+  RemoveCharCommand        = "removechar", -- Works only if UseCharPermission = true
 
   ------------------------------------------------------------------------------
   ------------------------------ UI CORES --------------------------------------
@@ -55,6 +63,7 @@ Config = {
   WhitelistWebhook  = "", --WHITELIST
   BanWarnWebhook    = "", --BANS/WARNS
   NewPlayerWebhook  = "", --NEWPLAYER
+  CharPermWebhook   = "", --CHARPERMS
 
   ------------------------------------------------------------------------------
   ---------------------------- VOICE -------------------------------------------
@@ -190,7 +199,10 @@ Config = {
     NotifyChar         = "you must set your char height to 1.0 there will bugs if you dont.",
     NotifyCharSelect   = "Once you ~e~delete ~q~a character theres no going back!",
     PVPNotifyOn        = "PVP On ",
-    PVPNotifyOff       = "PVP Off" 
+    PVPNotifyOff       = "PVP Off",
+    AddChar            = "Added Multicharacter ",
+    RemoveChar         = "Removed Multicharacter ",
+    WrongHex           = "Hex not in DB or Wrong Hex"
   },
 
 
