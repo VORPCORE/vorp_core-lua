@@ -50,6 +50,10 @@ exports('vorpAPI', function()
         TriggerEvent("vorp:setJobGrade", source, jobgrade)
     end
 
+    self.setCharperm = function(source,charname)
+        TriggerEvent("vorp:setCharperm",source,charname)
+    end
+
     self.setInstancePlayer = function(source, active)
         TriggerClientEvent("vorp:setInstancePlayer", source, active)
     end
