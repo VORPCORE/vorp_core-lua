@@ -10,9 +10,13 @@ pvp = Config.PVP
 
 function setPVP()
     NetworkSetFriendlyFireOption(pvp)
-
-    if pvp then
-        SetRelationshipBetweenGroups(5, playerHash, playerHash)
+    
+    if not active then
+        if pvp then
+            SetRelationshipBetweenGroups(5, playerHash, playerHash)
+        else
+            SetRelationshipBetweenGroups(1, playerHash, playerHash)
+        end 
     else
         SetRelationshipBetweenGroups(1, playerHash, playerHash)
     end
@@ -54,7 +58,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             TriggerEvent("vorp:PlayerForceRespawn")
             resspawnPlayer()
             Wait(Config.LoadinScreenTimer)
-             ExecuteCommand("rc")
+            ExecuteCommand("rc")
             Wait(1000)
             --shut down loading screen
             ShutdownLoadingScreen()
@@ -159,31 +163,30 @@ Citizen.CreateThread(function()
     end
 end)
 
-
-
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         local pped = PlayerPedId()
 
-        setPVP() --update pvp so that the command/toggle can be used.
-
         if IsControlPressed(0, 0xCEFD9220) then
-            SetRelationshipBetweenGroups(1, playerHash, playerHash)
             active = true
+            setPVP()
             Citizen.Wait(4000)
         end
 
         if not IsPedOnMount(pped) and not IsPedInAnyVehicle(pped, false) and active then
-            SetRelationshipBetweenGroups(5, playerHash, playerHash)
+            -- When you press E to get off a horse or carriage
             active = false
+            setPVP()
         elseif active and IsPedOnMount(pped) or IsPedInAnyVehicle(pped, false) then
             if IsPedInAnyVehicle(pped, false) then
                 --Nothing?
             elseif GetPedInVehicleSeat(GetMount(pped), -1) == pped then
-                SetRelationshipBetweenGroups(5, playerHash, playerHash)
                 active = false
+                setPVP()
             end
+        else
+            setPVP() --Set pvp defaults
         end
     end
 end)
