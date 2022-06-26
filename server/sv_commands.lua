@@ -678,7 +678,7 @@ RegisterCommand("unwarn", function(source, args, rawCommand)
 end)
 
 if Config.UseCharPermission then 
-    RegisterCommand( Config.AddCharCommand, function(source, args, rawCommand)
+    RegisterCommand( "addchar", function(source, args, rawCommand)
         local _source = source
         TriggerEvent("vorp:getCharacter", _source, function(user)
             local target = args[1]
@@ -707,7 +707,7 @@ if Config.UseCharPermission then
         end)
     end)
 
-    RegisterCommand( Config.RemoveCharCommand, function(source, args, rawCommand)
+    RegisterCommand( "removechar", function(source, args, rawCommand)
         local _source = source
         TriggerEvent("vorp:getCharacter", _source, function(user)
             local target = args[1]
@@ -842,11 +842,11 @@ AddEventHandler("vorp:chatSuggestion", function()
             })
             
             if Config.UseCharPermission then 
-                TriggerClientEvent("chat:addSuggestion", _source, "/"..Config.AddCharCommand, " VORPcore command to add multicharacter to players.", {
+                TriggerClientEvent("chat:addSuggestion", _source, "/addchar", " VORPcore command to add multicharacter to players.", {
                     { name = "Steam Hex", help = 'steam:110000101010010' },
                 })
 
-                TriggerClientEvent("chat:addSuggestion", _source, "/"..Config.RemoveCharCommand, " VORPcore command to remove multicharacter to players.", {
+                TriggerClientEvent("chat:addSuggestion", _source, "/removechar", " VORPcore command to remove multicharacter to players.", {
                     { name = "Steam Hex", help = 'steam:110000101010010' },
                 })
             end
@@ -887,9 +887,9 @@ AddEventHandler("vorp:chatSuggestion", function()
 
             TriggerClientEvent("chat:removeSuggestion", _source, "/unwarn")
 
-            TriggerClientEvent("chat:removeSuggestion", _source, Config.AddChar)
+            TriggerClientEvent("chat:removeSuggestion", _source, "/addchar")
 
-            TriggerClientEvent("chat:removeSuggestion", _source, Config.RemoveChar)
+            TriggerClientEvent("chat:removeSuggestion", _source, "/removechar")
 
         end
     end)
