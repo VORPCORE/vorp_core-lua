@@ -26,9 +26,6 @@ Config = {
   UseCharPermission        = false, -- TRUE if you want give multicharacter on selected players (need to update SQL) | if you change TRUE to FALSE player logs with first character created
   MaxCharacters            = 5, --MAX ALLOWED TO BE CREATED [if UseCharPermission = true, SELECTED players(with command) can create MaxCharacters characters / if UseCharPermission = false, players can create MaxCharacters characters]
 
-  AddCharCommand           = "addchar", -- Works only if UseCharPermission = true
-  RemoveCharCommand        = "removechar", -- Works only if UseCharPermission = true
-
   ------------------------------------------------------------------------------
   ------------------------------ UI CORES --------------------------------------
   HideOnlyDEADEYE = true,
