@@ -121,6 +121,11 @@ RegisterServerEvent('vorp:newPlayerWebhook')
 AddEventHandler('vorp:newPlayerWebhook', function(title, description, text, color)
     Discord(Config.NewPlayerWebhook, title, description, text, color)
 end)
+
+RegisterServerEvent('vorp:charWebhook')
+AddEventHandler('vorp:charWebhook', function(title, description, text, color)
+    Discord(Config.CharPermWebhook, title, description, text, color)
+end)
 -----------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------ RICH PRESENCE --------------------------------------------------------
 RegisterServerEvent("vorprich:getplayers")

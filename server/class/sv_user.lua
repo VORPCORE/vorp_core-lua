@@ -1,11 +1,12 @@
 --class for users that contains their characters
-function User(source, identifier, group, playerwarnings, license)
+function User(source, identifier, group, playerwarnings, license, char)
     local self = {}
 
     self._identifier = identifier
     self._license = license
     self._group = group
     self._playerwarnings = playerwarnings
+    self._charperm = char
     self._usercharacters = {}
     self._numofcharacters = 0
     self.usedCharacterId = -1
@@ -47,6 +48,15 @@ function User(source, identifier, group, playerwarnings, license)
         return self._playerwarnings
     end
 
+    self.Charperm = function(value)
+        if value ~= nil then
+            self._charperm = value
+            exports.ghmattimysql:execute("UPDATE users SET `char` = ? WHERE `identifier` = ?", { self._charperm, self.Identifier()})
+        end
+
+        return self._charperm
+    end
+
     self.GetUser = function()
         local character, userCharacters, userData = {}, {}, {}
 
@@ -65,10 +75,16 @@ function User(source, identifier, group, playerwarnings, license)
             self.Playerwarnings(warnings)
         end
 
+        userData.getCharperm = self.Charperm()
+
         userData.source = self.source
 
         userData.setGroup = function(group)
             self.Group(group)
+        end
+
+        userData.setCharperm = function(char)
+            self.Charperm(char)
         end
 
         userData.getUsedCharacter = self.UsedCharacter()

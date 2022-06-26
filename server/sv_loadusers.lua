@@ -31,14 +31,22 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
             end
         end
 
-        _users[identifier] = User(source, identifier, user["group"], user["warnings"], license)
+        if Config.UseCharPermission then 
+            _users[identifier] = User(source, identifier, user["group"], user["warnings"], license, user["char"])
+        else
+            _users[identifier] = User(source, identifier, user["group"], user["warnings"], license)
+        end
 
         _users[identifier].LoadCharacters()
 
         deferrals.done()
     else
         --New User
-        exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0)", { identifier })
+        if Config.UseCharPermission then 
+            exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0, 'false')", { identifier })
+        else 
+            exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0)", { identifier })
+        end
         _users[identifier] = User(source, identifier, "user", 0, license)
         deferrals.done()
     end
@@ -46,6 +54,7 @@ end
 
 AddEventHandler('playerDropped', function()
     local identifier = GetSteamID(source)
+    local steamName = GetPlayerName(source)
 
     --SaveCoordsDB.LastCoordsInCache.Remove(player);
     if _users[identifier] and not _usersLoading[identifier] then
@@ -53,6 +62,11 @@ AddEventHandler('playerDropped', function()
         _users[identifier] = nil
         print(string.format("Saved player %s.", GetPlayerName(source)))
     end
+
+    if Config.SaveSteamNameDB then 
+        exports.ghmattimysql:execute("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ", {steamName, identifier})
+    end
+
 end)
 
 AddEventHandler('playerJoining', function()
@@ -107,12 +121,22 @@ RegisterNetEvent('vorp:playerSpawn', function()
             Wait(7000)
             TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!",Config.Langs.NotifyChar,"minigames_hud", "five_finger_burnout", 6000,"COLOR_RED")
         else
-            if Config["MaxCharacters"] == 1 and _users[identifier].Numofcharacters() <= 1 then
-                TriggerEvent("vorp_SpawnUniqueCharacter", source)
+            if Config.UseCharPermission then 
+                if _users[identifier]._charperm == "false" and _users[identifier].Numofcharacters() <= 1 then
+                    TriggerEvent("vorp_SpawnUniqueCharacter", source)
+                elseif _users[identifier]._charperm == "true" then
+                    TriggerEvent("vorp_GoToSelectionMenu", source)
+                    Wait(14000)
+                    TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!",Config.Langs.NotifyCharSelect, "minigames_hud", "five_finger_burnout",6000, "COLOR_RED")
+                end
             else
-                TriggerEvent("vorp_GoToSelectionMenu", source)
-                Wait(14000)
-                TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!",Config.Langs.NotifyCharSelect, "minigames_hud", "five_finger_burnout",6000, "COLOR_RED")
+                if Config["MaxCharacters"] == 1 and _users[identifier].Numofcharacters() <= 1 then
+                    TriggerEvent("vorp_SpawnUniqueCharacter", source)
+                else 
+                    TriggerEvent("vorp_GoToSelectionMenu", source)
+                    Wait(14000)
+                    TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!",Config.Langs.NotifyCharSelect, "minigames_hud", "five_finger_burnout",6000, "COLOR_RED")
+                end
             end
         end
     end
@@ -141,4 +165,31 @@ Citizen.CreateThread(function()
 
         -- print('Saved all players')
     end
+end)
+
+RegisterNetEvent("vorpchar:addtodb")
+AddEventHandler("vorpchar:addtodb", function (status, id)
+
+    local resultList = exports.ghmattimysql:executeSync("SELECT * FROM users WHERE identifier = ?", { id })
+
+    local char
+
+    if resultList then
+
+        for _, player in ipairs(GetPlayers()) do
+            if id == GetPlayerIdentifiers(player)[1] then
+                if status == true then
+                    TriggerClientEvent("vorp:Tip", player, Config.Langs["AddChar"], 10000)
+                    char = "true"
+                else
+                    TriggerClientEvent("vorp:Tip", player, Config.Langs["RemoveChar"], 10000)
+                    char = "false"
+                end
+                break
+            end
+        end
+        
+    end
+    
+    exports.ghmattimysql:execute("UPDATE users SET `char` = ? WHERE `identifier` = ? ", {char, id})
 end)

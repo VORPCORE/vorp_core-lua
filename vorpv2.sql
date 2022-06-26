@@ -47,5 +47,7 @@ CREATE TABLE IF NOT EXISTS `characters`  (
 -- The following updates tables that were not included in the original table (Support for those who already have the tables above)
 ALTER TABLE `users` ALTER COLUMN  `banned` boolean;
 ALTER TABLE `users` ADD `banneduntil` int(10) DEFAULT 0;
-ALTER TABLE `whitelist` ADD `status` boolean
-ALTER TABLE `whitelist` ADD `firstconnection` boolean
+ALTER TABLE `whitelist` ADD `status` boolean;
+ALTER TABLE `whitelist` ADD `firstconnection` boolean;
+ALTER TABLE `characters` ADD `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `users` ADD `char` varchar(50) NOT NULL DEFAULT 'false';
