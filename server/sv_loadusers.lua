@@ -42,11 +42,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         deferrals.done()
     else
         --New User
-        if Config.UseCharPermission then 
-            exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0, 'false')", { identifier })
-        else 
-            exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0)", { identifier })
-        end
+        exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0,'false')", { identifier })
         _users[identifier] = User(source, identifier, "user", 0, license)
         deferrals.done()
     end
