@@ -50,4 +50,4 @@ ALTER TABLE `users` ADD `banneduntil` int(10) DEFAULT 0;
 ALTER TABLE `whitelist` ADD `status` boolean;
 ALTER TABLE `whitelist` ADD `firstconnection` boolean;
 ALTER TABLE `characters` ADD `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `users` ADD `char` varchar(50) NOT NULL DEFAULT 'false';
+ALTER TABLE `users` ADD `char` varchar(50) NOT NULL DEFAULT 'true';
