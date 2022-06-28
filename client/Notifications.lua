@@ -1,4 +1,4 @@
--- credits to @kadir for the conversion to lua from js
+
 
 exports("DisplayTip", function(text, duration)
     local string = CreateVarString(10, "LITERAL_STRING", text)
