@@ -78,24 +78,26 @@ end)
 Citizen.CreateThread(function()
 
     if Config.HideOnlyDEADEYE then
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 3, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 2, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 4, 2)
     end
     if Config.HidePlayersCore then
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 0, 2) 
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 1, 2) 
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 2, 2) 
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 3, 2) 
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 4, 2) 
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 5, 2) 
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 0, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 1, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 2, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 3, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 4, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 5, 2)
 
     end
     if Config.HideHorseCores then
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 6, 2) 
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 7, 2) 
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 8, 2) 
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 9, 2) 
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 10, 2) 
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 11, 2) 
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 6, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 7, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 8, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 9, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 10, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 11, 2)
 
     end
 end)
+
