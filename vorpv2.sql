@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `characters`  (
   `ammo` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4 DEFAULT '{}',
   UNIQUE INDEX `identifier_charidentifier`(`identifier`, `charidentifier`) USING BTREE,
   INDEX `charidentifier`(`charidentifier`) USING BTREE,
-  INDEX `ammo` (ammo(255)) USING BTREE,
+  INDEX `ammo` (`ammo`) USING BTREE,
   CONSTRAINT `FK_characters_users` FOREIGN KEY (`identifier`) REFERENCES `users` (`identifier`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
@@ -53,3 +53,5 @@ ALTER TABLE `whitelist` ADD `status` boolean;
 ALTER TABLE `whitelist` ADD `firstconnection` boolean;
 ALTER TABLE `characters` ADD `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 ALTER TABLE `users` ADD `char` varchar(50) NOT NULL DEFAULT 'false';
+ALTER TABLE `characters` ADD COLUMN `ammo` longtext DEFAULT '{}';
+ALTER TABLE `characters` ADD INDEX `ammo` (`ammo`);
