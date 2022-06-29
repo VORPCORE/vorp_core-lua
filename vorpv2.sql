@@ -32,13 +32,15 @@ CREATE TABLE IF NOT EXISTS `characters`  (
   `status` varchar(140) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '{}',
   `firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT ' ',
   `lastname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT ' ',
-  `skinPlayer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
+  `skinPlayer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4,
   `compPlayer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
   `jobgrade` int(11) NULL DEFAULT 0,
   `coords` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '{}',
   `isdead` tinyint(1) NULL DEFAULT 0,
+  `ammo` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4 DEFAULT '{}',
   UNIQUE INDEX `identifier_charidentifier`(`identifier`, `charidentifier`) USING BTREE,
   INDEX `charidentifier`(`charidentifier`) USING BTREE,
+  INDEX `ammo` (ammo(255)) USING BTREE,
   CONSTRAINT `FK_characters_users` FOREIGN KEY (`identifier`) REFERENCES `users` (`identifier`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
