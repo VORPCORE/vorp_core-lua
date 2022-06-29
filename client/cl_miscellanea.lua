@@ -79,7 +79,7 @@ Citizen.CreateThread(function()
 
     if Config.HideOnlyDEADEYE then
         Citizen.InvokeNative(0xC116E6DF68DCE667, 2, 2)
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 4, 2)
+        Citizen.InvokeNative(0xC116E6DF68DCE667, 3, 2)
     end
     if Config.HidePlayersCore then
         Citizen.InvokeNative(0xC116E6DF68DCE667, 0, 2)
