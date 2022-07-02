@@ -142,9 +142,9 @@ AddEventHandler('getCore', function(cb)
         TriggerClientEvent('vorp:ShowAdvancedRightNotification', _source, text, dict, icon, text_color, duration)
     end
 
-    coreData.NotifyCenter = function(source, text, duration)
+    coreData.NotifyCenter = function(source, text, duration,color)
         local _source = source
-        TriggerClientEvent('vorp:ShowSimpleCenterText', _source, text, duration)
+        TriggerClientEvent('vorp:ShowSimpleCenterText', _source, text, duration,color)
     end
 
     coreData.NotifyBottomRight = function(source, text, duration)
