@@ -6,6 +6,19 @@ AddEventHandler('getCore', function(cb)
         TriggerEvent('vorp:ExecuteServerCallBack', name, callback, args)
     end
 
+    corefunctions.Warning = function(text)
+        print("^3WARNING: ^7" .. tostring(text) .. "^7")
+    end
+
+    corefunctions.Error = function(text)
+        print("^1ERROR: ^7" .. tostring(text) .. "^7")
+        TriggerClientEvent("vorp_core:LogError")
+    end
+
+    corefunctions.Success = function(text)
+        print("^2SUCCESS: ^7" .. tostring(text) .. "^7")
+    end
+
     corefunctions.NotifyTip = function(text, duration)
         exports.vorp_core:DisplayTip(tostring(text), tonumber(duration))
     end
@@ -17,7 +30,7 @@ AddEventHandler('getCore', function(cb)
             tonumber(duration), tostring(color))
     end
 
-    corefunctions.displayRightTip = function(text, duration)
+    corefunctions.NotifyRightTip = function(text, duration)
         exports.vorp_core:DisplayRightTip(tostring(text), tonumber(duration))
     end
 
@@ -45,8 +58,8 @@ AddEventHandler('getCore', function(cb)
             tostring(text_color), tonumber(duration))
     end
 
-    corefunctions.NotifyCenter = function(text, duration)
-        exports.vorp_core:ShowSimpleCenterText(tostring(text), tonumber(duration),tostring(color))
+    corefunctions.NotifyCenter = function(text, duration,text_color)
+        exports.vorp_core:ShowSimpleCenterText(tostring(text), tonumber(duration),tostring(text_color))
     end
 
     corefunctions.NotifyBottomRight = function(text, duration)
@@ -69,6 +82,7 @@ AddEventHandler('getCore', function(cb)
         exports.vorp_core:warningNotify(tostring(title), tostring(msg), tostring(audioRef), tostring(audioName),
             tonumber(duration))
     end
+
 
     cb(corefunctions)
 end)
