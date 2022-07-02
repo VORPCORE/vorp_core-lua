@@ -1,4 +1,3 @@
-RegisterNetEvent('getCore')
 AddEventHandler('getCore', function(cb)
     local corefunctions = {}
 
