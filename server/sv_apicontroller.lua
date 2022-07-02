@@ -172,7 +172,7 @@ AddEventHandler('getCore', function(cb)
         TriggerClientEvent('vorp:warningNotify', _source, title, msg, audioRef, audioName, duration)
     end
 
-    cb(coreData)
+  
 
     cb(coreData)
 end)
