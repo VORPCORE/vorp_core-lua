@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `characters`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
 
--------------ANY NEW UPDATES TO THE TABLES ABOVE NEED TO HAVE TABLE ALTERS ALSO ADDED BELOW FOR THOSE WHO ALREADY HAVE SERVERS RUNNING.
+-- NY NEW UPDATES TO THE TABLES ABOVE NEED TO HAVE TABLE ALTERS ALSO ADDED BELOW FOR THOSE WHO ALREADY HAVE SERVERS RUNNING.
 -- The following updates tables that were not included in the original table (Support for those who already have the tables above)
 ALTER TABLE `users` ALTER COLUMN  `banned` boolean;
 ALTER TABLE `users` ADD `banneduntil` int(10) DEFAULT 0;
