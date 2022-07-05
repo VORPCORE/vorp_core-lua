@@ -18,31 +18,50 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE IF NOT EXISTS `characters`  (
-  `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-  `charidentifier` int(11) NOT NULL AUTO_INCREMENT,
+
+-- Dumping structure for table vorpv2.characters
+CREATE TABLE IF NOT EXISTS `characters` (
+  `identifier` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-  `group` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT 'user',
-  `money` double(11, 2) NULL DEFAULT 0,
-  `gold` double(11, 2) NULL DEFAULT 0,
-  `rol` double(11, 2) NOT NULL DEFAULT 0,
-  `xp` int(11) NULL DEFAULT 0,
-  `inventory` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
-  `job` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT 'unemployed',
-  `status` varchar(140) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '{}',
-  `firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT ' ',
-  `lastname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT ' ',
-  `skinPlayer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4,
-  `compPlayer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
-  `jobgrade` int(11) NULL DEFAULT 0,
-  `coords` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '{}',
-  `isdead` tinyint(1) NULL DEFAULT 0,
+  `charidentifier` int(11) NOT NULL AUTO_INCREMENT,
+  `group` varchar(10) COLLATE utf8mb4_bin DEFAULT 'user',
+  `money` double(11,2) DEFAULT 0.00,
+  `gold` double(11,2) DEFAULT 0.00,
+  `rol` double(11,2) NOT NULL DEFAULT 0.00,
+  `xp` int(11) DEFAULT 0,
+  `inventory` longtext COLLATE utf8mb4_bin DEFAULT NULL,
+  `job` varchar(50) COLLATE utf8mb4_bin DEFAULT 'unemployed',
+  `status` varchar(140) COLLATE utf8mb4_bin DEFAULT '{}',
+  `meta` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '{}',
+  `firstname` varchar(50) COLLATE utf8mb4_bin DEFAULT ' ',
+  `lastname` varchar(50) COLLATE utf8mb4_bin DEFAULT ' ',
+  `skinPlayer` longtext COLLATE utf8mb4_bin DEFAULT NULL,
+  `compPlayer` longtext COLLATE utf8mb4_bin DEFAULT NULL,
+  `jobgrade` int(11) DEFAULT 0,
+  `coords` varchar(75) COLLATE utf8mb4_bin DEFAULT '{}',
+  `isdead` tinyint(1) DEFAULT 0,
+  `clanid` int(11) DEFAULT 0,
+  `trust` int(11) DEFAULT 0,
+  `supporter` int(11) DEFAULT 0,
+  `walk` varchar(50) COLLATE utf8mb4_bin DEFAULT 'noanim',
+  `crafting` longtext COLLATE utf8mb4_bin DEFAULT '{"medical":0,"blacksmith":0,"basic":0,"survival":0,"brewing":0,"food":0}',
+  `info` longtext COLLATE utf8mb4_bin DEFAULT '{}',
+  `gunsmith` double(11,2) DEFAULT 0.00,
   `ammo` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4 DEFAULT '{}',
-  UNIQUE INDEX `identifier_charidentifier`(`identifier`, `charidentifier`) USING BTREE,
-  INDEX `charidentifier`(`charidentifier`) USING BTREE,
+  UNIQUE KEY `identifier_charidentifier` (`identifier`,`charidentifier`) USING BTREE,
+  KEY `charidentifier` (`charidentifier`) USING BTREE,
   INDEX `ammo` (`ammo`) USING BTREE,
+  KEY `clanid` (`clanid`),
+  KEY `crafting` (`crafting`(768)),
+  KEY `compPlayer` (`compPlayer`(768)),
+  KEY `info` (`info`(768)),
+  KEY `inventory` (`inventory`(768)),
+  KEY `coords` (`coords`),
+  KEY `money` (`money`),
+  KEY `meta` (`meta`),
+  KEY `steamname` (`steamname`),
   CONSTRAINT `FK_characters_users` FOREIGN KEY (`identifier`) REFERENCES `users` (`identifier`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC;
 
 
 -- ANY NEW UPDATES TO THE TABLES ABOVE NEED TO HAVE TABLE ALTERS ALSO ADDED BELOW FOR THOSE WHO ALREADY HAVE SERVERS RUNNING.
