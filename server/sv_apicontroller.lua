@@ -90,10 +90,13 @@ AddEventHandler('getCore', function(cb)
         TriggerEvent("vorp:addNewCallBack", name, callback)
     end
         
-    coreData.setInstancePlayer = function(source, active)
-        TriggerClientEvent("vorp:setInstancePlayer", source, active)
+       coreData.instancePlayer = function(source, set)
+        TriggerEvent("vorp_core:instanceplayer", source, set)
     end
 
+    coreData.instancePlayers = function(source, set)
+        TriggerEvent("vorp_core:instanceplayers", source, set)
+    end
     coreData.getUsers = function()
         return _users
     end
