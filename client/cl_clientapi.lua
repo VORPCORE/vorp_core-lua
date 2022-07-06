@@ -18,7 +18,15 @@ AddEventHandler('getCore', function(cb)
     corefunctions.Success = function(text)
         print("^2SUCCESS: ^7" .. tostring(text) .. "^7")
     end
+        
+    corefunctions.instancePlayer = function()
+        TriggerServerEvent("vorp_core:instanceplayer")
+    end
 
+    corefunctions.instancePlayers = function(set)
+        TriggerServerEvent("vorp_core:instanceplayers", set)
+    end
+        
     corefunctions.NotifyTip = function(text, duration)
         exports.vorp_core:DisplayTip(tostring(text), tonumber(duration))
     end
