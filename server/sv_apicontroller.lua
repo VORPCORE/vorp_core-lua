@@ -89,6 +89,10 @@ AddEventHandler('getCore', function(cb)
         --ServerCallBacks[name] = callback
         TriggerEvent("vorp:addNewCallBack", name, callback)
     end
+        
+    coreData.setInstancePlayer = function(source, active)
+        TriggerClientEvent("vorp:setInstancePlayer", source, active)
+    end
 
     coreData.getUsers = function()
         return _users
