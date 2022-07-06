@@ -102,3 +102,5 @@ AddEventHandler("vorp_core:instanceplayers", function(setName)
         instanceSource
     )
 end)
+
+-- credits to MrDankKetchup
