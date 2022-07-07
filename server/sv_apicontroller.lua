@@ -89,14 +89,90 @@ AddEventHandler('getCore', function(cb)
         --ServerCallBacks[name] = callback
         TriggerEvent("vorp:addNewCallBack", name, callback)
     end
-
+        
     coreData.getUsers = function()
         return _users
     end
 
-    coreData.sendLog = function(msg, type)
-        --Nothing
+    coreData.Warning = function(text)
+        print("^3WARNING: ^7" .. tostring(text) .. "^7")
     end
+
+    coreData.Error = function(text)
+        print("^1ERROR: ^7" .. tostring(text) .. "^7")
+        TriggerClientEvent("vorp_core:LogError")
+    end
+
+    coreData.Success = function(text)
+        print("^2SUCCESS: ^7" .. tostring(text) .. "^7")
+    end
+
+    coreData.NotifyTip = function(source, text, duration)
+        local _source = source
+        TriggerClientEvent('vorp:Tip', _source, text, duration)
+    end
+
+    coreData.NotifyLeft = function(source, title, subtitle, dict, icon, duration, colors)
+        local _source = source
+        TriggerClientEvent('vorp:NotifyLeft', _source, title, subtitle, dict, icon, duration, colors)
+    end
+
+    coreData.NotifyRightTip = function(source, text, duration)
+        local _source = source
+        TriggerClientEvent('vorp:TipRight', _source, text, duration)
+    end
+
+    coreData.NotifyObjective = function(source, text, duration)
+        local _source = source
+        TriggerClientEvent('vorp:TipBottom', _source, text, duration)
+    end
+
+    coreData.NotifyTop = function(source, text, location, duration)
+        local _source = source
+        TriggerClientEvent('vorp:NotifyTop', _source, text, location, duration)
+    end
+
+    coreData.NotifySimpleTop = function(source, text, subtitle, duration)
+        local _source = source
+        TriggerClientEvent('vorp:ShowTopNotification', _source, text, subtitle, duration)
+    end
+
+    coreData.NotifyAvanced = function(source, text, dict, icon, text_color, duration)
+        local _source = source
+        TriggerClientEvent('vorp:ShowAdvancedRightNotification', _source, text, dict, icon, text_color, duration)
+    end
+
+    coreData.NotifyCenter = function(source, text, duration,color)
+        local _source = source
+        TriggerClientEvent('vorp:ShowSimpleCenterText', _source, text, duration,color)
+    end
+
+    coreData.NotifyBottomRight = function(source, text, duration)
+        local _source = source
+        TriggerClientEvent('vorp:ShowBottomRight', _source, text, duration)
+    end
+
+    coreData.NotifyFail = function(source, text, subtitle, duration)
+        local _source = source
+        TriggerClientEvent('vorp:failmissioNotifY', _source, text, subtitle, duration)
+    end
+
+    coreData.NotifyDead = function(source, title, audioRef, audioName, duration)
+        local _source = source
+        TriggerClientEvent('vorp:deadplayerNotifY', _source, title, audioRef, audioName, duration)
+    end
+
+    coreData.NotifyUpdate = function(source, title, subtitle, duration)
+        local _source = source
+        TriggerClientEvent('vorp:updatemissioNotify', title, subtitle, duration)
+    end
+
+    coreData.NotifyWarning = function(source, title, msg, audioRef, audioName, duration)
+        local _source = source
+        TriggerClientEvent('vorp:warningNotify', _source, title, msg, audioRef, audioName, duration)
+    end
+
+  
 
     cb(coreData)
 end)

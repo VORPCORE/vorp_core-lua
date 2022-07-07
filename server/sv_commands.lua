@@ -677,6 +677,65 @@ RegisterCommand("unwarn", function(source, args, rawCommand)
     end)
 end)
 
+if Config.UseCharPermission then 
+    RegisterCommand( "addchar", function(source, args, rawCommand)
+        local _source = source
+        TriggerEvent("vorp:getCharacter", _source, function(user)
+            local target = args[1]
+            local Identifier = GetPlayerIdentifier(_source)
+            local discordIdentity = GetIdentity(_source, "discord")
+            local discordId = string.sub(discordIdentity, 9)
+            local steamName = GetPlayerName(_source)
+            local ip = GetPlayerEndpoint(_source)
+            local text = "Had the multicharacter"
+            local ace = IsPlayerAceAllowed(_source, 'vorpcore.addchar.Command')
+            local message = "**Steam name: **`" ..
+                steamName ..
+                "`**\nIdentifier**`" ..
+                Identifier ..
+                "` \n**Discord:** <@" ..
+                discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+            if args then
+                if ace or user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                    TriggerEvent("vorp:charWebhook", "📋` /addchar command` ", message, color)
+                    TriggerClientEvent("vorp:addchar", _source, target)
+                    TriggerClientEvent("vorp:Tip", _source, Config.Langs["AddChar"] .. target, 4000)
+                else
+                    TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
+                end
+            end
+        end)
+    end)
+
+    RegisterCommand( "removechar", function(source, args, rawCommand)
+        local _source = source
+        TriggerEvent("vorp:getCharacter", _source, function(user)
+            local target = args[1]
+            local Identifier = GetPlayerIdentifier(_source)
+            local discordIdentity = GetIdentity(_source, "discord")
+            local discordId = string.sub(discordIdentity, 9)
+            local steamName = GetPlayerName(_source)
+            local ip = GetPlayerEndpoint(_source)
+            local text = "Has lost the multicharacter"
+            local ace = IsPlayerAceAllowed(_source, 'vorpcore.removechar.Command')
+            local message = "**Steam name: **`" ..
+                steamName ..
+                "`**\nIdentifier**`" ..
+                Identifier ..
+                "` \n**Discord:** <@" ..
+                discordId .. ">**\nIP: **`" .. ip .. "` \n **User-Id:** `" .. target .. "`\n **Action:** `" .. text .. "`"
+            if args then
+                if ace or user.group == Config.Group.Admin or user.group == Config.Group.Mod then
+                    TriggerEvent("vorp:charWebhook", "📋` /removechar command` ", message, color)
+                    TriggerClientEvent("vorp:removechar", _source, target)
+                    TriggerClientEvent("vorp:Tip", _source, Config.Langs["RemoveChar"] .. target, 4000)
+                else
+                    TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
+                end
+            end
+        end)
+    end)
+end
 
 ---------------------------------------------------------------------------------------------------------
 ----------------------------------- CHAT ADD SUGGESTION --------------------------------------------------
@@ -781,6 +840,16 @@ AddEventHandler("vorp:chatSuggestion", function()
             TriggerClientEvent("chat:addSuggestion", _source, "/unwarn", " VORPcore command to unwarn players.", {
                 { name = "Id", help = 'player ID from Discord user-id' },
             })
+            
+            if Config.UseCharPermission then 
+                TriggerClientEvent("chat:addSuggestion", _source, "/addchar", " VORPcore command to add multicharacter to players.", {
+                    { name = "Steam Hex", help = 'steam:110000101010010' },
+                })
+
+                TriggerClientEvent("chat:addSuggestion", _source, "/removechar", " VORPcore command to remove multicharacter to players.", {
+                    { name = "Steam Hex", help = 'steam:110000101010010' },
+                })
+            end
         else
             TriggerClientEvent("chat:removeSuggestion", _source, "/setgroup")
 
@@ -817,6 +886,11 @@ AddEventHandler("vorp:chatSuggestion", function()
             TriggerClientEvent("chat:removeSuggestion", _source, "/warn")
 
             TriggerClientEvent("chat:removeSuggestion", _source, "/unwarn")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/addchar")
+
+            TriggerClientEvent("chat:removeSuggestion", _source, "/removechar")
+
         end
     end)
 

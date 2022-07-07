@@ -159,6 +159,11 @@ function WarnPlayerByUserId(target, status)
     TriggerServerEvent("vorpwarns:addtodb", status, target)
 end
 
+function CharPlayerByUserId(target, status)
+    local player = PlayerPedId()
+    TriggerServerEvent("vorpchar:addtodb", status, target)
+end
+
 RegisterNetEvent('vorp:deleteVehicle')
 AddEventHandler('vorp:deleteVehicle', function(radius)
     local player = PlayerPedId()
@@ -236,4 +241,14 @@ end)
 RegisterNetEvent('vorp:unwarn')
 AddEventHandler('vorp:unwarn', function(target)
     WarnPlayerByUserId(target, false)
+end)
+
+RegisterNetEvent('vorp:addchar')
+AddEventHandler('vorp:addchar', function(target)
+    CharPlayerByUserId(target, true)
+end)
+
+RegisterNetEvent('vorp:removechar')
+AddEventHandler('vorp:removechar', function(target)
+    CharPlayerByUserId(target, false)
 end)
