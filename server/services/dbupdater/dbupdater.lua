@@ -167,19 +167,6 @@ local Updates = {
     }
 }
 
-function dump(o)
-    if type(o) == 'table' then
-       local s = '{ '
-       for k,v in pairs(o) do
-          if type(k) ~= 'number' then k = '"'..k..'"' end
-          s = s .. '['..k..'] = ' .. dump(v) .. ','
-       end
-       return s .. '} '
-    else
-       return tostring(o)
-    end
- end
-
 local function runSQLList(list, type)
     for index, it in ipairs(list) do
         local hascolumn = false
@@ -243,7 +230,7 @@ Citizen.CreateThread(function()
     local updated = false
 
     RunDBCheck()
-
+    
     if status.tablecount < #Tables then
         runSQLList(Tables, 'table')
         status.tablecount = #Tables
