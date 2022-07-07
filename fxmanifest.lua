@@ -16,6 +16,8 @@ client_scripts {
 server_scripts {
   'server/class/sv_*.lua',
   'server/sv_*.lua',
+  'server/services/*.lua',
+  'server/services/dbupdater/*.lua'
 }
 
 server_exports { 'vorpAPI' }
