@@ -135,10 +135,12 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
     DisplayRadar(true) -- show HUD
     SetMinimapHideFow(true) -- enable FOW
     TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger 
+    TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
 end)
 
 AddEventHandler('playerSpawned', function(spawnInfo)
     Wait(2000)
+    TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557) --instance players
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost)
     DisplayRadar(false) --hide HUD on player select char
     SetMinimapHideFow(false) -- hide map fog of war
