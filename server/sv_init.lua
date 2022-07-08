@@ -21,6 +21,8 @@ end
 ScriptList = {}
 Changelogs = 0
 
+VorpInitialized = false
+
 Citizen.CreateThread(function()
 
     local Resources = GetNumResources()
@@ -33,9 +35,9 @@ Citizen.CreateThread(function()
 
 
     if next(ScriptList) ~= nil then
+        VorpInitialized = true
         init_core()
         Checker()
-
     end
 
 end)
