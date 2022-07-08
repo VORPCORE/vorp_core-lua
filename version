@@ -1,3 +1,13 @@
+<1.4>
+- Database auto updater has been added. No more manual sql entries!
+- Player instance API added
+- Core Server API Notifications added.
+- client/Sever API print Logs added.
+- PVP Toggle Added.
+- Multi character permission
+- Save steamname on dropped
+- Whitelist Updates
+- Minor Bug fixes
 <1.3>
 - vorp core now uses ace permissions you can use discord ace perms and give discord roles to give staff permissions to the core mommands like /tpm
 - remove display commands if player does not have permission to use. so normal players wont be able to type any admin command

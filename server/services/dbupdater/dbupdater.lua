@@ -210,15 +210,17 @@ Citizen.CreateThread(function()
     end
 
     repeat
-        Wait(50)
-    until GetResourceState('ghmattimysql') == 'started'
+        Wait(10)
+    until GetResourceState('ghmattimysql') == 'started' and VorpInitialized == true
 
     local filedata = LoadResourceFile(GetCurrentResourceName(), "./server/services/dbupdater/status.json")
     local status = json.decode(filedata)
     local updated = false
 
     RunDBCheck()
-    
+    print('')
+    print("^3VORPcore Database Auto Updater ")
+    print('')
     if status.tablecount < #Tables then
         runSQLList(Tables, 'table')
         status.tablecount = #Tables
@@ -236,4 +238,6 @@ Citizen.CreateThread(function()
     else
         print('^4Database Updater ^3('..GetCurrentResourceName()..')^2✅ Database('..dbversion..') is up to date^0')
     end
+
+    print('^0###############################################################################')
 end)
