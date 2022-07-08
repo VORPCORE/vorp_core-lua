@@ -52,7 +52,7 @@ local Tables = {
             `jobgrade` int(11) NULL DEFAULT 0,
             `coords` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '{}',
             `isdead` tinyint(1) NULL DEFAULT 0,
-            `ammo` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '{}',
+            `ammo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '{}',
             UNIQUE INDEX `identifier_charidentifier`(`identifier`, `charidentifier`) USING BTREE,
             INDEX `charidentifier`(`charidentifier`) USING BTREE,
             INDEX `ammo` (`ammo`) USING BTREE,
@@ -152,18 +152,6 @@ local Updates = {
         sql = [[
             ALTER TABLE `characters` ADD INDEX `ammo` (`ammo`);
         ]]
-    },
-    {
-        name = "desc",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'items'
-            AND  Column_Name = 'desc';
-        ]],
-        sql = [[
-            ALTER TABLE `items` ADD COLUMN `desc` VARCHAR(5550) NOT NULL DEFAULT 'nice item';
-        ]]
     }
 }
 
@@ -184,7 +172,7 @@ local function runSQLList(list, type)
                 local out = ''
                 if type == 'table' then
                     out = '^1❌ ('..dbversion..') Failed to Create: '
-                    if result.warningStatus == 1 then
+                    if result.warningStatus == 1  or dbversion == 'MySQL' then
                         out = '^2✅ ' .. 'Table exists: ' 
                     end
                 else 
