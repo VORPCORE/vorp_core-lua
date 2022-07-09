@@ -172,7 +172,19 @@ AddEventHandler('getCore', function(cb)
         TriggerClientEvent('vorp:warningNotify', _source, title, msg, audioRef, audioName, duration)
     end
 
-  
+    coreData.dbUpdateAddTables = function (tbl)
+        if VorpInitialized == true then
+            print('Updates must be added before vorpcore is initiates')
+        end
+        dbupdaterAPI.addTables(tbl)
+    end
+
+    coreData.dbUpdateAddUpdates = function (updt)
+        if VorpInitialized == true then
+            print('Updates must be added before vorpcore is initiates')
+        end
+        dbupdaterAPI.addUpdates(updt)
+    end
 
     cb(coreData)
 end)
