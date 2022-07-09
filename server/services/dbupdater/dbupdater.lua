@@ -148,7 +148,7 @@ local Updates = {
             AND  Column_Name = 'ammo';
         ]],
         sql = [[
-            ALTER TABLE `characters` ADD COLUMN `ammo` longtext DEFAULT '{}';
+            ALTER TABLE `characters` ADD COLUMN `ammo` varchar(255) DEFAULT '{}';
         ]]
     },
     {
