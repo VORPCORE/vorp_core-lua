@@ -139,6 +139,7 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
     DisplayRadar(true) -- show HUD
     SetMinimapHideFow(true) -- enable FOW
     TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger 
+    TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
 end)
 
 HealthData = {}
@@ -151,6 +152,7 @@ AddEventHandler("vorp:GetHealthFromCore", function(healthData)
 end)
 
 AddEventHandler('playerSpawned', function(spawnInfo)
+    TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557) --instance players
     Wait(2000)
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost)
     DisplayRadar(false) --hide HUD on player select char
@@ -160,7 +162,7 @@ AddEventHandler('playerSpawned', function(spawnInfo)
     Wait(6000) -- wait to load in
     ExecuteCommand("rc") --reload char
     Wait(2000)
-    -- ExecuteCommand("rc") --ensure it was reloaded
+    ShutdownLoadingScreen()
     
 end)
 
