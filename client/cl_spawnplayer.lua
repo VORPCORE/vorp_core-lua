@@ -90,7 +90,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
         if Config.Loadinscreen then
             Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost)
             Wait(Config.LoadinScreenTimer) -- wait to load in
-            ExecuteCommand("rc") -- reload clothing
+           -- ExecuteCommand("rc") -- reload clothing
             Wait(1000)
             ShutdownLoadingScreen()
 
@@ -98,10 +98,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
 
         ------- to make sure health and stamina are filled ----------
         TriggerServerEvent("vorp:GetValues")
-
-        Wait(1000)
-
-        Wait(3000)
+        Wait(6000)
         Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 0, HealthData.hInner)
         SetEntityHealth(PlayerPedId(), HealthData.hOuter+HealthData.hInner)
         Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 1, HealthData.sInner)
