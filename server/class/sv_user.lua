@@ -136,7 +136,7 @@ function User(source, identifier, group, playerwarnings, license, char)
             if #usercharacters > 0 then
                 for k, character in ipairs(usercharacters) do
                     if character['identifier'] ~= nil then
-                        local newCharacter = Character(self.source, self._identifier, character["charidentifier"], character["group"], character["job"], character["jobgrade"], character["firstname"], character["lastname"], character["inventory"], character["status"], character["coords"], character["money"], character["gold"], character["rol"], character["xp"], character["isdead"], character["skinPlayer"], character["compPlayer"])
+                        local newCharacter = Character(self.source, self._identifier, character["charidentifier"], character["group"], character["job"], character["jobgrade"], character["firstname"], character["lastname"], character["inventory"], character["status"], character["coords"], character["money"], character["gold"], character["rol"], character["healthouter"], character["healthinner"], character["staminaouter"], character["staminainner"], character["xp"], character["isdead"], character["skinPlayer"], character["compPlayer"])
 
                         self._usercharacters[newCharacter.CharIdentifier()] = newCharacter
                         self.usedCharacterId = newCharacter.CharIdentifier()
@@ -148,7 +148,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     end
 
     self.addCharacter = function(firstname, lastname, skin, comps)
-        local newChar = Character(self.source, self._identifier, -1, Config.initGroup, Config.initJob, Config.initJobGrade, firstname, lastname, "{}", "{}", "{}", Config.initMoney, Config.initGold, Config.initRol, Config.initXp, false, skin, comps)
+        local newChar = Character(self.source, self._identifier, -1, Config.initGroup, Config.initJob, Config.initJobGrade, firstname, lastname, "{}", "{}", "{}", Config.initMoney, Config.initGold, Config.initRol, 500, 100, 500, 100, Config.initXp, false, skin, comps)
 
         newChar.SaveNewCharacterInDb(function(id)
             newChar.CharIdentifier(id)
