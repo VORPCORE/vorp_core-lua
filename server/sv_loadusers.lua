@@ -57,12 +57,10 @@ AddEventHandler('playerDropped', function()
 
     --SaveCoordsDB.LastCoordsInCache.Remove(player);
     if _users[identifier] and not _usersLoading[identifier] then
-        print("1")
         _users[identifier].GetUsedCharacter().HealthOuter(_healthData[identifier].hOuter)
         _users[identifier].GetUsedCharacter().HealthInner(_healthData[identifier].hInner)
         _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
         _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
-        print(_healthData[identifier].hInner, _healthData[identifier].hOuter, _healthData[identifier].sInner, _healthData[identifier].sOuter)
         _users[identifier].SaveUser()
         _users[identifier] = nil
         print(string.format("Saved player %s.", GetPlayerName(source)))
@@ -160,7 +158,6 @@ end)
 RegisterNetEvent('vorp:SaveHealth')
 AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
     local _source = source
-    --print("saving Health")
     local identifier = GetSteamID(_source)
 
     _users[identifier].GetUsedCharacter().HealthOuter(healthOuter-healthInner)
@@ -170,7 +167,6 @@ end)
 RegisterNetEvent('vorp:SaveStamina')
 AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
     local _source = source
-    --print("saving Stamina")
     local identifier = GetSteamID(_source)
 
     _users[identifier].GetUsedCharacter().StaminaOuter(staminaOuter)
@@ -197,16 +193,13 @@ AddEventHandler("vorp:GetValues", function()
     local healthData = {}
     local _source = source
     local identifier = GetSteamID(_source)
-    print("Values Back")
 
     healthData.hOuter = _users[identifier].GetUsedCharacter().HealthOuter()
     healthData.hInner = _users[identifier].GetUsedCharacter().HealthInner()
     healthData.sOuter = _users[identifier].GetUsedCharacter().StaminaOuter()
     healthData.sInner = _users[identifier].GetUsedCharacter().StaminaInner()
-    print(healthData.hOuter, healthData.hInner, healthData.sOuter, healthData.sInner)
 
     TriggerClientEvent("vorp:GetHealthFromCore", _source, healthData)
-    print("event passed")
 end)
 
 
