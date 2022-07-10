@@ -1,5 +1,6 @@
 _usersLoading = {}
 _users = {}
+_healthData = {}
 
 function CheckConnected(identifier)
     --Check if some player is connected with same steam
@@ -49,11 +50,19 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
 end
 
 AddEventHandler('playerDropped', function()
+    local _source = source
     local identifier = GetSteamID(source)
     local steamName = GetPlayerName(source)
+    local playerPed = GetPlayerPed(source)
 
     --SaveCoordsDB.LastCoordsInCache.Remove(player);
     if _users[identifier] and not _usersLoading[identifier] then
+        print("1")
+        _users[identifier].GetUsedCharacter().HealthOuter(_healthData[identifier].hOuter)
+        _users[identifier].GetUsedCharacter().HealthInner(_healthData[identifier].hInner)
+        _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
+        _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
+        print(_healthData[identifier].hInner, _healthData[identifier].hOuter, _healthData[identifier].sInner, _healthData[identifier].sOuter)
         _users[identifier].SaveUser()
         _users[identifier] = nil
         print(string.format("Saved player %s.", GetPlayerName(source)))
@@ -146,6 +155,58 @@ RegisterNetEvent('vorp:getUser', function(cb)
             cb.Invoke(_users[steam].GetUser());
         }
     });]]
+end)
+
+RegisterNetEvent('vorp:SaveHealth')
+AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
+    local _source = source
+    --print("saving Health")
+    local identifier = GetSteamID(_source)
+
+    _users[identifier].GetUsedCharacter().HealthOuter(healthOuter-healthInner)
+    _users[identifier].GetUsedCharacter().HealthInner(healthInner)
+end)
+
+RegisterNetEvent('vorp:SaveStamina')
+AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
+    local _source = source
+    --print("saving Stamina")
+    local identifier = GetSteamID(_source)
+
+    _users[identifier].GetUsedCharacter().StaminaOuter(staminaOuter)
+    _users[identifier].GetUsedCharacter().StaminaInner(staminaInner)
+end)
+
+RegisterNetEvent('vorp:HealthCached')
+AddEventHandler('vorp:HealthCached', function(healthOuter, healthInner, staminaOuter, staminaInner)
+    local _source = source
+    local identifier = GetSteamID(_source)
+
+    if not _healthData[identifier] then
+        _healthData[identifier] = {}
+    end
+
+    _healthData[identifier].hOuter = healthOuter
+    _healthData[identifier].hInner = healthInner
+    _healthData[identifier].sOuter = staminaOuter
+    _healthData[identifier].sInner = staminaInner
+end)
+
+RegisterNetEvent("vorp:GetValues")
+AddEventHandler("vorp:GetValues", function()
+    local healthData = {}
+    local _source = source
+    local identifier = GetSteamID(_source)
+    print("Values Back")
+
+    healthData.hOuter = _users[identifier].GetUsedCharacter().HealthOuter()
+    healthData.hInner = _users[identifier].GetUsedCharacter().HealthInner()
+    healthData.sOuter = _users[identifier].GetUsedCharacter().StaminaOuter()
+    healthData.sInner = _users[identifier].GetUsedCharacter().StaminaInner()
+    print(healthData.hOuter, healthData.hInner, healthData.sOuter, healthData.sInner)
+
+    TriggerClientEvent("vorp:GetHealthFromCore", _source, healthData)
+    print("event passed")
 end)
 
 

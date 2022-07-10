@@ -29,6 +29,10 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `gold` double(11,2) DEFAULT 0.00,
   `rol` double(11,2) NOT NULL DEFAULT 0.00,
   `xp` int(11) DEFAULT 0,
+  `healthouter` int(4) DEFAULT 500,
+  `healthinner` int(4) DEFAULT 100,
+  `staminaouter` int(4) DEFAULT 100,
+  `staminainner` int(4) DEFAULT 100,
   `inventory` longtext COLLATE utf8mb4_bin DEFAULT NULL,
   `job` varchar(50) COLLATE utf8mb4_bin DEFAULT 'unemployed',
   `status` varchar(140) COLLATE utf8mb4_bin DEFAULT '{}',
@@ -74,3 +78,7 @@ ALTER TABLE `characters` ADD `steamname` varchar(50) COLLATE utf8mb4_bin NOT NUL
 ALTER TABLE `users` ADD `char` varchar(50) NOT NULL DEFAULT 'false';
 ALTER TABLE `characters` ADD COLUMN `ammo` longtext DEFAULT '{}';
 ALTER TABLE `characters` ADD INDEX `ammo` (`ammo`);
+ALTER TABLE `characters` ADD COLUMN `healthouter` int(4) DEFAULT 500 AFTER `xp`;
+ALTER TABLE `characters` ADD COLUMN `healthinner` int(4) DEFAULT 100 AFTER `healthouter`;
+ALTER TABLE `characters` ADD COLUMN `staminaouter` int(4) DEFAULT 100 AFTER `healthinner`;
+ALTER TABLE `characters` ADD COLUMN `staminainner` int(4) DEFAULT 100 AFTER `staminaouter`;

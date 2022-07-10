@@ -19,6 +19,9 @@ function resspawnPlayer()
     local currentHospital, minDistance, playerCoords = '', -1, GetEntityCoords(PlayerPedId(), true, true)
 
     ResurrectPed(PlayerPedId())
+    local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0)
+    print("Player Respawned")
+    SetEntityHealth(PlayerPedId(), Config.HealthOnRespawn+innerHealth)
     --AnimpostfxStop("DeathFailMP01")
 	EndDeathCam()
     for k,Hospital in pairs(Config["hospital"]) do
@@ -48,6 +51,9 @@ end
 
 function resurrectPlayer()
     ResurrectPed(PlayerPedId())
+    local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0)
+    print("Player Resurrected")
+    SetEntityHealth(PlayerPedId(), Config.HealthOnResurrection+innerHealth)
     --AnimpostfxStop("DeathFailMP01")
 	EndDeathCam()
     DoScreenFadeIn(1000)
