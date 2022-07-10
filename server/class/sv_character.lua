@@ -232,7 +232,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.removeXp = function(quantity) --add check for security
-        self.xp = self.xp - quantity
+        self.Xp = self.xp - quantity
         self.updateCharUi()
     end
 
