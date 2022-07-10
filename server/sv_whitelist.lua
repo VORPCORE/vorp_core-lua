@@ -149,7 +149,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
             if not result[1].inventory == nil then
                 inventory = result[1].inventory
             end
-            LoadCharacter(steamIdentifier, Character(source, steamIdentifier, result[1].charidentifier, result[1].group, result[1].job, result[1].jobgrade, result[1].firstname, result[1].lastname, inventory, result[1].status, result[1].coords, result[1].money, result[1].gold, result[1].rol, result[1].xp, result[1].isdead))
+            LoadCharacter(steamIdentifier, Character(source, steamIdentifier, result[1].charidentifier, result[1].group, result[1].job, result[1].jobgrade, result[1].firstname, result[1].lastname, inventory, result[1].status, result[1].coords, result[1].money, result[1].gold, result[1].rol, result[1].healthouter, result[1].healthinner, result[1].staminaouter, result[1].staminainner, result[1].xp, result[1].isdead))
         end
     end)
 
