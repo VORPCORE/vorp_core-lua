@@ -163,6 +163,58 @@ local Updates = {
         sql = [[
             ALTER TABLE `characters` ADD INDEX `ammo` (`ammo`);
         ]]
+    },
+    {
+        name = "healthouter",
+        script = "vorp_core",
+        find = [[
+            select *
+            from Information_Schema.Columns
+            where Table_Name = 'characters'
+            AND  Column_Name = 'healthouter';
+        ]],
+        sql = [[
+            ALTER TABLE `characters` ADD COLUMN `healthouter` int(4) DEFAULT 500 AFTER `xp`;
+        ]]
+    },
+    {
+        name = "healthinner",
+        script = "vorp_core",
+        find = [[
+            select *
+            from Information_Schema.Columns
+            where Table_Name = 'characters'
+            AND  Column_Name = 'healthinner';
+        ]],
+        sql = [[
+            ALTER TABLE `characters` ADD COLUMN `healthinner` int(4) DEFAULT 100 AFTER `healthouter`;
+        ]]
+    },
+    {
+        name = "staminaouter",
+        script = "vorp_core",
+        find = [[
+            select *
+            from Information_Schema.Columns
+            where Table_Name = 'characters'
+            AND  Column_Name = 'staminaouter';
+        ]],
+        sql = [[
+            ALTER TABLE `characters` ADD COLUMN `staminaouter` int(4) DEFAULT 100 AFTER `healthinner`;
+        ]]
+    },
+    {
+        name = "stamininner",
+        script = "vorp_core",
+        find = [[
+            select *
+            from Information_Schema.Columns
+            where Table_Name = 'characters'
+            AND  Column_Name = 'staminainner';
+        ]],
+        sql = [[
+            ALTER TABLE `characters` ADD COLUMN `staminainner` int(4) DEFAULT 100 AFTER `staminaouter`;
+        ]]
     }
 }
 
