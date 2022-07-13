@@ -160,7 +160,7 @@ AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
     local _source = source
     local identifier = GetSteamID(_source)
 
-    if _users[identifier] then
+    if _users[identifier] and _users[identifier].GetUsedCharacter()~={} then
         _users[identifier].GetUsedCharacter().HealthOuter(healthOuter-healthInner)
         _users[identifier].GetUsedCharacter().HealthInner(healthInner)
     end
@@ -171,7 +171,7 @@ AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
     local _source = source
     local identifier = GetSteamID(_source)
 
-    if _users[identifier] then
+    if _users[identifier] and _users[identifier].GetUsedCharacter()~={} then
         _users[identifier].GetUsedCharacter().StaminaOuter(staminaOuter)
         _users[identifier].GetUsedCharacter().StaminaInner(staminaInner)
     end
