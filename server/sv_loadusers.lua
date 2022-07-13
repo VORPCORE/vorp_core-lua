@@ -160,8 +160,10 @@ AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
     local _source = source
     local identifier = GetSteamID(_source)
 
-    _users[identifier].GetUsedCharacter().HealthOuter(healthOuter-healthInner)
-    _users[identifier].GetUsedCharacter().HealthInner(healthInner)
+    if _users[identifier] then
+        _users[identifier].GetUsedCharacter().HealthOuter(healthOuter-healthInner)
+        _users[identifier].GetUsedCharacter().HealthInner(healthInner)
+    end
 end)
 
 RegisterNetEvent('vorp:SaveStamina')
@@ -169,8 +171,10 @@ AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
     local _source = source
     local identifier = GetSteamID(_source)
 
-    _users[identifier].GetUsedCharacter().StaminaOuter(staminaOuter)
-    _users[identifier].GetUsedCharacter().StaminaInner(staminaInner)
+    if _users[identifier] then
+        _users[identifier].GetUsedCharacter().StaminaOuter(staminaOuter)
+        _users[identifier].GetUsedCharacter().StaminaInner(staminaInner)
+    end
 end)
 
 RegisterNetEvent('vorp:HealthCached')
