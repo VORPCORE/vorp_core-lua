@@ -51,23 +51,23 @@ end
 
 AddEventHandler('playerDropped', function()
     local _source = source
-    local identifier = GetSteamID(source)
-    local steamName = GetPlayerName(source)
-    local playerPed = GetPlayerPed(source)
-
-    --SaveCoordsDB.LastCoordsInCache.Remove(player);
+    local identifier = GetSteamID(_source)
+    local steamName = GetPlayerName(_source)
+    
     if _users[identifier] and not _usersLoading[identifier] then
         _users[identifier].GetUsedCharacter().HealthOuter(_healthData[identifier].hOuter)
         _users[identifier].GetUsedCharacter().HealthInner(_healthData[identifier].hInner)
         _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
         _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
         _users[identifier].SaveUser()
+        Wait(10000)
         _users[identifier] = nil
-        print(string.format("Saved player %s.", GetPlayerName(source)))
+        print(string.format("Saved player %s.", GetPlayerName(_source)))
     end
 
-    if Config.SaveSteamNameDB then 
-        exports.ghmattimysql:execute("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ", {steamName, identifier})
+    if Config.SaveSteamNameDB then
+        exports.ghmattimysql:execute("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ",
+            { steamName, identifier })
     end
 
 end)
