@@ -14,7 +14,7 @@ local function init_core()
         "^1----------------------------------------------------^3VORPcore Framework ^2Lua^0 ^1-----^0\n")
 
     if IsLinux then
-        print("\nVORP CORE Running on Linux, thanks for using VorpCore");
+        print("\nVORP CORE Running on Linux, thanks for using VorpCore")
     end
 end
 
@@ -112,7 +112,13 @@ function Checker()
         if string.find(v.NewestVersion, v.Version) then
             print('^4' .. v.Name .. ' (' .. v.Resource .. ') ^2✅ ' .. 'Up to date - Version ' .. v.Version .. '^0')
         else
-            print('^4' .. v.Name .. ' (' .. v.Resource .. ') ^1❌ ' .. 'Outdated (v' .. v.Version .. ') ^5- Update found: Version ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')')
+            print('^4' ..
+                v.Name ..
+                ' (' ..
+                v.Resource ..
+                ') ^1❌ ' ..
+                'Outdated (v' ..
+                v.Version .. ') ^5- Update found: Version ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')')
         end
 
         if v.CL then

@@ -23,8 +23,6 @@ function TeleportToWaypoint()
         TriggerEvent("vorp:TipRight", Config.Langs.wayPoint, 3000)
     else
 
-        local height = 1
-
         for height = 1, 1000 do
             SetEntityCoords(player, wayPoint.x, wayPoint.y, height + 0.0)
             local foundground, groundZ, normal = GetGroundZAndNormalFor_3dCoord(wayPoint.x, wayPoint.y, height + 0.0)
@@ -41,12 +39,11 @@ function TeleportToWaypoint()
 end
 
 function GetVehicleInDirection()
-    local playerPed                                              = PlayerPedId()
-    local playerCoords                                           = GetEntityCoords(playerPed)
-    local inDirection                                            = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 5.0,
-        0.0)
-    local rayHandle                                              = StartExpensiveSynchronousShapeTestLosProbe(playerCoords
-        , inDirection, 10, playerPed, 0)
+    local playerPed    = PlayerPedId()
+    local playerCoords = GetEntityCoords(playerPed)
+    local inDirection  = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 5.0, 0.0)
+    local rayHandle    = StartExpensiveSynchronousShapeTestLosProbe(playerCoords, inDirection, 10, playerPed, 0)
+
     local numRayHandle, hit, endCoords, surfaceNormal, entityHit = GetShapeTestResult(rayHandle)
 
     if hit == 1 and GetEntityType(entityHit) == 2 then

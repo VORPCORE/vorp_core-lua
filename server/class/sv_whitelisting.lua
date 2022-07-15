@@ -16,17 +16,19 @@ function Whitelist(id, identifier, status, firstconnection)
     end
 
     self.Status = function(value)
-        if value~=nil then
+        if value then
             self._status = value
-            exports.ghmattimysql:execute('UPDATE whitelist SET status = @status where id = @id', {['@status'] = value, ['@id']=self.Id()}, function(result) end)
+            exports.ghmattimysql:execute('UPDATE whitelist SET status = @status where id = @id',
+                { ['@status'] = value, ['@id'] = self.Id() }, function(result) end)
         end
         return self._status
     end
 
     self.Firstconnection = function(value)
-        if value~=nil then
+        if value then
             self._firstconnection = value
-            exports.ghmattimysql:execute('UPDATE whitelist SET firstconnection = @firstconnection where id = @id', {['@firstconnection'] = value, ['@id']=self.Id()}, function(result) end)
+            exports.ghmattimysql:execute('UPDATE whitelist SET firstconnection = @firstconnection where id = @id',
+                { ['@firstconnection'] = value, ['@id'] = self.Id() }, function(result) end)
         end
         return self._firstconnection
     end
