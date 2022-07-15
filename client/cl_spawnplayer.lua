@@ -222,13 +222,15 @@ CreateThread(function()
         local player = PlayerPedId()
         Wait(300000)
 
-        local innerCoreHealth = Citizen.InvokeNative(0x36731AC041289BB1, player, 0)
+        local innerCoreHealth = Citizen.InvokeNative(0x36731AC041289BB1, player, 0, Citizen.ResultAsInteger())
         local outerCoreStamina = Citizen.InvokeNative(0x22F2A386D43048A9, player)
-        local innerCoreStamina = Citizen.InvokeNative(0x36731AC041289BB1, player, 1)
+        local innerCoreStamina = Citizen.InvokeNative(0x36731AC041289BB1, player, 1, Citizen.ResultAsInteger())
         local getHealth = GetEntityHealth(player)
+        local innerHealth = tonumber(innerCoreHealth)
 
-        TriggerServerEvent("vorp:SaveHealth", getHealth, innerCoreHealth)
+        TriggerServerEvent("vorp:SaveHealth", getHealth, innerHealth)
         Wait(5)
         TriggerServerEvent("vorp:SaveStamina", outerCoreStamina, innerCoreStamina)
+
     end
 end)

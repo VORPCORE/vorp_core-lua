@@ -173,6 +173,7 @@ AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
         _users[identifier].GetUsedCharacter().HealthOuter(healthOuter - healthInner)
         _users[identifier].GetUsedCharacter().HealthInner(healthInner)
     end
+
 end)
 
 RegisterNetEvent('vorp:SaveStamina')
