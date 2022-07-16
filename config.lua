@@ -40,7 +40,7 @@ Config = {
   ------------------------------------------------------------------------------
   ------------------------------ WEBHOOKS --------------------------------------
 
-  Logs         = true, -- SET TO FALSE IF YOU DONT WANT LOGS
+
   webhookColor = 16711680, --EMBED COLOR
   name         = "VORP", --NAME OF EMBED
   logo         = "https://via.placeholder.com/30x30", --HEAD LOGO
@@ -50,22 +50,24 @@ Config = {
 
   ---------------------------- WEBHOOK FOR EACH LOG -----------------------------
   --CHANGE THE LINKS
-
-  SetgroupWebhook   = "", --SETJOB
-  SetjobWebhook     = "", --SETGROUP
-  AddmoneyWebhook   = "", --ADDMONEY
-  DelMoneyWebhook   = "", --DELMONEY
-  AddItemsWebhook   = "", --ADDITEMS
-  AddWeaponsWebhook = "", --ADDWEAPONS
-  DelWagonsWebhook  = "", --DELWAGONS
-  TpmWebhook        = "", --TPM
-  DelHorseWebhook   = "", --DELHORSE
-  HealPlayerWebhook = "", --HEALPLAYER
-  ReviveWebhook     = "", --REVIVE
-  WhitelistWebhook  = "", --WHITELIST
-  BanWarnWebhook    = "", --BANS/WARNS
-  NewPlayerWebhook  = "", --NEWPLAYER
-  CharPermWebhook   = "", --CHARPERMS
+  -- delete what you dont want or add nil
+  Logs = {
+    SetgroupWebhook   = "", --SETJOB
+    SetjobWebhook     = "", --SETGROUP
+    AddmoneyWebhook   = "", --ADDMONEY
+    DelMoneyWebhook   = "", --DELMONEY
+    AddItemsWebhook   = "", --ADDITEMS
+    AddWeaponsWebhook = "", --ADDWEAPONS
+    DelWagonsWebhook  = "", --DELWAGONS
+    TpmWebhook        = "", --TPM
+    DelHorseWebhook   = "", --DELHORSE
+    HealPlayerWebhook = "", --HEALPLAYER
+    ReviveWebhook     = "", --REVIVE
+    WhitelistWebhook  = "", --WHITELIST
+    BanWarnWebhook    = "", --BANS/WARNS
+    NewPlayerWebhook  = "", --NEWPLAYER
+    CharPermWebhook   = "", --CHARPERMS
+  },
 
   ------------------------------------------------------------------------------
   ---------------------------- VOICE -------------------------------------------

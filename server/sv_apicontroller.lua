@@ -89,7 +89,7 @@ AddEventHandler('getCore', function(cb)
         --ServerCallBacks[name] = callback
         TriggerEvent("vorp:addNewCallBack", name, callback)
     end
-        
+
     coreData.getUsers = function()
         return _users
     end
@@ -142,9 +142,9 @@ AddEventHandler('getCore', function(cb)
         TriggerClientEvent('vorp:ShowAdvancedRightNotification', _source, text, dict, icon, text_color, duration)
     end
 
-    coreData.NotifyCenter = function(source, text, duration,color)
+    coreData.NotifyCenter = function(source, text, duration, color)
         local _source = source
-        TriggerClientEvent('vorp:ShowSimpleCenterText', _source, text, duration,color)
+        TriggerClientEvent('vorp:ShowSimpleCenterText', _source, text, duration, color)
     end
 
     coreData.NotifyBottomRight = function(source, text, duration)
@@ -172,18 +172,22 @@ AddEventHandler('getCore', function(cb)
         TriggerClientEvent('vorp:warningNotify', _source, title, msg, audioRef, audioName, duration)
     end
 
-    coreData.dbUpdateAddTables = function (tbl)
+    coreData.dbUpdateAddTables = function(tbl)
         if VorpInitialized == true then
             print('Updates must be added before vorpcore is initiates')
         end
         dbupdaterAPI.addTables(tbl)
     end
 
-    coreData.dbUpdateAddUpdates = function (updt)
+    coreData.dbUpdateAddUpdates = function(updt)
         if VorpInitialized == true then
             print('Updates must be added before vorpcore is initiates')
         end
         dbupdaterAPI.addUpdates(updt)
+    end
+
+    coreData.AddWebhook = function(title, webhook, description, color, name, logo, footerlogo, avatar)
+        TriggerEvent('vorp_core:addWebhook', title, webhook, description, color, name, logo, footerlogo, avatar)
     end
 
     cb(coreData)
@@ -203,7 +207,7 @@ AddEventHandler('getWhitelistTables', function(cb)
             return nil
         end
     end
-    
+
     whitelistData.getEntries = function()
         return _whitelist
     end

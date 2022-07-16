@@ -18,11 +18,11 @@ AddEventHandler('getCore', function(cb)
     corefunctions.Success = function(text)
         print("^2SUCCESS: ^7" .. tostring(text) .. "^7")
     end
-        
+
     corefunctions.instancePlayers = function(set)
         TriggerServerEvent("vorp_core:instanceplayers", set)
     end
-        
+
     corefunctions.NotifyTip = function(text, duration)
         exports.vorp_core:DisplayTip(tostring(text), tonumber(duration))
     end
@@ -62,8 +62,8 @@ AddEventHandler('getCore', function(cb)
             tostring(text_color), tonumber(duration))
     end
 
-    corefunctions.NotifyCenter = function(text, duration,text_color)
-        exports.vorp_core:ShowSimpleCenterText(tostring(text), tonumber(duration),tostring(text_color))
+    corefunctions.NotifyCenter = function(text, duration, text_color)
+        exports.vorp_core:ShowSimpleCenterText(tostring(text), tonumber(duration), tostring(text_color))
     end
 
     corefunctions.NotifyBottomRight = function(text, duration)
@@ -87,6 +87,9 @@ AddEventHandler('getCore', function(cb)
             tonumber(duration))
     end
 
+    corefunctions.AddWebhook = function(title, webhook, description, color, name, logo, footerlogo, avatar)
+        TriggerServerEvent('vorp_core:addWebhook', title, webhook, description, color, name, logo, footerlogo, avatar)
+    end
 
     cb(corefunctions)
 end)

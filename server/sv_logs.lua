@@ -1,32 +1,31 @@
 --------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------- DISCORD --------------------------------------------------------
 
-function Discord(webhook, title, description, text, color)
-    if Config.Logs then
+function Discord(webhook, title, description, color, name, logo, footerlogo, avatar)
 
-        PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({
-            embeds = {
-                {
-                    ["color"] = Config.webhookColor,
-                    ["author"] = {
-                        ["name"] = Config.name,
-                        ["icon_url"] = Config.logo
-                    },
-                    ["title"] = title,
-                    ["description"] = description,
-                    ["footer"] = {
-                        ["text"] = "VORPcore" .. " • " .. os.date("%x %X %p"),
-                        ["icon_url"] = Config.footerLogo,
-
-                    },
+    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({
+        embeds = {
+            {
+                ["color"] = Config.webhookColor or color,
+                ["author"] = {
+                    ["name"] = Config.name or name,
+                    ["icon_url"] = Config.logo or logo,
                 },
+                ["title"] = title,
+                ["description"] = description,
+                ["footer"] = {
+                    ["text"] = "VORPcore" .. " • " .. os.date("%x %X %p"),
+                    ["icon_url"] = Config.footerLogo or footerlogo,
 
+                },
             },
-            avatar_url = Config.Avatar
-        }), {
-            ['Content-Type'] = 'application/json'
-        })
-    end
+
+        },
+        avatar_url = Config.Avatar or avatar
+    }), {
+        ['Content-Type'] = 'application/json'
+    })
+
 end
 
 function GetIdentity(source, identity)
@@ -38,82 +37,11 @@ function GetIdentity(source, identity)
     end
 end
 
-RegisterServerEvent('vorp:setgroupWebhook')
-AddEventHandler('vorp:setgroupWebhook', function(title, description, text, color)
-    Discord(Config.SetgroupWebhook, title, description, text, color)
+RegisterServerEvent('vorp_core:addWebhook')
+AddEventHandler('vorp_core:addWebhook', function(title, webhook, description, color, name, logo, footerlogo, avatar)
+    Discord(webhook, title, description, color, name, logo, footerlogo, avatar)
 end)
 
-RegisterServerEvent('vorp:addmoneyWebhook')
-AddEventHandler('vorp:addmoneyWebhook', function(title, description, text, color)
-    Discord(Config.AddmoneyWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:setjobWebhook')
-AddEventHandler('vorp:setjobWebhook', function(title, description, text, color)
-    Discord(Config.SetjobWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:delMoneyWebhook')
-AddEventHandler('vorp:delMoneyWebhook', function(title, description, text, color)
-    print("advent")
-    Discord(Config.DelMoneyWebhook, title, description, text, color)
-end)
-
-
-RegisterServerEvent('vorp:addItemsWebhook')
-AddEventHandler('vorp:addItemsWebhook', function(title, description, text, color)
-    Discord(Config.AddItemsWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:addWeaponsWebhook')
-AddEventHandler('vorp:addWeaponsWebhook', function(title, description, text, color)
-    Discord(Config.AddWeaponsWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:reviveWebhook')
-AddEventHandler('vorp:reviveWebhook', function(title, description, text, color)
-    Discord(Config.ReviveWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:tpmWebhook')
-AddEventHandler('vorp:tpmWebhook', function(title, description, text, color)
-    Discord(Config.TpmWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:delWagonWebhook')
-AddEventHandler('vorp:delWagonWebhook', function(title, description, text, color)
-    Discord(Config.DelWagonsWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:delHorseWebhook')
-AddEventHandler('vorp:delHorseWebhook', function(title, description, text, color)
-    Discord(Config.DelHorseWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:healPlayerWebhook')
-AddEventHandler('vorp:healPlayerWebhook', function(title, description, text, color)
-    Discord(Config.HealPlayerWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:whitelistWebhook')
-AddEventHandler('vorp:whitelistWebhook', function(title, description, text, color)
-    Discord(Config.WhitelistWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:banWarnWebhook')
-AddEventHandler('vorp:banWarnWebhook', function(title, description, text, color)
-    Discord(Config.BanWarnWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:newPlayerWebhook')
-AddEventHandler('vorp:newPlayerWebhook', function(title, description, text, color)
-    Discord(Config.NewPlayerWebhook, title, description, text, color)
-end)
-
-RegisterServerEvent('vorp:charWebhook')
-AddEventHandler('vorp:charWebhook', function(title, description, text, color)
-    Discord(Config.CharPermWebhook, title, description, text, color)
-end)
 -----------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------ RICH PRESENCE --------------------------------------------------------
 RegisterServerEvent("vorprich:getplayers")
