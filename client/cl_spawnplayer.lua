@@ -229,9 +229,11 @@ CreateThread(function()
         local innerHealth = tonumber(innerCoreHealth)
         local innerStamina = tonumber(innerCoreStamina)
 
-        TriggerServerEvent("vorp:SaveHealth", getHealth, innerHealth)
-        Wait(5)
-        TriggerServerEvent("vorp:SaveStamina", outerCoreStamina, innerStamina)
+        if innerHealth and innerStamina and getHealth and outerCoreStamina then
 
+            TriggerServerEvent("vorp:SaveHealth", getHealth, innerHealth)
+            Wait(5)
+            TriggerServerEvent("vorp:SaveStamina", outerCoreStamina, innerStamina)
+        end
     end
 end)
