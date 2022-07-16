@@ -227,10 +227,11 @@ CreateThread(function()
         local innerCoreStamina = Citizen.InvokeNative(0x36731AC041289BB1, player, 1, Citizen.ResultAsInteger())
         local getHealth = GetEntityHealth(player)
         local innerHealth = tonumber(innerCoreHealth)
+        local innerStamina = tonumber(innerCoreStamina)
 
         TriggerServerEvent("vorp:SaveHealth", getHealth, innerHealth)
         Wait(5)
-        TriggerServerEvent("vorp:SaveStamina", outerCoreStamina, innerCoreStamina)
+        TriggerServerEvent("vorp:SaveStamina", outerCoreStamina, innerStamina)
 
     end
 end)

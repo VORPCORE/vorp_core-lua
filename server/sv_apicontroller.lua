@@ -1,7 +1,7 @@
 AddEventHandler('vorp:getCharacter', function(player, cb)
     local sid = GetSteamID(player)
 
-    if _users[sid] ~= nil then
+    if _users[sid] then
         cb(_users[sid].GetUsedCharacter().getCharacter())
     end
 end)
@@ -9,7 +9,7 @@ end)
 AddEventHandler('vorp:addMoney', function(player, typeCash, quantity)
     local sid = GetSteamID(player)
 
-    if _users[sid] ~= nil then
+    if _users[sid] then
         _users[sid].GetUsedCharacter().addCurrency(typeCash, quantity)
         _users[sid].GetUsedCharacter().updateCharUi()
     end
@@ -18,7 +18,7 @@ end)
 AddEventHandler('vorp:removeMoney', function(player, typeCash, quantity)
     local sid = GetSteamID(player)
 
-    if _users[sid] ~= nil then
+    if _users[sid] then
         _users[sid].GetUsedCharacter().removeCurrency(typeCash, quantity)
         _users[sid].GetUsedCharacter().updateCharUi()
     end
@@ -27,7 +27,7 @@ end)
 AddEventHandler('vorp:addXp', function(player, quantity)
     local sid = GetSteamID(player)
 
-    if _users[sid] ~= nil then
+    if _users[sid] then
         _users[sid].GetUsedCharacter().addXp(quantity)
         _users[sid].GetUsedCharacter().updateCharUi()
     end
@@ -36,7 +36,7 @@ end)
 AddEventHandler('vorp:removeXp', function(player, quantity)
     local sid = GetSteamID(player)
 
-    if _users[sid] ~= nil then
+    if _users[sid] then
         _users[sid].GetUsedCharacter().removeXp(quantity)
         _users[sid].GetUsedCharacter().updateCharUi()
     end
@@ -45,7 +45,7 @@ end)
 AddEventHandler('vorp:setJob', function(player, job, jobgrade)
     local sid = GetSteamID(player)
 
-    if _users[sid] ~= nil then
+    if _users[sid] then
         _users[sid].GetUsedCharacter().setJob(job)
         _users[sid].GetUsedCharacter().setJobGrade(jobgrade)
     end
@@ -54,7 +54,7 @@ end)
 AddEventHandler('vorp:setGroup', function(player, group)
     local sid = GetSteamID(player)
 
-    if _users[sid] ~= nil then
+    if _users[sid] then
         _users[sid].GetUsedCharacter().setGroup(group)
     end
 end)
