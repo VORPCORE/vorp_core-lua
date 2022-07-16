@@ -1,7 +1,19 @@
 --------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------- DISCORD --------------------------------------------------------
 
-function Discord(webhook, title, description, color, name, logo, footerlogo, avatar)
+
+function GetIdentity(source, identity)
+
+    for k, v in pairs(GetPlayerIdentifiers(source)) do
+        if string.sub(v, 1, string.len(identity .. ":")) == identity .. ":" then
+            return v
+        end
+    end
+end
+
+RegisterServerEvent('vorp_core:addWebhook')
+AddEventHandler('vorp_core:addWebhook', function(title, webhook, description, color, name, logo, footerlogo, avatar)
+
 
     PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({
         embeds = {
@@ -26,20 +38,7 @@ function Discord(webhook, title, description, color, name, logo, footerlogo, ava
         ['Content-Type'] = 'application/json'
     })
 
-end
 
-function GetIdentity(source, identity)
-
-    for k, v in pairs(GetPlayerIdentifiers(source)) do
-        if string.sub(v, 1, string.len(identity .. ":")) == identity .. ":" then
-            return v
-        end
-    end
-end
-
-RegisterServerEvent('vorp_core:addWebhook')
-AddEventHandler('vorp_core:addWebhook', function(title, webhook, description, color, name, logo, footerlogo, avatar)
-    Discord(webhook, title, description, color, name, logo, footerlogo, avatar)
 end)
 
 -----------------------------------------------------------------------------------------------------------------------
