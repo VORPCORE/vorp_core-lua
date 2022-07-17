@@ -204,10 +204,10 @@ RegisterCommand("additems", function(source, args, rawCommand)
 
         if args then
 
-            local itemCheck = VORPInv.getDBItem(id, item) --check items exist in DB
+            local itemCheck = VORP.getDBItem(id, item) --check items exist in DB
             if itemCheck then
-                local canCarry = VORPInv.canCarryItems(id, count) --can carry inv space
-                local canCarry2 = VORPInv.canCarryItem(id, item, count) --cancarry item limit
+                local canCarry = VORP.canCarryItems(id, count) --can carry inv space
+                local canCarry2 = VORP.canCarryItem(id, item, count) --cancarry item limit
                 --local itemLabel = itemCheck.label
                 if canCarry then
                     if canCarry2 then
@@ -258,7 +258,7 @@ RegisterCommand("addweapons", function(source, args, rawCommand)
             ">**\nIP: **`" .. ip .. "`\n **PlayerId** `" .. id .. "` \n**Weapon given** `" .. weaponHash .. "`"
 
         if args then
-            VORPInv.canCarryWeapons(id, 1, function(cb) --can carry weapons
+            VORP.canCarryWeapons(id, 1, function(cb) --can carry weapons
                 local canCarry = cb
                 if canCarry then
                     if ace or user.group == Config.Group.Admin or user.group == Config.Group.Mod then

@@ -11,8 +11,12 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
     local resultList = exports.ghmattimysql:executeSync("SELECT * FROM users WHERE identifier = ?", { identifier })
 
     _usersLoading[identifier] = true
-
-    print(string.format("Player ^2 %s.", GetPlayerName(source) .. "^7 Loading.."))
+    if source then
+        print(string.format("Player ^2 %s.", GetPlayerName(source) .. "^7 Loading.."))
+    else
+        deferrals.done("restart RedM!")
+        setKickReason("Restart RedM")
+    end
 
     if #resultList > 0 then
         local user = resultList[1]
