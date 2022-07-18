@@ -11,12 +11,8 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
     local resultList = exports.ghmattimysql:executeSync("SELECT * FROM users WHERE identifier = ?", { identifier })
 
     _usersLoading[identifier] = true
-    if source then
-        print(string.format("Player ^2 %s.", GetPlayerName(source) .. "^7 Loading.."))
-    else
-        deferrals.done("restart RedM!")
-        setKickReason("Restart RedM")
-    end
+
+    print(string.format("Loading player %s.", GetPlayerName(source)))
 
     if #resultList > 0 then
         local user = resultList[1]
@@ -65,10 +61,9 @@ AddEventHandler('playerDropped', function()
         _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
         _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
         _users[identifier].SaveUser()
-        print(string.format("Player ^2 %s.", GetPlayerName(_source) .. "^7 saved"))
         Wait(10000)
         _users[identifier] = nil
-
+        print(string.format("Saved player %s.", GetPlayerName(_source)))
     end
 
     if Config.SaveSteamNameDB then
@@ -173,13 +168,10 @@ AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
     local _source = source
     local identifier = GetSteamID(_source)
 
-    if healthOuter and healthInner then
-        if _users[identifier] and _users[identifier].GetUsedCharacter() ~= {} then
-            _users[identifier].GetUsedCharacter().HealthOuter(healthOuter - healthInner)
-            _users[identifier].GetUsedCharacter().HealthInner(healthInner)
-        end
+    if _users[identifier] and _users[identifier].GetUsedCharacter() ~= {} then
+        _users[identifier].GetUsedCharacter().HealthOuter(healthOuter - healthInner)
+        _users[identifier].GetUsedCharacter().HealthInner(healthInner)
     end
-
 end)
 
 RegisterNetEvent('vorp:SaveStamina')
@@ -187,13 +179,9 @@ AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
     local _source = source
     local identifier = GetSteamID(_source)
 
-
-    if staminaInner and staminaOuter then
-
-        if _users[identifier] and _users[identifier].GetUsedCharacter() ~= {} then
-            _users[identifier].GetUsedCharacter().StaminaOuter(staminaOuter)
-            _users[identifier].GetUsedCharacter().StaminaInner(staminaInner)
-        end
+    if _users[identifier] and _users[identifier].GetUsedCharacter() ~= {} then
+        _users[identifier].GetUsedCharacter().StaminaOuter(staminaOuter)
+        _users[identifier].GetUsedCharacter().StaminaInner(staminaInner)
     end
 end)
 
@@ -253,10 +241,10 @@ AddEventHandler("vorpchar:addtodb", function(status, id)
         for _, player in ipairs(GetPlayers()) do
             if id == GetPlayerIdentifiers(player)[1] then
                 if status == true then
-                    TriggerClientEvent("vorp:Tip", player, Config.Langs.AddChar, 10000)
+                    TriggerClientEvent("vorp:Tip", player, Config.Langs["AddChar"], 10000)
                     char = "true"
                 else
-                    TriggerClientEvent("vorp:Tip", player, Config.Langs.RemoveChar, 10000)
+                    TriggerClientEvent("vorp:Tip", player, Config.Langs["RemoveChar"], 10000)
                     char = "false"
                 end
                 break

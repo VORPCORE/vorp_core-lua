@@ -51,9 +51,7 @@ function DrawText(text, font, x, y, fontscale, fontsize, r, g, b, alpha, textcen
     SetTextScale(fontscale, fontsize)
     SetTextColor(r, g, b, alpha)
     SetTextCentre(textcentred)
-    if shadow then
-        SetTextDropshadow(1, 0, 0, 0, 255)
-    end
+    if shadow then SetTextDropshadow(1, 0, 0, 0, 255) end
     SetTextFontForCurrentCommand(font)
     DisplayText(str, x, y)
 end
@@ -61,9 +59,7 @@ end
 function TeleportToCoords(x, y, z, heading)
     local playerPedId = PlayerPedId()
     SetEntityCoords(playerPedId, x, y, z, true, true, true, false)
-    if heading then
-        SetEntityHeading(playerPedId, heading)
-    end
+    if heading ~= nil then SetEntityHeading(playerPedId, heading) end
 end
 
 --- show playerd ID prompt when focus on players
@@ -78,6 +74,7 @@ if Config.showplayerIDwhenfocus then
         end
     end)
 end
+
 
 
 Citizen.CreateThread(function()

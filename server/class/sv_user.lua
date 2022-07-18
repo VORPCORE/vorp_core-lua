@@ -13,7 +13,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     self.source = source
 
     self.UsedCharacterId = function(value)
-        if value then
+        if value ~= nil then
             self.usedCharacterId = value
             self._usercharacters[value].source = self.source
             TriggerClientEvent("vorp:SelectedCharacter", self.source, self.usedCharacterId)
@@ -25,13 +25,13 @@ function User(source, identifier, group, playerwarnings, license, char)
         return self.usedCharacterId
     end
 
-    self.Source = function(value) if value then self.source = value end return self.source end
-    self.Numofcharacters = function(value) if value then self._numofcharacters = value end return self._numofcharacters end
-    self.Identifier = function(value) if value then self._identifier = value end return self._identifier end
-    self.License = function(value) if value then self._license = value end return self._license end
+    self.Source = function(value) if value ~= nil then self.source = value end return self.source end
+    self.Numofcharacters = function(value) if value ~= nil then self._numofcharacters = value end return self._numofcharacters end
+    self.Identifier = function(value) if value ~= nil then self._identifier = value end return self._identifier end
+    self.License = function(value) if value ~= nil then self._license = value end return self._license end
 
     self.Group = function(value)
-        if value then
+        if value ~= nil then
             self._group = value
             exports.ghmattimysql:execute("UPDATE users SET `group` = ? WHERE `identifier` = ?",
                 { self._group, self.Identifier() })
@@ -41,7 +41,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     end
 
     self.Playerwarnings = function(value)
-        if value then
+        if value ~= nil then
             self._playerwarnings = value
             exports.ghmattimysql:execute("UPDATE users SET `warnings` = ? WHERE `identifier` = ?",
                 { self._playerwarnings, self.Identifier() })
@@ -51,7 +51,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     end
 
     self.Charperm = function(value)
-        if value then
+        if value ~= nil then
             self._charperm = value
             exports.ghmattimysql:execute("UPDATE users SET `char` = ? WHERE `identifier` = ?",
                 { self._charperm, self.Identifier() })
@@ -139,7 +139,7 @@ function User(source, identifier, group, playerwarnings, license, char)
 
                 if #usercharacters > 0 then
                     for k, character in ipairs(usercharacters) do
-                        if character['identifier'] then
+                        if character['identifier'] ~= nil then
                             local newCharacter = Character(self.source, self._identifier, character["charidentifier"],
                                 character["group"], character["job"], character["jobgrade"], character["firstname"],
                                 character["lastname"], character["inventory"], character["status"], character["coords"],
@@ -172,7 +172,7 @@ function User(source, identifier, group, playerwarnings, license, char)
         if self._usercharacters[charIdentifier] then
             self._usercharacters[charIdentifier].DeleteCharacter()
             self._usercharacters[charIdentifier] = nil
-
+            --Debug.WriteLine($"Character with charid {charIdentifier} deleted from user {Identifier} successfully");
         end
     end
 

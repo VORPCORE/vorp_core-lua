@@ -2,4 +2,3 @@
 .vs/slnx.sqlite
 .idea/workspace.xml
 .vs/ProjectSettings.json
-server/services/dbupdater/status.json

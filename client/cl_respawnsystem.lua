@@ -16,27 +16,27 @@ end)
 
 
 function resspawnPlayer()
-    local player = PlayerPedId()
-    local currentHospital, minDistance, playerCoords = '', -1, GetEntityCoords(player, true, true)
+    local currentHospital, minDistance, playerCoords = '', -1, GetEntityCoords(PlayerPedId(), true, true)
 
-    ResurrectPed(player)
-    local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, player, 0)
-    SetEntityHealth(player, Config.HealthOnRespawn + innerHealth)
-
+    ResurrectPed(PlayerPedId())
+    local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0)
+    print("Player Respawned")
+    SetEntityHealth(PlayerPedId(), Config.HealthOnRespawn + innerHealth)
+    --AnimpostfxStop("DeathFailMP01")
     EndDeathCam()
-    for k, Hospital in pairs(Config.hospital) do
-        local Doctor = vector3(Hospital.x, Hospital.y, Hospital.z)
+    for k, Hospital in pairs(Config["hospital"]) do
+        local Doctor = vector3(Hospital["x"], Hospital["y"], Hospital["z"])
         local currentDistance = #(playerCoords - Doctor)
         if minDistance ~= -1 and minDistance >= currentDistance then
             minDistance = currentDistance
-            currentHospital = Hospital.name
+            currentHospital = Hospital["name"]
         elseif minDistance == -1 then
             minDistance = currentDistance
-            currentHospital = Hospital.name
+            currentHospital = Hospital["name"]
         end
     end
 
-    Citizen.InvokeNative(0x203BEFFDBE12E96A, player, Config["hospital"][currentHospital]["x"],
+    Citizen.InvokeNative(0x203BEFFDBE12E96A, PlayerPedId(), Config["hospital"][currentHospital]["x"],
         Config["hospital"][currentHospital]["y"], Config["hospital"][currentHospital]["z"],
         Config["hospital"][currentHospital]["h"], false, false, false)
     Citizen.Wait(100)
@@ -44,33 +44,35 @@ function resspawnPlayer()
     DoScreenFadeIn(1000)
     TriggerServerEvent("vorp:ImDead", false)
     setDead = false
-    NetworkSetInSpectatorMode(false, player)
+    NetworkSetInSpectatorMode(false, PlayerPedId())
+    --TriggerEvent("vorp:showUi", true)
     DisplayHud(true)
     DisplayRadar(true)
     setPVP()
 end
 
 function resurrectPlayer()
-    local player = PlayerPedId()
-
-    ResurrectPed(player)
-    local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, player, 0)
-    SetEntityHealth(player, Config.HealthOnResurrection + innerHealth)
+    ResurrectPed(PlayerPedId())
+    local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0)
+    print("Player Resurrected")
+    SetEntityHealth(PlayerPedId(), Config.HealthOnResurrection + innerHealth)
+    --AnimpostfxStop("DeathFailMP01")
     EndDeathCam()
     DoScreenFadeIn(1000)
     TriggerServerEvent("vorp:ImDead", false)
     setDead = false
     Citizen.Wait(100)
-    NetworkSetInSpectatorMode(false, player)
+    NetworkSetInSpectatorMode(false, PlayerPedId())
+    --TriggerEvent("vorp:showUi", true)
     DisplayHud(true)
     DisplayRadar(true)
     setPVP()
 end
 
-CreateThread(function()
-    Wait(5000)
+Citizen.CreateThread(function()
+    Citizen.Wait(5000)
     local str = Config.Langs.prompt
-    local keyPress = Config.RespawnKey
+    local keyPress = Config["RespawnKey"]
     prompt = PromptRegisterBegin()
     PromptSetControlAction(prompt, keyPress)
     str = CreateVarString(10, 'LITERAL_STRING', str)
@@ -85,22 +87,25 @@ CreateThread(function()
 end)
 
 
-CreateThread(function()
+Citizen.CreateThread(function()
     while true do
-        Wait(0)
-        local player = PlayerPedId()
+        Citizen.Wait(0)
         if IsPlayerDead(PlayerId()) then
             if not setDead then
                 TriggerServerEvent("vorp:ImDead", true)
                 setDead = true
             end
-            NetworkSetInSpectatorMode(false, player)
+            NetworkSetInSpectatorMode(false, PlayerPedId())
+            --AnimpostfxPlay("DeathFailMP01")
             DisplayHud(false)
             DisplayRadar(false)
-            TimeToRespawn = Config.RespawnTime
+            --TriggerEvent("vorp:showUi", false)
+            TimeToRespawn = Config["RespawnTime"]
+
             StartDeathCam()
+
             while TimeToRespawn >= 0 and setDead do
-                Wait(1000)
+                Citizen.Wait(1000)
                 TimeToRespawn = TimeToRespawn - 1
                 exports["spawnmanager"].setAutoSpawn(false)
             end
@@ -110,49 +115,48 @@ CreateThread(function()
             local promptLabel = Config.Langs["promptLabel"]
 
             while not pressKey and setDead do
-                Wait(0)
-                if not IsEntityAttachedToAnyPed(player) then
-                    local GetCoords = GetEntityCoords(player)
-                    NetworkSetInSpectatorMode(false, player)
-                    DrawText3D(GetCoords.x, GetCoords.y, GetCoords.z, Config.Langs.TitleOnDead)
+                Citizen.Wait(0)
+                if not IsEntityAttachedToAnyPed(PlayerPedId()) then
+                    local GetCoords = GetEntityCoords(PlayerPedId())
+                    NetworkSetInSpectatorMode(false, PlayerPedId())
+                    DrawText3D(GetCoords.x, GetCoords.y, GetCoords.z, Config.Langs["TitleOnDead"])
                     local label = CreateVarString(10, 'LITERAL_STRING', promptLabel)
                     PromptSetActiveGroupThisFrame(prompts, label)
                     if Citizen.InvokeNative(0xC92AC953F0A982AE, prompt) then
                         TriggerServerEvent("vorp:PlayerForceRespawn")
                         TriggerEvent("vorp:PlayerForceRespawn")
                         DoScreenFadeOut(3000)
-                        Wait(3000)
+                        Citizen.Wait(3000)
                         resspawnPlayer()
                         pressKey = true
-                        Wait(100)
+                        Citizen.Wait(1000)
                     end
                 end
             end
         else
-            Wait(500)
+            Citizen.Wait(500)
         end
     end
 end)
 
 
-CreateThread(function()
+Citizen.CreateThread(function()
     while true do
-        Wait(0)
-        local player = PlayerPedId()
-        local GetCoords = GetEntityCoords(player)
-        if IsEntityAttachedToAnyPed(player) and setDead then
-            -- local carrier = Citizen.InvokeNative(0x09B83E68DE004CD4,  player)
-            NetworkSetInSpectatorMode(false, player)
+        Citizen.Wait(0)
+        local GetCoords = GetEntityCoords(PlayerPedId())
+        if IsEntityAttachedToAnyPed(PlayerPedId()) and setDead then
+            local carrier = Citizen.InvokeNative(0x09B83E68DE004CD4, PlayerPedId())
+            NetworkSetInSpectatorMode(false, PlayerPedId())
             ProcessCamControls()
-            DrawText3D(GetCoords.x, GetCoords.y, GetCoords.z + 0.20, Config.Langs.YouAreCarried)
+            DrawText3D(GetCoords.x, GetCoords.y, GetCoords.z + 0.20, Config.Langs["YouAreCarried"])
         elseif TimeToRespawn >= 0 and setDead then
             ProcessCamControls()
-            NetworkSetInSpectatorMode(false, player)
-            DrawText3D(GetCoords.x, GetCoords.y, GetCoords.z, Config.Langs.TitleOnDead)
+            NetworkSetInSpectatorMode(false, PlayerPedId())
+            DrawText3D(GetCoords.x, GetCoords.y, GetCoords.z, Config.Langs["TitleOnDead"])
             DrawText3D(GetCoords.x, GetCoords.y, GetCoords.z - 0.2,
-                Config.Langs.RespawnIn .. TimeToRespawn .. Config.Langs.SecondsMove)
+                Config.Langs["RespawnIn"] .. TimeToRespawn .. Config.Langs["SecondsMove"])
         else
-            Wait(500)
+            Citizen.Wait(500)
         end
     end
 end)
@@ -172,7 +176,7 @@ function StartDeathCam()
 end
 
 function EndDeathCam()
-    CreateThread(function()
+    Citizen.CreateThread(function()
         NetworkSetInSpectatorMode(false, PlayerPedId())
         ClearFocus()
         RenderScriptCams(false, false, 0, true, false)
@@ -182,7 +186,7 @@ function EndDeathCam()
 end
 
 function ProcessCamControls()
-    CreateThread(function()
+    Citizen.CreateThread(function()
         local playerPed = PlayerPedId()
         local playerCoords = GetEntityCoords(playerPed)
         local newPos = ProcessNewPosition()
@@ -237,11 +241,10 @@ end
 
 local spriteGrey = Config.spriteGrey
 local sprite = Config.sprite
-
 function DrawText3D(x, y, z, text)
     local onScreen, _x, _y = GetScreenCoordFromWorldCoord(x, y, z)
-    -- local px, py, pz = table.unpack(GetGameplayCamCoord())
-    --local dist = GetDistanceBetweenCoords(px, py, pz, x, y, z, 1)
+    local px, py, pz = table.unpack(GetGameplayCamCoord())
+    local dist = GetDistanceBetweenCoords(px, py, pz, x, y, z, 1)
     local str = CreateVarString(10, "LITERAL_STRING", text, Citizen.ResultAsLong())
     if onScreen then
         SetTextScale(0.30, 0.30)

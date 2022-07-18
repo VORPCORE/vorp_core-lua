@@ -46,7 +46,7 @@ end
 RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
 
     TeleportToCoords(coords.x + 0.0, coords.y + 0.0, coords.z + 0.0, heading + 0.0)
-    local player = PlayerPedId()
+
     if isdead then
         if not Config.CombatLogDeath then
             --start loading screen
@@ -62,15 +62,16 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             Wait(1000)
             --shut down loading screen
             ShutdownLoadingScreen()
+
             Wait(7000)
             -- ensure health and stamina
-            local health = GetAttributeCoreValue(player, 0)
+            local health = GetAttributeCoreValue(PlayerPedId(), 0)
             local newHealth = health + 100
-            local stamina = GetAttributeCoreValue(player, 1)
+            local stamina = GetAttributeCoreValue(PlayerPedId(), 1)
             local newStamina = stamina + 100
-            Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, newHealth)
-            Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, newStamina)
-            SetEntityHealth(player, newHealth)
+            Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 0, newHealth)
+            Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 1, newStamina)
+            SetEntityHealth(PlayerPedId(), newHealth)
 
         else
             if Config.Loadinscreen then
@@ -79,7 +80,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             end
             Wait(8000) -- this is needed to ensure the player has enough time to load in their character before it kills them. other wise they revive when the character loads in
             TriggerEvent("vorp_inventory:CloseInv")
-            SetEntityHealth(player, 0, 0)
+            SetEntityHealth(PlayerPedId(), 0, 0)
             Wait(4000)
             ShutdownLoadingScreen()
 
@@ -94,15 +95,16 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             ShutdownLoadingScreen()
 
         end
+
         ------- to make sure health and stamina are filled ----------
         TriggerServerEvent("vorp:GetValues")
         Wait(6000)
-        Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner)
-        SetEntityHealth(player, HealthData.hOuter + HealthData.hInner)
-        Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner)
-        Citizen.InvokeNative(0x675680D089BFA21F, player, HealthData.sOuter / 1065353215 * 100)
+        Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 0, HealthData.hInner)
+        SetEntityHealth(PlayerPedId(), HealthData.hOuter + HealthData.hInner)
+        Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 1, HealthData.sInner)
+        Citizen.InvokeNative(0x675680D089BFA21F, PlayerPedId(), HealthData.sOuter / 1065353215 * 100)
         if Config.DisableRecharge then
-            Citizen.InvokeNative(0xDE1B1907A83A1550, player, 0) --SetHealthRechargeMultiplier
+            Citizen.InvokeNative(0xDE1B1907A83A1550, PlayerPedId(), 0) --SetHealthRechargeMultiplier
         end
 
         HealthData = {}
@@ -112,6 +114,8 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
 
 end)
 -------------------------------------------------------------------------------------------------
+
+
 
 RegisterNetEvent('vorp:SelectedCharacter', function()
     local playerId = PlayerId()
@@ -139,7 +143,9 @@ HealthData = {}
 
 RegisterNetEvent("vorp:GetHealthFromCore")
 AddEventHandler("vorp:GetHealthFromCore", function(healthData)
+    print("vlaues returned", healthData)
     HealthData = healthData
+    print("4", HealthData.hInner, HealthData.hOuter, HealthData.sInner, HealthData.sOuter)
 end)
 
 AddEventHandler('playerSpawned', function(spawnInfo)
@@ -157,21 +163,27 @@ AddEventHandler('playerSpawned', function(spawnInfo)
 
 end)
 
-
-CreateThread(function()
+-- disable RDR HUDS
+Citizen.CreateThread(function()
     while true do
-        Wait(0)
-
+        Citizen.Wait(0)
         DisableControlAction(0, 0x580C4473, true) -- Disable hud
         DisableControlAction(0, 0xCF8A4ECA, true) -- Disable hud
         DisableControlAction(0, 0x9CC7A1A4, true) -- disable special ability when open hud
         DisableControlAction(0, 0x1F6D95E5, true) -- diable f4 key that contains HUD
 
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
         local pped = PlayerPedId()
+
         if IsControlPressed(0, 0xCEFD9220) then
             active = true
             setPVP()
-            Wait(4000)
+            Citizen.Wait(4000)
         end
 
         if not IsPedOnMount(pped) and not IsPedInAnyVehicle(pped, false) and active then
@@ -193,9 +205,9 @@ end)
 
 
 
-CreateThread(function()
+Citizen.CreateThread(function()
     while true do
-        Wait(3000)
+        Citizen.Wait(3000)
         UI()
         if not firstSpawn then
             local player = PlayerPedId()
@@ -205,14 +217,16 @@ CreateThread(function()
     end
 end)
 
-CreateThread(function()
+Citizen.CreateThread(function()
     while true do
-        local player = PlayerPedId()
-        Wait(1000)
-        local innerCoreHealth = Citizen.InvokeNative(0x36731AC041289BB1, player, 0)
-        local outerCoreStamina = Citizen.InvokeNative(0x22F2A386D43048A9, player)
-        local innerCoreStamina = Citizen.InvokeNative(0x36731AC041289BB1, player, 1)
-        TriggerServerEvent("vorp:HealthCached", GetEntityHealth(player), innerCoreHealth, outerCoreStamina,
+        Citizen.Wait(1000)
+        --print("Updating local data with Health and Stamina")
+
+        local innerCoreHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0)
+        local outerCoreStamina = Citizen.InvokeNative(0x22F2A386D43048A9, PlayerPedId())
+        local innerCoreStamina = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 1)
+
+        TriggerServerEvent("vorp:HealthCached", GetEntityHealth(PlayerPedId()), innerCoreHealth, outerCoreStamina,
             innerCoreStamina)
     end
 end)
