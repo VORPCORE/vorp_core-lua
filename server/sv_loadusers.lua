@@ -66,9 +66,9 @@ AddEventHandler('playerDropped', function()
         _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
         _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
         _users[identifier].SaveUser()
+        print(string.format("Player ^2 %s.", GetPlayerName(_source) .. "^7 saved"))
         Wait(10000)
         _users[identifier] = nil
-        print(string.format("Player ^2 %s.", GetPlayerName(_source) .. "^7 saved"))
     end
 
     if Config.SaveSteamNameDB then
