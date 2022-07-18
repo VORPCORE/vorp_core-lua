@@ -12,7 +12,12 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
 
     _usersLoading[identifier] = true
 
-    print(string.format("Loading player %s.", GetPlayerName(source)))
+    if source then
+        print(string.format("Player ^2 %s.", GetPlayerName(source) .. "^7 Loading.."))
+    else
+        deferrals.done("restart RedM!")
+        setKickReason("Restart RedM")
+    end
 
     if #resultList > 0 then
         local user = resultList[1]
@@ -63,7 +68,7 @@ AddEventHandler('playerDropped', function()
         _users[identifier].SaveUser()
         Wait(10000)
         _users[identifier] = nil
-        print(string.format("Saved player %s.", GetPlayerName(_source)))
+        print(string.format("Player ^2 %s.", GetPlayerName(_source) .. "^7 saved"))
     end
 
     if Config.SaveSteamNameDB then
