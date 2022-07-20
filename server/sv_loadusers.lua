@@ -8,13 +8,10 @@ function CheckConnected(identifier)
 end
 
 function LoadUser(source, setKickReason, deferrals, identifier, license)
+
     local resultList = exports.ghmattimysql:executeSync("SELECT * FROM users WHERE identifier = ?", { identifier })
 
     _usersLoading[identifier] = true
-
-    if source then
-        print("Player ^2", GetPlayerName(source) .. "^7 Loading..")
-    end
 
     if #resultList > 0 then
         local user = resultList[1]
@@ -51,6 +48,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         _users[identifier] = User(source, identifier, "user", 0, license)
         deferrals.done()
     end
+
 end
 
 AddEventHandler('playerDropped', function()
@@ -64,7 +62,7 @@ AddEventHandler('playerDropped', function()
         _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
         _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
         _users[identifier].SaveUser()
-        print("Player ^2", GetPlayerName(_source) .. "^7 saved")
+        print("Player ^2", GetPlayerName(_source) .. " ^7steam:^3 " .. identifier .. "^7 saved")
         Wait(10000)
         _users[identifier] = nil
     end
