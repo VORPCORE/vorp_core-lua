@@ -215,6 +215,19 @@ local Updates = {
         sql = [[
             ALTER TABLE `characters` ADD COLUMN `staminainner` int(4) DEFAULT 100 AFTER `staminaouter`;
         ]]
+    },
+    {
+        name = "hours",
+        script = "vorp_core",
+        find = [[
+            select *
+            from Information_Schema.Columns
+            where Table_Name = 'characters'
+            AND  Column_Name = 'hours';
+        ]],
+        sql = [[
+            ALTER TABLE `characters` ADD COLUMN `hours` float NOT NULL DEFAULT 0 AFTER `staminainner`;
+        ]]
     }
 }
 
