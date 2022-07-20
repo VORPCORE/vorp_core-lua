@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `healthinner` int(4) DEFAULT 100,
   `staminaouter` int(4) DEFAULT 100,
   `staminainner` int(4) DEFAULT 100,
+  `hours` float NOT NULL DEFAULT 0
   `inventory` longtext COLLATE utf8mb4_bin DEFAULT NULL,
   `job` varchar(50) COLLATE utf8mb4_bin DEFAULT 'unemployed',
   `status` varchar(140) COLLATE utf8mb4_bin DEFAULT '{}',
