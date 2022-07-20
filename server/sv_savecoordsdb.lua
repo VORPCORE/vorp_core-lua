@@ -20,3 +20,12 @@ RegisterNetEvent('vorp:ImDead', function(isDead)
         _users[identifier].GetUsedCharacter().setDead(isDead)
     end
 end)
+
+RegisterNetEvent('vorp:SaveHours', function()
+    local hoursupdate = tonumber(Config.hourstosave)  -- Just to be sure is giving numbers =D
+    local source = source
+    local identifier = GetSteamID(source)
+    if _users[identifier] then
+        _users[identifier].GetUsedCharacter().UpdateHours(hoursupdate)
+    end
+end)
