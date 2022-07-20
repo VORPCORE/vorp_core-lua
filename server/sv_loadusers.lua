@@ -13,35 +13,33 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
     _usersLoading[identifier] = true
 
     if source then
-        print(string.format("Player ^2 %s.", GetPlayerName(source) .. "^7 Loading.."))
-    else
-        deferrals.done("restart RedM!")
-        setKickReason("Restart RedM")
+        print("Player ^2", GetPlayerName(source) .. "^7 Loading..")
     end
 
     if #resultList > 0 then
         local user = resultList[1]
-        if user["banned"] == true then
-            local bannedUntilTime = user["banneduntil"]
+        if user.banned == true then
+            local bannedUntilTime = user.banneduntil
             local currentTime = tonumber(os.time(os.date("!*t")))
 
             if bannedUntilTime == 0 then
                 deferrals.done("You are banned permanently!")
                 setKickReason("You are banned permanently!")
             elseif bannedUntilTime > currentTime then
-                local bannedUntil = os.date(Config.Langs["DateTimeFormat"],
+                local bannedUntil = os.date(Config.Langs.DateTimeFormat,
                     bannedUntilTime + Config.TimeZoneDifference * 3600)
-                deferrals.done(Config.Langs["BannedUser"] .. bannedUntil .. Config.Langs["TimeZone"])
-                setKickReason(Config.Langs["BannedUser"] .. bannedUntil .. Config.Langs["TimeZone"])
+                deferrals.done(Config.Langs.BannedUser .. bannedUntil .. Config.Langs.TimeZone)
+                setKickReason(Config.Langs.BannedUser .. bannedUntil .. Config.Langs.TimeZone)
             else
-                TriggerEvent("vorpbans:addtodb", false, GetUserId(identifier), 0)
+                local getuser = GetUserId(identifier)
+                TriggerEvent("vorpbans:addtodb", false, getuser, 0)
             end
         end
 
         if Config.UseCharPermission then
-            _users[identifier] = User(source, identifier, user["group"], user["warnings"], license, user["char"])
+            _users[identifier] = User(source, identifier, user.group, user.warnings, license, user.char)
         else
-            _users[identifier] = User(source, identifier, user["group"], user["warnings"], license)
+            _users[identifier] = User(source, identifier, user.group, user.warnings, license)
         end
 
         _users[identifier].LoadCharacters()
@@ -66,12 +64,12 @@ AddEventHandler('playerDropped', function()
         _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
         _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
         _users[identifier].SaveUser()
-        print(string.format("Player ^2 %s.", GetPlayerName(_source) .. "^7 saved"))
+        print("Player ^2", GetPlayerName(_source) .. "^7 saved")
         Wait(10000)
         _users[identifier] = nil
     end
 
-    if Config.SaveSteamNameDB then
+    if Config.SaveSteamNameDB then -- I dont hink none of this is used and its useless
         exports.ghmattimysql:execute("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ",
             { steamName, identifier })
     end
@@ -102,7 +100,7 @@ AddEventHandler('playerJoining', function()
     local userid
     if #retvalList > 0 then
         local entry = retvalList[1]
-        userid = entry["id"]
+        userid = entry.id
     end
     if not _whitelist[userid] then
         _whitelist[userid] = Whitelist(userid, identifier, false, true)
@@ -111,6 +109,7 @@ AddEventHandler('playerJoining', function()
         steamName ..
         "`**\nIdentifier:** `" ..
         identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .. "`"
+
     if _whitelist[userid].GetEntry().getFirstconnection() then
 
         if steamName then
@@ -127,7 +126,6 @@ RegisterNetEvent('vorp:playerSpawn', function()
     _usersLoading[identifier] = false
 
     if _users[identifier] then
-        --Debug.WriteLine("Characters loaded "+_users[identifier].Numofcharacters);
         _users[identifier].Source(source)
         if _users[identifier].Numofcharacters() <= 0 then
             TriggerEvent("vorp_CreateNewCharacter", source)
@@ -136,9 +134,9 @@ RegisterNetEvent('vorp:playerSpawn', function()
                 "five_finger_burnout", 6000, "COLOR_RED")
         else
             if Config.UseCharPermission then
-                if _users[identifier]._charperm == "false" and _users[identifier].Numofcharacters() <= 1 then
+                if _users[identifier]._charperm == false and _users[identifier].Numofcharacters() <= 1 then
                     TriggerEvent("vorp_SpawnUniqueCharacter", source)
-                elseif _users[identifier]._charperm == "true" then
+                elseif _users[identifier]._charperm == true then
                     TriggerEvent("vorp_GoToSelectionMenu", source)
                     Wait(14000)
                     TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!", Config.Langs.NotifyCharSelect,
@@ -159,6 +157,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
 end)
 
 RegisterNetEvent('vorp:getUser', function(cb)
+
     --[[{
         string steam = "steam:" + Players[source].Identifiers["steam"];
         if (_users.ContainsKey(steam))
@@ -173,9 +172,11 @@ AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
     local _source = source
     local identifier = GetSteamID(_source)
 
-    if _users[identifier] and _users[identifier].GetUsedCharacter() ~= {} then
-        _users[identifier].GetUsedCharacter().HealthOuter(healthOuter - healthInner)
-        _users[identifier].GetUsedCharacter().HealthInner(healthInner)
+    if healthInner and healthOuter then
+        if _users[identifier] and _users[identifier].GetUsedCharacter() ~= {} then
+            _users[identifier].GetUsedCharacter().HealthOuter(healthOuter - healthInner)
+            _users[identifier].GetUsedCharacter().HealthInner(healthInner)
+        end
     end
 end)
 
@@ -183,10 +184,11 @@ RegisterNetEvent('vorp:SaveStamina')
 AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
     local _source = source
     local identifier = GetSteamID(_source)
-
-    if _users[identifier] and _users[identifier].GetUsedCharacter() ~= {} then
-        _users[identifier].GetUsedCharacter().StaminaOuter(staminaOuter)
-        _users[identifier].GetUsedCharacter().StaminaInner(staminaInner)
+    if staminaOuter and staminaInner then
+        if _users[identifier] and _users[identifier].GetUsedCharacter() ~= {} then
+            _users[identifier].GetUsedCharacter().StaminaOuter(staminaOuter)
+            _users[identifier].GetUsedCharacter().StaminaInner(staminaInner)
+        end
     end
 end)
 
@@ -222,15 +224,12 @@ end)
 
 Citizen.CreateThread(function()
     --Loop to save all players
-    --each 5 minutes maybe add config for this? and toggle?
     while true do
         Wait(Config.savePlayersTimer)
 
         for k, v in pairs(_users) do
             v.SaveUser()
         end
-
-        -- print('Saved all players')
     end
 end)
 
@@ -247,10 +246,10 @@ AddEventHandler("vorpchar:addtodb", function(status, id)
             if id == GetPlayerIdentifiers(player)[1] then
                 if status == true then
                     TriggerClientEvent("vorp:Tip", player, Config.Langs["AddChar"], 10000)
-                    char = "true"
+                    char = true
                 else
                     TriggerClientEvent("vorp:Tip", player, Config.Langs["RemoveChar"], 10000)
-                    char = "false"
+                    char = false
                 end
                 break
             end

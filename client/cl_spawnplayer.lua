@@ -143,9 +143,9 @@ HealthData = {}
 
 RegisterNetEvent("vorp:GetHealthFromCore")
 AddEventHandler("vorp:GetHealthFromCore", function(healthData)
-    print("vlaues returned", healthData)
+
     HealthData = healthData
-    print("4", HealthData.hInner, HealthData.hOuter, HealthData.sInner, HealthData.sOuter)
+
 end)
 
 AddEventHandler('playerSpawned', function(spawnInfo)
