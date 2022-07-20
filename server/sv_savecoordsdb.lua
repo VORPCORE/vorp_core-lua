@@ -22,7 +22,7 @@ RegisterNetEvent('vorp:ImDead', function(isDead)
 end)
 
 RegisterNetEvent('vorp:SaveHours', function()
-    local hoursupdate = tonumber(Config.hourstosave)  -- Just to be sure is giving numbers =D
+    local hoursupdate = tonumber(0.5)  -- Just to be sure is giving numbers =D
     local source = source
     local identifier = GetSteamID(source)
     if _users[identifier] then
