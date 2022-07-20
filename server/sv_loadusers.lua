@@ -34,9 +34,9 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         end
 
         if Config.UseCharPermission then
-            _users[identifier] = User(source, identifier, user.group, user.warnings, license, user.char)
+            _users[identifier] = User(source, identifier, user["group"], user["warnings"], license, user["char"])
         else
-            _users[identifier] = User(source, identifier, user.group, user.warnings, license)
+            _users[identifier] = User(source, identifier, user["group"], user["warnings"], license)
         end
 
         _users[identifier].LoadCharacters()
