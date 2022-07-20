@@ -145,7 +145,7 @@ function User(source, identifier, group, playerwarnings, license, char)
                                 character["lastname"], character["inventory"], character["status"], character["coords"],
                                 character["money"], character["gold"], character["rol"], character["healthouter"],
                                 character["healthinner"], character["staminaouter"], character["staminainner"],
-                                character["xp"], character["isdead"], character["skinPlayer"], character["compPlayer"])
+                                character["xp"], character["hours"], character["isdead"], character["skinPlayer"], character["compPlayer"])
 
                             self._usercharacters[newCharacter.CharIdentifier()] = newCharacter
                             self.usedCharacterId = newCharacter.CharIdentifier()
@@ -159,7 +159,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     self.addCharacter = function(firstname, lastname, skin, comps)
         local newChar = Character(self.source, self._identifier, -1, Config.initGroup, Config.initJob,
             Config.initJobGrade, firstname, lastname, "{}", "{}", "{}", Config.initMoney, Config.initGold, Config.initRol
-            , 500, 100, 500, 100, Config.initXp, false, skin, comps)
+            , 500, 100, 500, 100, Config.initXp, 0, false, skin, comps)
 
         newChar.SaveNewCharacterInDb(function(id)
             newChar.CharIdentifier(id)
