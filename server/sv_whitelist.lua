@@ -1,4 +1,4 @@
-local _whitelist = {}
+_whitelist = {}
 
 
 function AddUserToWhitelistById(id)
