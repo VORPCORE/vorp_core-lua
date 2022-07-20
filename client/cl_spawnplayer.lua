@@ -5,7 +5,6 @@ local playerHash = GetHashKey("PLAYER")
 local mapTypeOnMount = Config.mapTypeOnMount
 local mapTypeOnFoot = Config.mapTypeOnFoot
 local enableTypeRadar = Config.enableTypeRadar
-local waitsaveinghours = Config.saveHoursTimer
 
 pvp = Config.PVP
 
@@ -256,7 +255,7 @@ end)
 -- To do in server side if is any problems
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(waitsaveinghours)
+		Citizen.Wait(1800000)
         TriggerServerEvent("vorp:SaveHours")
 	end
 end)
