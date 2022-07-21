@@ -145,7 +145,8 @@ function User(source, identifier, group, playerwarnings, license, char)
                                 character["lastname"], character["inventory"], character["status"], character["coords"],
                                 character["money"], character["gold"], character["rol"], character["healthouter"],
                                 character["healthinner"], character["staminaouter"], character["staminainner"],
-                                character["xp"], character["hours"], character["isdead"], character["skinPlayer"], character["compPlayer"])
+                                character["xp"], character["hours"], character["isdead"], character["skinPlayer"],
+                                character["compPlayer"])
 
                             self._usercharacters[newCharacter.CharIdentifier()] = newCharacter
                             self.usedCharacterId = newCharacter.CharIdentifier()
@@ -172,7 +173,7 @@ function User(source, identifier, group, playerwarnings, license, char)
         if self._usercharacters[charIdentifier] then
             self._usercharacters[charIdentifier].DeleteCharacter()
             self._usercharacters[charIdentifier] = nil
-            --Debug.WriteLine($"Character with charid {charIdentifier} deleted from user {Identifier} successfully");
+
         end
     end
 

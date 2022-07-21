@@ -456,9 +456,9 @@ RegisterCommand("healplayer", function(source, args, rawCommand)
                 user.group == Config.Group.Mod then
                 TriggerClientEvent('vorp:heal', _source, playerId)
 
-                if Config.Logs.DelHorseWebhook then
+                if Config.Logs.HealPlayerWebhook then
                     local title = "📋` /healplayer command` "
-                    TriggerEvent("vorp_core:addWebhook", title, Config.Logs.DelHorseWebhook, message)
+                    TriggerEvent("vorp_core:addWebhook", title, Config.Logs.HealPlayerWebhook, message)
                 end
 
             else
@@ -785,13 +785,13 @@ end
 
 
 RegisterCommand("myjob", function(source, args, rawCommand)
-      local _source = source
-      TriggerEvent("vorp:getCharacter", _source, function(user)
-          local job = user.job
-          local grade  = user.jobGrade 
-          TriggerClientEvent("vorp:TipRight", _source, "your job is: ~o~" .. job .. " ~q~grade: ~o~" .. grade, 4000, 2000)
-      end)
-  
+    local _source = source
+    TriggerEvent("vorp:getCharacter", _source, function(user)
+        local job   = user.job
+        local grade = user.jobGrade
+        TriggerClientEvent("vorp:TipRight", _source, "your job is: ~o~" .. job .. " ~q~grade: ~o~" .. grade, 4000, 2000)
+    end)
+
 end)
 
 
@@ -803,14 +803,15 @@ RegisterCommand("myhours", function(source, args, rawCommand)
         end
         return false
     end
+
     TriggerEvent("vorp:getCharacter", _source, function(user)
         local hours = user.hours
-         if isInteger(hours) then
-        TriggerClientEvent("vorp:TipRight", _source, "your character hours is: ~o~" .. hours, 4000, 2000)
-         else
-            local newhour = math.floor(hours-0.5)
-            TriggerClientEvent("vorp:TipRight", _source, "hours played is: ~o~" .. newhour ..":30", 4000, 2000)
-         end
+        if isInteger(hours) then
+            TriggerClientEvent("vorp:TipRight", _source, "your character hours is: ~o~" .. hours, 4000, 2000)
+        else
+            local newhour = math.floor(hours - 0.5)
+            TriggerClientEvent("vorp:TipRight", _source, "hours played is: ~o~" .. newhour .. ":30", 4000, 2000)
+        end
     end)
 
 end)

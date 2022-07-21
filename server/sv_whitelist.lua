@@ -84,7 +84,7 @@ function InsertIntoWhitelist(identifier)
     local currentFreeId
     if #entryList > 0 then
         local entry = entryList[1]
-        currentFreeId = entry.id
+        currentFreeId = entry["id"]
     end
     _whitelist[currentFreeId] = Whitelist(currentFreeId, identifier, false, true)
 

@@ -17,12 +17,9 @@ end)
 
 function resspawnPlayer()
     local currentHospital, minDistance, playerCoords = '', -1, GetEntityCoords(PlayerPedId(), true, true)
-
     ResurrectPed(PlayerPedId())
     local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0)
-    print("Player Respawned")
     SetEntityHealth(PlayerPedId(), Config.HealthOnRespawn + innerHealth)
-    --AnimpostfxStop("DeathFailMP01")
     EndDeathCam()
     for k, Hospital in pairs(Config["hospital"]) do
         local Doctor = vector3(Hospital["x"], Hospital["y"], Hospital["z"])
@@ -45,7 +42,6 @@ function resspawnPlayer()
     TriggerServerEvent("vorp:ImDead", false)
     setDead = false
     NetworkSetInSpectatorMode(false, PlayerPedId())
-    --TriggerEvent("vorp:showUi", true)
     DisplayHud(true)
     DisplayRadar(true)
     setPVP()
@@ -54,16 +50,14 @@ end
 function resurrectPlayer()
     ResurrectPed(PlayerPedId())
     local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0)
-    print("Player Resurrected")
     SetEntityHealth(PlayerPedId(), Config.HealthOnResurrection + innerHealth)
-    --AnimpostfxStop("DeathFailMP01")
     EndDeathCam()
     DoScreenFadeIn(1000)
     TriggerServerEvent("vorp:ImDead", false)
     setDead = false
     Citizen.Wait(100)
     NetworkSetInSpectatorMode(false, PlayerPedId())
-    --TriggerEvent("vorp:showUi", true)
+
     DisplayHud(true)
     DisplayRadar(true)
     setPVP()
@@ -96,10 +90,10 @@ Citizen.CreateThread(function()
                 setDead = true
             end
             NetworkSetInSpectatorMode(false, PlayerPedId())
-            --AnimpostfxPlay("DeathFailMP01")
+
             DisplayHud(false)
             DisplayRadar(false)
-            --TriggerEvent("vorp:showUi", false)
+
             TimeToRespawn = Config["RespawnTime"]
 
             StartDeathCam()

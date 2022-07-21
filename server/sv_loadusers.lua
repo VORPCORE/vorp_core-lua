@@ -34,6 +34,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         end
 
         if Config.UseCharPermission then
+
             _users[identifier] = User(source, identifier, user["group"], user["warnings"], license, user["char"])
         else
             _users[identifier] = User(source, identifier, user["group"], user["warnings"], license)
@@ -73,6 +74,7 @@ AddEventHandler('playerDropped', function()
     end
 
 end)
+
 
 AddEventHandler('playerJoining', function()
     local _source = source
@@ -132,9 +134,12 @@ RegisterNetEvent('vorp:playerSpawn', function()
                 "five_finger_burnout", 6000, "COLOR_RED")
         else
             if Config.UseCharPermission then
-                if _users[identifier]._charperm == false and _users[identifier].Numofcharacters() <= 1 then
+
+                if _users[identifier]._charperm == "false" and _users[identifier].Numofcharacters() <= 1 then
+
                     TriggerEvent("vorp_SpawnUniqueCharacter", source)
-                elseif _users[identifier]._charperm == true then
+
+                elseif _users[identifier]._charperm == "true" then
                     TriggerEvent("vorp_GoToSelectionMenu", source)
                     Wait(14000)
                     TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!", Config.Langs.NotifyCharSelect,
@@ -243,17 +248,18 @@ AddEventHandler("vorpchar:addtodb", function(status, id)
         for _, player in ipairs(GetPlayers()) do
             if id == GetPlayerIdentifiers(player)[1] then
                 if status == true then
-                    TriggerClientEvent("vorp:Tip", player, Config.Langs["AddChar"], 10000)
-                    char = true
+                    TriggerClientEvent("vorp:Tip", player, Config.Langs.AddChar, 10000)
+                    char = "true"
                 else
-                    TriggerClientEvent("vorp:Tip", player, Config.Langs["RemoveChar"], 10000)
-                    char = false
+                    TriggerClientEvent("vorp:Tip", player, Config.Langs.RemoveChar, 10000)
+                    char = "false"
                 end
                 break
             end
         end
 
     end
+
 
     exports.ghmattimysql:execute("UPDATE users SET `char` = ? WHERE `identifier` = ? ", { char, id })
 end)
