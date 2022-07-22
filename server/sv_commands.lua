@@ -789,7 +789,7 @@ RegisterCommand("myjob", function(source, args, rawCommand)
     TriggerEvent("vorp:getCharacter", _source, function(user)
         local job   = user.job
         local grade = user.jobGrade
-        TriggerClientEvent("vorp:TipRight", _source, "your job is: ~o~" .. job .. " ~q~grade: ~o~" .. grade, 4000, 2000)
+        TriggerClientEvent("vorp:TipRight", _source, Config.Langs.myjob .. job .. Config.Langs.mygrade .. grade, 4000, 2000)
     end)
 
 end)
@@ -807,10 +807,10 @@ RegisterCommand("myhours", function(source, args, rawCommand)
     TriggerEvent("vorp:getCharacter", _source, function(user)
         local hours = user.hours
         if isInteger(hours) then
-            TriggerClientEvent("vorp:TipRight", _source, "your character hours is: ~o~" .. hours, 4000, 2000)
+            TriggerClientEvent("vorp:TipRight", _source, Config.Langs.charhours .. hours, 4000, 2000)
         else
             local newhour = math.floor(hours - 0.5)
-            TriggerClientEvent("vorp:TipRight", _source, "hours played is: ~o~" .. newhour .. ":30", 4000, 2000)
+            TriggerClientEvent("vorp:TipRight", _source, Config.Langs.playhours .. newhour .. ":30", 4000, 2000)
         end
     end)
 
