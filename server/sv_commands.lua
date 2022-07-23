@@ -377,7 +377,6 @@ RegisterCommand("delwagons", function(source, args)
             discordId .. ">**\nIP: **`" .. ip .. "`\n **Action:** `" .. text .. "` \n **Radius:** `" .. radius .. "`"
 
         if radius then
-
             if ace or user.group == Config.Group.Admin or user.group == Config.Group.Mod then
 
                 if radius >= 1 then
@@ -388,10 +387,11 @@ RegisterCommand("delwagons", function(source, args)
                         TriggerEvent("vorp_core:addWebhook", title, Config.Logs.DelWagonsWebhook, message)
                     end
                 end
-
             else
                 TriggerClientEvent("vorp:Tip", _source, Config.Langs["NoPermissions"], 4000)
             end
+        else
+            TriggerClientEvent("vorp:Tip", _source, "it needs a radius number", 4000)
         end
     end)
 end, false)
