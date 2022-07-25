@@ -110,13 +110,13 @@ AddEventHandler('playerJoining', function()
     if _whitelist[userid].GetEntry().getFirstconnection() then
         local steamName = GetPlayerName(_source)
         if steamName == nil then
-            print("steam name was null")
+
             local message = "`**\nIdentifier:** `" ..
                 identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .. "`"
             TriggerEvent("vorp_core:addWebhook", "📋` New player joined server` ", Config.Logs.NewPlayerWebhook,
                 message)
         else
-            print("webhook sent")
+
             local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:** `" ..
                 identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .. "`"
 
