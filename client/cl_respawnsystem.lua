@@ -58,7 +58,7 @@ function resurrectPlayer()
     Citizen.Wait(100)
     NetworkSetInSpectatorMode(false, PlayerPedId())
 
-    DisplayHud(true)
+    --DisplayHud(true)
     DisplayRadar(true)
     setPVP()
 end
