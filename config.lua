@@ -64,7 +64,7 @@ Config = {
     ReviveWebhook     = "", --REVIVE
     WhitelistWebhook  = "", --WHITELIST
     BanWarnWebhook    = "", --BANS/WARNS
-    NewPlayerWebhook  = "https://discord.com/api/webhooks/1001258832317657268/PtY6GgVfUUAVyCQj0b8YiYtxNIQOrMp1u5qMi5tGU_cYoaD-UlKPJWteLDi8sCkBx5tn", --NEWPLAYER
+    NewPlayerWebhook  = "", --NEWPLAYER
     CharPermWebhook   = "", --CHARPERMS
   },
 
