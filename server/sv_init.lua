@@ -82,7 +82,8 @@ function UpdateChecker(resource)
                 Citizen.Wait(10)
             until NewestVersion ~= nil
             local _, strings = string.gsub(NewestVersion, "\n", "\n")
-            Version1 = NewestVersion:match("[^\n]*"):gsub("[<>]", "")
+            Version1 = NewestVersion:match("<.+>"):gsub("[<>]", "")
+
             if string.find(Version1, Version) then
             else
                 if strings > 0 then
@@ -113,6 +114,7 @@ function Checker()
     print("^3VORPcore Version check ")
     print("^2Resources found")
     print('')
+
     for i, v in pairs(ScriptList) do
         if string.find(v.NewestVersion, v.Version) then
             print('^4' .. v.Name .. ' (' .. v.Resource .. ') ^2✅ ' .. 'Up to date - Version ' .. v.Version .. '^0')
