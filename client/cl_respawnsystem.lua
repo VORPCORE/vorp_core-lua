@@ -58,7 +58,7 @@ function resurrectPlayer()
     Citizen.Wait(100)
     NetworkSetInSpectatorMode(false, PlayerPedId())
 
-    --DisplayHud(true)
+    DisplayHud(true)
     DisplayRadar(true)
     setPVP()
 end
@@ -91,11 +91,9 @@ Citizen.CreateThread(function()
             end
             NetworkSetInSpectatorMode(false, PlayerPedId())
 
-            DisplayHud(false)
+
             DisplayRadar(false)
-
             TimeToRespawn = Config["RespawnTime"]
-
             StartDeathCam()
 
             while TimeToRespawn >= 0 and setDead do
