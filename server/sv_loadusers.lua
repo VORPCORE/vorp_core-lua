@@ -96,7 +96,7 @@ AddEventHandler('playerJoining', function()
     else
         discordId = ""
     end
-    local steamName = GetPlayerName(_source)
+
     local userid
     if #retvalList > 0 then
         local entry = retvalList[1]
@@ -105,15 +105,21 @@ AddEventHandler('playerJoining', function()
     if not _whitelist[userid] then
         _whitelist[userid] = Whitelist(userid, identifier, false, true)
     end
-    local message = "**Steam name: **`" ..
-        steamName ..
-        "`**\nIdentifier:** `" ..
-        identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .. "`"
+
 
     if _whitelist[userid].GetEntry().getFirstconnection() then
-
-        if steamName then
+        if steamName == nil then
+            print("steam name was null")
+            local message = "`**\nIdentifier:** `" ..
+                identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .. "`"
             TriggerEvent("vorp:newPlayerWebhook", "📋` New player joined server` ", message, color)
+        else
+            local steamName = GetPlayerName(_source)
+            local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:** `" ..
+                identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .. "`"
+
+            TriggerEvent("vorp:newPlayerWebhook", "📋` New player joined server` ", message, color)
+
         end
         _whitelist[userid].GetEntry().setFirstconnection(false)
     end
