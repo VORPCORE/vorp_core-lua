@@ -40,12 +40,15 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
         local identifier = GetSteamID(Player)
         local xCharacter = _users[identifier].GetUsedCharacter()
         if xCharacter and xCharacter.isdead then
+            
             TriggerClientEvent("vorp:ShowBasicTopNotification", Player, "You Revived Yourself.", 4000)
             TriggerClientEvent('vorp:resurrectPlayer', Player)
+            TriggerClientEvent('vorp:heal', Player)
         end
     else 
         TriggerClientEvent("vorp:ShowBasicTopNotification", -1, "You Have Been Healed.", 4000)
         TriggerClientEvent('vorp:resurrectPlayer', -1)
+        TriggerClientEvent('vorp:heal', Player)
     end
 end)
 
