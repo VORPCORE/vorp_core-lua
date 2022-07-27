@@ -48,3 +48,12 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
         TriggerClientEvent('vorp:resurrectPlayer', -1)
     end
 end)
+
+RegisterNetEvent('vorp:ImDead', function(isDead)
+    local source = source
+    local identifier = GetSteamID(source)
+
+    if _users[identifier] then
+        _users[identifier].GetUsedCharacter().setDead(isDead)
+    end
+end)

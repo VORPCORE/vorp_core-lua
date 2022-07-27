@@ -12,15 +12,6 @@ RegisterNetEvent('vorp:saveLastCoords', function(lastCoords, lastHeading)
     end
 end)
 
-RegisterNetEvent('vorp:ImDead', function(isDead)
-    local source = source
-    local identifier = GetSteamID(source)
-
-    if _users[identifier] then
-        _users[identifier].GetUsedCharacter().setDead(isDead)
-    end
-end)
-
 RegisterNetEvent('vorp:SaveHours', function()
     local hoursupdate = tonumber(0.5)  -- Just to be sure is giving numbers =D
     local source = source
