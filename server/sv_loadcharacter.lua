@@ -48,7 +48,7 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
     else 
         TriggerClientEvent("vorp:ShowBasicTopNotification", -1, "You Have Been Healed.", 4000)
         TriggerClientEvent('vorp:resurrectPlayer', -1)
-        TriggerClientEvent('vorp:heal', Player)
+        TriggerClientEvent('vorp:heal', -1)
     end
 end)
 
