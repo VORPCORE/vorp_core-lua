@@ -454,7 +454,7 @@ RegisterCommand("healplayer", function(source, args, rawCommand)
         if args then
             if ace or user.group == Config.Group.Admin or
                 user.group == Config.Group.Mod then
-                TriggerClientEvent('vorp:heal', _source, playerId)
+                TriggerClientEvent('vorp:heal',playerI)
 
                 if Config.Logs.HealPlayerWebhook then
                     local title = "📋` /healplayer command` "
