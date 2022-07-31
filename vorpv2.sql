@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `crafting` longtext COLLATE utf8mb4_bin DEFAULT '{"medical":0,"blacksmith":0,"basic":0,"survival":0,"brewing":0,"food":0}',
   `info` longtext COLLATE utf8mb4_bin DEFAULT '{}',
   `gunsmith` double(11,2) DEFAULT 0.00,
-  `ammo` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4 DEFAULT '{}',
+  `ammo` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '{}',
   UNIQUE KEY `identifier_charidentifier` (`identifier`,`charidentifier`) USING BTREE,
   KEY `charidentifier` (`charidentifier`) USING BTREE,
   INDEX `ammo` (`ammo`) USING BTREE,
