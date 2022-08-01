@@ -64,7 +64,7 @@ end
 
 --- show playerd ID prompt when focus on players
 if Config.showplayerIDwhenfocus then
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while true do
             Wait(500)
             for _, player in ipairs(GetActivePlayers()) do
@@ -75,9 +75,15 @@ if Config.showplayerIDwhenfocus then
     end)
 end
 
+CreateThread(function()
+    while Config.disableAutoAIM do
+        Wait(10)
+        Citizen.InvokeNative(0xD66A941F401E7302, 3)
+        Citizen.InvokeNative(0x19B4F71703902238, 3)
+    end
+end)
 
-
-Citizen.CreateThread(function()
+CreateThread(function()
 
     if Config.HideOnlyDEADEYE then
         Citizen.InvokeNative(0xC116E6DF68DCE667, 2, 2)
