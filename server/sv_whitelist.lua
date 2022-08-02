@@ -112,11 +112,6 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         return
     end
 
-    if not steamIdentifier then
-        deferrals.done(Config.Langs.NoSteam)
-        setKickReason(Config.Langs.NoSteam)
-    end
-
     if _users[steamIdentifier] and not _usersLoading[identifier] then --Save and delete
         _users[steamIdentifier].SaveUser()
         _users[steamIdentifier] = nil
