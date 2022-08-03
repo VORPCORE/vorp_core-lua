@@ -81,30 +81,47 @@ function UpdateChecker(resource)
             repeat
                 Citizen.Wait(10)
             until NewestVersion ~= nil
-            local _, strings = string.gsub(NewestVersion, "\n", "\n")
-            Version1 = NewestVersion:match("<.+>"):gsub("[<>]", "")
 
-            if string.find(Version1, Version) then
+            StripVersion = NewestVersion:match("<%d?%d.%d?%d.?%d?%d?>")
+            if StripVersion == nil then
+                print(Name, "Version is setup incorrectly!")
             else
-                if strings > 0 then
+                CleanedVersion = StripVersion:gsub("[<>]", "")
+                Version1 = CleanedVersion
+
+                if string.find(Version1, Version) then
+                else
                     if Version1 < Version then
                         Changelog = "Your script version is newer than what was found in github"
                         NewestVersion = Version
                     else
-                        Changelog = NewestVersion:gsub(Version1, ""):match("%<.*" .. Version .. ">"):gsub(Version, "")
+                        
+                        local MinV = NewestVersion:gsub("<" .. Version1 .. ">", "")
+                        local StripedExtra
+                        local isMatch = MinV:match("<"..Version..">")
+                        if isMatch then
+                            StripedExtra = MinV:gsub("<"..Version..">.*", "")
+                        else
+                            StripedExtra = MinV:gsub("<%d?%d.%d?%d.?%d?%d?>.*", "")
+                        end
+
+                        local stripedVersions = StripedExtra:gsub("<%d?%d.%d?%d.?%d?%d?>", "")
+
+                        local Changelog = stripedVersions
                         Changelog = string.gsub(Changelog, "\n", "")
                         Changelog = string.gsub(Changelog, "-", " \n-"):gsub("%b<>", ""):sub(1, -2)
+                        
                         NewestVersion = Version1
+                        
+                        Script['CL'] = true
+                        Script['Changelog'] = Changelog
                     end
-                end
+                end    
+                Script['NewestVersion'] = Version1
+                Script['Version'] = Version
+                
+                table.insert(ScriptList, Script)
             end
-            if Changelog ~= nil then
-                Script['CL'] = true
-            end
-            Script['NewestVersion'] = Version1
-            Script['Version'] = Version
-            Script['Changelog'] = Changelog
-            table.insert(ScriptList, Script)
         end
     end
 end
