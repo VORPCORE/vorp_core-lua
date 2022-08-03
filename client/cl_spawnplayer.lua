@@ -6,6 +6,8 @@ local mapTypeOnMount = Config.mapTypeOnMount
 local mapTypeOnFoot = Config.mapTypeOnFoot
 local enableTypeRadar = Config.enableTypeRadar
 
+local hasCharacterSelected = false
+
 pvp = Config.PVP
 
 function setPVP()
@@ -137,6 +139,8 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
     SetMinimapHideFow(true) -- enable FOW
     TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger 
     TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
+
+    hasCharacterSelected = true
 end)
 
 HealthData = {}
@@ -233,21 +237,23 @@ end)
 
 CreateThread(function()
     while true do
-        local player = PlayerPedId()
-        Wait(300000)
+        if hasCharacterSelected == true then
+            local player = PlayerPedId()
+            Wait(300000) --Why is there this wait?
 
-        local innerCoreHealth = Citizen.InvokeNative(0x36731AC041289BB1, player, 0, Citizen.ResultAsInteger())
-        local outerCoreStamina = Citizen.InvokeNative(0x22F2A386D43048A9, player)
-        local innerCoreStamina = Citizen.InvokeNative(0x36731AC041289BB1, player, 1, Citizen.ResultAsInteger())
-        local getHealth = GetEntityHealth(player)
-        local innerHealth = tonumber(innerCoreHealth)
-        local innerStamina = tonumber(innerCoreStamina)
+            local innerCoreHealth = Citizen.InvokeNative(0x36731AC041289BB1, player, 0, Citizen.ResultAsInteger())
+            local outerCoreStamina = Citizen.InvokeNative(0x22F2A386D43048A9, player)
+            local innerCoreStamina = Citizen.InvokeNative(0x36731AC041289BB1, player, 1, Citizen.ResultAsInteger())
+            local getHealth = GetEntityHealth(player)
+            local innerHealth = tonumber(innerCoreHealth)
+            local innerStamina = tonumber(innerCoreStamina)
 
-        if innerHealth and innerStamina and getHealth and outerCoreStamina then
+            if innerHealth and innerStamina and getHealth and outerCoreStamina then
 
-            TriggerServerEvent("vorp:SaveHealth", getHealth, innerHealth)
-            Wait(5)
-            TriggerServerEvent("vorp:SaveStamina", outerCoreStamina, innerStamina)
+                TriggerServerEvent("vorp:SaveHealth", getHealth, innerHealth)
+                Wait(5)
+                TriggerServerEvent("vorp:SaveStamina", outerCoreStamina, innerStamina)
+            end
         end
     end
 end)
