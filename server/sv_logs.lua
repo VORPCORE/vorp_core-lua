@@ -18,22 +18,22 @@ AddEventHandler('vorp_core:addWebhook', function(title, webhook, description, co
     PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({
         embeds = {
             {
-                ["color"] = Config.webhookColor or color,
+                ["color"] = color or Config.webhookColor,
                 ["author"] = {
-                    ["name"] = Config.name or name,
-                    ["icon_url"] = Config.logo or logo,
+                    ["name"] = name or Config.name,
+                    ["icon_url"] = logo or Config.logo,
                 },
                 ["title"] = title,
                 ["description"] = description,
                 ["footer"] = {
                     ["text"] = "VORPcore" .. " • " .. os.date("%x %X %p"),
-                    ["icon_url"] = Config.footerLogo or footerlogo,
+                    ["icon_url"] = footerlogo or Config.footerLogo,
 
                 },
             },
 
         },
-        avatar_url = Config.Avatar or avatar
+        avatar_url = avatar or Config.Avatar
     }), {
         ['Content-Type'] = 'application/json'
     })
