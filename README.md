@@ -1,47 +1,22 @@
+---
 ## VORPcore Lua version
-VORP CORE for RedM made in LUA! Finally
+---
 
 If you have the C# version of the core and want to replace it, it's just drag and drop. Everything works without having to change anything!
-
+---
 ## Requirements
-- [ghmattimysql](https://github.com/VORPCORE/ghmattimysql-oxmysql) - is the new oxmysql
-- [VORP-Inputs](https://github.com/VORPCORE/VORP-Inputs/releases) 
-- [VORP-Character](https://github.com/VORPCORE/VORP-Character/releases)
-
-## How to install (Remember to download the lastest releases)
+- [oxmysql](https://github.com/VORPCORE/oxmysql) 
+- [VORP-Inputs](https://github.com/VORPCORE/vorp-inputs-lua/releases) 
+-  for characters use whats in the vorp premade
+---
+## How to install 
 * Rename the folder to ``vorp_core``
-* install `SQL` file provided
 * Copy and paste ``vorp_core`` folder to ``[resources]/[vorp_core]``
 * Add ensure to the top load order ``vorp_core`` to your ``resources.cfg`` file
 
+---
 
-# These resources will start by default `example`
-```
-#MYSQL
-ensure ghmattimysql
-
-#VORP Core
-ensure vorp_core
-ensure vorp_inputs
-
-#VORP Scripts
-ensure vorp_character
-ensure vorp_inventory
-ensure vorp_metabolism
-ensure vorp_clothingstore
-ensure vorp_stables
-ensure vorp_adminmenu
-ensure vorp_stores
-ensure vorp_weaponstore
-ensure vorp_banks
-ensure vorp_barbershops
-ensure vorp_cinema
-ensure vorp_housing
-ensure vorp_postman
-ensure vorp_woodcutter
-```
 ## some of the features 
-
 - admin commands 
 - client commands
 - config file to edit easly for server owners
@@ -49,6 +24,8 @@ ensure vorp_woodcutter
 - API to work with other scripts and exports
 - refer to WIKI (link bellow )
 - ace permissions and or group DB
+
+---
 
 ## Bans, warns and whitelists
 
@@ -64,7 +41,9 @@ Whitelisting, banning and warning is based on static user-ids that can be change
 The user-id will be send to your discord **only** when *NewPlayerWebhook* is setup in config.
 ![image](https://i.imgur.com/cWlyIC8.png)
 
-# add permissions to perms.cfg
+
+--
+## Add permissions to perms.cfg
 ```
 #############################################################################################
 # VORP COMMANDS YOU CAN USE DISCORD ACE PERMS and use roles as permissions. just configure it.
@@ -91,21 +70,29 @@ add_ace group.admin vorpcore.unwarn.Command allow
 add_ace group.admin vorpcore.showAllCommands allow
 
 ```
+---
 
 ## Note
 
 We recommend using the latest version of server artifacts.
 - [ARTIFACTS](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/)
 
+---
+
 ## For support 
 - [DISCORD](https://discord.gg/DHGVAbCj7N)
 
+---
+
 ## Wiki
-- [Wiki VORP Core](http://docs.vorpcore.com:3000/home)
+- [Wiki VORP Core](https://github.com/outsider31000/VORP_API-docs)
+---
 
 ## Credits
-- [VORP-Core](https://github.com/VORPCORE/VORP-Core/releases) This script was based on this core.
+- [VORP-Core](https://github.com/VORPCORE/VORP-Core/releases) This script was based on this C# core.
 
-
+---
 
 converted by `goncalobsccosta#9041`
+
+---
