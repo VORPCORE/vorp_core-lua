@@ -137,6 +137,7 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
     SetMinimapHideFow(true) -- enable FOW
     TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger 
     TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
+    TriggerServerEvent("vorp:SaveDate") -- Saves the date when logging in
 end)
 
 HealthData = {}
