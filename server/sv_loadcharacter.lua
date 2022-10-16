@@ -60,3 +60,10 @@ RegisterNetEvent('vorp:ImDead', function(isDead)
         _users[identifier].GetUsedCharacter().setDead(isDead)
     end
 end)
+
+RegisterServerEvent('vorp:SaveDate')
+AddEventHandler('vorp:SaveDate', function()
+    local Character = VorpCore.getUser(source).getUsedCharacter
+    local charid = Character.charIdentifier
+	exports.ghmattimysql:execute("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier", {charidentifier = charid })
+end)

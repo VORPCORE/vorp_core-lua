@@ -137,6 +137,7 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
     SetMinimapHideFow(true) -- enable FOW
     TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger 
     TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
+    TriggerServerEvent("vorp:SaveDate") -- Saves the date when logging in
 end)
 
 HealthData = {}
@@ -258,4 +259,18 @@ Citizen.CreateThread(function()
 		Citizen.Wait(1800000)
         TriggerServerEvent("vorp:SaveHours")
 	end
+end)
+
+---------------------Guarama Check-------------------------
+RegisterNetEvent("vorp:SelectedCharacter") -- NPC loads after selecting character
+AddEventHandler("vorp:SelectedCharacter", function(charid)
+    Citizen.Wait(10000)
+    local player = PlayerPedId()
+    local pedCoords = GetEntityCoords(player)
+    local area = Citizen.InvokeNative(0x43AD8FC02B429D33 ,pedCoords.x,pedCoords.y,pedCoords.z,10)
+    if area == -512529193 then
+        Citizen.InvokeNative(0xA657EC9DBC6CC900, 1935063277) --guarma map
+        Citizen.InvokeNative(0xE8770EE02AEE45C2, 1) --guarma water
+        Citizen.InvokeNative(0x74E2261D2A66849A, true)
+    end
 end)
