@@ -1,5 +1,9 @@
 local characters = {}
 
+TriggerEvent("getCore",function(core)
+    VorpCore = core
+end)
+
 function LoadCharacter(identifier, character)
     characters[identifier] = character
 end
