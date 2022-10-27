@@ -1,4 +1,4 @@
-local UseIDHeads = Config["HeadId"]
+--[[local UseIDHeads = Config["HeadId"]
 local UseKeyMode = Config["ModeKey"]
 local keyShow = Config["KeyShowIds"]
 local distanceConfig = Config["HeadIdDistance"]
@@ -49,4 +49,4 @@ Citizen.CreateThread(function()
 
         Citizen.Wait(0)
     end
-end)
+end)]]
