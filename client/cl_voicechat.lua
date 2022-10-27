@@ -1,4 +1,4 @@
-local activeVoiceChat = Config["ActiveVoiceChat"]
+--[[local activeVoiceChat = Config["ActiveVoiceChat"]
 local voiceRange = Config["VoiceRanges"]
 local voiceRangeSelected = Config["DefaultVoiceRange"]
 local keyRange = Config["KeySwapVoiceRange"]
@@ -30,4 +30,4 @@ Citizen.CreateThread(function()
         
         Citizen.Wait(10000)
     end
-end)
+end)]]
