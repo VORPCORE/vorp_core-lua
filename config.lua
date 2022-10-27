@@ -70,11 +70,12 @@ Config = {
   },
 
   ------------------------------------------------------------------------------
-  ---------------------------- VOICE -------------------------------------------
-  ActiveVoiceChat   = false,
-  KeySwapVoiceRange = 0x80F28E95, --[L] KEY
-  DefaultVoiceRange = 5.0,
-  VoiceRanges       = { 2.0, 5.0, 12.0 },
+  ----------------------------------- VOICE ------------------------------------
+  --NOT WORKING
+  --ActiveVoiceChat   = false,
+  --KeySwapVoiceRange = 0x80F28E95, --[L] KEY
+  --DefaultVoiceRange = 5.0,
+  --VoiceRanges       = { 2.0, 5.0, 12.0 },
 
   ------------------------------------------------------------------------------
   ------------------------- SHOW OR HIDE UI's ----------------------------------
@@ -97,7 +98,7 @@ Config = {
   RespawnSubTitleFont = 1, -- for the draw text message sub title font
   CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned
   ShowUiDeath = true, -- show or hide the UI if player is dead
-  camDeath = false, -- enable or disable the camera death function
+  camDeath = true, -- enable or disable the camera death function
   sprite = true, --- enable text with sprite or disable
   spriteGrey = false, -- if set to false will enable RED sprite true will be grey
 
@@ -139,10 +140,12 @@ Config = {
     },
   },
   -----------------------------------------------------------------------------
-  HeadId = false,
-  HeadIdDistance = 15,
-  ModeKey = true,
-  KeyShowIds = "0x8CC9CD42", -- Press X
+  -- NOT WORKING 
+  --HeadId = false,
+ -- HeadIdDistance = 15,
+ -- ModeKey = true,
+  --KeyShowIds = "0x8CC9CD42", -- Press X
+  
   ActiveEagleEye = true,
   ActiveDeadEye = false,
   TimeZoneDifference = 1, -- Your time zone difference with UTC in winter time
@@ -159,14 +162,13 @@ Config = {
   -----------------------------BUILT IN RICH PRESENCE DISCORD --------------------------
   maxplayers = 128, -- change to the number of players that can get in to your server
   appid = nil, -- Application ID (Replace this with you own)
-  biglogo = "synred", -- image assets name for the "large" icon.
+  biglogo = "LOGOname", -- image assets name for the "large" icon.
   biglogodesc = " Redm Server Connect: ", -- text when hover over image
-  smalllogo = "smallboy", -- image assets name for the "small" icon.(OPTIONAL)
+  smalllogo = "smallboy name", -- image assets name for the "small" icon.(OPTIONAL)
   smalllogodesc = "Join us for a good time", -- text when hover over image
   discordlink = "https://discord.gg/", -- discord link
   richpresencebutton = "Join Discord", --set button text for Rich Presence Button
   shownameandid = true, --show player steam name and id
-
 
   ---------------------------------------------------------------------------------------
   ------------------------------- TRANSLATE ---------------------------------------------
