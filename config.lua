@@ -94,13 +94,14 @@ Config = {
   DisableRecharge = true, --Disable auto recharge of health outer core (real ped health)
   RespawnTime = 10, --seconds
   RespawnKey = 0xDFF812F9, --[E] KEY
+  RespawnKeyTime = 5000, -- Milliseconds it will take to press the button
   RespawnTitleFont = 1, -- for the draw text message
   RespawnSubTitleFont = 1, -- for the draw text message sub title font
   CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned
   ShowUiDeath = true, -- show or hide the UI if player is dead
   camDeath = true, -- enable or disable the camera death function
   sprite = true, --- enable text with sprite or disable
-  spriteGrey = false, -- if set to false will enable RED sprite true will be grey
+  spriteColor = {r = 100, g = 1, b = 1}, -- sprite rgb color
 
   hospital = {
     Valentine = {

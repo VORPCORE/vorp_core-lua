@@ -73,8 +73,7 @@ Citizen.CreateThread(function()
     PromptSetText(prompt, str)
     PromptSetEnabled(prompt, 1)
     PromptSetVisible(prompt, 1)
-    PromptSetStandardMode(prompt, 1)
-    PromptSetHoldMode(prompt, 1)
+    PromptSetHoldMode(prompt, Config.RespawnKeyTime)
     PromptSetGroup(prompt, prompts)
     Citizen.InvokeNative(0xC5F428EE08FA7F2C, prompt, true)
     PromptRegisterEnd(prompt)
@@ -114,7 +113,7 @@ Citizen.CreateThread(function()
                     DrawText3D(GetCoords.x, GetCoords.y, GetCoords.z, Config.Langs["TitleOnDead"])
                     local label = CreateVarString(10, 'LITERAL_STRING', promptLabel)
                     PromptSetActiveGroupThisFrame(prompts, label)
-                    if Citizen.InvokeNative(0xC92AC953F0A982AE, prompt) then
+                    if PromptHasHoldModeCompleted(prompt) then
                         TriggerServerEvent("vorp:PlayerForceRespawn")
                         TriggerEvent("vorp:PlayerForceRespawn")
                         DoScreenFadeOut(3000)
@@ -231,8 +230,8 @@ function ProcessNewPosition()
     return pos
 end
 
-local spriteGrey = Config.spriteGrey
 local sprite = Config.sprite
+local spirteColor = Config.spriteColor
 function DrawText3D(x, y, z, text)
     local onScreen, _x, _y = GetScreenCoordFromWorldCoord(x, y, z)
     local px, py, pz = table.unpack(GetGameplayCamCoord())
@@ -247,12 +246,7 @@ function DrawText3D(x, y, z, text)
         DisplayText(str, _x, _y)
         local factor = (string.len(text)) / 225
         if sprite then
-            if spriteGrey then
-                DrawSprite("generic_textures", "hud_menu_4a", _x, _y + 0.0125, 0.015 + factor, 0.03, 0.1, 35, 35, 35, 190
-                    , 0)
-            else
-                DrawSprite("feeds", "toast_bg", _x, _y + 0.0125, 0.015 + factor, 0.03, 0.1, 100, 1, 1, 190, 0)
-            end
+            DrawSprite("feeds", "toast_bg", _x, _y + 0.0125, 0.015 + factor, 0.03, 0.1, Config.spriteColor.r, Config.spriteColor.g, Config.spriteColor.b, 190, 0)
         end
     end
 end
