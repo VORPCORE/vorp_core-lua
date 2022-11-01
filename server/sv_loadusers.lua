@@ -185,9 +185,17 @@ AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
     local identifier = GetSteamID(_source)
 
     if healthInner and healthOuter then
-        if _users[identifier] and _users[identifier].GetUsedCharacter() ~= {} then
-            _users[identifier].GetUsedCharacter().HealthOuter(healthOuter - healthInner)
-            _users[identifier].GetUsedCharacter().HealthInner(healthInner)
+    
+        local user = _users[identifier] or nil
+        
+        if user then
+        
+          local used_char = user.GetUsedCharacter() or nil
+          
+          if used_char then
+            used_char.HealthOuter(healthOuter - healthInner)
+            used_char.HealthInner(healthInner)
+          end
         end
     end
 end)
@@ -197,9 +205,17 @@ AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
     local _source = source
     local identifier = GetSteamID(_source)
     if staminaOuter and staminaInner then
-        if _users[identifier] and _users[identifier].GetUsedCharacter() ~= {} then
-            _users[identifier].GetUsedCharacter().StaminaOuter(staminaOuter)
-            _users[identifier].GetUsedCharacter().StaminaInner(staminaInner)
+    
+        local user = _users[identifier] or nil
+        
+        if user then
+        
+          local used_char = user.GetUsedCharacter() or nil
+          
+          if used_char then
+            used_char.StaminaOuter(staminaOuter)
+            used_char.StaminaInner(staminaInner)
+          end
         end
     end
 end)
