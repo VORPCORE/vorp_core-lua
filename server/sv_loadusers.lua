@@ -58,14 +58,16 @@ AddEventHandler('playerDropped', function()
     local steamName = GetPlayerName(_source)
 
     if _users[identifier] and not _usersLoading[identifier] then
-        _users[identifier].GetUsedCharacter().HealthOuter(_healthData[identifier].hOuter)
-        _users[identifier].GetUsedCharacter().HealthInner(_healthData[identifier].hInner)
-        _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
-        _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
-        _users[identifier].SaveUser()
-        print("Player ^2", GetPlayerName(_source) .. " ^7steam:^3 " .. identifier .. "^7 saved")
-        Wait(10000)
-        _users[identifier] = nil
+          if _users[identifier].GetUsedCharacter() then
+            _users[identifier].GetUsedCharacter().HealthOuter(_healthData[identifier].hOuter)
+            _users[identifier].GetUsedCharacter().HealthInner(_healthData[identifier].hInner)
+            _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
+            _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
+            _users[identifier].SaveUser()
+            print("Player ^2", GetPlayerName(_source) .. " ^7steam:^3 " .. identifier .. "^7 saved")
+            Wait(10000)
+            _users[identifier] = nil
+         end
     end
 
     if Config.SaveSteamNameDB then -- I dont hink none of this is used and its useless
