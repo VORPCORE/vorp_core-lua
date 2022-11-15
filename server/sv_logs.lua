@@ -4,11 +4,23 @@
 
 function GetIdentity(source, identity)
 
-    for k, v in pairs(GetPlayerIdentifiers(source)) do
-        if string.sub(v, 1, string.len(identity .. ":")) == identity .. ":" then
-            return v
-        end
-    end
+    local num = 0
+	local num2 = GetNumPlayerIdentifiers(source)
+  
+	if GetNumPlayerIdentifiers(source) > 0 then
+	  local ident = nil
+	  while num < num2 and not ident do
+		local a = GetPlayerIdentifier(source, num)
+		if string.find(a, identity) then ident = a end
+		num = num+1
+	  end
+	  --return ident;
+      if ident == nil then 
+        return ""
+      end
+	  return string.sub(ident, 9)
+	end
+    
 end
 
 RegisterServerEvent('vorp_core:addWebhook')
