@@ -79,6 +79,7 @@ CreateThread(function()
 
             local _source = source
             local User = VorpCore.getUser(_source)
+            local Character = User.getUsedCharacter
             local group = User.group -- User DB table group
             local Identifier = GetPlayerIdentifier(_source)
             local discordIdentity = GetIdentity(_source, "discord")
@@ -102,14 +103,14 @@ CreateThread(function()
                             return
                         end
 
-                        VorpCore.setGroup(target, newgroup)
+                        Character.setGroup(newgroup)
                         VorpCore.NotifyRightTip(_source, "You gave Group to ID: " .. target, 4000)
                         VorpCore.NotifyRightTip(_source, "Admin gave you Group of " .. newgroup, 4000)
 
                         if Config.Logs.SetgroupWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "` \n**Group given** `" .. newgroup .. "`"
                             local title = "📋` /Group command` "
-                            VorpCore.addWebhook(title, Config.Logs.SetgroupWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.SetgroupWebhook, message .. Message)
                         end
                     elseif CurrentCommand == "addJob" then
                         local target, newjob, jobgrade = tonumber(args[1]), tostring(args[2]), tonumber(args[3])
@@ -118,8 +119,8 @@ CreateThread(function()
                             return
                         end
 
-                        VorpCore.setJob(target, newjob)
-                        VorpCore.setJobGrade(jobgrade)
+                        Character.setJob(target, newjob)
+                        Character.setJobGrade(jobgrade)
                         VorpCore.NotifyRightTip(_source,
                             "you gave  Job " .. newjob .. " to ID " .. target .. " Grade" .. jobgrade, 4000)
                         VorpCore.NotifyRightTip(target, "staff gave you job " .. newjob .. " Grade " .. jobgrade, 4000)
@@ -128,7 +129,7 @@ CreateThread(function()
                             local Message = "`\n**PlayerID** `" ..
                                 _source .. "` \n**Job given** `" .. newjob .. "`\n **Grade:** `" .. jobgrade .. "`"
                             local title = "📋` /Job command` "
-                            VorpCore.addWebhook(title, Config.Logs.SetjobWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.SetjobWebhook, message .. Message)
                         end
 
                     elseif CurrentCommand == "addMoney" then
@@ -138,7 +139,7 @@ CreateThread(function()
                             return
                         end
 
-                        VorpCore.addCurrency(target, montype, quantity)
+                        Character.addCurrency(target, montype, quantity)
                         VorpCore.NotifyRightTip(_source, "You gave currency " .. quantity .. " to ID " .. target, 4000)
                         VorpCore.NotifyRightTip(target, "Received from admin an Amount of" .. quantity, 4000)
 
@@ -146,7 +147,7 @@ CreateThread(function()
                             local Message = "`\n**PlayerID** `" ..
                                 _source .. "` \n **Type** `" .. montype .. "` \n**Quantity** `" .. quantity .. "`"
                             local title = "📋` /Addmoney command` "
-                            VorpCore.addWebhook(title, Config.Logs.AddmoneyWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.AddmoneyWebhook, message .. Message)
                         end
 
                     elseif CurrentCommand == "addItems" then
@@ -169,7 +170,7 @@ CreateThread(function()
                                             _source ..
                                             "` \n**Item given** `" .. item .. "` \n **Count**`" .. count .. "`"
                                         local title = "📋` /additems command` "
-                                        VorpCore.addWebhook(title, Config.Logs.AddItemsWebhook,
+                                        VorpCore.AddWebhook(title, Config.Logs.AddItemsWebhook,
                                             message .. Message)
                                     end
                                 else
@@ -198,7 +199,7 @@ CreateThread(function()
                                     local Message = "`\n**PlayerID** `" ..
                                         _source .. "` \n**Weapon given** `" .. weaponHash .. "`"
                                     local title = "📋` /addweapons command` "
-                                    VorpCore.addWebhook(title, Config.Logs.AddWeaponsWebhook, message, Message)
+                                    VorpCore.AddWebhook(title, Config.Logs.AddWeaponsWebhook, message, Message)
                                 end
                             else
                                 VorpCore.NotifyObjective(_source, Config.Langs.cantCarry, 4000)
@@ -212,14 +213,14 @@ CreateThread(function()
                             return
                         end
 
-                        VorpCore.removeCurrency(target, montype, quantity)
+                        Character.removeCurrency(target, montype, quantity)
                         VorpCore.NotifyRightTip(_source, "You have removed " .. quantity .. " from ID " .. target, 4000)
 
                         if Config.Logs.DelMoneyWebhook then
                             local Message = "`\n**PlayerID** `" ..
                                 _source .. "` \n **Type** `" .. montype .. "` \n**Quantity** `" .. quantity .. "`"
                             local title = "📋` /delcurrency command` "
-                            VorpCore.addWebhook(title, Config.Logs.DelMoneyWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.DelMoneyWebhook, message .. Message)
                         end
                     elseif CurrentCommand == "revivePlayer" then
                         local target = tonumber(args[1])
@@ -232,7 +233,7 @@ CreateThread(function()
                         if Config.Logs.ReviveWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `Was Revived `"
                             local title = "📋` /revive command` "
-                            VorpCore.addWebhook(title, Config.Logs.ReviveWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.ReviveWebhook, message .. Message)
                         end
 
                     elseif CurrentCommand == "tpm" then
@@ -242,7 +243,7 @@ CreateThread(function()
                         if Config.Logs.TpmWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `Used TPM`"
                             local title = "📋` /Tpm command` "
-                            VorpCore.addWebhook(title, Config.Logs.TpmWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.TpmWebhook, message .. Message)
                         end
 
                     elseif CurrentCommand == "delhorse" then
@@ -252,7 +253,7 @@ CreateThread(function()
                         if Config.Logs.DelHorseWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `Used Delhorse`"
                             local title = "📋` /delhorse command` "
-                            VorpCore.addWebhook(title, Config.Logs.DelHorseWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.DelHorseWebhook, message .. Message)
                         end
 
                     elseif CurrentCommand == "delwagons" then
@@ -269,7 +270,7 @@ CreateThread(function()
                                 local Message = "`\n**PlayerID** `" ..
                                     _source .. "`\n **Action:** `Used delwagons` \n **Radius:** `" .. radius .. "`"
                                 local title = "📋` /delwagons command` "
-                                VorpCore.addWebhook(title, Config.Logs.DelWagonsWebhook, message .. Message)
+                                VorpCore.AddWebhook(title, Config.Logs.DelWagonsWebhook, message .. Message)
                             end
                         end
 
@@ -285,7 +286,7 @@ CreateThread(function()
                         if Config.Logs.HealPlayerWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `Was healed`"
                             local title = "📋` /healplayer command` "
-                            VorpCore.addWebhook(title, Config.Logs.HealPlayerWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.HealPlayerWebhook, message .. Message)
                         end
 
                     elseif CurrentCommand == "banplayer" then
@@ -337,7 +338,7 @@ CreateThread(function()
                                         Config.Langs.TimeZone
                                     local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `" .. text .. "`"
                                     local title = "📋` /ban command` "
-                                    VorpCore.addWebhook(title, Config.Logs.BanWarnWebhook, message .. Message)
+                                    VorpCore.AddWebhook(title, Config.Logs.BanWarnWebhook, message .. Message)
                                 end
                             end
                         end
@@ -354,7 +355,7 @@ CreateThread(function()
                         if Config.Logs.BanWarnWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `has used unbanned`"
                             local title = "📋` /unban command` "
-                            VorpCore.addWebhook(title, Config.Logs.BanWarnWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.BanWarnWebhook, message .. Message)
                         end
 
                     elseif CurrentCommand == "wlplayer" then
@@ -368,7 +369,7 @@ CreateThread(function()
                         if Config.Logs.WhitelistWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `has used whitelist`"
                             local title = "📋` /wlplayer command` "
-                            VorpCore.addWebhook(title, Config.Logs.WhitelistWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.WhitelistWebhook, message .. Message)
                         end
                     elseif CurrentCommand == "unwlplayer" then
                         local target = tonumber(args[1])
@@ -380,7 +381,7 @@ CreateThread(function()
                         if Config.Logs.WhitelistWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `has used unwhitelist`"
                             local title = "📋` /unwlplayer command` "
-                            VorpCore.addWebhook(title, Config.Logs.WhitelistWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.WhitelistWebhook, message .. Message)
                         end
                     elseif CurrentCommand == "unwarn" then
                         local target = tonumber(args[1])
@@ -394,7 +395,7 @@ CreateThread(function()
                         if Config.Logs.BanWarnWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `has used unwarned`"
                             local title = "📋` /unwarn command` "
-                            VorpCore.addWebhook(title, Config.Logs.BanWarnWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.BanWarnWebhook, message .. Message)
                         end
 
                     elseif CurrentCommand == "warn" then
@@ -408,7 +409,7 @@ CreateThread(function()
                             if Config.Logs.BanWarnWebhook then
                                 local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `has used warned`"
                                 local title = "📋` /warn command` "
-                                VorpCore.addWebhook(title, Config.Logs.BanWarnWebhook, message .. Message)
+                                VorpCore.AddWebhook(title, Config.Logs.BanWarnWebhook, message .. Message)
                             end
                         end
                     elseif CurrentCommand == "addchar" then
@@ -426,7 +427,7 @@ CreateThread(function()
                                 local Message = "`\n**PlayerID** `" ..
                                     _source .. "`\n **Action:** `has used multicharacter`"
                                 local title = "📋` /addchar command` "
-                                VorpCore.addWebhook(title, Config.Logs.CharPermWebhook, message .. Message)
+                                VorpCore.AddWebhook(title, Config.Logs.CharPermWebhook, message .. Message)
                             end
                         end
                     elseif CurrentCommand == "removechar" then
@@ -444,7 +445,7 @@ CreateThread(function()
                                 local Message = "`\n**PlayerID** `" ..
                                     _source .. "`\n **Action:** `Has used remove multicharacter`"
                                 local title = "📋` /removechar command` "
-                                VorpCore.addWebhook(title, Config.Logs.CharPermWebhook, message .. Message)
+                                VorpCore.AddWebhook(title, Config.Logs.CharPermWebhook, message .. Message)
                             end
                         end
                     elseif CurrentCommand == "changeCharName" then
@@ -464,7 +465,7 @@ CreateThread(function()
                             local Message = "`\n**PlayerID** `" ..
                                 _source .. "`\n **Action:** `Has used changename`"
                             local title = "📋` /changename command` "
-                            VorpCore.addWebhook(title, Config.Logs.ChangeNameWebhook, message .. Message)
+                            VorpCore.AddWebhook(title, Config.Logs.ChangeNameWebhook, message .. Message)
                         end
 
                     end
