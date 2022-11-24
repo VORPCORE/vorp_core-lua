@@ -1,3 +1,9 @@
+<1.5>
+- fix errors for new users thanks to Members of the community
+- refactor commands reduced 400 lines of code 
+- changed commands name addMoney delMoney addGroup addJob
+- other small fixes 
+- make sure to update all files if you dont know what you doing including config file 
 <1.4>
 - Database auto updater has been added. No more manual sql entries!
 - Player instance API added
