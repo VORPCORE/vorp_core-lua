@@ -99,7 +99,7 @@ CreateThread(function()
                     if CurrentCommand == "addGroup" then
                         local target, newgroup = tonumber(args[1]), tostring(args[2])
 
-                        if not CheckArgs(args, _source, 2) then -- if requiered argsuments are not met
+                        if CheckArgs(args, _source, 2) then -- if requiered argsuments are not met
                             return
                         end
 
@@ -115,7 +115,7 @@ CreateThread(function()
                     elseif CurrentCommand == "addJob" then
                         local target, newjob, jobgrade = tonumber(args[1]), tostring(args[2]), tonumber(args[3])
 
-                        if not CheckArgs(args, _source, 3) then
+                        if CheckArgs(args, _source, 3) then
                             return
                         end
 
@@ -135,7 +135,7 @@ CreateThread(function()
                     elseif CurrentCommand == "addMoney" then
                         local target, montype, quantity = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
 
-                        if not CheckArgs(args, _source, 3) then
+                        if CheckArgs(args, _source, 3) then
                             return
                         end
 
@@ -157,7 +157,7 @@ CreateThread(function()
                         local canCarry = VORPInv.canCarryItems(target, count) --can carry inv space
                         local canCarry2 = VORPInv.canCarryItem(target, item, count) --cancarry item limit
                         local VORPInv = exports.vorp_inventory:vorp_inventoryApi()
-                        if not CheckArgs(args, _source, 3) then
+                        if CheckArgs(args, _source, 3) then
                             return
                         end
 
@@ -185,7 +185,7 @@ CreateThread(function()
                         local target = tonumber(args[1])
                         local weaponHash = tostring(args[2])
                         local VORPInv = exports.vorp_inventory:vorp_inventoryApi()
-                        if not CheckArgs(args, _source, 2) then
+                        if CheckArgs(args, _source, 2) then
                             return
                         end
 
@@ -209,7 +209,7 @@ CreateThread(function()
                     elseif CurrentCommand == "delMoney" then
                         local target, montype, quantity = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
 
-                        if not CheckArgs(args, _source, 3) then
+                        if CheckArgs(args, _source, 3) then
                             return
                         end
 
@@ -259,7 +259,7 @@ CreateThread(function()
                     elseif CurrentCommand == "delwagons" then
                         local radius = tonumber(args[1])
 
-                        if not CheckArgs(args, _source, 1) then
+                        if CheckArgs(args, _source, 1) then
                             return
                         end
 
@@ -296,7 +296,7 @@ CreateThread(function()
                             local Group = user.group -- User DB table group
                             if not CheckGroupAllowed(Config.GroupAllowed, Group) then -- bann only non staff players
 
-                                if not CheckArgs(args, _source, 2) then --has  met the requirements
+                                if CheckArgs(args, _source, 2) then --has  met the requirements
                                     return
                                 end
 
@@ -346,7 +346,7 @@ CreateThread(function()
                     elseif CurrentCommand == "unban" then
                         local target = tonumber(args[1])
 
-                        if not CheckArgs(args, _source, 1) then
+                        if CheckArgs(args, _source, 1) then
                             return
                         end
 
@@ -360,7 +360,7 @@ CreateThread(function()
 
                     elseif CurrentCommand == "wlplayer" then
                         local target = tonumber(args[1])
-                        if not CheckArgs(args, _source, 1) then
+                        if CheckArgs(args, _source, 1) then
                             return
                         end
 
@@ -374,7 +374,7 @@ CreateThread(function()
                     elseif CurrentCommand == "unwlplayer" then
                         local target = tonumber(args[1])
 
-                        if not CheckArgs(args, _source, 1) then
+                        if CheckArgs(args, _source, 1) then
                             return
                         end
                         TriggerEvent("vorp:unwhitelistPlayer", target)
@@ -386,7 +386,7 @@ CreateThread(function()
                     elseif CurrentCommand == "unwarn" then
                         local target = tonumber(args[1])
 
-                        if not CheckArgs(args, _source, 1) then
+                        if CheckArgs(args, _source, 1) then
                             return
                         end
 
@@ -401,7 +401,7 @@ CreateThread(function()
                     elseif CurrentCommand == "warn" then
                         local target = tonumber(args[1])
 
-                        if not CheckArgs(args, _source, 1) then
+                        if CheckArgs(args, _source, 1) then
                             return
                         end
                         if _source ~= target then -- dont warn yourself
@@ -416,7 +416,7 @@ CreateThread(function()
                         if Config.UseCharPermission then
                             local target = tonumber(args[1])
 
-                            if not CheckArgs(args, _source, 1) then
+                            if CheckArgs(args, _source, 1) then
                                 return
                             end
 
@@ -434,7 +434,7 @@ CreateThread(function()
                         if Config.UseCharPermission then
                             local target = tonumber(args[1])
 
-                            if not CheckArgs(args, _source, 1) then
+                            if CheckArgs(args, _source, 1) then
                                 return
                             end
 
@@ -453,7 +453,7 @@ CreateThread(function()
                         local firstname = args[2]
                         local lastname = args[3]
 
-                        if not CheckArgs(args, _source, 3) then
+                        if CheckArgs(args, _source, 3) then
                             return
                         end
 
