@@ -153,11 +153,11 @@ CreateThread(function()
 
                     elseif CurrentCommand == "addItems" then
                         local target, item, count = tonumber(args[1]), tostring(args[2]), tonumber(args[3])
-
+                        local VORPInv = exports.vorp_inventory:vorp_inventoryApi()
                         local itemCheck = VORPInv.getDBItem(target, item)
                         local canCarry = VORPInv.canCarryItems(target, count) --can carry inv space
                         local canCarry2 = VORPInv.canCarryItem(target, item, count) --cancarry item limit
-                        local VORPInv = exports.vorp_inventory:vorp_inventoryApi()
+
                         if CheckArgs(args, _source, 3) then
                             return
                         end
@@ -495,8 +495,7 @@ end)
 -- doesnt require Permissions
 RegisterCommand("myjob", function(source, args, rawCommand)
     local _source   = source
-    local User      = VorpCore.getUser(_source)
-    local Character = User.GetUsedCharacter
+    local Character = VorpCore.getUser(_source).getUsedCharacter
     local job       = Character.job
     local grade     = Character.jobGrade
     VorpCore.NotifyRightTip(_source, Config.Langs.myjob .. job .. Config.Langs.mygrade .. grade, 4000)
