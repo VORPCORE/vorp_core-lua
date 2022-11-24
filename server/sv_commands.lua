@@ -119,7 +119,8 @@ CreateThread(function()
                             return
                         end
 
-                        VorpCore.setJob(target, newjob, jobgrade)
+                        VorpCore.setJob(target, newjob)
+                        VorpCore.setJobGrade(jobgrade)
                         VorpCore.NotifyRightTip(_source,
                             "you gave  Job " .. newjob .. " to ID " .. target .. " Grade" .. jobgrade, 4000)
                         VorpCore.NotifyRightTip(target, "staff gave you job " .. newjob .. " Grade " .. jobgrade, 4000)
@@ -138,7 +139,7 @@ CreateThread(function()
                             return
                         end
 
-                        VorpCore.addMoney(target, montype, quantity)
+                        VorpCore.addCurrency(target, montype, quantity)
                         VorpCore.NotifyRightTip(_source, "You gave currency " .. quantity .. " to ID " .. target, 4000)
                         VorpCore.NotifyRightTip(target, "Received from admin an Amount of" .. quantity, 4000)
 
