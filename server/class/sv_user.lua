@@ -33,7 +33,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     self.Group = function(value)
         if value ~= nil then
             self._group = value
-            exports.ghmattimysql:execute("UPDATE users SET `group` = ? WHERE `identifier` = ?",
+            exports.oxmysql:execute("UPDATE users SET `group` = ? WHERE `identifier` = ?",
                 { self._group, self.Identifier() })
         end
 
@@ -43,7 +43,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     self.Playerwarnings = function(value)
         if value ~= nil then
             self._playerwarnings = value
-            exports.ghmattimysql:execute("UPDATE users SET `warnings` = ? WHERE `identifier` = ?",
+            exports.oxmysql:execute("UPDATE users SET `warnings` = ? WHERE `identifier` = ?",
                 { self._playerwarnings, self.Identifier() })
         end
 
@@ -53,7 +53,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     self.Charperm = function(value)
         if value ~= nil then
             self._charperm = value
-            exports.ghmattimysql:execute("UPDATE users SET `char` = ? WHERE `identifier` = ?",
+            exports.oxmysql:execute("UPDATE users SET `char` = ? WHERE `identifier` = ?",
                 { self._charperm, self.Identifier() })
         end
 
@@ -133,7 +133,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     end
 
     self.LoadCharacters = function()
-        exports.ghmattimysql:execute("SELECT * FROM characters WHERE identifier =?", { self._identifier },
+        exports.oxmysql:execute("SELECT * FROM characters WHERE identifier =?", { self._identifier },
             function(usercharacters)
                 self.Numofcharacters(#usercharacters)
 

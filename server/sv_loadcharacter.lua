@@ -69,8 +69,9 @@ end)
 
 RegisterServerEvent('vorp:SaveDate')
 AddEventHandler('vorp:SaveDate', function()
-    local Character = VorpCore.getUser(source).getUsedCharacter
+    local _source = source
+    local Character = VorpCore.getUser(_source).getUsedCharacter
     local charid = Character.charIdentifier
-    exports.ghmattimysql:execute("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier",
+    exports.oxmysql:execute("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier",
         { charidentifier = charid })
 end)
