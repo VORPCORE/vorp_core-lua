@@ -557,7 +557,7 @@ AddEventHandler("vorp:chatSuggestion", function()
             { name = "AddWhiteList", help = ' steam ID like this > 11000010c8aa16e' },
         })
 
-        TriggerClientEvent("chat:addSuggestion", _source, "/additems", " VORPcore command to give items.", {
+        TriggerClientEvent("chat:addSuggestion", _source, "/addItems", " VORPcore command to give items.", {
             { name = "Id", help = 'player ID' }, { name = "Item", help = 'item name' },
             { name = "Quantity", help = 'amount of items to give' },
         })
