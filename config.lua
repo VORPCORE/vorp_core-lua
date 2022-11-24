@@ -67,6 +67,7 @@ Config = {
     BanWarnWebhook    = "", --BANS/WARNS
     NewPlayerWebhook  = "", --NEWPLAYER
     CharPermWebhook   = "", --CHARPERMS
+    ChangeNameWebhook = "", -- CHANGECHARNAMES
   },
 
   ------------------------------------------------------------------------------
@@ -143,7 +144,7 @@ Config = {
   GroupAllowed = { "admin" }, -- add here groups
   Commands = { "addGroup", "addJob", "addItems", "addWeapons", "addMoney", "delMoney", "healplayer",
     "reviveplayer", "tpm", "delhorse", "delwagons", "banplayer", "wlplayer", "unwlplayer", "warn",
-    "unban", "unwarn" }, -- commands available
+    "unban", "unwarn", "changeCharName" }, -- commands available
 
   --------------------------------------------------------------------------------------
   -----------------------------BUILT IN RICH PRESENCE DISCORD --------------------------

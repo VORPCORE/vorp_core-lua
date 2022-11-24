@@ -444,6 +444,26 @@ CreateThread(function()
                                 VorpCore.addWebhook(title, Config.Logs.CharPermWebhook, message .. Message)
                             end
                         end
+                    elseif CurrentCommand == "changeCharName" then
+                        local target = tonumber(args[1])
+                        local firstname = args[2]
+                        local lastname = args[3]
+
+                        if not CheckArgs(args, _source, 3) then
+                            return
+                        end
+
+                        local CharacterT = VorpCore.getUser(target).getUsedCharacter -- get old name
+                        CharacterT.setFirstname(firstname)
+                        CharacterT.setLastname(lastname)
+
+                        if Config.Logs.ChangeNameWebhook then
+                            local Message = "`\n**PlayerID** `" ..
+                                _source .. "`\n **Action:** `Has used changename`"
+                            local title = "📋` /changename command` "
+                            VorpCore.addWebhook(title, Config.Logs.ChangeNameWebhook, message .. Message)
+                        end
+
                     end
                 else
                     VorpCore.NotifyObjective(_source, Config.Langs.NoPermissions, 4000)
@@ -452,6 +472,8 @@ CreateThread(function()
         end)
     end
 end)
+
+
 
 -- doesnt require Permissions
 RegisterCommand("myjob", function(source, args, rawCommand)
@@ -574,6 +596,12 @@ AddEventHandler("vorp:chatSuggestion", function()
 
         TriggerClientEvent("chat:addSuggestion", _source, "/unwarn", " VORPcore command to unwarn players.", {
             { name = "Id", help = 'player ID from Discord user-id' },
+        })
+        TriggerClientEvent("chat:addSuggestion", _source, "/changeCharName",
+            " VORPcore command to change characters name.", {
+            { name = "Id", help = 'player ID ' },
+            { name = "first name", help = 'new player first name' },
+            { name = "last name", help = 'new player last  name' },
         })
 
         if Config.UseCharPermission then
