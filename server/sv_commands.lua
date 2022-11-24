@@ -58,10 +58,10 @@ end
 ---@param requiered number
 local CheckArgs = function(args, _source, requiered)
     if #args == requiered then
-        return true
+        return false
     end
     VorpCore.NotifyObjective(_source, "Please read the suggestions on how to use the command", 4000)
-    return false
+    return true
 end
 
 
