@@ -70,7 +70,8 @@ Config.AcePerms = { 'vorpcore.setGroup.Command', 'vorpcore.setJob.Command', 'vor
     'vorpcore.addweapons.Command', 'vorpcore.additems.Command', 'vorpcore.reviveplayer.Command', 'vorpcore.tpm.Command',
     'vorpcore.delwagons.Command', 'vorpcore.delhorse.Command', 'vorpcore.healplayer.Command', 'vorpcore.wlplayer.Command',
     'vorpcore.unwlplayer.Command', 'vorpcore.ban.Command', 'vorpcore.unban.Command', 'vorpcore.warn.Command',
-    'vorpcore.unwarn.Command', 'vorpcore.addchar.Command', 'vorpcore.removechar.Command', 'vorpcore.showAllCommands' }
+    'vorpcore.unwarn.Command', 'vorpcore.addchar.Command', 'vorpcore.removechar.Command', 'vorpcore.showAllCommands',
+    'vorpcore.changeCharName' }
 
 CreateThread(function()
 

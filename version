@@ -4,6 +4,7 @@
 - changed commands name addMoney delMoney addGroup addJob
 - other small fixes 
 - make sure to update all files if you dont know what you doing including config file 
+- added new command changeCharName to change players name for admins only
 <1.4>
 - Database auto updater has been added. No more manual sql entries!
 - Player instance API added
