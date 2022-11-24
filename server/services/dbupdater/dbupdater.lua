@@ -82,7 +82,7 @@ local Updates = {
             where Table_Name = 'users'
             AND  Column_Name = 'banneduntil';
         ]],
-        sql =  [[
+        sql = [[
             ALTER TABLE `users` ADD `banneduntil` int(10) DEFAULT 0
         ]]
     },
@@ -228,20 +228,31 @@ local Updates = {
         sql = [[
             ALTER TABLE `characters` ADD COLUMN `hours` float NOT NULL DEFAULT 0 AFTER `staminainner`;
         ]]
+    },
+    {
+        name = "lastlogin",
+        script = "vorp_core",
+        find = [[select *  from Information_Schema.Columns
+        where Table_Name = 'characters'
+        AND  Column_Name = 'LastLogin';
+        ]],
+        sql = [[
+            ALTER TABLE `characters` ADD COLUMN `LastLogin` date DEFAULT NULL
+        ]]
     }
 }
 
 dbupdaterAPI = {
 }
 
-dbupdaterAPI.addTables = function (tbls)
-    for _, tbl in ipairs(tbls) do 
+dbupdaterAPI.addTables = function(tbls)
+    for _, tbl in ipairs(tbls) do
         table.insert(Tables, tbl)
     end
 end
 
-dbupdaterAPI.addUpdates = function (updts)
-    for _, updt in ipairs(updts) do 
+dbupdaterAPI.addUpdates = function(updts)
+    for _, updt in ipairs(updts) do
         table.insert(Updates, updt)
     end
 end
@@ -253,7 +264,7 @@ local function runSQLList(list, type)
             local isfound = exports.ghmattimysql:executeSync(it.find)
             if #isfound > 0 then
                 hascolumn = true
-                print('^4Database Auto Updater ^3('..it.script..')^2✅ Column Exists: ' .. it.name .. ' ^0')
+                print('^4Database Auto Updater ^3(' .. it.script .. ')^2✅ Column Exists: ' .. it.name .. ' ^0')
             end
         end
 
@@ -262,29 +273,29 @@ local function runSQLList(list, type)
             if result and result.warningStatus > 0 then
                 local out = ''
                 if type == 'table' then
-                    out = '^1❌ ('..dbversion..') Failed to Create: '
-                    if result.warningStatus == 1  or dbversion == 'MySQL' then
-                        out = '^2✅ ' .. 'Table exists: ' 
+                    out = '^1❌ (' .. dbversion .. ') Failed to Create: '
+                    if result.warningStatus == 1 or dbversion == 'MySQL' then
+                        out = '^2✅ ' .. 'Table exists: '
                     end
-                else 
-                    out = '^1❌ ('..dbversion..') Failed to Updated: '
+                else
+                    out = '^1❌ (' .. dbversion .. ') Failed to Updated: '
                 end
-                print('^4Database Auto Updater ^3('..it.script..')' .. out .. it.name .. ' ^0')
+                print('^4Database Auto Updater ^3(' .. it.script .. ')' .. out .. it.name .. ' ^0')
             else
                 local out = ''
                 if type == 'table' then
                     out = 'Created Table: '
                     tableupdated = true
-                else 
+                else
                     out = 'Updated Column: '
                 end
-                print('^4Database Auto Updater ^3('..it.script..')^2✅ ' .. out .. it.name .. '^0')
-            end 
+                print('^4Database Auto Updater ^3(' .. it.script .. ')^2✅ ' .. out .. it.name .. '^0')
+            end
         end
     end
 end
 
-function RunDBCheck() 
+function RunDBCheck()
     local rversion = exports.ghmattimysql:executeSync('SELECT VERSION();')
     local version = rversion[1]['VERSION()']
 
@@ -327,7 +338,7 @@ Citizen.CreateThread(function()
     if updated then
         SaveResourceFile(GetCurrentResourceName(), "./server/services/dbupdater/status.json", json.encode(status))
     else
-        print('^4Database Auto Updater ^3('..dbversion..')^2✅ Database is up to date^0')
+        print('^4Database Auto Updater ^3(' .. dbversion .. ')^2✅ Database is up to date^0')
     end
 
     print('^0###############################################################################')
