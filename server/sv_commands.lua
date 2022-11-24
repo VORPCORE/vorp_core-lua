@@ -1,9 +1,8 @@
 -------------------------------------------------------------------------------------------------
 --------------------------------------- VORP ADMIN COMMANDS -------------------------------------
 -------------------------------------------------------------------------------------------------
-local VORPInv = {}
 
-VORPInv = exports.vorp_inventory:vorp_inventoryApi()
+
 
 ---comment
 ---@param Table table
@@ -156,7 +155,7 @@ CreateThread(function()
                         local itemCheck = VORPInv.getDBItem(target, item)
                         local canCarry = VORPInv.canCarryItems(target, count) --can carry inv space
                         local canCarry2 = VORPInv.canCarryItem(target, item, count) --cancarry item limit
-
+                        local VORPInv = exports.vorp_inventory:vorp_inventoryApi()
                         if not CheckArgs(args, _source, 3) then
                             return
                         end
@@ -184,13 +183,15 @@ CreateThread(function()
                     elseif CurrentCommand == "addWeapons" then
                         local target = tonumber(args[1])
                         local weaponHash = tostring(args[2])
-
+                        local VORPInv = exports.vorp_inventory:vorp_inventoryApi()
                         if not CheckArgs(args, _source, 2) then
                             return
                         end
 
                         VORPInv.canCarryWeapons(target, 1, function(cb) --can carry weapons
                             local canCarry = cb
+
+
                             if canCarry then
                                 VORPInv.createWeapon(target, weaponHash)
                                 if Config.Logs.AddWeaponsWebhook then
