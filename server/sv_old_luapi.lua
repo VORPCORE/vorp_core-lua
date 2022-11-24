@@ -18,10 +18,10 @@ exports('vorpAPI', function()
         if timeout == 0 then
             print("VORP Core: Callback is nil or not loaded ERROR: Timeout")
         end
-
+        print("WARNING: this are deprecated API please refer to api docs to use new ones. soon this will be deleted")
         return user
     end
-
+    print("WARNING: this are deprecated API please refer to api docs to use new ones. soon this will be deleted")
     self.addMoney = function(source, currency, quantity)
         TriggerEvent("vorp:addMoney", source, tonumber(currency), tonumber(quantity))
     end
@@ -50,8 +50,8 @@ exports('vorpAPI', function()
         TriggerEvent("vorp:setJobGrade", source, jobgrade)
     end
 
-    self.setCharperm = function(source,charname)
-        TriggerEvent("vorp:setCharperm",source,charname)
+    self.setCharperm = function(source, charname)
+        TriggerEvent("vorp:setCharperm", source, charname)
     end
 
     self.setInstancePlayer = function(source, active)
