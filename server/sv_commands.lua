@@ -90,9 +90,10 @@ CreateThread(function()
                 "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip
 
             if _source ~= 0 then -- its a player
-
-                if not CheckUser(args[1], _source, CurrentCommand) then -- if user dont exist
-                    return
+                if CurrentCommand ~= "reviveplayer" and CurrentCommand ~= "healplayer" then
+                    if not CheckUser(args[1], _source, CurrentCommand) then -- if user dont exist
+                        return
+                    end
                 end
 
                 if CheckAceAllowed(Config.AcePerms, _source) or CheckGroupAllowed(Config.GroupAllowed, group) then -- check ace first then group
@@ -222,13 +223,17 @@ CreateThread(function()
                             local title = "📋` /delcurrency command` "
                             VorpCore.AddWebhook(title, Config.Logs.DelMoneyWebhook, message .. Message)
                         end
-                    elseif CurrentCommand == "revivePlayer" then
+                    elseif CurrentCommand == "reviveplayer" then
                         local target = tonumber(args[1])
 
                         if #args == 0 or target == _source then
                             TriggerClientEvent('vorp:resurrectPlayer', _source) -- heal staff
                         else
-                            TriggerClientEvent('vorp:resurrectPlayer', target) -- heal target
+                            if VorpCore.getUser(target) then
+                                TriggerClientEvent('vorp:resurrectPlayer', target) -- heal target
+                            else
+                                VorpCore.NotifyObjective(_source, "ID is wrong user doesnt exist", 4000)
+                            end
                         end
                         if Config.Logs.ReviveWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `Was Revived `"
@@ -237,7 +242,9 @@ CreateThread(function()
                         end
 
                     elseif CurrentCommand == "tpm" then
-
+                        if CheckArgs(args, _source, 0) then
+                            return
+                        end
                         TriggerClientEvent('vorp:teleportWayPoint', _source)
 
                         if Config.Logs.TpmWebhook then
@@ -247,7 +254,9 @@ CreateThread(function()
                         end
 
                     elseif CurrentCommand == "delhorse" then
-
+                        if CheckArgs(args, _source, 0) then
+                            return
+                        end
                         TriggerClientEvent("vorp:delHorse", _source)
 
                         if Config.Logs.DelHorseWebhook then
@@ -277,10 +286,14 @@ CreateThread(function()
                     elseif CurrentCommand == "healplayer" then
 
                         local target = tonumber(args[1])
-                        if #args == 0 or args[1] == _source then
+                        if #args == 0 or target == _source then
                             TriggerClientEvent('vorp:heal', _source)
                         else
-                            TriggerClientEvent('vorp:heal', target)
+                            if VorpCore.getUser(target) then
+                                TriggerClientEvent('vorp:heal', target)
+                            else
+                                VorpCore.NotifyObjective(_source, "ID is wrong user doesnt exist", 4000)
+                            end
                         end
 
                         if Config.Logs.HealPlayerWebhook then
