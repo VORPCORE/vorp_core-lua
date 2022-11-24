@@ -39,7 +39,7 @@ local WhitelistCommands = { "delwagons", "delhorse", "tpm", }
 local CheckUser = function(target, _source, command)
     for _, value in pairs(WhitelistCommands) do
         if value == command then
-            return false
+            return true
         end
     end
 
