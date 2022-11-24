@@ -1,6 +1,7 @@
 local characters = {}
+VorpCore = {}
 
-TriggerEvent("getCore",function(core)
+TriggerEvent("getCore", function(core)
     VorpCore = core
 end)
 
@@ -20,7 +21,8 @@ RegisterNetEvent('vorp:playerSpawn', function()
         local pos = json.decode(characters[sid].Coords())
 
         if pos ~= nil and pos['x'] ~= nil then
-            TriggerClientEvent("vorp:initPlayer", source, vector3(pos["x"], pos["y"], pos["z"]), pos["heading"], characters[sid].IsDead())
+            TriggerClientEvent("vorp:initPlayer", source, vector3(pos["x"], pos["y"], pos["z"]), pos["heading"],
+                characters[sid].IsDead())
         end
 
         characters[sid].source = source
@@ -36,20 +38,20 @@ RegisterNetEvent('vorp:UpdateCharacter', function(steamId, firstname, lastname)
 end)
 
 AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
-	if GetInvokingResource() ~= "monitor" or type(eventData) ~= "table" or type(eventData.id) ~= "number" then
-		return
-	end
+    if GetInvokingResource() ~= "monitor" or type(eventData) ~= "table" or type(eventData.id) ~= "number" then
+        return
+    end
     local Player = eventData.id
     if Player ~= -1 then
         local identifier = GetSteamID(Player)
         local xCharacter = _users[identifier].GetUsedCharacter()
         if xCharacter and xCharacter.isdead then
-            
+
             TriggerClientEvent("vorp:ShowBasicTopNotification", Player, "You Revived Yourself.", 4000)
             TriggerClientEvent('vorp:resurrectPlayer', Player)
             TriggerClientEvent('vorp:heal', Player)
         end
-    else 
+    else
         TriggerClientEvent("vorp:ShowBasicTopNotification", -1, "You Have Been Healed.", 4000)
         TriggerClientEvent('vorp:resurrectPlayer', -1)
         TriggerClientEvent('vorp:heal', -1)
@@ -69,5 +71,6 @@ RegisterServerEvent('vorp:SaveDate')
 AddEventHandler('vorp:SaveDate', function()
     local Character = VorpCore.getUser(source).getUsedCharacter
     local charid = Character.charIdentifier
-	exports.ghmattimysql:execute("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier", {charidentifier = charid })
+    exports.ghmattimysql:execute("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier",
+        { charidentifier = charid })
 end)
