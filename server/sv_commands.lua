@@ -119,7 +119,7 @@ CreateThread(function()
                             return
                         end
 
-                        Character.setJob(target, newjob)
+                        Character.setJob(newjob)
                         Character.setJobGrade(jobgrade)
                         VorpCore.NotifyRightTip(_source,
                             "you gave  Job " .. newjob .. " to ID " .. target .. " Grade" .. jobgrade, 4000)
@@ -139,7 +139,7 @@ CreateThread(function()
                             return
                         end
 
-                        Character.addCurrency(target, montype, quantity)
+                        Character.addCurrency(montype, quantity)
                         VorpCore.NotifyRightTip(_source, "You gave currency " .. quantity .. " to ID " .. target, 4000)
                         VorpCore.NotifyRightTip(target, "Received from admin an Amount of" .. quantity, 4000)
 
@@ -213,7 +213,7 @@ CreateThread(function()
                             return
                         end
 
-                        Character.removeCurrency(target, montype, quantity)
+                        Character.removeCurrency(montype, quantity)
                         VorpCore.NotifyRightTip(_source, "You have removed " .. quantity .. " from ID " .. target, 4000)
 
                         if Config.Logs.DelMoneyWebhook then
