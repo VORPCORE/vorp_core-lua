@@ -11,7 +11,7 @@ end
 
 local function LoadWhitelist()
     Citizen.Wait(5000)
-    exports.ghmattimysql:execute('SELECT * FROM whitelist', {}, function(result)
+    exports.oxmysql:execute('SELECT * FROM whitelist', {}, function(result)
         if #result > 0 then
             for k, v in ipairs(result) do
                 _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.firstconnection)
@@ -24,7 +24,7 @@ local function SetUpdateWhitelistPolicy()
     while Config.AllowWhitelistAutoUpdate do
         Citizen.Wait(3600000) --change this value if you want to have update from SQL not every 1 hour
         _whitelist = {}
-        exports.ghmattimysql:execute("SELECT * FROM whitelist", {}, function(result)
+        exports.oxmysql:execute("SELECT * FROM whitelist", {}, function(result)
             if #result > 0 then
                 for k, v in ipairs(result) do
                     _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.firstconnection)
@@ -77,10 +77,10 @@ function InsertIntoWhitelist(identifier)
         return GetUserId(identifier)
     end
 
-    exports.ghmattimysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firstcon)"
+    exports.oxmysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firstcon)"
         ,
         { ['@identifier'] = identifier, ['@status'] = false, ['@firstcon'] = true }, function(result) end)
-    local entryList = exports.ghmattimysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
+    local entryList = exports.oxmysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     local currentFreeId
     if #entryList > 0 then
         local entry = entryList[1]
@@ -142,7 +142,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
 
     end
 
-    exports.ghmattimysql:execute("SELECT * FROM characters WHERE `identifier` = ?", { steamIdentifier },
+    exports.oxmysql:execute("SELECT * FROM characters WHERE `identifier` = ?", { steamIdentifier },
         function(result)
             if #result ~= 0 then
                 local inventory = "{}"

@@ -9,7 +9,7 @@ end
 
 function LoadUser(source, setKickReason, deferrals, identifier, license)
 
-    local resultList = exports.ghmattimysql:executeSync("SELECT * FROM users WHERE identifier = ?", { identifier })
+    local resultList = exports.oxmysql:executeSync("SELECT * FROM users WHERE identifier = ?", { identifier })
 
     _usersLoading[identifier] = true
 
@@ -45,7 +45,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         deferrals.done()
     else
         --New User
-        exports.ghmattimysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0,'false')", { identifier })
+        exports.oxmysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0,'false')", { identifier })
         _users[identifier] = User(source, identifier, "user", 0, license)
         deferrals.done()
     end
@@ -58,7 +58,7 @@ AddEventHandler('playerDropped', function()
     local steamName = GetPlayerName(_source)
 
     if _users[identifier] and not _usersLoading[identifier] then
-          if _users[identifier].GetUsedCharacter() then
+        if _users[identifier].GetUsedCharacter() then
             _users[identifier].GetUsedCharacter().HealthOuter(_healthData[identifier].hOuter)
             _users[identifier].GetUsedCharacter().HealthInner(_healthData[identifier].hInner)
             _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
@@ -67,11 +67,11 @@ AddEventHandler('playerDropped', function()
             print("Player ^2", GetPlayerName(_source) .. " ^7steam:^3 " .. identifier .. "^7 saved")
             Wait(10000)
             _users[identifier] = nil
-         end
+        end
     end
 
     if Config.SaveSteamNameDB then -- I dont hink none of this is used and its useless
-        exports.ghmattimysql:execute("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ",
+        exports.oxmysql:execute("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ",
             { steamName, identifier })
     end
 
@@ -81,13 +81,13 @@ end)
 AddEventHandler('playerJoining', function()
     local _source = source
     local identifier = GetSteamID(_source)
-    local retvalList = exports.ghmattimysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
+    local retvalList = exports.oxmysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     if not Config.Whitelist then
         if #retvalList == 0 then
-            exports.ghmattimysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firstcon)"
+            exports.oxmysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firstcon)"
                 ,
                 { ['@identifier'] = identifier, ['@status'] = false, ['@firstcon'] = true })
-            retvalList = exports.ghmattimysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
+            retvalList = exports.oxmysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
         end
     end
     Wait(30000)
@@ -187,17 +187,17 @@ AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
     local identifier = GetSteamID(_source)
 
     if healthInner and healthOuter then
-    
+
         local user = _users[identifier] or nil
-        
+
         if user then
-        
-          local used_char = user.GetUsedCharacter() or nil
-          
-          if used_char then
-            used_char.HealthOuter(healthOuter - healthInner)
-            used_char.HealthInner(healthInner)
-          end
+
+            local used_char = user.GetUsedCharacter() or nil
+
+            if used_char then
+                used_char.HealthOuter(healthOuter - healthInner)
+                used_char.HealthInner(healthInner)
+            end
         end
     end
 end)
@@ -207,17 +207,17 @@ AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
     local _source = source
     local identifier = GetSteamID(_source)
     if staminaOuter and staminaInner then
-    
+
         local user = _users[identifier] or nil
-        
+
         if user then
-        
-          local used_char = user.GetUsedCharacter() or nil
-          
-          if used_char then
-            used_char.StaminaOuter(staminaOuter)
-            used_char.StaminaInner(staminaInner)
-          end
+
+            local used_char = user.GetUsedCharacter() or nil
+
+            if used_char then
+                used_char.StaminaOuter(staminaOuter)
+                used_char.StaminaInner(staminaInner)
+            end
         end
     end
 end)
@@ -266,7 +266,7 @@ end)
 RegisterNetEvent("vorpchar:addtodb")
 AddEventHandler("vorpchar:addtodb", function(status, id)
 
-    local resultList = exports.ghmattimysql:executeSync("SELECT * FROM users WHERE identifier = ?", { id })
+    local resultList = exports.oxmysql:executeSync("SELECT * FROM users WHERE identifier = ?", { id })
 
     local char
 
@@ -288,5 +288,5 @@ AddEventHandler("vorpchar:addtodb", function(status, id)
     end
 
 
-    exports.ghmattimysql:execute("UPDATE users SET `char` = ? WHERE `identifier` = ? ", { char, id })
+    exports.oxmysql:execute("UPDATE users SET `char` = ? WHERE `identifier` = ? ", { char, id })
 end)
