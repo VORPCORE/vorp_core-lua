@@ -141,6 +141,7 @@ Config = {
 
   ----------------------------------------------------------------------------
   --------------------------- COMMAND PERMISSION -----------------------------
+  SetUserDBadmin = true, -- should the command addGroup set admins on Users able? for characters table do false
   GroupAllowed = { "admin" }, -- add here groups
   Commands = { "addGroup", "addJob", "addItems", "addWeapons", "addMoney", "delMoney", "healplayer",
     "reviveplayer", "tpm", "delhorse", "delwagons", "banplayer", "wlplayer", "unwlplayer", "warn",

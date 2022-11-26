@@ -103,8 +103,11 @@ CreateThread(function()
                         if CheckArgs(args, _source, 2) then -- if requiered argsuments are not met
                             return
                         end
-
-                        Character.setGroup(newgroup)
+                        if Config.SetUserDBadmin then
+                            User.setGroup(newgroup)
+                        else
+                            Character.setGroup(newgroup)
+                        end
                         VorpCore.NotifyRightTip(_source, "You gave Group to ID: " .. target, 4000)
                         VorpCore.NotifyRightTip(_source, "Admin gave you Group of " .. newgroup, 4000)
 
