@@ -1,56 +1,58 @@
+Core = {}
+Core.CharacterData = {}
+
 AddEventHandler('getCore', function(cb)
-    local corefunctions = {}
 
     --callback
-    corefunctions.RpcCall = function(name, callback, args)
+    Core.RpcCall = function(name, callback, args)
         TriggerEvent('vorp:ExecuteServerCallBack', name, callback, args)
     end
 
-    corefunctions.Warning = function(text)
+    Core.Warning = function(text)
         print("^3WARNING: ^7" .. tostring(text) .. "^7")
     end
 
-    corefunctions.Error = function(text)
+    Core.Error = function(text)
         print("^1ERROR: ^7" .. tostring(text) .. "^7")
         TriggerClientEvent("vorp_core:LogError")
     end
 
-    corefunctions.Success = function(text)
+    Core.Success = function(text)
         print("^2SUCCESS: ^7" .. tostring(text) .. "^7")
     end
 
-    corefunctions.instancePlayers = function(set)
+    Core.instancePlayers = function(set)
         TriggerServerEvent("vorp_core:instanceplayers", set)
     end
 
-    corefunctions.NotifyTip = function(text, duration)
+    Core.NotifyTip = function(text, duration)
         exports.vorp_core:DisplayTip(tostring(text), tonumber(duration))
     end
 
-    corefunctions.NotifyLeft = function(title, subtitle, dict, icon, duration, colors)
+    Core.NotifyLeft = function(title, subtitle, dict, icon, duration, colors)
         local color = colors or "COLOR_WHITE"
         LoadTexture(dict)
         exports.vorp_core:DisplayLeftNotification(tostring(title), tostring(subtitle), tostring(dict), tostring(icon),
             tonumber(duration), tostring(color))
     end
 
-    corefunctions.NotifyRightTip = function(text, duration)
+    Core.NotifyRightTip = function(text, duration)
         exports.vorp_core:DisplayRightTip(tostring(text), tonumber(duration))
     end
 
-    corefunctions.NotifyObjective = function(text, duration)
+    Core.NotifyObjective = function(text, duration)
         exports.vorp_core:DisplayObjective(tostring(text), tonumber(duration))
     end
 
-    corefunctions.NotifyTop = function(text, location, duration)
+    Core.NotifyTop = function(text, location, duration)
         exports.vorp_core:DisplayTopCenterNotification(tostring(text), tostring(location), tonumber(duration))
     end
 
-    corefunctions.NotifySimpleTop = function(text, subtitle, duration)
+    Core.NotifySimpleTop = function(text, subtitle, duration)
         exports.vorp_core:ShowTopNotification(tostring(text), tostring(subtitle), tonumber(duration))
     end
 
-    corefunctions.NotifyAvanced = function(text, dict, icon, text_color, duration)
+    Core.NotifyAvanced = function(text, dict, icon, text_color, duration)
         local _dict = dict
         local _icon = icon
         if not LoadTexture(_dict) then
@@ -62,34 +64,84 @@ AddEventHandler('getCore', function(cb)
             tostring(text_color), tonumber(duration))
     end
 
-    corefunctions.NotifyCenter = function(text, duration, text_color)
+    Core.NotifyCenter = function(text, duration, text_color)
         exports.vorp_core:ShowSimpleCenterText(tostring(text), tonumber(duration), tostring(text_color))
     end
 
-    corefunctions.NotifyBottomRight = function(text, duration)
+    Core.NotifyBottomRight = function(text, duration)
         exports.vorp_core:showBottomRight(tostring(text), tonumber(duration))
     end
 
-    corefunctions.NotifyFail = function(text, subtitle, duration)
+    Core.NotifyFail = function(text, subtitle, duration)
         exports.vorp_core:failmissioNotifY(tostring(title), tostring(subtitle), tonumber(duration))
     end
 
-    corefunctions.NotifyDead = function(title, audioRef, audioName, duration)
+    Core.NotifyDead = function(title, audioRef, audioName, duration)
         exports.vorp_core:deadplayerNotifY(tostring(title), tostring(audioRef), tostring(audioName), tonumber(duration))
     end
 
-    corefunctions.NotifyUpdate = function(title, subtitle, duration)
+    Core.NotifyUpdate = function(title, subtitle, duration)
         exports.vorp_core:updatemissioNotify(tostring(title), tostring(subtitle), tonumber(duration))
     end
 
-    corefunctions.NotifyWarning = function(title, msg, audioRef, audioName, duration)
+    Core.NotifyWarning = function(title, msg, audioRef, audioName, duration)
         exports.vorp_core:warningNotify(tostring(title), tostring(msg), tostring(audioRef), tostring(audioName),
             tonumber(duration))
     end
 
-    corefunctions.AddWebhook = function(title, webhook, description, color, name, logo, footerlogo, avatar)
+    Core.AddWebhook = function(title, webhook, description, color, name, logo, footerlogo, avatar)
         TriggerServerEvent('vorp_core:addWebhook', title, webhook, description, color, name, logo, footerlogo, avatar)
     end
 
-    cb(corefunctions)
+    Core.GetCharacterData = function() 
+        return Core.CharacterData
+    end
+
+    Core.GetCurrency = function(currency) 
+        if Core.CharacterData.currency[currency] then
+            return Core.CharacterData.currency[currency]
+        end
+        return nil
+    end
+
+    Core.GetJob = function()
+        return Core.CharacterData.job
+    end
+
+    Core.GetFullName = function() 
+        return Core.CharacterData.firstname, Core.CharacterData.lastname
+    end
+
+    Core.GetXp = function() 
+        return Core.CharacterData.xp
+    end
+
+    cb(Core)
+end)
+
+
+RegisterNetEvent("vorp:setCharacterData", function(CharacterData) 
+    Core.CharacterData = CharacterData
+end)
+
+RegisterNetEvent("vorp:setFirstname", function(firstName) 
+    Core.CharacterData.firstname = firstName
+end)
+
+RegisterNetEvent("vorp:setLastname", function(lastName) 
+    Core.CharacterData.lastname = lastName
+end)
+
+RegisterNetEvent("vorp:setCurrency", function(currency, value) 
+    if Core.CharacterData?.currency ~= nil and Core.CharacterData?.currency[currency] then
+        Core.CharacterData.currency[currency] = value
+    end
+end)
+
+RegisterNetEvent("vorp:setXp", function(xp) 
+    Core.CharacterData.xp = xp
+end)
+
+RegisterNetEvent("vorp:setJob", function(newJob, oldJob) 
+    Core.CharacterData.job = newJob
 end)
