@@ -17,26 +17,9 @@ function User(source, identifier, group, playerwarnings, license, char)
             self.usedCharacterId = value
             self._usercharacters[value].source = self.source
             TriggerClientEvent("vorp:SelectedCharacter", self.source, self.usedCharacterId)
-            local currentCharacter = self._usercharacters[self.usedCharacterId].getCharacter()
-            local userData = {
-                identifier = currentCharacter.identifier,
-                job = {
-                    jobName = currentCharacter.job,
-                    jobGrade = currentCharacter.jobGrade
-                },
-                group = currentCharacter.group,
-                firstname = currentCharacter.firstname,
-                lastname = currentCharacter.lastname,
-                currency = {
-                    money = currentCharacter.money,
-                    gold = currentCharacter.gold,
-                    rol = currentCharacter.rol
-                },
-                xp = currentCharacter.xp,
-            }
-            TriggerClientEvent('vorp:setCharacterData', source, userData)
+
             self._usercharacters[value].updateCharUi()
-            TriggerEvent("vorp:SelectedCharacter", self.source, currentCharacter)
+            TriggerEvent("vorp:SelectedCharacter", self.source, self._usercharacters[self.usedCharacterId].getCharacter())
         end
 
         return self.usedCharacterId
