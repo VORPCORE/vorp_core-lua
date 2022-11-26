@@ -142,12 +142,13 @@ CreateThread(function()
 
                     elseif CurrentCommand == "addMoney" then
                         local target, montype, quantity = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
-
+                        local UserT = VorpCore.getUser(target)
+                        local CharacterT = UserT.getUsedCharacter
                         if CheckArgs(args, _source, 3) then
                             return
                         end
 
-                        Character.addCurrency(montype, quantity)
+                        CharacterT.addCurrency(montype, quantity)
                         VorpCore.NotifyRightTip(_source, "You gave currency " .. quantity .. " to ID " .. target, 4000)
                         VorpCore.NotifyRightTip(target, "Received from admin an Amount of" .. quantity, 4000)
 
@@ -160,6 +161,7 @@ CreateThread(function()
 
                     elseif CurrentCommand == "addItems" then
                         local target, item, count = tonumber(args[1]), tostring(args[2]), tonumber(args[3])
+
                         local VORPInv = exports.vorp_inventory:vorp_inventoryApi()
                         local itemCheck = VORPInv.getDBItem(target, item)
                         local canCarry = VORPInv.canCarryItems(target, count) --can carry inv space
@@ -216,12 +218,13 @@ CreateThread(function()
 
                     elseif CurrentCommand == "delMoney" then
                         local target, montype, quantity = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
-
+                        local UserT = VorpCore.getUser(target)
+                        local CharacterT = UserT.getUsedCharacter
                         if CheckArgs(args, _source, 3) then
                             return
                         end
 
-                        Character.removeCurrency(montype, quantity)
+                        CharacterT.removeCurrency(montype, quantity)
                         VorpCore.NotifyRightTip(_source, "You have removed " .. quantity .. " from ID " .. target, 4000)
 
                         if Config.Logs.DelMoneyWebhook then
