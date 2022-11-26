@@ -8,7 +8,13 @@ local function _getUsedCharacter(player)
         return nil
     end
 
-    local used_char = _users[sid].GetUsedCharacter() or nil
+    local user = _users[sid] or nil
+
+    if not user then
+        return nil
+    end
+
+    local used_char = user.GetUsedCharacter() or nil
 
     return used_char
 end
