@@ -99,14 +99,16 @@ CreateThread(function()
                 if CheckAceAllowed(Config.AcePerms, _source) or CheckGroupAllowed(Config.GroupAllowed, group) then -- check ace first then group
                     if CurrentCommand == "addGroup" then
                         local target, newgroup = tonumber(args[1]), tostring(args[2])
+                        local UserT = VorpCore.getUser(target)
+                        local CharacterT = UserT.getUsedCharacter
 
                         if CheckArgs(args, _source, 2) then -- if requiered argsuments are not met
                             return
                         end
                         if Config.SetUserDBadmin then
-                            User.setGroup(newgroup)
+                            UserT.setGroup(newgroup)
                         else
-                            Character.setGroup(newgroup)
+                            CharacterT.setGroup(newgroup)
                         end
                         VorpCore.NotifyRightTip(_source, "You gave Group to ID: " .. target, 4000)
                         VorpCore.NotifyRightTip(_source, "Admin gave you Group of " .. newgroup, 4000)
@@ -118,13 +120,15 @@ CreateThread(function()
                         end
                     elseif CurrentCommand == "addJob" then
                         local target, newjob, jobgrade = tonumber(args[1]), tostring(args[2]), tonumber(args[3])
+                        local UserT = VorpCore.getUser(target)
+                        local CharacterT = UserT.getUsedCharacter
 
                         if CheckArgs(args, _source, 3) then
                             return
                         end
 
-                        Character.setJob(newjob)
-                        Character.setJobGrade(jobgrade)
+                        CharacterT.setJob(newjob)
+                        CharacterT.setJobGrade(jobgrade)
                         VorpCore.NotifyRightTip(_source,
                             "you gave  Job " .. newjob .. " to ID " .. target .. " Grade" .. jobgrade, 4000)
                         VorpCore.NotifyRightTip(target, "staff gave you job " .. newjob .. " Grade " .. jobgrade, 4000)
