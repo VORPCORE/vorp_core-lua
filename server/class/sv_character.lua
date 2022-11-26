@@ -41,84 +41,22 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
 
     self.Identifier = function() return self.identifier end
     self.CharIdentifier = function(value) if value ~= nil then self.charIdentifier = value end return self.charIdentifier end
-    self.Group = function(value) 
-        if value ~= nil then 
-            self.group = value 
-        end 
-        TriggerClientEvent("vorp:setGroup", self.source, self.group)
-        return self.group 
-    end
-    self.Job = function(value) 
-        local oldJob = {
-            jobName = self.job,
-            jobGrade = self.jobgrade
-        }
-        if value ~= nil then 
-            self.job = value 
-        end 
-        TriggerClientEvent("vorp:setJob", self.source, {jobName = self.job, jobGrade = self.jobgrade }, oldJob)
-        return self.job 
-    end
-    self.Jobgrade = function(value) 
-        local oldJob = {
-            jobName = self.job,
-            jobGrade = self.jobgrade
-        }
-        if value ~= nil then 
-            self.jobgrade = value 
-        end 
-        TriggerClientEvent("vorp:setJob", self.source, {jobName = self.job, jobGrade = self.jobgrade }, oldJob)
-        return self.jobgrade 
-    end
-    self.Firstname = function(value) 
-        if value ~= nil then 
-            self.firstname = value 
-        end 
-        TriggerClientEvent("vorp:setFirstname", self.source, self.firstname)
-        return self.firstname 
-    end
-    self.Lastname = function(value) 
-        if value ~= nil then 
-            self.lastname = value 
-        end 
-        TriggerClientEvent("vorp:setLastname", self.source, self.lastname)
-        return self.lastname 
-    end
+    self.Group = function(value) if value ~= nil then self.group = value end return self.group end
+    self.Job = function(value) if value ~= nil then self.job = value end return self.job end
+    self.Jobgrade = function(value) if value ~= nil then self.jobgrade = value end return self.jobgrade end
+    self.Firstname = function(value) if value ~= nil then self.firstname = value end return self.firstname end
+    self.Lastname = function(value) if value ~= nil then self.lastname = value end return self.lastname end
     self.Inventory = function(value) if value ~= nil then self.inventory = value end return self.inventory end
     self.Status = function(value) if value ~= nil then self.status = value end return self.status end
     self.Coords = function(value) if value ~= nil then self.coords = value end return self.coords end
-    self.Money = function(value) 
-        if value ~= nil then 
-            self.money = value 
-        end 
-        TriggerClientEvent("vorp:setCurrency", self.source, "money", self.money)
-        return self.money 
-    end
-    self.Gold = function(value) 
-        if value ~= nil then 
-            self.gold = value 
-        end 
-        TriggerClientEvent("vorp:setCurrency", self.source, "gold", self.gold)
-        return self.gold 
-    end
-    self.Rol = function(value) 
-        if value ~= nil then 
-            self.rol = value 
-        end 
-        TriggerClientEvent("vorp:setCurrency", self.source, "rol", self.rol)
-        return self.rol 
-    end
+    self.Money = function(value) if value ~= nil then self.money = value end return self.money end
+    self.Gold = function(value) if value ~= nil then self.gold = value end return self.gold end
+    self.Rol = function(value) if value ~= nil then self.rol = value end return self.rol end
     self.HealthOuter = function(value) if value ~= nil then self.healthOuter = value end return self.healthOuter end
     self.HealthInner = function(value) if value ~= nil then self.healthInner = value end return self.healthInner end
     self.StaminaOuter = function(value) if value ~= nil then self.staminaOuter = value end return self.staminaOuter end
     self.StaminaInner = function(value) if value ~= nil then self.staminaInner = value end return self.staminaInner end
-    self.Xp = function(value) 
-        if value ~= nil then 
-            self.xp = value 
-        end 
-        TriggerClientEvent("vorp:setXp", self.source, self.xp)
-        return self.xp 
-    end
+    self.Xp = function(value) if value ~= nil then self.xp = value end return self.xp end
     self.Hours = function(value) if value ~= nil then self.hours = value end return self.hours end
     self.IsDead = function(value) if value ~= nil then self.isdead = value end return self.isdead end
 
@@ -275,13 +213,10 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.addCurrency = function(currency, quantity) --add check for security
         if currency == 0 then
             self.money = self.money + quantity
-            TriggerClientEvent("vorp:setCurrency", self.source, "money", self.money)
         elseif currency == 1 then
             self.gold = self.gold + quantity
-            TriggerClientEvent("vorp:setCurrency", self.source, "gold", self.gold)
         elseif currency == 2 then
             self.rol = self.rol + quantity
-            TriggerClientEvent("vorp:setCurrency", self.source, "rol", self.rol)
         end
         self.updateCharUi()
     end
@@ -289,26 +224,21 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.removeCurrency = function(currency, quantity) --add check for security
         if currency == 0 then
             self.money = self.money - quantity
-            TriggerClientEvent("vorp:setCurrency", self.source, "money", self.money)
         elseif currency == 1 then
             self.gold = self.gold - quantity
-            TriggerClientEvent("vorp:setCurrency", self.source, "gold", self.gold)
         elseif currency == 2 then
             self.rol = self.rol - quantity
-            TriggerClientEvent("vorp:setCurrency", self.source, "rol", self.rol)
         end
         self.updateCharUi()
     end
 
     self.addXp = function(quantity) --add check for security
         self.xp = self.xp + quantity
-        TriggerClientEvent("vorp:setXp", self.source, self.xp)
         self.updateCharUi()
     end
 
     self.removeXp = function(quantity) --add check for security
         self.Xp = self.xp - quantity
-        TriggerClientEvent("vorp:setXp", self.source, self.xp)
         self.updateCharUi()
     end
 
