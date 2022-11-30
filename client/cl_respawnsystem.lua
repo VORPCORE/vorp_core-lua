@@ -49,7 +49,7 @@ end
 
 function resurrectPlayer()
     ResurrectPed(PlayerPedId())
-    local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0)
+    local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0, Citizen.ResultAsInteger())
     SetEntityHealth(PlayerPedId(), Config.HealthOnResurrection + innerHealth)
     EndDeathCam()
     DoScreenFadeIn(1000)
