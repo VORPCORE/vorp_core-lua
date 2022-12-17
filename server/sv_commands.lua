@@ -241,8 +241,8 @@ CreateThread(function()
                     elseif CurrentCommand == "kill" then
                         local target = tonumber(args[1])
 
-                        if #args == 0 or target == _source then
-                            TriggerClientEvent('vorp:killPlayer', _source) -- kill staff
+                        if #args == 0 or target == target then
+                            TriggerClientEvent('vorp:killPlayer', target) -- kill staff
                         else
                             if VorpCore.getUser(target) then
                                 TriggerClientEvent('vorp:killPlayer', target) -- kill target
