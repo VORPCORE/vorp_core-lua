@@ -68,6 +68,7 @@ Config = {
     NewPlayerWebhook  = "", --NEWPLAYER
     CharPermWebhook   = "", --CHARPERMS
     ChangeNameWebhook = "", -- CHANGECHARNAMES
+    killplayerWebhook = "", -- /KILL PLAYER
   },
 
   ------------------------------------------------------------------------------
