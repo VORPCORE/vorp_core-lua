@@ -66,6 +66,7 @@ add_ace group.admin vorpcore.ban.Command allow
 add_ace group.admin vorpcore.unban.Command allow
 add_ace group.admin vorpcore.warn.Command allow
 add_ace group.admin vorpcore.unwarn.Command allow
+add_ace group.admin vorpcore.kill.Command allow****
 ## to show the list of commands in chat
 add_ace group.admin vorpcore.showAllCommands allow
 
