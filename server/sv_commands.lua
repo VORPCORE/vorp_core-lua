@@ -70,7 +70,7 @@ Config.AcePerms = { 'vorpcore.setGroup.Command', 'vorpcore.setJob.Command', 'vor
     'vorpcore.delwagons.Command', 'vorpcore.delhorse.Command', 'vorpcore.healplayer.Command', 'vorpcore.wlplayer.Command',
     'vorpcore.unwlplayer.Command', 'vorpcore.ban.Command', 'vorpcore.unban.Command', 'vorpcore.warn.Command',
     'vorpcore.unwarn.Command', 'vorpcore.addchar.Command', 'vorpcore.removechar.Command', 'vorpcore.showAllCommands',
-    'vorpcore.changeCharName' }
+    'vorpcore.changeCharName','vorpcore.kill.Command',}
 
 CreateThread(function()
 
@@ -95,8 +95,13 @@ CreateThread(function()
                         return
                     end
                 end
-
-                if CheckAceAllowed(Config.AcePerms, _source) or CheckGroupAllowed(Config.GroupAllowed, group) then -- check ace first then group
+            elseif
+                 CurrentCommand ~= "kill" and CurrentCommand ~= "kill" then
+                    if not CheckUser(args[1], _source, CurrentCommand) then -- if user dont exist
+                        return
+                    end
+                end
+            if CheckAceAllowed(Config.AcePerms, _source) or CheckGroupAllowed(Config.GroupAllowed, group) then -- check ace first then group
                     if CurrentCommand == "addGroup" then
                         local target, newgroup = tonumber(args[1]), tostring(args[2])
                         local UserT = VorpCore.getUser(target)
@@ -232,6 +237,23 @@ CreateThread(function()
                                 _source .. "` \n **Type** `" .. montype .. "` \n**Quantity** `" .. quantity .. "`"
                             local title = "📋` /delcurrency command` "
                             VorpCore.AddWebhook(title, Config.Logs.DelMoneyWebhook, message .. Message)
+                        end
+                    elseif CurrentCommand == "kill" then
+                        local target = tonumber(args[1])
+
+                        if #args == 0 or target == _source then
+                            TriggerClientEvent('vorp:killPlayer', _source) -- kill staff
+                        else
+                            if VorpCore.getUser(target) then
+                                TriggerClientEvent('vorp:killPlayer', target) -- kill target
+                            else
+                                VorpCore.NotifyObjective(_source, "ID is wrong user doesnt exist", 4000)
+                            end
+                        end
+                        if Config.Logs.killplayerWebhook then
+                            local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `Was killed `"
+                            local title = "📋` /kill command` "
+                            VorpCore.AddWebhook(title, Config.Logs.killplayerWebhook, message .. Message)
                         end
                     elseif CurrentCommand == "reviveplayer" then
                         local target = tonumber(args[1])
@@ -494,11 +516,11 @@ CreateThread(function()
                     end
                 else
                     VorpCore.NotifyObjective(_source, Config.Langs.NoPermissions, 4000)
-                end
             end
         end)
     end
 end)
+
 
 
 
