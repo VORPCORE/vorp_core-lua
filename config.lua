@@ -145,7 +145,7 @@ Config = {
   GroupAllowed = { "admin" }, -- add here groups
   Commands = { "addGroup", "addJob", "addItems", "addWeapons", "addMoney", "delMoney", "healplayer",
     "reviveplayer", "tpm", "delhorse", "delwagons", "banplayer", "wlplayer", "unwlplayer", "warn",
-    "unban", "unwarn", "changeCharName" }, -- commands available
+    "unban", "unwarn", "changeCharName","kill" }, -- commands available
 
   --------------------------------------------------------------------------------------
   -----------------------------BUILT IN RICH PRESENCE DISCORD --------------------------
