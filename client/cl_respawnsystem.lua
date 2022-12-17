@@ -9,6 +9,10 @@ RegisterNetEvent('vorp:resurrectPlayer', function()
     resurrectPlayer()
 end)
 
+
+RegisterNetEvent('vorp:killPlayer', function()
+    killPlayer()
+end)
 -- new event to trigger respawn function from server
 RegisterNetEvent('vorp_core:respawnPlayer', function()
     resspawnPlayer()
@@ -46,7 +50,13 @@ function resspawnPlayer()
     DisplayRadar(true)
     setPVP()
 end
-
+function killPlayer()
+    local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0)
+    SetEntityHealth(PlayerPedId(),health + innerHealth >0)
+    Citizen.InvokeNative(0x697157CED63F18D4, PlayerPedId(), 500000, false, true, true)
+    DisplayHud(false)
+    DisplayRadar(false)
+end
 function resurrectPlayer()
     ResurrectPed(PlayerPedId())
     local innerHealth = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 0)
