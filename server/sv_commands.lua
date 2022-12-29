@@ -251,7 +251,7 @@ CreateThread(function()
                             end
                         end
                         if Config.Logs.killplayerWebhook then
-                            local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `Was killed `"
+                            local Message = "`\n**PlayerID** `" .. _source .. "\n`**Killed Players** ID:` " ..target.. " `Was killed` "
                             local title = "📋` /kill command` "
                             VorpCore.AddWebhook(title, Config.Logs.killplayerWebhook, message .. Message)
                         end
