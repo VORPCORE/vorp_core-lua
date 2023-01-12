@@ -45,7 +45,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         deferrals.done()
     else
         --New User
-        exports.oxmysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0,'false')", { identifier })
+        exports.oxmysql:executeSync("INSERT INTO users (identifier, group) VALUES (?,'user')", { identifier })
         _users[identifier] = User(source, identifier, "user", 0, license)
         deferrals.done()
     end
