@@ -59,10 +59,12 @@ AddEventHandler('playerDropped', function()
 
     if _users[identifier] and not _usersLoading[identifier] then
         if _users[identifier].GetUsedCharacter() then
-            _users[identifier].GetUsedCharacter().HealthOuter(_healthData[identifier].hOuter)
-            _users[identifier].GetUsedCharacter().HealthInner(_healthData[identifier].hInner)
-            _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
-            _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
+            if Config.SavePlayersStatus then
+                _users[identifier].GetUsedCharacter().HealthOuter(_healthData[identifier].hOuter)
+                _users[identifier].GetUsedCharacter().HealthInner(_healthData[identifier].hInner)
+                _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
+                _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
+            end
             _users[identifier].SaveUser()
             print("Player ^2", GetPlayerName(_source) .. " ^7steam:^3 " .. identifier .. "^7 saved")
             Wait(10000)
@@ -256,7 +258,6 @@ Citizen.CreateThread(function()
     --Loop to save all players
     while true do
         Wait(Config.savePlayersTimer)
-
         for k, v in pairs(_users) do
             v.SaveUser()
         end
