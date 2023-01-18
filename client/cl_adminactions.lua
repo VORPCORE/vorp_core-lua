@@ -1,53 +1,47 @@
-------------------------------------------------------------------------------------------------------------
---------------------------------------------- ADMIN ACTIONS ------------------------------------------------
+--=================================================== ADMIN ACTIONS ================================================================--
 
-function TeleportAndFoundGroundAsync(tpCoords)
-    local groundZ = 0.0
-    local foundGround = false
-    for i = 0, 1000 do
-        SetEntityCoords(PlayerPedId(), tpCoords.x, tpCoords.y, i, true, true, true, false)
-        foundGround = GetGroundZAndNormalFor_3dCoord(tpCoords.x, tpCoords.y, i, groundZ, normal)
-        Citizen.Wait(1)
-        if foundGround then
-            SetEntityCoords(PlayerPedId(), tpCoords.x, tpCoords.y, i, true, true, true, false)
+local TeleportToWaypoint = function()
+
+    local ped = PlayerPedId()
+    local GetGroundZAndNormalFor_3dCoord = GetGroundZAndNormalFor_3dCoord
+    local waypoint = IsWaypointActive()
+    local coords = GetWaypointCoords()
+    local x, y, groundZ, startingpoint = coords.x, coords.y, 650.0, 750.0
+    local found = false
+
+    if not waypoint then
+        return
+    end
+    DoScreenFadeOut(500)
+    Wait(1000)
+    FreezeEntityPosition(ped, true)
+    for i = startingpoint, 0, -25.0 do
+        local z = i
+        if (i % 2) ~= 0 then
+            z = startingpoint + i
+        end
+        SetEntityCoords(ped, x, y, z - 1000)
+        Wait(1000)
+        found, groundZ = GetGroundZAndNormalFor_3dCoord(x, y, z)
+        if found then
+            SetEntityCoords(ped, x, y, groundZ)
+            FreezeEntityPosition(ped, false)
+            Wait(1000)
+            DoScreenFadeIn(650)
             break
         end
     end
 end
 
-function TeleportToWaypoint()
-    local player = PlayerPedId()
-    local wayPoint = GetWaypointCoords()
 
-    if (wayPoint.x == 0 and wayPoint.y == 0) then
-        TriggerEvent("vorp:TipRight", Config.Langs.wayPoint, 3000)
-    else
-
-        local height = 1
-
-        for height = 1, 1000 do
-            SetEntityCoords(player, wayPoint.x, wayPoint.y, height + 0.0)
-            local foundground, groundZ, normal = GetGroundZAndNormalFor_3dCoord(wayPoint.x, wayPoint.y, height + 0.0)
-            if foundground then
-                SetEntityCoords(player, wayPoint.x, wayPoint.y, height + 0.0)
-
-                break
-            end
-            Wait(25)
-        end
-
-
-    end
-end
-
-function GetVehicleInDirection()
-    local playerPed                                              = PlayerPedId()
-    local playerCoords                                           = GetEntityCoords(playerPed)
-    local inDirection                                            = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 5.0,
+local GetVehicleInDirection = function()
+    local playerPed      = PlayerPedId()
+    local playerCoords   = GetEntityCoords(playerPed)
+    local inDirection    = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 5.0,
         0.0)
-    local rayHandle                                              = StartExpensiveSynchronousShapeTestLosProbe(playerCoords
+    local rayHandle      = StartExpensiveSynchronousShapeTestLosProbe(playerCoords
         , inDirection, 10, playerPed, 0)
-    local numRayHandle, hit, endCoords, surfaceNormal, entityHit = GetShapeTestResult(rayHandle)
+    local hit, entityHit = GetShapeTestResult(rayHandle)
 
     if hit == 1 and GetEntityType(entityHit) == 2 then
         local entityCoords = GetEntityCoords(entityHit)
@@ -68,6 +62,10 @@ local entityEnumerator = {
     end
 }
 
+---comment
+---@param initFunc any
+---@param moveFunc any
+---@param disposeFunc any
 local function EnumerateEntities(initFunc, moveFunc, disposeFunc)
     return coroutine.wrap(function()
         local iter, id = initFunc()
@@ -90,11 +88,12 @@ local function EnumerateEntities(initFunc, moveFunc, disposeFunc)
     end)
 end
 
-function EnumerateVehicles()
+local EnumerateVehicles = function()
     return EnumerateEntities(FindFirstVehicle, FindNextVehicle, EndFindVehicle)
 end
-
-function GetVehicles()
+---comment
+---@return table
+local GetVehicles = function()
     local vehicles = {}
 
     for vehicle in EnumerateVehicles() do
@@ -104,7 +103,11 @@ function GetVehicles()
     return vehicles
 end
 
-function GetVehiclesInArea(coords, area)
+---comment
+---@param coords any
+---@param area any
+---@return table
+local GetVehiclesInArea = function(coords, area)
     local vehicles       = GetVehicles()
     local vehiclesInArea = {}
 
@@ -120,52 +123,48 @@ function GetVehiclesInArea(coords, area)
     return vehiclesInArea
 end
 
-function HealPlayer()
-    ---------- get player ----------
-    local player = PlayerPedId()
-    local closestPlayerPed = player
-    ----------- stamina ----------------
-    local health = GetAttributeCoreValue(closestPlayerPed, 0)
-    local newHealth = health + 100
-    local stamina = GetAttributeCoreValue(closestPlayerPed, 1)
-    local newStamina = stamina + 100
-    ----------- health -----------------
-    local health2 = GetEntityHealth(closestPlayerPed)
-    local newHealth2 = health2 + 100
-    Citizen.InvokeNative(0xC6258F41D86676E0, closestPlayerPed, 0, newHealth)
-    Citizen.InvokeNative(0xC6258F41D86676E0, closestPlayerPed, 1, newStamina)
-    -------- set health ------------
-    SetEntityHealth(closestPlayerPed, newHealth2)
-    TriggerEvent("vorpmetabolism:setValue", "Thirst", 1000)
+--==================== HEAL PLAYER ==========================--
+HealPlayer = function()
+    local ped = PlayerPedId()
+    Citizen.InvokeNative(0xC6258F41D86676E0, ped, 0, 100) -- inner first
+    SetEntityHealth(ped, 600, 1) -- outter after
+    Citizen.InvokeNative(0xC6258F41D86676E0, ped, 1, 100) -- only fills inner
+    Citizen.InvokeNative(0x675680D089BFA21F, ped, 1065330373) -- only fills outter with a weird amount of numbers
+    TriggerEvent("vorpmetabolism:setValue", "Thirst", 1000) -- metabolism
     TriggerEvent("vorpmetabolism:setValue", "Hunger", 1000)
 end
 
-function DelHorse()
+local DelHorse = function()
     local player = PlayerPedId()
     local mount  = GetMount(player)
     if IsPedOnMount(player) then
         DeleteEntity(mount)
-
     else
         TriggerEvent("vorp:TipRight", Config.Langs.sit, 3000)
     end
 end
-
-function BanPlayerByUserId(target, status, banTime)
+---comment
+---@param target number
+---@param status any
+---@param banTime any
+local BanPlayerByUserId = function(target, status, banTime)
     TriggerServerEvent("vorpbans:addtodb", status, target, banTime)
 end
-
-function WarnPlayerByUserId(target, status)
+---comment
+---@param target number
+---@param status any
+local WarnPlayerByUserId = function(target, status)
     TriggerServerEvent("vorpwarns:addtodb", status, target)
 end
-
-function CharPlayerByUserId(target, status)
-    local player = PlayerPedId()
+---comment
+---@param target number
+---@param status any
+local CharPlayerByUserId = function(target, status)
     TriggerServerEvent("vorpchar:addtodb", status, target)
 end
-
-RegisterNetEvent('vorp:deleteVehicle')
-AddEventHandler('vorp:deleteVehicle', function(radius)
+---comment
+---@param radius number
+local DeleteWagonsRadius = function(radius)
     local player = PlayerPedId()
 
     if radius and tonumber(radius) then
@@ -201,54 +200,50 @@ AddEventHandler('vorp:deleteVehicle', function(radius)
         if DoesEntityExist(vehicle) and NetworkHasControlOfEntity(vehicle) then
             SetEntityAsMissionEntity(vehicle, true, true)
             DeleteVehicle(vehicle)
-
         end
     end
-end)
+end
 
+--=========================================================== EVENTS ======================================================--
+RegisterNetEvent('vorp:deleteVehicle')
+AddEventHandler('vorp:deleteVehicle', function(radius)
+    DeleteWagonsRadius(radius)
+end)
 
 RegisterNetEvent('vorp:delHorse')
 AddEventHandler('vorp:delHorse', function()
     DelHorse()
 end)
 
-
-RegisterNetEvent('vorp:teleportWayPoint')
-AddEventHandler('vorp:teleportWayPoint', function(WayPoint)
+RegisterNetEvent('vorp:teleportWayPoint', function()
     TeleportToWaypoint()
 end)
 
-RegisterNetEvent('vorp:heal')
-AddEventHandler('vorp:heal', function()
+RegisterNetEvent('vorp:heal', function()
     HealPlayer()
 end)
 
-RegisterNetEvent('vorp:ban')
-AddEventHandler('vorp:ban', function(target, banTime)
+RegisterNetEvent('vorp:ban', function(target, banTime)
     BanPlayerByUserId(target, true, banTime)
 end)
 
-RegisterNetEvent('vorp:unban')
-AddEventHandler('vorp:unban', function(target)
+RegisterNetEvent('vorp:unban', function(target)
     BanPlayerByUserId(target, false, 0)
 end)
 
-RegisterNetEvent('vorp:warn')
-AddEventHandler('vorp:warn', function(target)
+RegisterNetEvent('vorp:warn', function(target)
     WarnPlayerByUserId(target, true)
 end)
 
-RegisterNetEvent('vorp:unwarn')
-AddEventHandler('vorp:unwarn', function(target)
+RegisterNetEvent('vorp:unwarn', function(target)
     WarnPlayerByUserId(target, false)
 end)
 
-RegisterNetEvent('vorp:addchar')
-AddEventHandler('vorp:addchar', function(target)
+RegisterNetEvent('vorp:addchar', function(target)
     CharPlayerByUserId(target, true)
 end)
 
-RegisterNetEvent('vorp:removechar')
-AddEventHandler('vorp:removechar', function(target)
+RegisterNetEvent('vorp:removechar', function(target)
     CharPlayerByUserId(target, false)
 end)
+--===========================================================================================================================--

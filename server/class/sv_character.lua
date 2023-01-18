@@ -26,39 +26,94 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.staminaInner = staminaInner
     self.xp = xp
     self.hours = hours
-
     self.isdead = isdead
-
     --self.userPlayer --Isto serve para que mesmo???
     self.source = source
 
-    --[[public Player PlayerVar { Isto só se usa em c#
-        get {
-            PlayerList pl = new PlayerList();
-            return pl[source];
-        } 
-    }]]
+    self.Identifier = function()
+        return self.identifier
+    end
 
-    self.Identifier = function() return self.identifier end
-    self.CharIdentifier = function(value) if value ~= nil then self.charIdentifier = value end return self.charIdentifier end
-    self.Group = function(value) if value ~= nil then self.group = value end return self.group end
-    self.Job = function(value) if value ~= nil then self.job = value end return self.job end
-    self.Jobgrade = function(value) if value ~= nil then self.jobgrade = value end return self.jobgrade end
-    self.Firstname = function(value) if value ~= nil then self.firstname = value end return self.firstname end
-    self.Lastname = function(value) if value ~= nil then self.lastname = value end return self.lastname end
-    self.Inventory = function(value) if value ~= nil then self.inventory = value end return self.inventory end
-    self.Status = function(value) if value ~= nil then self.status = value end return self.status end
-    self.Coords = function(value) if value ~= nil then self.coords = value end return self.coords end
-    self.Money = function(value) if value ~= nil then self.money = value end return self.money end
-    self.Gold = function(value) if value ~= nil then self.gold = value end return self.gold end
-    self.Rol = function(value) if value ~= nil then self.rol = value end return self.rol end
-    self.HealthOuter = function(value) if value ~= nil then self.healthOuter = value end return self.healthOuter end
-    self.HealthInner = function(value) if value ~= nil then self.healthInner = value end return self.healthInner end
-    self.StaminaOuter = function(value) if value ~= nil then self.staminaOuter = value end return self.staminaOuter end
-    self.StaminaInner = function(value) if value ~= nil then self.staminaInner = value end return self.staminaInner end
-    self.Xp = function(value) if value ~= nil then self.xp = value end return self.xp end
-    self.Hours = function(value) if value ~= nil then self.hours = value end return self.hours end
-    self.IsDead = function(value) if value ~= nil then self.isdead = value end return self.isdead end
+    self.CharIdentifier = function(value)
+        if value ~= nil then
+            self.charIdentifier = value
+        end
+        return self.charIdentifier
+    end
+    self.Group = function(value)
+        if value ~= nil then
+            self.group = value
+        end
+        return self.group
+    end
+    self.Job = function(value)
+        if value ~= nil then self.job = value end
+        return self.job
+    end
+    self.Jobgrade = function(value)
+        if value ~= nil then self.jobgrade = value end
+        return self.jobgrade
+    end
+    self.Firstname = function(value)
+        if value ~= nil then self.firstname = value end
+        return self.firstname
+    end
+    self.Lastname = function(value)
+        if value ~= nil then self.lastname = value end
+        return self.lastname
+    end
+    self.Inventory = function(value)
+        if value ~= nil then self.inventory = value end
+        return self.inventory
+    end
+    self.Status = function(value)
+        if value ~= nil then self.status = value end
+        return self.status
+    end
+    self.Coords = function(value)
+        if value ~= nil then self.coords = value end
+        return self.coords
+    end
+    self.Money = function(value)
+        if value ~= nil then self.money = value end
+        return self.money
+    end
+    self.Gold = function(value)
+        if value ~= nil then self.gold = value end
+        return self.gold
+    end
+    self.Rol = function(value)
+        if value ~= nil then self.rol = value end
+        return self.rol
+    end
+    self.HealthOuter = function(value)
+        if value ~= nil then self.healthOuter = value end
+        return self.healthOuter
+    end
+    self.HealthInner = function(value)
+        if value ~= nil then self.healthInner = value end
+        return self.healthInner
+    end
+    self.StaminaOuter = function(value)
+        if value ~= nil then self.staminaOuter = value end
+        return self.staminaOuter
+    end
+    self.StaminaInner = function(value)
+        if value ~= nil then self.staminaInner = value end
+        return self.staminaInner
+    end
+    self.Xp = function(value)
+        if value ~= nil then self.xp = value end
+        return self.xp
+    end
+    self.Hours = function(value)
+        if value ~= nil then self.hours = value end
+        return self.hours
+    end
+    self.IsDead = function(value)
+        if value ~= nil then self.isdead = value end
+        return self.isdead
+    end
 
     self.Skin = function(value)
         if value ~= nil then
@@ -79,7 +134,6 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
 
         return self.comps
     end
-
 
     self.getCharacter = function()
         local userData = {}
@@ -270,11 +324,11 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
             ,
             { self.Identifier(), self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.HealthOuter(),
                 self.HealthInner(), self.StaminaOuter(), self.StaminaInner(), self.Hours(), self.Inventory(), self.Job(),
-                self.Status(),
-                self.Firstname(), self.Lastname(), self.Skin(), self.Comps(), self.Jobgrade(), self.Coords(),
-                self.IsDead() }, function(character)
-            cb(character.insertId)
-        end)
+                self.Status(), self.Firstname(), self.Lastname(), self.Skin(), self.Comps(), self.Jobgrade(),
+                self.Coords(), self.IsDead() },
+            function(character)
+                cb(character.insertId)
+            end)
     end
 
     self.DeleteCharacter = function()
@@ -293,8 +347,9 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
             ,
             { self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.HealthOuter(), self.HealthInner(),
                 self.StaminaOuter(), self.StaminaInner(), self.Hours(), self.Job(), self.Status(), self.Firstname(),
-                self.Lastname(),
-                self.Jobgrade(), self.Coords(), self.IsDead(), tostring(self.Identifier()), self.CharIdentifier() })
+                self.Lastname(), self.Jobgrade(), self.Coords(), self.IsDead(), tostring(self.Identifier()),
+                self.CharIdentifier()
+            })
     end
 
     return self

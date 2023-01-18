@@ -1,52 +1,43 @@
-function LoadModel(hash)
+--=================================== FUNCTIONS ======================================--
+
+---comment
+---@param hash string
+---@return boolean
+LoadModel = function(hash)
     if IsModelValid(hash) then
         RequestModel(hash)
         while not HasModelLoaded(hash) do
             Citizen.Wait(0)
         end
         return true
-    else
-
-        return false
     end
+    return false
 end
 
-function LoadTexture(hash)
-    if not HasStreamedTextureDictLoaded(texture) then
+---comment
+---@param hash any
+---@return boolean
+LoadTexture = function(hash)
+    if not HasStreamedTextureDictLoaded(hash) then
         RequestStreamedTextureDict(hash, true)
         while not HasStreamedTextureDictLoaded(hash) do
             Wait(1)
         end
         return true
-    else
-        return false
     end
+    return false
 end
 
-function bigInt(text)
+---comment
+---@param text string
+---@return unknown
+bigInt = function(text)
     local string1 = DataView.ArrayBuffer(16)
     string1:SetInt64(0, text)
     return string1:GetInt64(0)
 end
 
-local lastSoundSetName = ""
-local lastSoundSetRef = ""
-
-function PlayFrontendSound(frontend_soundset_ref, frontend_soundset_name, forcePlay)
-    if forcePlay and lastSoundSetName ~= 0 then
-        PlaySoundFrontend(lastSoundSetName, lastSoundSetRef) -- stop audio
-    end
-
-    if frontend_soundset_ref ~= 0 then
-        Citizen.InvokeNative(0x0F2A2175734926D8, frontend_soundset_name, frontend_soundset_ref) -- load sound frontend
-    end
-    PlaySoundFrontend(frontend_soundset_name, frontend_soundset_ref, true, 0) -- play sound frontend
-
-    lastSoundSetName = frontend_soundset_name
-    lastSoundSetRef = frontend_soundset_ref
-end
-
-function DrawText(text, font, x, y, fontscale, fontsize, r, g, b, alpha, textcentred, shadow)
+--[[DrawText = function(text, font, x, y, fontscale, fontsize, r, g, b, alpha, textcentred, shadow)
     local str = CreateVarString(10, "LITERAL_STRING", text)
     SetTextScale(fontscale, fontsize)
     SetTextColor(r, g, b, alpha)
@@ -54,37 +45,53 @@ function DrawText(text, font, x, y, fontscale, fontsize, r, g, b, alpha, textcen
     if shadow then SetTextDropshadow(1, 0, 0, 0, 255) end
     SetTextFontForCurrentCommand(font)
     DisplayText(str, x, y)
-end
+end]]
 
-function TeleportToCoords(x, y, z, heading)
-    local playerPedId = PlayerPedId()
-    SetEntityCoords(playerPedId, x, y, z, true, true, true, false)
-    if heading ~= nil then SetEntityHeading(playerPedId, heading) end
-end
+--========================================== THREADS =========================================--
 
---- show playerd ID prompt when focus on players
-if Config.showplayerIDwhenfocus then
-    CreateThread(function()
-        while true do
-            Wait(500)
-            for _, player in ipairs(GetActivePlayers()) do
-                local ped = GetPlayerPed(player)
-                SetPedPromptName(ped, "Player ID " .. tostring(GetPlayerServerId(player)))
-            end
-        end
-    end)
-end
+-- remove event notifications
+
+local Events = {
+    `EVENT_CHALLENGE_GOAL_COMPLETE`,
+    `EVENT_CHALLENGE_REWARD`,
+    `EVENT_DAILY_CHALLENGE_STREAK_COMPLETED`
+}
 
 CreateThread(function()
-    while Config.disableAutoAIM do
-        Wait(10)
-        Citizen.InvokeNative(0xD66A941F401E7302, 3)
-        Citizen.InvokeNative(0x19B4F71703902238, 3)
+    while true do
+        Wait(0)
+        local event = GetNumberOfEvents(0)
+        if event > 0 then
+            for i = 0, event - 1 do
+                local eventAtIndex = GetEventAtIndex(0, i)
+                for _, value in pairs(Events) do
+                    if eventAtIndex == value then
+                        Citizen.InvokeNative(0x6035E8FBCA32AC5E) -- remove events
+                    end
+                end
+            end
+        end
+        if Config.disableAutoAIM then
+            Citizen.InvokeNative(0xD66A941F401E7302, 3)
+            Citizen.InvokeNative(0x19B4F71703902238, 3)
+        end
     end
 end)
 
+-- show players id when focus on other players
 CreateThread(function()
+    while Config.showplayerIDwhenfocus do
+        Wait(400)
+        for _, playersid in ipairs(GetActivePlayers()) do
+            local ped = GetPlayerPed(playersid)
+            SetPedPromptName(ped, Config.Langs.message4 .. tostring(GetPlayerServerId(playersid)))
+        end
+    end
+end)
 
+-- hide or show players cores
+CreateThread(function()
+    Wait(5000)
     if Config.HideOnlyDEADEYE then
         Citizen.InvokeNative(0xC116E6DF68DCE667, 2, 2)
         Citizen.InvokeNative(0xC116E6DF68DCE667, 3, 2)
@@ -105,6 +112,7 @@ CreateThread(function()
         Citizen.InvokeNative(0xC116E6DF68DCE667, 9, 2)
         Citizen.InvokeNative(0xC116E6DF68DCE667, 10, 2)
         Citizen.InvokeNative(0xC116E6DF68DCE667, 11, 2)
-
     end
 end)
+
+--================================================================================================--

@@ -1,19 +1,19 @@
 _whitelist = {}
 
 
-function AddUserToWhitelistById(id)
+AddUserToWhitelistById = function(id)
     _whitelist[id].GetEntry().setStatus(true)
 end
 
-function RemoveUserFromWhitelistById(id)
+RemoveUserFromWhitelistById = function(id)
     _whitelist[id].GetEntry().setStatus(false)
 end
 
-local function LoadWhitelist()
-    Citizen.Wait(5000)
+local LoadWhitelist = function()
+    Wait(5000)
     exports.oxmysql:execute('SELECT * FROM whitelist', {}, function(result)
         if #result > 0 then
-            for k, v in ipairs(result) do
+            for _, v in ipairs(result) do
                 _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.firstconnection)
             end
         end
@@ -22,11 +22,11 @@ end
 
 local function SetUpdateWhitelistPolicy()
     while Config.AllowWhitelistAutoUpdate do
-        Citizen.Wait(3600000) --change this value if you want to have update from SQL not every 1 hour
+        Wait(3600000) --change this value if you want to have update from SQL not every 1 hour
         _whitelist = {}
         exports.oxmysql:execute("SELECT * FROM whitelist", {}, function(result)
             if #result > 0 then
-                for k, v in ipairs(result) do
+                for _, v in ipairs(result) do
                     _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.firstconnection)
                 end
             end
@@ -37,16 +37,19 @@ end
 function GetSteamID(src)
     local sid = GetPlayerIdentifiers(src)[1] or false
 
-    if (sid == false or sid:sub(1, 5) ~= "steam") then
-
+    if sid == false or sid:sub(1, 5) ~= "steam" then
         return false
     end
-
     return sid
 end
 
-function GetIdentifier(source, id_type)
+---comment
+---@param source number
+---@param id_type string
+---@return nil | number
+local GetIdentifier = function(source, id_type)
     if type(id_type) ~= "string" then return print('Invalid usage') end
+
     for _, identifier in pairs(GetPlayerIdentifiers(source)) do
         if string.find(identifier, id_type) then
             return identifier
@@ -54,25 +57,30 @@ function GetIdentifier(source, id_type)
     end
     return nil
 end
-
-function GetLicenseID(src)
+---comment
+---@param src number
+---@return boolean
+local GetLicenseID = function(src)
     local sid = GetPlayerIdentifiers(src)[2] or false
     if (sid == false or sid:sub(1, 5) ~= "license") then
         return false
     end
-
     return sid
 end
-
-function GetUserId(identifier)
+---comment
+---@param identifier any
+---@return any
+GetUserId = function(identifier)
     for k, v in pairs(_whitelist) do
         if v.GetEntry().getIdentifier() == identifier then
             return v.GetEntry().getId()
         end
     end
 end
-
-function InsertIntoWhitelist(identifier)
+---comment
+---@param identifier any
+---@return number
+local InsertIntoWhitelist = function(identifier)
     if GetUserId(identifier) then
         return GetUserId(identifier)
     end
@@ -91,7 +99,7 @@ function InsertIntoWhitelist(identifier)
     return currentFreeId
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     LoadWhitelist()
     SetUpdateWhitelistPolicy()
 end)
