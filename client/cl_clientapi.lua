@@ -1,7 +1,10 @@
+--================================ VORP CORE API =====================================--
+-- for examples look at vorp codumentation
+
 AddEventHandler('getCore', function(cb)
     local corefunctions = {}
 
-    --callback
+
     corefunctions.RpcCall = function(name, callback, args)
         TriggerEvent('vorp:ExecuteServerCallBack', name, callback, args)
     end
@@ -71,7 +74,7 @@ AddEventHandler('getCore', function(cb)
     end
 
     corefunctions.NotifyFail = function(text, subtitle, duration)
-        exports.vorp_core:failmissioNotifY(tostring(title), tostring(subtitle), tonumber(duration))
+        exports.vorp_core:failmissioNotifY(tostring(text), tostring(subtitle), tonumber(duration))
     end
 
     corefunctions.NotifyDead = function(title, audioRef, audioName, duration)
@@ -93,3 +96,5 @@ AddEventHandler('getCore', function(cb)
 
     cb(corefunctions)
 end)
+
+--==========================================================================================--
