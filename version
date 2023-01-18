@@ -1,3 +1,11 @@
+<2.0>
+- tpm command redone
+- death handler redone it now uses prompts and new camera angles
+- added more options to config files
+- client side roptimised 
+- callbacks added to new API
+- make sure to update all files redo your config 
+- update fxmanifest too so you continue to have these version checkers
 <1.5>
 - fix errors for new users thanks to Members of the community
 - refactor commands reduced 400 lines of code 
