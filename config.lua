@@ -200,7 +200,8 @@ Config = {
         message2           = "Time has passed respawn",
         message3           = "You need to wait untill you can respawn",
         message4           = "Player ID ",
-        message5           = "you were injured , per rule you must forget the past 30 minutes"
+        message5           = "you were injured , per rule you must forget the past 30 minutes",
+        message6           = "Respawn!!!"
     },
 
 
