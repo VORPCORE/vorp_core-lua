@@ -90,44 +90,34 @@ Config = {
     RespawnKeyTime = 5000, -- Milliseconds it will take to press the button
     CombatLogDeath = true, -- people who combat log now spawn in dead rather than force spawned
     --sprite = true, --- enable text with sprite or disable
-   -- spriteColor = { r = 100, g = 1, b = 1 }, -- sprite rgb color
+    -- spriteColor = { r = 100, g = 1, b = 1 }, -- sprite rgb color
     UseControlsCamera = false, -- if youset this to true players while dead  or being carried can move the camera using w a d s controls this is resource intensive leave to false
     UseDeathHandler = true, -- levae this to true if you dont know what you doing . this is to disable the death handling incase you have something custom
-    hospital = {
+
+    Hospitals = {
         Valentine = {
             name = "Valentine",
-            x = -283.83,
-            y = 806.4,
-            z = 119.38,
-            h = 321.76
+            pos = vector4(-283.83, 806.4, 119.38, 321.76), -- use vorp admin to get vector4 x y z h
         },
-        Saint = {
+        SaintDenis = {
             name = "Saint Denis",
-            x = 2721.4562,
-            y = -1446.0975,
-            z = 46.2303,
-            h = 321.76
+            pos = vector4(2721.4562, -1446.0975, 46.2303, 321.76),
+
         },
         Armadillo = {
             name = "Armadillo",
-            x = -3742.5,
-            y = -2600.9,
-            z = -13.23,
-            h = 321.76
+            pos = vector4(-3742.5, -2600.9, -13.23, 321.76),
+
         },
-        bw = {
+        Blackwater = {
             name = "Black water",
-            x = -723.9527,
-            y = -1242.8358,
-            z = 44.7341,
-            h = 321.76
+            pos = vector4(-723.9527, -1242.8358, 44.7341, 321.76),
+
         },
-        rhodes = {
+        Rhodes = {
             name = "Rhodes",
-            x = 1229.0,
-            y = -1306.1,
-            z = 76.9,
-            h = 321.76
+            pos = vector4(1229.0, -1306.1, 76.9, 321.76),
+
         },
     },
     -----------------------------------------------------------------------------
@@ -206,7 +196,8 @@ Config = {
         message            = " or " .. " /calldoctor",
         message2           = "Time has passed respawn",
         message3           = "You need to wait untill you can respawn",
-        message4           = "Player ID "
+        message4           = "Player ID ",
+        message5           = "you were injured , per rule you must forget the past 30 minutes"
     },
 
 
