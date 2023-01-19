@@ -64,7 +64,7 @@ end)
 --================================ EVENTS ============================================--
 
 RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
-    local player = PlayerPedId()
+
     TeleportToCoords(coords, heading) -- teleport player to coords
     if isdead then -- is player dead
         if not Config.CombatLogDeath then
@@ -83,14 +83,15 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             Wait(7000)
             HealPlayer() -- fill cores
         else
+            TaskStandStill(PlayerPedId(), -1)
             if Config.Loadinscreen then
                 Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Holddead, Config.Langs.Loaddead,
                     Config.Langs.Almost)
             end
-            Wait(8000) -- this is needed to ensure the player has enough time to load in their character before it kills them. other wise they revive when the character loads in
+            Wait(10000) -- this is needed to ensure the player has enough time to load in their character before it kills them. other wise they revive when the character loads in
             TriggerEvent("vorp_inventory:CloseInv")
-            SetEntityHealth(player, 0, 0) -- kil player
-            Wait(4000)
+            SetEntityHealth(PlayerPedId(), 0, 0) -- kil player
+            Wait(3000)
             ShutdownLoadingScreen()
         end
     else -- is player not dead
@@ -102,6 +103,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             ShutdownLoadingScreen()
         end
         if Config.SavePlayersStatus then
+            local player = PlayerPedId()
             TriggerServerEvent("vorp:GetValues")
             Wait(6000)
             Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner)
