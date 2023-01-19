@@ -75,28 +75,37 @@ AddEventHandler('playerSpawned', function()
 end)
 
 --====================================== CAN BE DAMAGED TO PLAYERSPAWN ======================================
-local damage
+local damage = false
 CreateThread(function()
-    while not Config.CanBeDamagedToSpawn and not damage do
+    while true do
+        -- if not Config.CanBeDamagedToSpawn then -- i dont thin kthis needs a config
         if Citizen.InvokeNative(0x75DF9E73F2F005FD, PlayerPedId()) then -- GetEntityCanBeDamaged
-            SetEntityCanBeDamaged(PlayerPedId(), false)
+            SetEntityCanBeDamaged(PlayerPedId(), false) -- just set this
+        end
+        --  end
+        if damage then -- and break the loop after spawn
+            Wait(12000) -- 12 seconds should be enough
+            SetEntityCanBeDamaged(PlayerPedId(), true)
+            break
         end
         Wait(0)
     end
-    SetEntityCanBeDamaged(PlayerPedId(), true)
+
 end)
 
 --====================================== APPLY HEALTHRECHARGE WHEN CHARACTER RC ======================================
 CreateThread(function()
     while true do
         Wait(500)
-        local multiplier = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
+        if not firstSpawn then
+            local multiplier = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
 
-        if multiplierHealth and multiplierHealth ~= multiplier then
-            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
+            if multiplierHealth and multiplierHealth ~= multiplier then
+                Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
 
-        elseif not multiplierHealth and multiplier then
-            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0) -- SetPlayerHealthRechargeMultiplier
+            elseif not multiplierHealth and multiplier then
+                Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0) -- SetPlayerHealthRechargeMultiplier
+            end
         end
     end
 end)
@@ -108,7 +117,6 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
     TeleportToCoords(coords, heading) -- teleport player to coords
 
     if isdead then -- is player dead
-        damage = true
 
         if not Config.CombatLogDeath then
             --start loading screen
@@ -163,8 +171,8 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             multiplierHealth = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
         end
 
-        damage = true
     end
+
 end)
 
 --========================================= PLAYER SPAWN AFTER SELECT CHARACTER =======================================--
@@ -174,6 +182,7 @@ AddEventHandler("vorp:SelectedCharacter", function()
     local pedCoords = GetEntityCoords(playerId)
     local area = Citizen.InvokeNative(0x43AD8FC02B429D33, pedCoords, 10)
     firstSpawn = false
+    damage = true
     setPVP()
     if Config.ActiveEagleEye then
         Citizen.InvokeNative(0xA63FCAD3A6FEC6D2, playerId, true)
@@ -197,6 +206,7 @@ AddEventHandler("vorp:SelectedCharacter", function()
         Citizen.InvokeNative(0xE8770EE02AEE45C2, 1) --guarma water
         Citizen.InvokeNative(0x74E2261D2A66849A, true)
     end
+
 end)
 
 RegisterNetEvent("vorp:GetHealthFromCore")

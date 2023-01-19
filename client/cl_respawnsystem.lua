@@ -123,14 +123,15 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName, justreviv
         AnimpostfxPlay("PlayerWakeUpInterrogation") -- disabled
         Wait(19000)
         keepdown = false
+        local dict = "minigames_hud"
+        local icon = "five_finger_burnout"
+        TriggerEvent('vorp:NotifyLeft', currentHospitalName or Config.Langs.message6, Config.Langs.message5,
+            dict, icon
+            , 8000, "COLOR_PURE_WHITE") -- mesage only if this is active and justrevive is false
     else
         DoScreenFadeIn(2000) -- fadein
     end
-    local dict = "minigames_hud"
-    local icon = "five_finger_burnout"
-    TriggerEvent('vorp:NotifyLeft', currentHospitalName or Config.Langs.message6, Config.Langs.message5,
-        dict, icon
-        , 8000, "COLOR_PURE_WHITE")
+
 end
 
 ResspawnPlayer = function()

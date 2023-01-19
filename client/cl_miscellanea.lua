@@ -57,6 +57,13 @@ local Events = {
     `EVENT_DAILY_CHALLENGE_STREAK_COMPLETED`
 }
 
+
+RegisterCommand("reload", function()
+    if IsEntityDead(PlayerPedId()) then
+        ExecuteCommand("rc")
+    end
+
+end)
 CreateThread(function()
     while true do
         Wait(0)
