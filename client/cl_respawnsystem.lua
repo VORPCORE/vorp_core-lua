@@ -86,7 +86,7 @@ local EndDeathCam = function()
 end
 
 local keepdown
-local ResurrectPlayer = function(currentHospital, currentHospitalName)
+local ResurrectPlayer = function(currentHospital, currentHospitalName, justrevive)
     local player = PlayerPedId()
     Citizen.InvokeNative(0xCE7A90B160F75046, false)
     if Config.HideUi then -- SHOW VORP core ui
@@ -102,13 +102,13 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName)
     DisplayHud(true)
     DisplayRadar(true)
     setPVP()
-    if currentHospital ~= "dontTeleport" and currentHospital then -- set entitycoords with heading
+    if currentHospital and currentHospital then -- set entitycoords with heading
         Citizen.InvokeNative(0x203BEFFDBE12E96A, player, currentHospital, false, false, false)
     end
     Wait(2000)
     HealPlayer() -- heal fully the player
-    if Config.RagdollOnResurrection then
-        --  DoScreenFadeIn(3000)
+    if Config.RagdollOnResurrection and not justrevive then
+
         keepdown = true
         CreateThread(function() -- tread to keep player down
             while keepdown do
@@ -118,16 +118,15 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName)
             end
         end)
         AnimpostfxPlay("Title_Gen_FewHoursLater")
-        Wait(3000) -- maybe add here something funny ?
+        Wait(3000)
+        DoScreenFadeIn(2000)
+        AnimpostfxPlay("PlayerWakeUpInterrogation") -- disabled
+        Wait(19000)
+        keepdown = false
     end
-    DoScreenFadeIn(2000)
-    AnimpostfxPlay("PlayerWakeUpInterrogation") -- disabled
-    Wait(19000)
-    keepdown = false
-    
     local dict = "minigames_hud"
     local icon = "five_finger_burnout"
-    TriggerEvent('vorp:NotifyLeft', currentHospitalName or '...', Config.Langs.message5,
+    TriggerEvent('vorp:NotifyLeft', currentHospitalName or Config.Langs.message6, Config.Langs.message5,
         dict, icon
         , 8000, "COLOR_PURE_WHITE")
 end
@@ -150,7 +149,7 @@ ResspawnPlayer = function()
             coords = location.pos
         end
     end
-    ResurrectPlayer(coords, closestLocation)
+    ResurrectPlayer(coords, closestLocation, false)
     TriggerServerEvent("vorpcharacter:getPlayerSkin")
 end
 
@@ -222,9 +221,10 @@ end)
 --============================ EVENTS ================================--
 
 -- revive player from server side use this event to revive and not teleport
-RegisterNetEvent('vorp:resurrectPlayer', function()
-    local dont = "dontTeleport"
-    ResurrectPlayer(dont)
+RegisterNetEvent('vorp:resurrectPlayer', function(just)
+    local dont = false
+    local justrevive = just or true
+    ResurrectPlayer(dont, justrevive)
 end)
 
 -- respawn player from server side
