@@ -130,8 +130,8 @@ HealPlayer = function()
     SetEntityHealth(ped, 600, 1) -- outter after
     Citizen.InvokeNative(0xC6258F41D86676E0, ped, 1, 100) -- only fills inner
     Citizen.InvokeNative(0x675680D089BFA21F, ped, 1065330373) -- only fills outter with a weird amount of numbers
-    TriggerEvent("vorpmetabolism:setValue", "Thirst", 1000) -- metabolism
-    TriggerEvent("vorpmetabolism:setValue", "Hunger", 1000)
+    --TriggerEvent("vorpmetabolism:setValue", "Thirst", 1000) -- metabolism
+    -- TriggerEvent("vorpmetabolism:setValue", "Hunger", 1000)
 end
 
 local DelHorse = function()
