@@ -85,7 +85,8 @@ local EndDeathCam = function()
     DestroyAllCams(true)
 end
 
-local ResurrectPlayer = function(currentHospital)
+local keepdown
+local ResurrectPlayer = function(currentHospital, currentHospitalName)
     local player = PlayerPedId()
     Citizen.InvokeNative(0xCE7A90B160F75046, false)
     if Config.HideUi then -- SHOW VORP core ui
@@ -102,33 +103,51 @@ local ResurrectPlayer = function(currentHospital)
     DisplayRadar(true)
     setPVP()
     if currentHospital ~= "dontTeleport" and currentHospital then -- set entitycoords with heading
-        Citizen.InvokeNative(0x203BEFFDBE12E96A, player, currentHospital.x, currentHospital.y, currentHospital.z,
-            currentHospital.h, false, false, false)
+        Citizen.InvokeNative(0x203BEFFDBE12E96A, player, currentHospital, false, false, false)
     end
     Wait(2000)
     HealPlayer() -- heal fully the player
-    DoScreenFadeIn(1000)
+    --  DoScreenFadeIn(3000)
+    keepdown = true
+    CreateThread(function() -- tread to keep player down
+        while keepdown do
+            Wait(0)
+            SetPedToRagdoll(PlayerPedId(), 4000, 4000, 0, 0, 0, 0)
+            ResetPedRagdollTimer(PlayerPedId())
+        end
+    end)
+    AnimpostfxPlay("Title_Gen_FewHoursLater")
+    Wait(3000) -- maybe add here something funny ?
+    DoScreenFadeIn(2000)
+    AnimpostfxPlay("PlayerWakeUpInterrogation") -- disabled
+    Wait(19000)
+    keepdown = false
+    local dict = "minigames_hud"
+    local icon = "five_finger_burnout"
+    TriggerEvent('vorp:NotifyLeft', currentHospitalName, Config.Langs.message5,
+        dict, icon
+        , 8000, "COLOR_PURE_WHITE")
 end
 
 ResspawnPlayer = function()
     local player = PlayerPedId()
     TriggerServerEvent("vorp:PlayerForceRespawn")
     TriggerEvent("vorp:PlayerForceRespawn")
-    local currentHospital, minDistance, playerCoords = '', -1, GetEntityCoords(player, true, true)
+    local closestDistance = math.huge
+    local closestLocation = ""
+    local coords = ""
+    local pedCoords = GetEntityCoords(player)
+    for _, location in pairs(Config.Hospitals) do
+        local locationCoords = vector3(location.pos.x, location.pos.y, location.pos.z)
+        local currentDistance = #(pedCoords - locationCoords)
 
-    for _, Hospital in pairs(Config.hospital) do
-        local Doctor = vector3(Hospital.x, Hospital.y, Hospital.z)
-        local currentDistance = #(playerCoords - Doctor)
-        if minDistance ~= -1 and minDistance >= currentDistance then
-            minDistance = currentDistance
-            currentHospital = Hospital
-        elseif minDistance == -1 then
-            minDistance = currentDistance
-            currentHospital = Hospital
+        if currentDistance < closestDistance then
+            closestDistance = currentDistance
+            closestLocation = location.name
+            coords = location.pos
         end
     end
-
-    ResurrectPlayer(currentHospital)
+    ResurrectPlayer(coords, closestLocation)
     TriggerServerEvent("vorpcharacter:getPlayerSkin")
 end
 
