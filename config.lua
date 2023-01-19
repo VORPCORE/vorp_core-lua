@@ -84,7 +84,9 @@ Config = {
 
     HealthOnRespawn = 500, --Player's health when respawned in hospital (MAX = 500)
     HealthOnResurrection = 100, --Player's health when resurrected (MAX = 500)
-    DisableRecharge = true, --Disable auto recharge of health outer core (real ped health)
+    RagdollOnResurrection = false, -- Enable or disable Ragdoll and revive effects when revived
+    CanBeDamagedToSpawn = false, -- The player can take damage while spawning
+    HealthRecharge = { enable = true, multiplier = 0.37 }, -- enable or disable auto recharge of health outer core (real ped health), multiplier 1.0 is default
     RespawnTime = 10, --seconds
     RespawnKey = 0xDFF812F9, --[E] KEY
     RespawnKeyTime = 5000, -- Milliseconds it will take to press the button
