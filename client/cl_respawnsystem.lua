@@ -123,6 +123,8 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName, justreviv
         AnimpostfxPlay("PlayerWakeUpInterrogation") -- disabled
         Wait(19000)
         keepdown = false
+    else
+        DoScreenFadeIn(2000) -- fadein
     end
     local dict = "minigames_hud"
     local icon = "five_finger_burnout"
