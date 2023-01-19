@@ -119,11 +119,12 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName)
         end)
         AnimpostfxPlay("Title_Gen_FewHoursLater")
         Wait(3000) -- maybe add here something funny ?
-        DoScreenFadeIn(2000)
-        AnimpostfxPlay("PlayerWakeUpInterrogation") -- disabled
-        Wait(19000)
-        keepdown = false
     end
+    DoScreenFadeIn(2000)
+    AnimpostfxPlay("PlayerWakeUpInterrogation") -- disabled
+    Wait(19000)
+    keepdown = false
+    
     local dict = "minigames_hud"
     local icon = "five_finger_burnout"
     TriggerEvent('vorp:NotifyLeft', currentHospitalName or '...', Config.Langs.message5,
