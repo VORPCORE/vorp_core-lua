@@ -166,7 +166,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
             end
         end)
     local getPlayer = GetPlayerName(_source)
-    if getPlayer then
+    if getPlayer and Config.PrintPlayerInfoOnEnter then
         print("Player ^2" .. getPlayer .. " ^7steam: ^3" .. steamIdentifier .. "^7 Loading...")
     end
     --When player is fully connected then load!!!!

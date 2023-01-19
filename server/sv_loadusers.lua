@@ -66,7 +66,9 @@ AddEventHandler('playerDropped', function()
                 _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
             end
             _users[identifier].SaveUser()
-            print("Player ^2", GetPlayerName(_source) .. " ^7steam:^3 " .. identifier .. "^7 saved")
+            if Config.PrintPlayerInfoOnLeave then
+                print("Player ^2", GetPlayerName(_source) .. " ^7steam:^3 " .. identifier .. "^7 saved")
+            end
             Wait(10000)
             _users[identifier] = nil
         end

@@ -5,7 +5,8 @@
 Config = {
 
     autoUpdateDB = true,
-
+    PrintPlayerInfoOnLeave = false, -- print in server console information of players leaving
+    PrintPlayerInfoOnEnter = false, -- print player info on server console when enter server
     --======================== STARTING POINT ===========================--
 
     initGold     = 0.0,
