@@ -162,7 +162,7 @@ end
 
 local ProcessCamControls = function()
     local playerPed = PlayerPedId()
-    local playerCoords = GetEntityCoords(playerPed)
+    local playerCoords = ProcessNewPosition()
     local newPos = playerCoords
     SetCamCoord(cam, newPos.x, newPos.y, newPos.z)
     PointCamAtCoord(cam, playerCoords.x, playerCoords.y, playerCoords.z + 0.5)
