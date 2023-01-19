@@ -107,24 +107,27 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName)
     end
     Wait(2000)
     HealPlayer() -- heal fully the player
-    --  DoScreenFadeIn(3000)
-    keepdown = true
-    CreateThread(function() -- tread to keep player down
-        while keepdown do
-            Wait(0)
-            SetPedToRagdoll(PlayerPedId(), 4000, 4000, 0, 0, 0, 0)
-            ResetPedRagdollTimer(PlayerPedId())
-        end
-    end)
-    AnimpostfxPlay("Title_Gen_FewHoursLater")
-    Wait(3000) -- maybe add here something funny ?
+    if Config.RagdollOnResurrection then
+        --  DoScreenFadeIn(3000)
+        keepdown = true
+        CreateThread(function() -- tread to keep player down
+            while keepdown do
+                Wait(0)
+                SetPedToRagdoll(PlayerPedId(), 4000, 4000, 0, 0, 0, 0)
+                ResetPedRagdollTimer(PlayerPedId())
+            end
+        end)
+        AnimpostfxPlay("Title_Gen_FewHoursLater")
+        Wait(3000) -- maybe add here something funny ?
+    end
     DoScreenFadeIn(2000)
     AnimpostfxPlay("PlayerWakeUpInterrogation") -- disabled
     Wait(19000)
     keepdown = false
+    
     local dict = "minigames_hud"
     local icon = "five_finger_burnout"
-    TriggerEvent('vorp:NotifyLeft', currentHospitalName, Config.Langs.message5,
+    TriggerEvent('vorp:NotifyLeft', currentHospitalName or '...', Config.Langs.message5,
         dict, icon
         , 8000, "COLOR_PURE_WHITE")
 end

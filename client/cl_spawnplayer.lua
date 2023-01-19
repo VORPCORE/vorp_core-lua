@@ -6,6 +6,7 @@ local enableTypeRadar = Config.enableTypeRadar
 local HealthData = {}
 local pvp = Config.PVP
 local playerHash = GetHashKey("PLAYER")
+local multiplierHealth
 
 --===================================== FUNCTIONS ======================================--
 setPVP = function()
@@ -61,6 +62,33 @@ AddEventHandler('playerSpawned', function()
 
 end)
 
+--====================================== CAN BE DAMAGED TO PLAYERSPAWN ======================================
+local damage
+Citizen.CreateThread(function()
+	while not Config.CanBeDamagedToSpawn and not damage do
+		if Citizen.InvokeNative(0x75DF9E73F2F005FD, PlayerPedId()) then	-- GetEntityCanBeDamaged
+			SetEntityCanBeDamaged(PlayerPedId(), false)
+		end
+		Citizen.Wait(4)
+	end
+	SetEntityCanBeDamaged(PlayerPedId(), true)
+end)
+
+--====================================== APPLY HEALTHRECHARGE WHEN CHARACTER RC ======================================
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(500)
+        local multiplier = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
+
+        if multiplierHealth and multiplierHealth ~= multiplier then
+            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier)  -- SetPlayerHealthRechargeMultiplier
+
+        elseif not multiplierHealth and multiplier then
+            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0)  -- SetPlayerHealthRechargeMultiplier
+        end
+    end
+end)
+
 --================================ EVENTS ============================================--
 
 RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
@@ -68,6 +96,8 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
     TeleportToCoords(coords, heading) -- teleport player to coords
 
     if isdead then -- is player dead
+        damage = true
+
         if not Config.CombatLogDeath then
             --start loading screen
             if Config.Loadinscreen then
@@ -109,13 +139,19 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             SetEntityHealth(player, HealthData.hOuter + HealthData.hInner)
             Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner)
             Citizen.InvokeNative(0x675680D089BFA21F, player, HealthData.sOuter / 1065353215 * 100)
-            if Config.DisableRecharge then
-                Citizen.InvokeNative(0xDE1B1907A83A1550, player, 0) --SetHealthRechargeMultiplier
-            end
             HealthData = {}
         else
             HealPlayer()
         end
+
+        if not Config.HealthRecharge.enable then
+            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0)   -- SetPlayerHealthRechargeMultiplier
+        else
+            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier)  -- SetPlayerHealthRechargeMultiplier
+            multiplierHealth = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
+        end
+
+        damage = true
     end
 end)
 
