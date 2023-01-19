@@ -51,40 +51,52 @@ AddEventHandler('playerSpawned', function()
     TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557) --instance players
     Wait(2000)
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost) -- try to hide arthur spawning
-    DisplayRadar(false) --hide HUD on player select char
+    DisplayRadar(false) --hide RADAR on player select char
     SetMinimapHideFow(false) -- hide map fog of war
     Wait(2000)
     TriggerServerEvent("vorp:playerSpawn")
-    Wait(6000) -- wait to load in
-    ExecuteCommand("rc") --reload char
+    Wait(9000) -- give time to load in
+    ExecuteCommand("rc") --reload char so it doesnt come invisible
     Wait(2000)
     ShutdownLoadingScreen()
+    CreateThread(function()
 
+        while firstSpawn do -- trigger on spawn
+            Wait(0)
+            DisableControlAction(0, `INPUT_MP_TEXT_CHAT_ALL`, true) --T
+            DisableControlAction(0, `INPUT_QUICK_USE_ITEM`, true) -- I add ahere the button you chose to open inventory
+            --add more here if you wish
+            if not firstSpawn then -- break after select char
+                break
+            end
+        end
+    end)
+    -- hide your ui here
 end)
 
 --====================================== CAN BE DAMAGED TO PLAYERSPAWN ======================================
 local damage
-Citizen.CreateThread(function()
-	while not Config.CanBeDamagedToSpawn and not damage do
-		if Citizen.InvokeNative(0x75DF9E73F2F005FD, PlayerPedId()) then	-- GetEntityCanBeDamaged
-			SetEntityCanBeDamaged(PlayerPedId(), false)
-		end
-		Citizen.Wait(4)
-	end
-	SetEntityCanBeDamaged(PlayerPedId(), true)
+CreateThread(function()
+    while not Config.CanBeDamagedToSpawn and not damage do
+        if Citizen.InvokeNative(0x75DF9E73F2F005FD, PlayerPedId()) then -- GetEntityCanBeDamaged
+            SetEntityCanBeDamaged(PlayerPedId(), false)
+        end
+        Wait(0)
+    end
+    SetEntityCanBeDamaged(PlayerPedId(), true)
 end)
 
 --====================================== APPLY HEALTHRECHARGE WHEN CHARACTER RC ======================================
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(500)
+        Wait(500)
         local multiplier = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
 
         if multiplierHealth and multiplierHealth ~= multiplier then
-            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier)  -- SetPlayerHealthRechargeMultiplier
+            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
 
         elseif not multiplierHealth and multiplier then
-            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0)  -- SetPlayerHealthRechargeMultiplier
+            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0) -- SetPlayerHealthRechargeMultiplier
         end
     end
 end)
@@ -145,9 +157,9 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
         end
 
         if not Config.HealthRecharge.enable then
-            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0)   -- SetPlayerHealthRechargeMultiplier
+            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0) -- SetPlayerHealthRechargeMultiplier
         else
-            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier)  -- SetPlayerHealthRechargeMultiplier
+            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
             multiplierHealth = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
         end
 
@@ -194,9 +206,9 @@ end)
 
 --================================= THREADS ============================================--
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(0)
+        Wait(0)
 
         local pped = PlayerPedId()
         DisableControlAction(0, 0x580C4473, true) -- Disable hud
