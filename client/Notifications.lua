@@ -72,7 +72,7 @@ exports("ShowTopNotification", function(title, subtext, duration)
     Citizen.InvokeNative(0xA6F4216AB10EB08E, struct1:Buffer(), struct2:Buffer(), 1, 1)
 end)
 
-exports("ShowAdvancedRightNotification", function(_text, _dict, icon, text_color, duration, quality)
+exports("ShowAdvancedRightNotification", function(_text, _dict, icon, text_color, duration, quality, showquality)
     local text = CreateVarString(10, "LITERAL_STRING", _text)
     local dict = CreateVarString(10, "LITERAL_STRING", _dict)
     local sdict = CreateVarString(10, "LITERAL_STRING", "Transaction_Feed_Sounds")
@@ -82,14 +82,14 @@ exports("ShowAdvancedRightNotification", function(_text, _dict, icon, text_color
     struct1:SetInt32(8 * 0, Duration)
     struct1:SetInt64(8 * 1, bigInt(sdict))
     struct1:SetInt64(8 * 2, bigInt(sound))
-
     local struct2 = DataView.ArrayBuffer(8 * 10)
     struct2:SetInt64(8 * 1, bigInt(text))
     struct2:SetInt64(8 * 2, bigInt(dict))
     struct2:SetInt64(8 * 3, bigInt(GetHashKey(icon)))
     struct2:SetInt64(8 * 5, bigInt(GetHashKey(text_color or "COLOR_WHITE")))
-    struct2:SetInt32(8 * 6, quality or 1)
-
+    if showquality then
+        struct2:SetInt32(8 * 6, quality or 1)
+    end
     Citizen.InvokeNative(0xB249EBCB30DD88E0, struct1:Buffer(), struct2:Buffer(), 1)
 end)
 

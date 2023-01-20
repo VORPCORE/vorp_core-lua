@@ -171,9 +171,10 @@ AddEventHandler('getCore', function(cb)
         TriggerClientEvent('vorp:ShowTopNotification', _source, text, subtitle, duration)
     end
 
-    coreData.NotifyAvanced = function(source, text, dict, icon, text_color, duration)
+    coreData.NotifyAvanced = function(source, text, dict, icon, text_color, duration, quality, showquality)
         local _source = source
-        TriggerClientEvent('vorp:ShowAdvancedRightNotification', _source, text, dict, icon, text_color, duration)
+        TriggerClientEvent('vorp:ShowAdvancedRightNotification', _source, text, dict, icon, text_color, duration, quality
+            , showquality)
     end
 
     coreData.NotifyCenter = function(source, text, duration, color)
