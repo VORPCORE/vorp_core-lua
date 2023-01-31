@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/level.css" />
+  </head>
+  <body>
+    <div id="app">
+
+      <Transition>
+        <div
+          id="icon-content"
+          :class="contentstyle"
+          v-show="visible && initiated"
+        >
+
+          <div v-for="(row, index) in iconrows">
+            <div :class="`content-row ${index}`" v-show="!row.type && !row.hide">
+              <span class="content-font">{{row.value}}<span class="decimal" v-if="row.decimal">{{row.decimal}}</span></span>
+              <img :src="row.image" />
+            </div>
+            <div class="content-row" v-show="row.type == 'progress' && !row.hide">
+              <div class="content-font lvl-txt">{{row.value}}</div>
+              <div :class="`progress-circle progress-state-${row.anim}`">
+                  <div class="circle">
+                    <div class="full progress-circle-slice">
+                      <div class="progress-circle-fill"></div>
+                    </div>
+                    <div class="progress-circle-slice">
+                      <div class="progress-circle-fill"></div>
+                      <div class="progress-circle-fill progress-circle-bar"></div>
+                    </div>
+                  </div>
+                  <div class="progress-circle-overlay">
+                    <img :src="row.image" />
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </div>
+  </body>
+</html>
+
+<script src="vendor/vue.js"></script>
+<script src="app.js"></script>

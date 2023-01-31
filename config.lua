@@ -71,9 +71,17 @@ Config = {
     },
 
     ------------------------------------------------------------------------------
-    ------------------------- SHOW OR HIDE UI's ----------------------------------
+    ------------------------- UI Configurations ----------------------------------
+    HideUi            = false, -- Show or Hide the Overall UI
+    HideGold          = false, --disables Gold UI for all
+    HideMoney         = false, --disables Money UI for all
+    HideLevel         = false, --disables Level UI for all
+    HideID            = false, --disables ID UI for all
+    HideTokens        = false, --disables Token UI for all
+    UIPosition        = 'TopRight', -- Changes position of UI. Options: BottomRight, MiddleRight, TopRight
 
-    HideUi            = true, --show or hide the UI includes  gold cash ID and level bar  the cash gold ID are now being displayed in the inventory. you can disable this one if you like it more
+    ------------------------------------------------------------------------------
+    ------------------------- MAP Configurations ----------------------------------
     mapTypeOnFoot     = 3, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on foot
     mapTypeOnMount    = 3, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on horse
     enableTypeRadar   = false, --- if true the above will work, if false players can choose their radar type in the game settings.

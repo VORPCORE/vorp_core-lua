@@ -1,0 +1,750 @@
+:root {
+    --size: 1.8rem;
+    --clip: 0.9rem;
+    --innersize: 1.4rem;
+}
+
+.progress-circle {
+  width: var(--size);
+  height: var(--size);
+  background-color: #8d8c8c8c;
+  border-radius: 50%;
+  position: relative;
+  margin-right: -0.2rem;
+}
+.progress-circle .progress-circle-slice,
+.progress-circle .progress-circle-fill {
+  width: var(--size);
+  height: var(--size);
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  transition: all 1s;
+  border-radius: 50%;
+}
+.progress-circle .progress-circle-slice {
+  clip: rect(0px, var(--size), var(--size), var(--clip));
+}
+.progress-circle .progress-circle-slice .progress-circle-fill {
+  clip: rect(0px, var(--clip), var(--size), 0px);
+  background-color: #c25c5c;
+}
+.progress-circle .progress-circle-overlay, .progress-circle .progress-circle-overlay img {
+  width: var(--innersize);
+  height: var(--innersize);
+  position: absolute;
+  background-color: #afacac;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+.progress-state-0 .progress-circle-slice.full,
+.progress-state-0 .progress-circle-fill {
+  transform: rotate(0deg);
+}
+.progress-state-0 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(0deg);
+}
+.progress-state-1 .progress-circle-slice.full,
+.progress-state-1 .progress-circle-fill {
+  transform: rotate(1.8deg);
+}
+.progress-state-1 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(3.6deg);
+}
+.progress-state-2 .progress-circle-slice.full,
+.progress-state-2 .progress-circle-fill {
+  transform: rotate(3.6deg);
+}
+.progress-state-2 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(7.2deg);
+}
+.progress-state-3 .progress-circle-slice.full,
+.progress-state-3 .progress-circle-fill {
+  transform: rotate(5.4deg);
+}
+.progress-state-3 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(10.8deg);
+}
+.progress-state-4 .progress-circle-slice.full,
+.progress-state-4 .progress-circle-fill {
+  transform: rotate(7.2deg);
+}
+.progress-state-4 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(14.4deg);
+}
+.progress-state-5 .progress-circle-slice.full,
+.progress-state-5 .progress-circle-fill {
+  transform: rotate(9deg);
+}
+.progress-state-5 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(18deg);
+}
+.progress-state-6 .progress-circle-slice.full,
+.progress-state-6 .progress-circle-fill {
+  transform: rotate(10.8deg);
+}
+.progress-state-6 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(21.6deg);
+}
+.progress-state-7 .progress-circle-slice.full,
+.progress-state-7 .progress-circle-fill {
+  transform: rotate(12.6deg);
+}
+.progress-state-7 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(25.2deg);
+}
+.progress-state-8 .progress-circle-slice.full,
+.progress-state-8 .progress-circle-fill {
+  transform: rotate(14.4deg);
+}
+.progress-state-8 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(28.8deg);
+}
+.progress-state-9 .progress-circle-slice.full,
+.progress-state-9 .progress-circle-fill {
+  transform: rotate(16.2deg);
+}
+.progress-state-9 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(32.4deg);
+}
+.progress-state-10 .progress-circle-slice.full,
+.progress-state-10 .progress-circle-fill {
+  transform: rotate(18deg);
+}
+.progress-state-10 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(36deg);
+}
+.progress-state-11 .progress-circle-slice.full,
+.progress-state-11 .progress-circle-fill {
+  transform: rotate(19.8deg);
+}
+.progress-state-11 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(39.6deg);
+}
+.progress-state-12 .progress-circle-slice.full,
+.progress-state-12 .progress-circle-fill {
+  transform: rotate(21.6deg);
+}
+.progress-state-12 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(43.2deg);
+}
+.progress-state-13 .progress-circle-slice.full,
+.progress-state-13 .progress-circle-fill {
+  transform: rotate(23.4deg);
+}
+.progress-state-13 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(46.8deg);
+}
+.progress-state-14 .progress-circle-slice.full,
+.progress-state-14 .progress-circle-fill {
+  transform: rotate(25.2deg);
+}
+.progress-state-14 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(50.4deg);
+}
+.progress-state-15 .progress-circle-slice.full,
+.progress-state-15 .progress-circle-fill {
+  transform: rotate(27deg);
+}
+.progress-state-15 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(54deg);
+}
+.progress-state-16 .progress-circle-slice.full,
+.progress-state-16 .progress-circle-fill {
+  transform: rotate(28.8deg);
+}
+.progress-state-16 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(57.6deg);
+}
+.progress-state-17 .progress-circle-slice.full,
+.progress-state-17 .progress-circle-fill {
+  transform: rotate(30.6deg);
+}
+.progress-state-17 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(61.2deg);
+}
+.progress-state-18 .progress-circle-slice.full,
+.progress-state-18 .progress-circle-fill {
+  transform: rotate(32.4deg);
+}
+.progress-state-18 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(64.8deg);
+}
+.progress-state-19 .progress-circle-slice.full,
+.progress-state-19 .progress-circle-fill {
+  transform: rotate(34.2deg);
+}
+.progress-state-19 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(68.4deg);
+}
+.progress-state-20 .progress-circle-slice.full,
+.progress-state-20 .progress-circle-fill {
+  transform: rotate(36deg);
+}
+.progress-state-20 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(72deg);
+}
+.progress-state-21 .progress-circle-slice.full,
+.progress-state-21 .progress-circle-fill {
+  transform: rotate(37.8deg);
+}
+.progress-state-21 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(75.6deg);
+}
+.progress-state-22 .progress-circle-slice.full,
+.progress-state-22 .progress-circle-fill {
+  transform: rotate(39.6deg);
+}
+.progress-state-22 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(79.2deg);
+}
+.progress-state-23 .progress-circle-slice.full,
+.progress-state-23 .progress-circle-fill {
+  transform: rotate(41.4deg);
+}
+.progress-state-23 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(82.8deg);
+}
+.progress-state-24 .progress-circle-slice.full,
+.progress-state-24 .progress-circle-fill {
+  transform: rotate(43.2deg);
+}
+.progress-state-24 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(86.4deg);
+}
+.progress-state-25 .progress-circle-slice.full,
+.progress-state-25 .progress-circle-fill {
+  transform: rotate(45deg);
+}
+.progress-state-25 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(90deg);
+}
+.progress-state-26 .progress-circle-slice.full,
+.progress-state-26 .progress-circle-fill {
+  transform: rotate(46.8deg);
+}
+.progress-state-26 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(93.6deg);
+}
+.progress-state-27 .progress-circle-slice.full,
+.progress-state-27 .progress-circle-fill {
+  transform: rotate(48.6deg);
+}
+.progress-state-27 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(97.2deg);
+}
+.progress-state-28 .progress-circle-slice.full,
+.progress-state-28 .progress-circle-fill {
+  transform: rotate(50.4deg);
+}
+.progress-state-28 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(100.8deg);
+}
+.progress-state-29 .progress-circle-slice.full,
+.progress-state-29 .progress-circle-fill {
+  transform: rotate(52.2deg);
+}
+.progress-state-29 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(104.4deg);
+}
+.progress-state-30 .progress-circle-slice.full,
+.progress-state-30 .progress-circle-fill {
+  transform: rotate(54deg);
+}
+.progress-state-30 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(108deg);
+}
+.progress-state-31 .progress-circle-slice.full,
+.progress-state-31 .progress-circle-fill {
+  transform: rotate(55.8deg);
+}
+.progress-state-31 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(111.6deg);
+}
+.progress-state-32 .progress-circle-slice.full,
+.progress-state-32 .progress-circle-fill {
+  transform: rotate(57.6deg);
+}
+.progress-state-32 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(115.2deg);
+}
+.progress-state-33 .progress-circle-slice.full,
+.progress-state-33 .progress-circle-fill {
+  transform: rotate(59.4deg);
+}
+.progress-state-33 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(118.8deg);
+}
+.progress-state-34 .progress-circle-slice.full,
+.progress-state-34 .progress-circle-fill {
+  transform: rotate(61.2deg);
+}
+.progress-state-34 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(122.4deg);
+}
+.progress-state-35 .progress-circle-slice.full,
+.progress-state-35 .progress-circle-fill {
+  transform: rotate(63deg);
+}
+.progress-state-35 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(126deg);
+}
+.progress-state-36 .progress-circle-slice.full,
+.progress-state-36 .progress-circle-fill {
+  transform: rotate(64.8deg);
+}
+.progress-state-36 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(129.6deg);
+}
+.progress-state-37 .progress-circle-slice.full,
+.progress-state-37 .progress-circle-fill {
+  transform: rotate(66.6deg);
+}
+.progress-state-37 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(133.2deg);
+}
+.progress-state-38 .progress-circle-slice.full,
+.progress-state-38 .progress-circle-fill {
+  transform: rotate(68.4deg);
+}
+.progress-state-38 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(136.8deg);
+}
+.progress-state-39 .progress-circle-slice.full,
+.progress-state-39 .progress-circle-fill {
+  transform: rotate(70.2deg);
+}
+.progress-state-39 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(140.4deg);
+}
+.progress-state-40 .progress-circle-slice.full,
+.progress-state-40 .progress-circle-fill {
+  transform: rotate(72deg);
+}
+.progress-state-40 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(144deg);
+}
+.progress-state-41 .progress-circle-slice.full,
+.progress-state-41 .progress-circle-fill {
+  transform: rotate(73.8deg);
+}
+.progress-state-41 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(147.6deg);
+}
+.progress-state-42 .progress-circle-slice.full,
+.progress-state-42 .progress-circle-fill {
+  transform: rotate(75.6deg);
+}
+.progress-state-42 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(151.2deg);
+}
+.progress-state-43 .progress-circle-slice.full,
+.progress-state-43 .progress-circle-fill {
+  transform: rotate(77.4deg);
+}
+.progress-state-43 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(154.8deg);
+}
+.progress-state-44 .progress-circle-slice.full,
+.progress-state-44 .progress-circle-fill {
+  transform: rotate(79.2deg);
+}
+.progress-state-44 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(158.4deg);
+}
+.progress-state-45 .progress-circle-slice.full,
+.progress-state-45 .progress-circle-fill {
+  transform: rotate(81deg);
+}
+.progress-state-45 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(162deg);
+}
+.progress-state-46 .progress-circle-slice.full,
+.progress-state-46 .progress-circle-fill {
+  transform: rotate(82.8deg);
+}
+.progress-state-46 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(165.6deg);
+}
+.progress-state-47 .progress-circle-slice.full,
+.progress-state-47 .progress-circle-fill {
+  transform: rotate(84.6deg);
+}
+.progress-state-47 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(169.2deg);
+}
+.progress-state-48 .progress-circle-slice.full,
+.progress-state-48 .progress-circle-fill {
+  transform: rotate(86.4deg);
+}
+.progress-state-48 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(172.8deg);
+}
+.progress-state-49 .progress-circle-slice.full,
+.progress-state-49 .progress-circle-fill {
+  transform: rotate(88.2deg);
+}
+.progress-state-49 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(176.4deg);
+}
+.progress-state-50 .progress-circle-slice.full,
+.progress-state-50 .progress-circle-fill {
+  transform: rotate(90deg);
+}
+.progress-state-50 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(180deg);
+}
+.progress-state-51 .progress-circle-slice.full,
+.progress-state-51 .progress-circle-fill {
+  transform: rotate(91.8deg);
+}
+.progress-state-51 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(183.6deg);
+}
+.progress-state-52 .progress-circle-slice.full,
+.progress-state-52 .progress-circle-fill {
+  transform: rotate(93.6deg);
+}
+.progress-state-52 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(187.2deg);
+}
+.progress-state-53 .progress-circle-slice.full,
+.progress-state-53 .progress-circle-fill {
+  transform: rotate(95.4deg);
+}
+.progress-state-53 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(190.8deg);
+}
+.progress-state-54 .progress-circle-slice.full,
+.progress-state-54 .progress-circle-fill {
+  transform: rotate(97.2deg);
+}
+.progress-state-54 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(194.4deg);
+}
+.progress-state-55 .progress-circle-slice.full,
+.progress-state-55 .progress-circle-fill {
+  transform: rotate(99deg);
+}
+.progress-state-55 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(198deg);
+}
+.progress-state-56 .progress-circle-slice.full,
+.progress-state-56 .progress-circle-fill {
+  transform: rotate(100.8deg);
+}
+.progress-state-56 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(201.6deg);
+}
+.progress-state-57 .progress-circle-slice.full,
+.progress-state-57 .progress-circle-fill {
+  transform: rotate(102.6deg);
+}
+.progress-state-57 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(205.2deg);
+}
+.progress-state-58 .progress-circle-slice.full,
+.progress-state-58 .progress-circle-fill {
+  transform: rotate(104.4deg);
+}
+.progress-state-58 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(208.8deg);
+}
+.progress-state-59 .progress-circle-slice.full,
+.progress-state-59 .progress-circle-fill {
+  transform: rotate(106.2deg);
+}
+.progress-state-59 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(212.4deg);
+}
+.progress-state-60 .progress-circle-slice.full,
+.progress-state-60 .progress-circle-fill {
+  transform: rotate(108deg);
+}
+.progress-state-60 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(216deg);
+}
+.progress-state-61 .progress-circle-slice.full,
+.progress-state-61 .progress-circle-fill {
+  transform: rotate(109.8deg);
+}
+.progress-state-61 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(219.6deg);
+}
+.progress-state-62 .progress-circle-slice.full,
+.progress-state-62 .progress-circle-fill {
+  transform: rotate(111.6deg);
+}
+.progress-state-62 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(223.2deg);
+}
+.progress-state-63 .progress-circle-slice.full,
+.progress-state-63 .progress-circle-fill {
+  transform: rotate(113.4deg);
+}
+.progress-state-63 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(226.8deg);
+}
+.progress-state-64 .progress-circle-slice.full,
+.progress-state-64 .progress-circle-fill {
+  transform: rotate(115.2deg);
+}
+.progress-state-64 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(230.4deg);
+}
+.progress-state-65 .progress-circle-slice.full,
+.progress-state-65 .progress-circle-fill {
+  transform: rotate(117deg);
+}
+.progress-state-65 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(234deg);
+}
+.progress-state-66 .progress-circle-slice.full,
+.progress-state-66 .progress-circle-fill {
+  transform: rotate(118.8deg);
+}
+.progress-state-66 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(237.6deg);
+}
+.progress-state-67 .progress-circle-slice.full,
+.progress-state-67 .progress-circle-fill {
+  transform: rotate(120.6deg);
+}
+.progress-state-67 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(241.2deg);
+}
+.progress-state-68 .progress-circle-slice.full,
+.progress-state-68 .progress-circle-fill {
+  transform: rotate(122.4deg);
+}
+.progress-state-68 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(244.8deg);
+}
+.progress-state-69 .progress-circle-slice.full,
+.progress-state-69 .progress-circle-fill {
+  transform: rotate(124.2deg);
+}
+.progress-state-69 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(248.4deg);
+}
+.progress-state-70 .progress-circle-slice.full,
+.progress-state-70 .progress-circle-fill {
+  transform: rotate(126deg);
+}
+.progress-state-70 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(252deg);
+}
+.progress-state-71 .progress-circle-slice.full,
+.progress-state-71 .progress-circle-fill {
+  transform: rotate(127.8deg);
+}
+.progress-state-71 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(255.6deg);
+}
+.progress-state-72 .progress-circle-slice.full,
+.progress-state-72 .progress-circle-fill {
+  transform: rotate(129.6deg);
+}
+.progress-state-72 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(259.2deg);
+}
+.progress-state-73 .progress-circle-slice.full,
+.progress-state-73 .progress-circle-fill {
+  transform: rotate(131.4deg);
+}
+.progress-state-73 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(262.8deg);
+}
+.progress-state-74 .progress-circle-slice.full,
+.progress-state-74 .progress-circle-fill {
+  transform: rotate(133.2deg);
+}
+.progress-state-74 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(266.4deg);
+}
+.progress-state-75 .progress-circle-slice.full,
+.progress-state-75 .progress-circle-fill {
+  transform: rotate(135deg);
+}
+.progress-state-75 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(270deg);
+}
+.progress-state-76 .progress-circle-slice.full,
+.progress-state-76 .progress-circle-fill {
+  transform: rotate(136.8deg);
+}
+.progress-state-76 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(273.6deg);
+}
+.progress-state-77 .progress-circle-slice.full,
+.progress-state-77 .progress-circle-fill {
+  transform: rotate(138.6deg);
+}
+.progress-state-77 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(277.2deg);
+}
+.progress-state-78 .progress-circle-slice.full,
+.progress-state-78 .progress-circle-fill {
+  transform: rotate(140.4deg);
+}
+.progress-state-78 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(280.8deg);
+}
+.progress-state-79 .progress-circle-slice.full,
+.progress-state-79 .progress-circle-fill {
+  transform: rotate(142.2deg);
+}
+.progress-state-79 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(284.4deg);
+}
+.progress-state-80 .progress-circle-slice.full,
+.progress-state-80 .progress-circle-fill {
+  transform: rotate(144deg);
+}
+.progress-state-80 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(288deg);
+}
+.progress-state-81 .progress-circle-slice.full,
+.progress-state-81 .progress-circle-fill {
+  transform: rotate(145.8deg);
+}
+.progress-state-81 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(291.6deg);
+}
+.progress-state-82 .progress-circle-slice.full,
+.progress-state-82 .progress-circle-fill {
+  transform: rotate(147.6deg);
+}
+.progress-state-82 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(295.2deg);
+}
+.progress-state-83 .progress-circle-slice.full,
+.progress-state-83 .progress-circle-fill {
+  transform: rotate(149.4deg);
+}
+.progress-state-83 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(298.8deg);
+}
+.progress-state-84 .progress-circle-slice.full,
+.progress-state-84 .progress-circle-fill {
+  transform: rotate(151.2deg);
+}
+.progress-state-84 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(302.4deg);
+}
+.progress-state-85 .progress-circle-slice.full,
+.progress-state-85 .progress-circle-fill {
+  transform: rotate(153deg);
+}
+.progress-state-85 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(306deg);
+}
+.progress-state-86 .progress-circle-slice.full,
+.progress-state-86 .progress-circle-fill {
+  transform: rotate(154.8deg);
+}
+.progress-state-86 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(309.6deg);
+}
+.progress-state-87 .progress-circle-slice.full,
+.progress-state-87 .progress-circle-fill {
+  transform: rotate(156.6deg);
+}
+.progress-state-87 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(313.2deg);
+}
+.progress-state-88 .progress-circle-slice.full,
+.progress-state-88 .progress-circle-fill {
+  transform: rotate(158.4deg);
+}
+.progress-state-88 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(316.8deg);
+}
+.progress-state-89 .progress-circle-slice.full,
+.progress-state-89 .progress-circle-fill {
+  transform: rotate(160.2deg);
+}
+.progress-state-89 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(320.4deg);
+}
+.progress-state-90 .progress-circle-slice.full,
+.progress-state-90 .progress-circle-fill {
+  transform: rotate(162deg);
+}
+.progress-state-90 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(324deg);
+}
+.progress-state-91 .progress-circle-slice.full,
+.progress-state-91 .progress-circle-fill {
+  transform: rotate(163.8deg);
+}
+.progress-state-91 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(327.6deg);
+}
+.progress-state-92 .progress-circle-slice.full,
+.progress-state-92 .progress-circle-fill {
+  transform: rotate(165.6deg);
+}
+.progress-state-92 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(331.2deg);
+}
+.progress-state-93 .progress-circle-slice.full,
+.progress-state-93 .progress-circle-fill {
+  transform: rotate(167.4deg);
+}
+.progress-state-93 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(334.8deg);
+}
+.progress-state-94 .progress-circle-slice.full,
+.progress-state-94 .progress-circle-fill {
+  transform: rotate(169.2deg);
+}
+.progress-state-94 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(338.4deg);
+}
+.progress-state-95 .progress-circle-slice.full,
+.progress-state-95 .progress-circle-fill {
+  transform: rotate(171deg);
+}
+.progress-state-95 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(342deg);
+}
+.progress-state-96 .progress-circle-slice.full,
+.progress-state-96 .progress-circle-fill {
+  transform: rotate(172.8deg);
+}
+.progress-state-96 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(345.6deg);
+}
+.progress-state-97 .progress-circle-slice.full,
+.progress-state-97 .progress-circle-fill {
+  transform: rotate(174.6deg);
+}
+.progress-state-97 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(349.2deg);
+}
+.progress-state-98 .progress-circle-slice.full,
+.progress-state-98 .progress-circle-fill {
+  transform: rotate(176.4deg);
+}
+.progress-state-98 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(352.8deg);
+}
+.progress-state-99 .progress-circle-slice.full,
+.progress-state-99 .progress-circle-fill {
+  transform: rotate(178.2deg);
+}
+.progress-state-99 .progress-circle-fill.progress-circle-bar {
+  transform: rotate(356.4deg);
+}
+.progress-state-100 .progress-circle-slice.full,
+.progress-state-100 .progress-circle-fill {
+  transform: rotate(180deg);
+}
+.progress-state-100
+  .progress-circle-fill.progress-circle-bar {
+  transform: rotate(360deg);
+}
