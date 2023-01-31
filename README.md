@@ -16,6 +16,11 @@ If you have the C# version of the core and want to replace it, it's just drag an
 
 ---
 
+## Screenshot
+![image](https://user-images.githubusercontent.com/10902965/215692452-200c3460-9adc-4437-becc-6bda01ed3cb9.png)
+
+---
+
 ## some of the features 
 - admin commands 
 - client commands
