@@ -13,8 +13,8 @@ shared_script 'config.lua'
 
 client_scripts {
   'client/Notifications.lua',
-  'client/cl_commands.lua',
   'client/cl_*.lua',
+  'client/cl_commands.lua',
   'client/services/*.lua',
   'client/services/Regex.js'
 }
