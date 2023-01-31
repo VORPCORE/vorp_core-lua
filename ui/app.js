@@ -11,17 +11,17 @@ createApp({
           hide: true,
           image: './assets/icons/token.png'
         },
-        money: {
-          value: 0,
-          decimal: '00',
-          hide: true,
-          image: './assets/icons/money.png'
-        },
         gold: {
           value: 0,
           decimal: '00',
           hide: true,
           image: './assets/icons/gold.png'
+        },
+        money: {
+          value: 0,
+          decimal: '00',
+          hide: true,
+          image: './assets/icons/money.png'
         },
         id: {
           value: 0,
