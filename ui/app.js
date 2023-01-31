@@ -8,24 +8,24 @@ createApp({
       iconrows: {
         token: {
           value: 0,
-          show: false,
+          hide: true,
           image: './assets/icons/token.png'
         },
         money: {
           value: 0,
           decimal: '00',
-          show: false,
+          hide: true,
           image: './assets/icons/money.png'
         },
         gold: {
           value: 0,
           decimal: '00',
-          show: false,
+          hide: true,
           image: './assets/icons/gold.png'
         },
         id: {
           value: 0,
-          show: false,
+          hide: true,
           image: './assets/icons/id.png'
         },
         lv: {
@@ -33,7 +33,7 @@ createApp({
           value: 0,
           raw: 0,
           anim: 0,
-          show: false,
+          hide: true,
           type: 'progress',
           image: './assets/icons/lv.png'
         },
@@ -70,11 +70,12 @@ createApp({
         switch (event.data.action) {
           case "initiate":
             this.initiated = true
-            this.iconrows.money.show = !item.hidemoney
-            this.iconrows.gold.show = !item.hidegold
-            this.iconrows.lv.show = !item.hidelevel
-            this.iconrows.id.show = !item.hideid
-            this.iconrows.token.show = !item.hidetokens
+            this.iconrows.money.hide = item.hidemoney
+            this.iconrows.gold.hide = item.hidegold
+            this.iconrows.lv.hide = item.hidelevel
+            this.iconrows.id.hide = item.hideid
+            this.iconrows.token.hide = item.hidetokens
+            this.uiposition = item.uiposition
             break;
           case "update":
             this.iconrows.money.value = Math.trunc(item.moneyquanty + 0.0);
