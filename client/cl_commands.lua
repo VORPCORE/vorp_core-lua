@@ -3,10 +3,16 @@
 PlayersCommands = {
     hideui = {
         command = "hideui",
-        suggestion = "VORPcore command to HIDE all UI's from screen, nice to take screenshots."
+        suggestion = "VORPcore command to HIDE all UI's from screen, nice to take screenshots." 
+    },
+    toggleui = {
+        command = "toggleui",
+        suggestion = "VORPcore command to toggle vorp UI's from screen"
+        
     },
     clear = {
-        command = "cleartask", suggestion = "VORPcore command to use if you are stuck on an animation."
+        command = "cleartask",
+        suggestion = "VORPcore command to use if you are stuck on an animation."
     },
     pvp = {
         command = "pvp",
@@ -14,25 +20,13 @@ PlayersCommands = {
     }
 }
 
-local hideUI = true
-
 CreateThread(function()
     for _, value in pairs(PlayersCommands) do
         RegisterCommand(value.command, function(source, args)
             if value.command == "hideui" then
-                if hideUI then
-                    ExecuteCommand("togglechat") -- hide chat
-                    DisplayRadar(false)
-                    TriggerEvent("syn_displayrange", false) -- hud voice
-                    TriggerEvent("vorp:showUi", false) -- vorpui
-                    hideUI = false
-                else
-                    ExecuteCommand("togglechat")
-                    DisplayRadar(true)
-                    TriggerEvent("syn_displayrange", true)
-                    TriggerEvent("vorp:showUi", true)
-                    hideUI = true
-                end
+                ToggleAllUI()
+            elseif value.command == "toggleui" then
+                ToggleVorpUI()
             elseif value.command == "cleartask" then
                 local player = PlayerPedId()
                 ClearPedTasksImmediately(player)

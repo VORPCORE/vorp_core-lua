@@ -13,7 +13,10 @@ shared_script 'config.lua'
 
 client_scripts {
   'client/Notifications.lua',
+  'client/cl_commands.lua',
   'client/cl_*.lua',
+  'client/services/*.lua',
+  'client/services/Regex.js'
 }
 
 server_scripts {
@@ -22,8 +25,15 @@ server_scripts {
   'server/services/*.lua',
   'server/services/dbupdater/*.lua'
 }
-files { 'ui/**/*' }
-ui_page 'ui/hud.html'
+
+files {
+  'ui/**/*',
+  'ui/assets/**/*',
+  'ui/vendor/*',
+  'ui/style/*'
+}
+
+ui_page 'ui/index.html'
 
 --========================================== DEPRECATED ====================================================--
 

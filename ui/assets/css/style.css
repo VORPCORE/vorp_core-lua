@@ -1,0 +1,97 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: rdr;
+    src: url(../fonts/rdrlino-regular-webfont.woff);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: transparent;
+    overflow: hidden;
+}
+
+#app {
+    font-family: rdr;
+    touch-action: manipulation;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #fff;
+
+    height: 100vh;
+    width: 100vw;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.8s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+.content-bottom-right {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+}
+
+.content-top-right {
+    position: absolute;
+    top: 2.2rem;
+    right: 2rem;
+}
+
+.content-middle-right {
+    position: absolute;
+    top: 50%;
+    right: 2rem;
+    transform: translateY(-50%);
+}
+
+.content-right {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+}
+
+.content-row {
+    text-align: right;
+}
+
+.content-row img{
+    height: 1.6rem;
+    width: 1.6rem;
+    vertical-align: middle;
+}
+
+.content-row div {
+    vertical-align: middle;
+    display: inline-flex;
+}
+
+.content-row .content-font {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.decimal {
+    font-size: 1.5rem;
+}
+
+.gold .decimal {
+    text-decoration: underline #d89a2e;
+}
+
+.money .decimal {
+    text-decoration: underline #049904;    
+}
