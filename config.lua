@@ -79,6 +79,10 @@ Config = {
     HideID            = false, --disables ID UI for all
     HideTokens        = false, --disables Token UI for all
     UIPosition        = 'TopRight', -- Changes position of UI. Options: BottomRight, MiddleRight, TopRight
+    HideWithRader     = true, -- UI will hide whenever the radar(minimap) is hidden
+    OpenAfterRader    = true, -- UI will show whenever the radar(minimap) is showing again
+    CloseOnDelay      = false, -- UI will automatically close after an amount of time
+    CloseOnDelayMS    = 10000, -- CloseOnDelays time in miliseconds, 10000 = 10seconds
 
     ------------------------------------------------------------------------------
     ------------------------- MAP Configurations ----------------------------------

@@ -38,7 +38,9 @@ createApp({
           image: './assets/icons/lv.png'
         },
       },
-      uiposition: 'TopRight'
+      uiposition: 'TopRight',
+      closeondelay: false,
+      closeondelayms: 0
     };
   },
   mounted() {
@@ -76,6 +78,9 @@ createApp({
             this.iconrows.id.hide = item.hideid
             this.iconrows.token.hide = item.hidetokens
             this.uiposition = item.uiposition
+            this.closeondelay = item.closeondelay
+            this.closeondelayms = item.closeondelayms
+
             break;
           case "update":
             this.iconrows.money.value = Math.trunc(item.moneyquanty + 0.0);
@@ -117,6 +122,15 @@ createApp({
             break;
           case "show":
             this.visible = true;
+
+            if (this.closeondelay) {
+              setTimeout(() => {
+                this.visible = false
+                fetch(`https://${GetParentResourceName()}/close`, {
+                  method: 'POST'
+                })
+              }, this.closeondelayms);
+            }
             break;
           default:
             break;

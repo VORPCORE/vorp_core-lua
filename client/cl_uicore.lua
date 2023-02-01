@@ -1,15 +1,13 @@
-local vorpHideUI = true
-
+local vorpShowUI = true
 
 RegisterNetEvent('vorp:updateUi', function(stringJson)
     SendNUIMessage(json.decode(stringJson))
 end)
 
 RegisterNetEvent('vorp:showUi', function(active)
+    vorpShowUI = active
     local jsonpost = {type="ui",action="hide"}
     if active then jsonpost = {type="ui",action="show"} end
-
-    vorpHideUI = active
 
     SendNUIMessage(jsonpost)
 end)
@@ -24,33 +22,50 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
         hidelevel = Config.HideLevel,
         hideid = Config.HideID,
         hidetokens = Config.HideTokens,
-        uiposition = Config.UIPosition
+        uiposition = Config.UIPosition,
+        closeondelay = Config.CloseOnDelay,
+        closeondelayms = Config.CloseOnDelayMS
     })
 
-    Citizen.CreateThread(function()
-        while true do
-            if vorpHideUI then
+    if Config.HideWithRader then
+        local cantoggle = not Config.HideUi
+        
+        Citizen.CreateThread(function()
+            while true do
                 if IsRadarHidden() then
+                    cantoggle = true
                     SendNUIMessage({type="ui", action="hide"})
-                    vorpHideUI = false
+                    vorpShowUI = false
+                elseif cantoggle and Config.OpenAfterRader then
+                    cantoggle = false
+                    SendNUIMessage({type="ui", action="show"})
+                    vorpShowUI = true
                 end
-            end
 
-            Citizen.Wait(1000)
-        end
-    end)
+                Citizen.Wait(1000)
+            end
+        end) 
+    end
 end)
 
 function ToggleVorpUI()
-    vorpHideUI = not vorpHideUI
-    TriggerEvent("vorp:showUi", vorpHideUI)
+    vorpShowUI = not vorpShowUI
+
+    TriggerEvent("vorp:showUi", vorpShowUI)
 end
 
-local hideUI = true
+local ShowUI = true
 function ToggleAllUI()
-    hideUI = not hideUI
+    ShowUI = not ShowUI
+
     ExecuteCommand("togglechat")
-    DisplayRadar(hideUI)
-    TriggerEvent("syn_displayrange", hideUI)
-    TriggerEvent("vorp:showUi", hideUI)
+    DisplayRadar(ShowUI)
+    TriggerEvent("syn_displayrange", ShowUI)
+    TriggerEvent("vorp:showUi", ShowUI)
 end
+
+
+RegisterNUICallback('close', function(args, cb)
+    vorpShowUI = false
+    cb('ok')
+end)
