@@ -17,7 +17,9 @@
           <div v-for="(row, index) in iconrows">
             <div :class="`content-row ${index}`" v-show="!row.type && !row.hide">
               <span class="content-font">{{row.value}}<span class="decimal" v-if="row.decimal">{{row.decimal}}</span></span>
-              <img :src="row.image" />
+              
+              <img :src="row.offimage" v-if="row.toggle && row.offimage"/>
+              <img :src="row.image" v-else/>
             </div>
             <div class="content-row" v-show="row.type == 'progress' && !row.hide">
               <div class="content-font lvl-txt">{{row.value}}</div>

@@ -78,6 +78,7 @@ Config = {
     HideLevel         = false, --disables Level UI for all
     HideID            = false, --disables ID UI for all
     HideTokens        = false, --disables Token UI for all
+    HidePVP           = false, --disables PVP UI for all
     UIPosition        = 'TopRight', -- Changes position of UI. Options: BottomRight, MiddleRight, TopRight
     HideWithRader     = true, -- UI will hide whenever the radar(minimap) is hidden
     OpenAfterRader    = true, -- UI will show whenever the radar(minimap) is showing again

@@ -23,6 +23,13 @@ createApp({
           hide: true,
           image: './assets/icons/money.png'
         },
+        pvp: {
+          value: false,
+          hide: true,
+          toggle: false,
+          image: './assets/icons/pvpoff.png',
+          offimage: './assets/icons/pvpon.png'
+        },
         id: {
           value: 0,
           hide: true,
@@ -36,7 +43,7 @@ createApp({
           hide: true,
           type: 'progress',
           image: './assets/icons/lv.png'
-        },
+        }
       },
       uiposition: 'TopRight',
       closeondelay: false,
@@ -80,6 +87,9 @@ createApp({
             this.uiposition = item.uiposition
             this.closeondelay = item.closeondelay
             this.closeondelayms = item.closeondelayms
+            this.iconrows.pvp.hide = item.hidepvp
+            this.iconrows.pvp.toggle = item.pvp
+            this.iconrows.pvp.value = item.pvp ? 'On' : 'Off'
 
             break;
           case "update":
@@ -110,6 +120,10 @@ createApp({
           case "setrol":
             this.iconrows.token.value =  Math.trunc(item.rolquanty);
             break;
+          case "setpvp":
+              this.iconrows.pvp.toggle = item.pvp
+              this.iconrows.pvp.value = item.pvp ? 'ON' : 'OFF'
+              break;
           case "setxp":
             let lvl = item.xp / 1000
             this.iconrows.lv.xp = item.xp
