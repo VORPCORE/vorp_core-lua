@@ -227,7 +227,7 @@ end)
 RegisterNetEvent('vorp:resurrectPlayer', function(just)
     local dont = false
     local justrevive = just or true
-    ResurrectPlayer(dont, justrevive)
+    ResurrectPlayer(dont, nil, justrevive)
 end)
 
 -- respawn player from server side
