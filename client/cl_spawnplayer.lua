@@ -9,6 +9,13 @@ local playerHash = GetHashKey("PLAYER")
 local multiplierHealth, multiplierStamina
 
 --===================================== FUNCTIONS ======================================--
+TogglePVP = function ()
+    pvp = not pvp
+    TriggerEvent("vorp:setPVPUi", pvp)
+    return pvp
+end
+
+
 setPVP = function()
 
     NetworkSetFriendlyFireOption(pvp)

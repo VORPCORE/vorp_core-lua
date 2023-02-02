@@ -23,6 +23,13 @@ createApp({
           hide: true,
           image: './assets/icons/money.png'
         },
+        pvp: {
+          value: false,
+          hide: true,
+          toggle: false,
+          image: './assets/icons/pvpoff.png',
+          offimage: './assets/icons/pvpon.png'
+        },
         id: {
           value: 0,
           hide: true,
@@ -36,9 +43,11 @@ createApp({
           hide: true,
           type: 'progress',
           image: './assets/icons/lv.png'
-        },
+        }
       },
       uiposition: 'TopRight',
+      uilayout: 'Column',
+      uiicons: 'right',
       closeondelay: false,
       closeondelayms: 0
     };
@@ -52,6 +61,18 @@ createApp({
     window.removeEventListener("message");
   },
   computed: {
+    layoutstyle() {
+      switch (this.uilayout) {
+        case 'Column':
+          this.uiicons = 'right'
+          return 'layout-column'
+        case 'Row':
+          this.uiicons = 'left'
+          return 'layout-row'
+        default:
+          return 'layout-column'
+      }
+    },
     contentstyle() {
       switch (this.uiposition) {
         case 'BottomRight':
@@ -60,6 +81,10 @@ createApp({
           return 'content-middle-right'
         case 'TopRight':
           return 'content-top-right'
+        case 'TopMiddle':
+          return 'content-top-middle'
+        case 'BottomMiddle':
+            return 'content-bottom-middle'
         default:
           return 'content-bottom-right'
       }
@@ -78,8 +103,12 @@ createApp({
             this.iconrows.id.hide = item.hideid
             this.iconrows.token.hide = item.hidetokens
             this.uiposition = item.uiposition
+            this.uilayout = item.uilayout
             this.closeondelay = item.closeondelay
             this.closeondelayms = item.closeondelayms
+            this.iconrows.pvp.hide = item.hidepvp
+            this.iconrows.pvp.toggle = item.pvp
+            this.iconrows.pvp.value = item.pvp ? 'On' : 'Off'
 
             break;
           case "update":
@@ -110,6 +139,10 @@ createApp({
           case "setrol":
             this.iconrows.token.value =  Math.trunc(item.rolquanty);
             break;
+          case "setpvp":
+              this.iconrows.pvp.toggle = item.pvp
+              this.iconrows.pvp.value = item.pvp ? 'ON' : 'OFF'
+              break;
           case "setxp":
             let lvl = item.xp / 1000
             this.iconrows.lv.xp = item.xp

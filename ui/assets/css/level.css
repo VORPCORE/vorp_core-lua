@@ -39,7 +39,6 @@
   transform: translate(-50%, -50%);
 }
 
-
 .progress-state-0 .progress-circle-slice.full,
 .progress-state-0 .progress-circle-fill {
   transform: rotate(0deg);

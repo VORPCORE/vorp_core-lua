@@ -12,6 +12,10 @@ RegisterNetEvent('vorp:showUi', function(active)
     SendNUIMessage(jsonpost)
 end)
 
+RegisterNetEvent('vorp:setPVPUi', function(active)
+    SendNUIMessage({type="ui", action="setpvp", pvp=active})
+end)
+
 RegisterNetEvent('vorp:SelectedCharacter', function()
     Citizen.Wait(10000)
     SendNUIMessage({
@@ -23,8 +27,11 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
         hideid = Config.HideID,
         hidetokens = Config.HideTokens,
         uiposition = Config.UIPosition,
+        uilayout = Config.UILayout,
         closeondelay = Config.CloseOnDelay,
-        closeondelayms = Config.CloseOnDelayMS
+        closeondelayms = Config.CloseOnDelayMS,
+        hidepvp = Config.HidePVP,
+        pvp = Config.PVP
     })
 
     if Config.HideWithRader then

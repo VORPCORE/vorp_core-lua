@@ -26,8 +26,9 @@ PlayersCommands = {
         command = "pvp",
         suggestion = "VORPcore command to TOGGLE pvp for your character.",
         run = function ()
-            Pvp = not Pvp
-            if Pvp then
+            local pvp = TogglePVP()
+
+            if pvp then
                 TriggerEvent("vorp:TipRight", Config.Langs.PVPNotifyOn, 4000)
             else
                 TriggerEvent("vorp:TipRight", Config.Langs.PVPNotifyOff, 4000)
