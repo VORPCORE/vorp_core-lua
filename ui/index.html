@@ -6,37 +6,74 @@
   </head>
   <body>
     <div id="app">
-
       <Transition>
         <div
           id="icon-content"
-          :class="contentstyle"
+          :class="`${layoutstyle} ${contentstyle}`"
           v-show="visible && initiated"
         >
+          <div class="icon" v-for="(row, index) in iconrows">
+            <div
+              :class="`content-row ${index}`"
+              v-show="!row.type && !row.hide"
+            >
+              <span v-if="uiicons === 'left'" style="margin-right: 10px;">
+                <img :src="row.offimage" v-if="row.toggle && row.offimage" />
+                <img :src="row.image" v-else />
+              </span>
 
-          <div v-for="(row, index) in iconrows">
-            <div :class="`content-row ${index}`" v-show="!row.type && !row.hide">
-              <span class="content-font">{{row.value}}<span class="decimal" v-if="row.decimal">{{row.decimal}}</span></span>
-              
-              <img :src="row.offimage" v-if="row.toggle && row.offimage"/>
-              <img :src="row.image" v-else/>
+              <span class="content-font"
+                >{{row.value}}<span class="decimal" v-if="row.decimal"
+                  >{{row.decimal}}</span
+                ></span
+              >
+              <span v-if="uiicons === 'right'">
+                <img :src="row.offimage" v-if="row.toggle && row.offimage" />
+                <img :src="row.image" v-else />
+              </span>
             </div>
-            <div class="content-row" v-show="row.type == 'progress' && !row.hide">
-              <div class="content-font lvl-txt">{{row.value}}</div>
-              <div :class="`progress-circle progress-state-${row.anim}`">
+            <div
+              class="content-row"
+              v-show="row.type == 'progress' && !row.hide"
+            >
+              <span v-if="uiicons === 'left'" style="margin-right: 10px;">
+                <div :class="`progress-circle progress-state-${row.anim}`">
                   <div class="circle">
                     <div class="full progress-circle-slice">
                       <div class="progress-circle-fill"></div>
                     </div>
                     <div class="progress-circle-slice">
                       <div class="progress-circle-fill"></div>
-                      <div class="progress-circle-fill progress-circle-bar"></div>
+                      <div
+                        class="progress-circle-fill progress-circle-bar"
+                      ></div>
                     </div>
                   </div>
                   <div class="progress-circle-overlay">
                     <img :src="row.image" />
                   </div>
-              </div>
+                </div>
+              </span>
+
+              <div class="content-font lvl-txt">{{row.value}}</div>
+              <span v-if="uiicons === 'right'">
+                <div :class="`progress-circle progress-state-${row.anim}`">
+                  <div class="circle">
+                    <div class="full progress-circle-slice">
+                      <div class="progress-circle-fill"></div>
+                    </div>
+                    <div class="progress-circle-slice">
+                      <div class="progress-circle-fill"></div>
+                      <div
+                        class="progress-circle-fill progress-circle-bar"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="progress-circle-overlay">
+                    <img :src="row.image" />
+                  </div>
+                </div>
+              </span>
             </div>
           </div>
         </div>

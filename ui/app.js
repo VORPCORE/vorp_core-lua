@@ -46,6 +46,8 @@ createApp({
         }
       },
       uiposition: 'TopRight',
+      uilayout: 'Column',
+      uiicons: 'right',
       closeondelay: false,
       closeondelayms: 0
     };
@@ -59,6 +61,18 @@ createApp({
     window.removeEventListener("message");
   },
   computed: {
+    layoutstyle() {
+      switch (this.uilayout) {
+        case 'Column':
+          this.uiicons = 'right'
+          return 'layout-column'
+        case 'Row':
+          this.uiicons = 'left'
+          return 'layout-row'
+        default:
+          return 'layout-column'
+      }
+    },
     contentstyle() {
       switch (this.uiposition) {
         case 'BottomRight':
@@ -67,6 +81,10 @@ createApp({
           return 'content-middle-right'
         case 'TopRight':
           return 'content-top-right'
+        case 'TopMiddle':
+          return 'content-top-middle'
+        case 'BottomMiddle':
+            return 'content-bottom-middle'
         default:
           return 'content-bottom-right'
       }
@@ -85,6 +103,7 @@ createApp({
             this.iconrows.id.hide = item.hideid
             this.iconrows.token.hide = item.hidetokens
             this.uiposition = item.uiposition
+            this.uilayout = item.uilayout
             this.closeondelay = item.closeondelay
             this.closeondelayms = item.closeondelayms
             this.iconrows.pvp.hide = item.hidepvp

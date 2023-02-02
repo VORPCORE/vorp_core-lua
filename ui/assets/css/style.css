@@ -56,6 +56,21 @@ body {
     transform: translateY(-50%);
 }
 
+.content-top-middle {
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.content-bottom-middle {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
 .content-right {
     position: absolute;
     bottom: 2rem;
@@ -94,4 +109,9 @@ body {
 
 .money .decimal {
     text-decoration: underline #049904;    
+}
+
+.layout-row .icon {
+    display: inline-block;
+    margin-left: 10px;
 }

@@ -27,6 +27,7 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
         hideid = Config.HideID,
         hidetokens = Config.HideTokens,
         uiposition = Config.UIPosition,
+        uilayout = Config.UILayout,
         closeondelay = Config.CloseOnDelay,
         closeondelayms = Config.CloseOnDelayMS,
         hidepvp = Config.HidePVP,
