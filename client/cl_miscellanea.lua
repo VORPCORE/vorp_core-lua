@@ -122,4 +122,14 @@ CreateThread(function()
     end
 end)
 
+--CHECK FOR DESCONNECTING
+RegisterNetEvent('playerSpawned', function()
+    Wait(1500)
+    TriggerServerEvent("vorp_antilag:initialize")
+end)
+
+RegisterNetEvent('vorp_antilag:verify', function()
+    TriggerServerEvent("vorp_antilag:setLagCheck")
+end)
+
 --================================================================================================--
