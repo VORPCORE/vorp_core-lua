@@ -5,6 +5,7 @@
 - other fixes for pvp and UI
 - IMPORTANT 
 - support for MySQL Linting was added 
+- Ethernet support if anyone disconects internet they should be kicked , they can dupe money
 - improvments were also added on saving players data where queries were saving all user characters in game and not only the character he choose this was also being saved before even selecting a charcter
 - there was a wrong char id being assinged on loading a player.
 - this maight fixe users sometimes not be able to enter in the server
