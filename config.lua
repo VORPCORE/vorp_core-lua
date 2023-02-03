@@ -25,7 +25,7 @@ Config = {
     maxStamina            = 10, -- 10 is FULL 0 IS EMPTY define max outer core for players
     PVP                   = true, -- Can players attack/hurt one another
     PVPToggle             = true, -- If true, players can set their own pvp state
-    savePlayersTimer      = 10000, -- this will tell the core in how many miliseconds should all players be saved to the database, decreasing may reduce performance
+    savePlayersTimer      = 10, -- this will tell the core in how many minutes should all players be saved to the database
     showplayerIDwhenfocus = true, -- set false will show steam name when focus on another player RMB
     disableAutoAIM        = true, -- if false players with controllers will have autoaim just like in rdr2
     SavePlayersHours      = false, -- if you want to save players played hours in DB, tx admin already have this
@@ -72,19 +72,19 @@ Config = {
 
     ------------------------------------------------------------------------------
     ------------------------- UI Configurations ----------------------------------
-    HideUi            = false, -- Show or Hide the Overall UI
-    HideGold          = false, --disables Gold UI for all
-    HideMoney         = false, --disables Money UI for all
-    HideLevel         = false, --disables Level UI for all
-    HideID            = false, --disables ID UI for all
-    HideTokens        = false, --disables Token UI for all
-    HidePVP           = false, --disables PVP UI for all
-    UIPosition        = 'TopRight', -- Changes position of UI. Options: BottomRight, MiddleRight, TopRight, TopMiddle, BottomMiddle
-    UILayout          = 'Column', -- Changes the layour of the UI. Options: Row, Column
-    HideWithRader     = true, -- UI will hide whenever the radar(minimap) is hidden
-    OpenAfterRader    = true, -- UI will show whenever the radar(minimap) is showing again
-    CloseOnDelay      = false, -- UI will automatically close after an amount of time
-    CloseOnDelayMS    = 10000, -- CloseOnDelays time in miliseconds, 10000 = 10seconds
+    HideUi         = false, -- Show or Hide the Overall UI
+    HideGold       = false, --disables Gold UI for all
+    HideMoney      = false, --disables Money UI for all
+    HideLevel      = false, --disables Level UI for all
+    HideID         = false, --disables ID UI for all
+    HideTokens     = false, --disables Token UI for all
+    HidePVP        = false, --disables PVP UI for all
+    UIPosition     = 'TopRight', -- Changes position of UI. Options: BottomRight, MiddleRight, TopRight, TopMiddle, BottomMiddle
+    UILayout       = 'Column', -- Changes the layour of the UI. Options: Row, Column
+    HideWithRader  = true, -- UI will hide whenever the radar(minimap) is hidden
+    OpenAfterRader = true, -- UI will show whenever the radar(minimap) is showing again
+    CloseOnDelay   = false, -- UI will automatically close after an amount of time
+    CloseOnDelayMS = 10000, -- CloseOnDelays time in miliseconds, 10000 = 10seconds
 
     ------------------------------------------------------------------------------
     ------------------------- MAP Configurations ----------------------------------
