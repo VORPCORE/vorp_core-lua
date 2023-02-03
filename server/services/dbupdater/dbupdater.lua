@@ -261,7 +261,7 @@ local function runSQLList(list, type)
     for index, it in ipairs(list) do
         local hascolumn = false
         if it.find then
-            local isfound = exports.ghmattimysql:executeSync(it.find)
+            local isfound = MySQL.query(it.find)
             if #isfound > 0 then
                 hascolumn = true
                 print('^4Database Auto Updater ^3(' .. it.script .. ')^2✅ Column Exists: ' .. it.name .. ' ^0')
@@ -269,7 +269,7 @@ local function runSQLList(list, type)
         end
 
         if hascolumn == false then
-            local result = exports.ghmattimysql:executeSync(it.sql)
+            local result = MySQL.prepare.await(it.sql)
             if result and result.warningStatus > 0 then
                 local out = ''
                 if type == 'table' then
@@ -296,8 +296,8 @@ local function runSQLList(list, type)
 end
 
 function RunDBCheck()
-    local rversion = exports.ghmattimysql:executeSync('SELECT VERSION();')
-    local version = rversion[1]['VERSION()']
+    local rversion = MySQL.single.await('SELECT VERSION();')
+    local version = rversion['VERSION()']
 
     if string.match(version, "MariaDB") then
         dbversion = "MariaDB"
@@ -313,7 +313,7 @@ Citizen.CreateThread(function()
 
     repeat
         Wait(10)
-    until GetResourceState('ghmattimysql') == 'started' and VorpInitialized == true
+    until GetResourceState('oxmysql') == 'started' and VorpInitialized == true
 
     local filedata = LoadResourceFile(GetCurrentResourceName(), "./server/services/dbupdater/status.json")
     local status = json.decode(filedata)

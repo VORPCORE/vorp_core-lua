@@ -72,6 +72,6 @@ AddEventHandler('vorp:SaveDate', function()
     local _source = source
     local Character = VorpCore.getUser(_source).getUsedCharacter
     local charid = Character.charIdentifier
-    exports.oxmysql:execute("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier",
+    MySQL.update("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier",
         { charidentifier = charid })
 end)

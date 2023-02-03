@@ -17,7 +17,7 @@ AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
         end
     end
 
-    exports.oxmysql:execute("UPDATE users SET banned = @banned, banneduntil=@time WHERE identifier = @identifier",
+    MySQL.update("UPDATE users SET banned = @banned, banneduntil=@time WHERE identifier = @identifier",
         { ['@banned'] = status, ['@time'] = datetime, ['@identifier'] = sid }, function(result) end)
 end)
 
@@ -25,7 +25,7 @@ RegisterNetEvent("vorpwarns:addtodb")
 AddEventHandler("vorpwarns:addtodb", function(status, id)
     local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
 
-    local resultList = exports.oxmysql:executeSync("SELECT * FROM users WHERE identifier = ?", { sid })
+    local resultList = MySQL.prepare.await("SELECT 1 FROM users WHERE identifier = ?", { sid })
 
     local warnings
 
@@ -48,8 +48,8 @@ AddEventHandler("vorpwarns:addtodb", function(status, id)
 
         user.setPlayerWarnings(warnings)
     else
-        local user = resultList[1]
-        warnings = user["warnings"]
+        local user = resultList
+        warnings = user.warnings
         if status == true then
             warnings = warnings + 1
         else
@@ -58,6 +58,6 @@ AddEventHandler("vorpwarns:addtodb", function(status, id)
     end
 
 
-    exports.oxmysql:execute("UPDATE users SET warnings = @warnings WHERE identifier = @identifier",
+    MySQL.update("UPDATE users SET warnings = @warnings WHERE identifier = @identifier",
         { ['@warnings'] = warnings, ['@identifier'] = sid }, function(result) end)
 end)
