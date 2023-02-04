@@ -6,7 +6,7 @@ local enableTypeRadar = Config.enableTypeRadar
 local HealthData = {}
 local pvp = Config.PVP
 local playerHash = GetHashKey("PLAYER")
-local multiplierHealth
+local multiplierHealth, multiplierStamina
 
 --===================================== FUNCTIONS ======================================--
 TogglePVP = function ()
@@ -105,14 +105,28 @@ CreateThread(function()
     while true do
         Wait(500)
         if not firstSpawn then
-            local multiplier = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
+            local multiplierH = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
 
-            if multiplierHealth and multiplierHealth ~= multiplier then
+            if multiplierHealth and multiplierHealth ~= multiplierH then
+                Wait(500)
                 Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
 
-            elseif not multiplierHealth and multiplier then
+            elseif not multiplierHealth and multiplierH then
+                Wait(500)
                 Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0) -- SetPlayerHealthRechargeMultiplier
             end
+
+            local multiplierS = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId()) -- GetPlayerStaminaRechargeMultiplier
+
+            if multiplierStamina and multiplierStamina ~= multiplierS then
+                Wait(500)
+                Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), Config.StaminaRecharge.multiplier) -- SetPlayerStaminaRechargeMultiplier
+
+            elseif not multiplierStamina and multiplierS then
+                Wait(500)
+                Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), 0.0) -- SetPlayerStaminaRechargeMultiplier
+            end
+
         end
     end
 end)
@@ -176,6 +190,13 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
         else
             Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
             multiplierHealth = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
+        end
+
+        if not Config.StaminaRecharge.enable then
+            Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), 0.0) -- SetPlayerStaminaRechargeMultiplier
+        else
+            Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), Config.StaminaRecharge.multiplier) -- SetPlayerStaminaRechargeMultiplier
+            multiplierStamina = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId()) -- GetPlayerStaminaRechargeMultiplier
         end
 
     end
