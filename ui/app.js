@@ -160,7 +160,7 @@ createApp({
 
             break;
           case "setpvp":
-            if (item && typeof item.pvp === "number") {
+            if (item && item.pvp !== null) {
               this.iconrows.pvp.toggle = item.pvp
               this.iconrows.pvp.value = item.pvp ? 'ON' : 'OFF'
             }
