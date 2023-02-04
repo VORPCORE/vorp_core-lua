@@ -3,8 +3,6 @@ _users = {}
 _healthData = {}
 
 
-
-
 function LoadUser(source, setKickReason, deferrals, identifier, license)
 
     local resultList = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
