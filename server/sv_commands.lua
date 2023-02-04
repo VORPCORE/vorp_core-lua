@@ -110,6 +110,10 @@ CreateThread(function()
                         else
                             CharacterT.setGroup(newgroup)
                         end
+                        if Config.SetBothDBadmin then
+                            UserT.setGroup(newgroup)
+                            CharacterT.setGroup(newgroup)
+                        end
                         VorpCore.NotifyRightTip(_source, "You gave Group to ID: " .. target, 4000)
                         VorpCore.NotifyRightTip(_source, "Admin gave you Group of " .. newgroup, 4000)
 

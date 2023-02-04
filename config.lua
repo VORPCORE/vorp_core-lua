@@ -147,6 +147,7 @@ Config = {
     ----------------------------------------------------------------------------
     --------------------------- COMMAND PERMISSION -----------------------------
     SetUserDBadmin = true, -- should the command addGroup set admins on Users table? for characters table do set false
+    SetBothDBadmin = true, -- if set true should the command addGroup set admins on both table!
     GroupAllowed = { "admin" }, -- add here groups
     -- dont change this unless you change them in sv_commands too
     Commands = { "addGroup", "addJob", "addItems", "addWeapons", "addMoney", "delMoney", "healplayer",
