@@ -112,25 +112,25 @@ createApp({
 
           break;
           case "update":
-            if (item && item.moneyquanty !== null) {
+            if (item && typeof item.moneyquanty === "number") {
               this.iconrows.money.value = Math.trunc(item.moneyquanty + 0.0);
               this.iconrows.money.decimal = item.moneyquanty.toFixed(2).toString().substr(-2);
             }
 
-            if (item && item.goldquanty !== null) {
+            if (item && typeof item.goldquanty === "number") {
               this.iconrows.gold.value = Math.trunc(item.goldquanty);
               this.iconrows.gold.decimal = item.goldquanty.toFixed(2).toString().substr(-2);
             }
 
-            if (item && item.rolquanty !== null) {
+            if (item && typeof item.rolquanty === "number") {
               this.iconrows.token.value =  Math.trunc(item.rolquanty);
             }
 
-            if (item && item.serverId !== null) {
+            if (item && typeof item.serverId === "number") {
               this.iconrows.id.value = item.serverId;
             }
             
-            if (item && item.xp !== null) {
+            if (item && typeof item.xp === "number") {
               let lv = item.xp / 1000
               this.iconrows.lv.xp = item.xp
               this.iconrows.lv.value = Math.trunc(lv)
@@ -140,34 +140,34 @@ createApp({
 
             break;
           case "setmoney":
-            if (item && item.moneyquanty !== null) {
+            if (item && typeof item.moneyquanty === "number") {
               this.iconrows.money.value = Math.trunc(item.moneyquanty + 0.0);
               this.iconrows.money.decimal = item.moneyquanty.toFixed(2).toString().substr(-2);
             }
             
             break;
           case "setgold":
-            if (item && item.goldquanty !== null) {
+            if (item && typeof item.goldquanty === "number") {
               this.iconrows.gold.value = Math.trunc(item.goldquanty);
               this.iconrows.gold.decimal = item.goldquanty.toFixed(2).toString().substr(-2);
             }
 
             break;
           case "setrol":
-            if (item && item.rolquanty !== null) {
+            if (item && typeof item.rolquanty === "number") {
               this.iconrows.token.value =  Math.trunc(item.rolquanty);
             }
 
             break;
           case "setpvp":
-            if (item && item.pvp !== null) {
+            if (item && typeof item.pvp === "number") {
               this.iconrows.pvp.toggle = item.pvp
               this.iconrows.pvp.value = item.pvp ? 'ON' : 'OFF'
             }
 
             break;
           case "setxp":
-            if (item && item.xp !== null) {
+            if (item && typeof item.xp === "number") {
               let lvl = item.xp / 1000
               this.iconrows.lv.xp = item.xp
               this.iconrows.lv.value = Math.trunc(lvl)
