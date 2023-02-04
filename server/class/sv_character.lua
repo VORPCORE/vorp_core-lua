@@ -118,7 +118,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.Skin = function(value)
         if value ~= nil then
             self.skin = value
-            exports.oxmysql:execute("UPDATE characters SET `skinPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
+            MySQL.update("UPDATE characters SET `skinPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
                 , { value, self.Identifier(), self.CharIdentifier() })
         end
 
@@ -128,7 +128,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.Comps = function(value)
         if value ~= nil then
             self.comps = value
-            exports.oxmysql:execute("UPDATE characters SET `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
+            MySQL.update("UPDATE characters SET `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
                 , { value, self.Identifier(), self.CharIdentifier() })
         end
 
@@ -320,36 +320,38 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.SaveNewCharacterInDb = function(cb)
-        exports.oxmysql:execute("INSERT INTO characters(`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        MySQL.query("INSERT INTO characters(`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             ,
             { self.Identifier(), self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.HealthOuter(),
                 self.HealthInner(), self.StaminaOuter(), self.StaminaInner(), self.Hours(), self.Inventory(), self.Job(),
                 self.Status(), self.Firstname(), self.Lastname(), self.Skin(), self.Comps(), self.Jobgrade(),
-                self.Coords(), self.IsDead() },
+                self.Coords(), self.IsDead()
+            },
             function(character)
                 cb(character.insertId)
             end)
     end
 
     self.DeleteCharacter = function()
-        exports.oxmysql:execute("DELETE FROM characters WHERE `identifier` = ? AND `charidentifier` = ? ",
+        MySQL.query("DELETE FROM characters WHERE `identifier` = ? AND `charidentifier` = ? ",
             { self.Identifier(), self.CharIdentifier() })
     end
 
     self.SaveCharacterCoords = function(coords)
         self.Coords(coords)
-        exports.oxmysql:execute("UPDATE characters SET `coords` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
+        MySQL.update("UPDATE characters SET `coords` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
             , { self.Coords(), self.Identifier(), self.CharIdentifier() })
     end
 
     self.SaveCharacterInDb = function()
-        exports.oxmysql:execute("UPDATE characters SET `group` = ?,`money` = ?,`gold` = ?,`rol` = ?,`xp` = ?,`healthouter` = ?,`healthinner` = ?,`staminaouter` = ?,`staminainner` = ?,`hours` = ?,`job` = ?, `status` = ?,`firstname` = ?, `lastname` = ?, `jobgrade` = ?,`coords` = ?,`isdead` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
+        MySQL.update("UPDATE characters SET `group` = ?,`money` = ?,`gold` = ?,`rol` = ?,`xp` = ?,`healthouter` = ?,`healthinner` = ?,`staminaouter` = ?,`staminainner` = ?,`hours` = ?,`job` = ?, `status` = ?,`firstname` = ?, `lastname` = ?, `jobgrade` = ?,`coords` = ?,`isdead` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
             ,
             { self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.HealthOuter(), self.HealthInner(),
                 self.StaminaOuter(), self.StaminaInner(), self.Hours(), self.Job(), self.Status(), self.Firstname(),
                 self.Lastname(), self.Jobgrade(), self.Coords(), self.IsDead(), tostring(self.Identifier()),
                 self.CharIdentifier()
-            })
+            }
+        )
     end
 
     return self

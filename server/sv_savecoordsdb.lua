@@ -1,34 +1,40 @@
-LastCoordsInCache = {}
+--============================ SAVE COORDS AND HOURS ===================================--
 
-RegisterNetEvent('vorp:saveLastCoords', function(lastCoords, lastHeading)
-    local source = source
-    local identifier = GetSteamID(source)
-    local user = _users[identifier] or nil
+--SAVE COORDS
+RegisterNetEvent('vorp:saveLastCoords', function(coord, lastHeading)
+  local _source = source
+  local identifier = GetSteamID(_source)
+  local user = _users[identifier] or nil
 
-    LastCoordsInCache[source] = { lastCoords, lastHeading }
+  if not user then
+    return
+  end
 
-    local characterCoords = json.encode({ x = math.floor(lastCoords.x) + 0.0, y = math.floor(lastCoords.y) + 0.0, z = math.floor(lastCoords.z) + 0.0, heading = math.floor(lastHeading) + 0.0 })
-    if user then
+  local used_char = user.GetUsedCharacter() or nil
 
-      local used_char = user.GetUsedCharacter() or nil
+  if not used_char then
+    return
+  end
 
-      if used_char then
-        used_char.Coords(characterCoords)
-      end
-    end
+  local characterCoords = json.encode({ x = coord.x, y = coord.x, z = coord.z, heading = lastHeading })
+  used_char.Coords(characterCoords)
 end)
 
+--SAVE HOURS
 RegisterNetEvent('vorp:SaveHours', function()
-    local hoursupdate = tonumber(0.5)  -- Just to be sure is giving numbers =D
-    local source = source
-    local identifier = GetSteamID(source)
-    local user = _users[identifier] or nil
-    if user then
+  local hoursupdate = tonumber(0.5) -- Just to be sure is giving numbers =D
+  local _source = source
+  local identifier = GetSteamID(_source)
+  local user = _users[identifier] or nil
 
-      local used_char = user.GetUsedCharacter() or nil
+  if not user then
+    return
+  end
+  local used_char = user.GetUsedCharacter() or nil
 
-      if used_char then
-        used_char.UpdateHours(hoursupdate)
-      end
-    end
+  if not used_char then
+    return
+  end
+  used_char.UpdateHours(hoursupdate)
 end)
+--============================================================================--

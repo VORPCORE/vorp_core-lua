@@ -2,19 +2,16 @@ _usersLoading = {}
 _users = {}
 _healthData = {}
 
-function CheckConnected(identifier)
-    --Check if some player is connected with same steam
-    return false
-end
+
+
 
 function LoadUser(source, setKickReason, deferrals, identifier, license)
 
-    local resultList = exports.oxmysql:executeSync("SELECT * FROM users WHERE identifier = ?", { identifier })
-
+    local resultList = MySQL.single.await('SELECT 1 FROM users WHERE identifier = ?', { identifier })
     _usersLoading[identifier] = true
 
-    if #resultList > 0 then
-        local user = resultList[1]
+    if resultList then
+        local user = resultList
         if user.banned == true then
             local bannedUntilTime = user.banneduntil
             local currentTime = tonumber(os.time(os.date("!*t")))
@@ -34,7 +31,6 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         end
 
         if Config.UseCharPermission then
-
             _users[identifier] = User(source, identifier, user["group"], user["warnings"], license, user["char"])
         else
             _users[identifier] = User(source, identifier, user["group"], user["warnings"], license)
@@ -45,11 +41,10 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         deferrals.done()
     else
         --New User
-        exports.oxmysql:executeSync("INSERT INTO users VALUES(?,'user',0,0,0,'false')", { identifier })
+        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, "false" })
         _users[identifier] = User(source, identifier, "user", 0, license)
         deferrals.done()
     end
-
 end
 
 AddEventHandler('playerDropped', function()
@@ -74,8 +69,8 @@ AddEventHandler('playerDropped', function()
         end
     end
 
-    if Config.SaveSteamNameDB then -- I dont hink none of this is used and its useless
-        exports.oxmysql:execute("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ",
+    if Config.SaveSteamNameDB then
+        MySQL.update("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ",
             { steamName, identifier })
     end
 
@@ -85,16 +80,17 @@ end)
 AddEventHandler('playerJoining', function()
     local _source = source
     local identifier = GetSteamID(_source)
-    local retvalList = exports.oxmysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
+    local isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
+
     if not Config.Whitelist then
-        if #retvalList == 0 then
-            exports.oxmysql:executeSync("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (@identifier, @status, @firstcon)"
-                ,
-                { ['@identifier'] = identifier, ['@status'] = false, ['@firstcon'] = true })
-            retvalList = exports.oxmysql:executeSync('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
+        if not isWhiteListed then
+            MySQL.insert.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)"
+                , { identifier, false, true })
+
+            isWhiteListed = MySQL.single.await('SELECT 1 FROM whitelist WHERE identifier = ?', { identifier })
         end
     end
-    Wait(30000)
+    -- Wait(30000) -- why do we wait here 30 seconds ?
     local discordIdentity = GetIdentity(_source, "discord")
     local discordId
     if discordIdentity then
@@ -104,8 +100,8 @@ AddEventHandler('playerJoining', function()
     end
 
     local userid
-    if #retvalList > 0 then
-        local entry = retvalList[1]
+    if isWhiteListed then
+        local entry = isWhiteListed
         userid = entry.id
     end
     if not _whitelist[userid] then
@@ -137,37 +133,35 @@ end)
 RegisterNetEvent('vorp:playerSpawn', function()
     local source = source
     local identifier = GetSteamID(source)
+    if identifier then
+        _usersLoading[identifier] = false
 
-    _usersLoading[identifier] = false
-
-    if _users[identifier] then
-        _users[identifier].Source(source)
-        if _users[identifier].Numofcharacters() <= 0 then
-            TriggerEvent("vorp_CreateNewCharacter", source)
-            Wait(7000)
-            TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!", Config.Langs.NotifyChar, "minigames_hud",
-                "five_finger_burnout", 6000, "COLOR_RED")
-        else
-            if Config.UseCharPermission then
-
-                if _users[identifier]._charperm == "false" and _users[identifier].Numofcharacters() <= 1 then
-
-                    TriggerEvent("vorp_SpawnUniqueCharacter", source)
-
-                elseif _users[identifier]._charperm == "true" then
-                    TriggerEvent("vorp_GoToSelectionMenu", source)
-                    Wait(14000)
-                    TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!", Config.Langs.NotifyCharSelect,
-                        "minigames_hud", "five_finger_burnout", 6000, "COLOR_RED")
-                end
+        if _users[identifier] then
+            _users[identifier].Source(source)
+            if _users[identifier].Numofcharacters() <= 0 then
+                TriggerEvent("vorp_CreateNewCharacter", source)
+                Wait(7000)
+                TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!", Config.Langs.NotifyChar, "minigames_hud",
+                    "five_finger_burnout", 6000, "COLOR_RED")
             else
-                if Config["MaxCharacters"] == 1 and _users[identifier].Numofcharacters() <= 1 then
-                    TriggerEvent("vorp_SpawnUniqueCharacter", source)
+                if Config.UseCharPermission then
+                    if _users[identifier]._charperm == "false" and _users[identifier].Numofcharacters() <= 1 then
+                        TriggerEvent("vorp_SpawnUniqueCharacter", source)
+                    elseif _users[identifier]._charperm == "true" then
+                        TriggerEvent("vorp_GoToSelectionMenu", source)
+                        Wait(14000)
+                        TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!", Config.Langs.NotifyCharSelect,
+                            "minigames_hud", "five_finger_burnout", 6000, "COLOR_RED")
+                    end
                 else
-                    TriggerEvent("vorp_GoToSelectionMenu", source)
-                    Wait(14000)
-                    TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!", Config.Langs.NotifyCharSelect,
-                        "minigames_hud", "five_finger_burnout", 6000, "COLOR_RED")
+                    if Config["MaxCharacters"] == 1 and _users[identifier].Numofcharacters() <= 1 then
+                        TriggerEvent("vorp_SpawnUniqueCharacter", source)
+                    else
+                        TriggerEvent("vorp_GoToSelectionMenu", source)
+                        Wait(14000)
+                        TriggerClientEvent('vorp:NotifyLeft', source, "~e~IMPORTANT!", Config.Langs.NotifyCharSelect,
+                            "minigames_hud", "five_finger_burnout", 6000, "COLOR_RED")
+                    end
                 end
             end
         end
@@ -191,11 +185,9 @@ AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
     local identifier = GetSteamID(_source)
 
     if healthInner and healthOuter then
-
         local user = _users[identifier] or nil
 
         if user then
-
             local used_char = user.GetUsedCharacter() or nil
 
             if used_char then
@@ -211,13 +203,9 @@ AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
     local _source = source
     local identifier = GetSteamID(_source)
     if staminaOuter and staminaInner then
-
         local user = _users[identifier] or nil
-
         if user then
-
             local used_char = user.GetUsedCharacter() or nil
-
             if used_char then
                 used_char.StaminaOuter(staminaOuter)
                 used_char.StaminaInner(staminaInner)
@@ -256,27 +244,27 @@ AddEventHandler("vorp:GetValues", function()
 end)
 
 
+
 Citizen.CreateThread(function()
-    --Loop to save all players
+
     while true do
-        Wait(Config.savePlayersTimer)
+        Citizen.Wait(Config.savePlayersTimer * 60000) -- this should be above 10 minutes
         for k, v in pairs(_users) do
-            v.SaveUser()
+            if v.usedCharacterId and v.usedCharacterId ~= -1 then -- save only when player has selected char and save only that char
+                v.SaveUser()
+            end
         end
     end
 end)
 
 RegisterNetEvent("vorpchar:addtodb")
-AddEventHandler("vorpchar:addtodb", function(status, id)
+AddEventHandler("vorpchar:addtodb", function(status, identifier)
 
-    local resultList = exports.oxmysql:executeSync("SELECT * FROM users WHERE identifier = ?", { id })
-
+    local resultList = MySQL.prepare.await("SELECT 1 FROM users WHERE identifier = ?", { identifier })
     local char
-
     if resultList then
-
         for _, player in ipairs(GetPlayers()) do
-            if id == GetPlayerIdentifiers(player)[1] then
+            if identifier == GetPlayerIdentifiers(player)[1] then
                 if status == true then
                     TriggerClientEvent("vorp:Tip", player, Config.Langs.AddChar, 10000)
                     char = "true"
@@ -290,6 +278,5 @@ AddEventHandler("vorpchar:addtodb", function(status, id)
 
     end
 
-
-    exports.oxmysql:execute("UPDATE users SET `char` = ? WHERE `identifier` = ? ", { char, id })
+    MySQL.update("UPDATE users SET `char` = ? WHERE `identifier` = ? ", { char, identifier })
 end)

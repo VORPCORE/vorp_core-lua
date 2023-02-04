@@ -18,7 +18,7 @@ function Whitelist(id, identifier, status, firstconnection)
     self.Status = function(value)
         if value ~= nil then
             self._status = value
-            exports.oxmysql:execute('UPDATE whitelist SET status = @status where id = @id',
+            MySQL.query('UPDATE whitelist SET status = @status where id = @id',
                 { ['@status'] = value, ['@id'] = self.Id() }, function(result) end)
         end
         return self._status
@@ -27,7 +27,7 @@ function Whitelist(id, identifier, status, firstconnection)
     self.Firstconnection = function(value)
         if value ~= nil then
             self._firstconnection = value
-            exports.oxmysql:execute('UPDATE whitelist SET firstconnection = @firstconnection where id = @id',
+            MySQL.query('UPDATE whitelist SET firstconnection = @firstconnection where id = @id',
                 { ['@firstconnection'] = value, ['@id'] = self.Id() }, function(result) end)
         end
         return self._firstconnection

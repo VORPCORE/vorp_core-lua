@@ -17,7 +17,7 @@ AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
         end
     end
 
-    exports.oxmysql:execute("UPDATE users SET banned = @banned, banneduntil=@time WHERE identifier = @identifier",
+    MySQL.update("UPDATE users SET banned = @banned, banneduntil=@time WHERE identifier = @identifier",
         { ['@banned'] = status, ['@time'] = datetime, ['@identifier'] = sid }, function(result) end)
 end)
 
@@ -25,7 +25,7 @@ RegisterNetEvent("vorpwarns:addtodb")
 AddEventHandler("vorpwarns:addtodb", function(status, id)
     local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
 
-    local resultList = exports.oxmysql:executeSync("SELECT * FROM users WHERE identifier = ?", { sid })
+    local resultList = MySQL.prepare.await("SELECT 1 FROM users WHERE identifier = ?", { sid })
 
     local warnings
 
@@ -48,8 +48,8 @@ AddEventHandler("vorpwarns:addtodb", function(status, id)
 
         user.setPlayerWarnings(warnings)
     else
-        local user = resultList[1]
-        warnings = user["warnings"]
+        local user = resultList
+        warnings = user.warnings
         if status == true then
             warnings = warnings + 1
         else
@@ -58,6 +58,44 @@ AddEventHandler("vorpwarns:addtodb", function(status, id)
     end
 
 
-    exports.oxmysql:execute("UPDATE users SET warnings = @warnings WHERE identifier = @identifier",
+    MySQL.update("UPDATE users SET warnings = @warnings WHERE identifier = @identifier",
         { ['@warnings'] = warnings, ['@identifier'] = sid }, function(result) end)
+end)
+
+--CHECK IF PLAYER HAS DISCONNECTED INTERNET
+
+local LagCheck = {}
+
+local function RunCheck(source, isNew)
+    local _isNew = isNew
+    local players = GetPlayers()
+    for k, v in ipairs(players) do
+        local token = GetPlayerToken(v, 0)
+        if token == GetPlayerToken(source, 0) then
+            if not _isNew then
+                LagCheck[source] = false
+            end
+            TriggerClientEvent("vorp_antilag:verify", source)
+            Wait(1500)
+            if not LagCheck[source] then
+                print("Attempting Lag switch" .. " " .. GetPlayerName(source) .. " HardwareID" .. token)
+                if Config.Kick then
+                    DropPlayer(source, 'You got kicked by our Anti Lag Switch!')
+                end
+            else
+                Wait(1000)
+                RunCheck(source, false)
+            end
+        end
+    end
+end
+
+RegisterNetEvent('vorp_antilag:initialize', function()
+    local _source = source
+    RunCheck(_source, true)
+end)
+
+RegisterNetEvent('vorp_antilag:setLagCheck', function()
+    local _source = source
+    LagCheck[_source] = true
 end)

@@ -1,3 +1,15 @@
+<2.1>
+- version v2.1
+- added new UI where you can toggle each and one of them
+- pvp mode added to a UI
+- other fixes for pvp and UI
+- IMPORTANT 
+- support for MySQL Linting was added 
+- Ethernet support if anyone disconects internet they should be kicked , they can dupe money
+- improvments were also added on saving players data where queries were saving all user characters in game and not only the character he choose this was also being saved before even selecting a charcter
+- there was a wrong char id being assinged on loading a player.
+- this maight fixe users sometimes not be able to enter in the server
+- all the files including fxmanifest need to be updated without exception
 <2.0>
 - tpm command redone
 - death handler redone it now uses prompts and new camera angles
