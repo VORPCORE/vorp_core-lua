@@ -7,7 +7,7 @@ _healthData = {}
 
 function LoadUser(source, setKickReason, deferrals, identifier, license)
 
-    local resultList = MySQL.single.await('SELECT 1 FROM users WHERE identifier = ?', { identifier })
+    local resultList = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
     _usersLoading[identifier] = true
 
     if resultList then
@@ -87,7 +87,7 @@ AddEventHandler('playerJoining', function()
             MySQL.insert.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)"
                 , { identifier, false, true })
 
-            isWhiteListed = MySQL.single.await('SELECT 1 FROM whitelist WHERE identifier = ?', { identifier })
+            isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
         end
     end
     -- Wait(30000) -- why do we wait here 30 seconds ?
