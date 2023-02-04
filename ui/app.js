@@ -110,45 +110,71 @@ createApp({
             this.iconrows.pvp.toggle = item.pvp
             this.iconrows.pvp.value = item.pvp ? 'On' : 'Off'
 
-            break;
+          break;
           case "update":
-            this.iconrows.money.value = Math.trunc(item.moneyquanty + 0.0);
-            this.iconrows.money.decimal = item.moneyquanty.toFixed(2).toString().substr(-2);
+            if (item && item.moneyquanty !== null) {
+              this.iconrows.money.value = Math.trunc(item.moneyquanty + 0.0);
+              this.iconrows.money.decimal = item.moneyquanty.toFixed(2).toString().substr(-2);
+            }
 
-            this.iconrows.gold.value = Math.trunc(item.goldquanty);
-            this.iconrows.gold.decimal = item.goldquanty.toFixed(2).toString().substr(-2);
+            if (item && item.goldquanty !== null) {
+              this.iconrows.gold.value = Math.trunc(item.goldquanty);
+              this.iconrows.gold.decimal = item.goldquanty.toFixed(2).toString().substr(-2);
+            }
 
-            this.iconrows.token.value =  Math.trunc(item.rolquanty);
+            if (item && item.rolquanty !== null) {
+              this.iconrows.token.value =  Math.trunc(item.rolquanty);
+            }
 
-            this.iconrows.id.value = item.serverId;
+            if (item && item.serverId !== null) {
+              this.iconrows.id.value = item.serverId;
+            }
+            
+            if (item && item.xp !== null) {
+              let lv = item.xp / 1000
+              this.iconrows.lv.xp = item.xp
+              this.iconrows.lv.value = Math.trunc(lv)
+              this.iconrows.lv.raw = lv
+              this.iconrows.lv.anim = Math.floor((lv % 1)*100)
+            }
 
-            let lv = item.xp / 1000
-            this.iconrows.lv.xp = item.xp
-            this.iconrows.lv.value = Math.trunc(lv)
-            this.iconrows.lv.raw = lv
-            this.iconrows.lv.anim = Math.floor((lv % 1)*100)
             break;
           case "setmoney":
-            this.iconrows.money.value = Math.trunc(item.moneyquanty + 0.0);
-            this.iconrows.money.decimal = item.moneyquanty.toFixed(2).toString().substr(-2);
+            if (item && item.moneyquanty !== null) {
+              this.iconrows.money.value = Math.trunc(item.moneyquanty + 0.0);
+              this.iconrows.money.decimal = item.moneyquanty.toFixed(2).toString().substr(-2);
+            }
+            
             break;
           case "setgold":
-            this.iconrows.gold.value = Math.trunc(item.goldquanty);
-            this.iconrows.gold.decimal = item.goldquanty.toFixed(2).toString().substr(-2);
+            if (item && item.goldquanty !== null) {
+              this.iconrows.gold.value = Math.trunc(item.goldquanty);
+              this.iconrows.gold.decimal = item.goldquanty.toFixed(2).toString().substr(-2);
+            }
+
             break;
           case "setrol":
-            this.iconrows.token.value =  Math.trunc(item.rolquanty);
+            if (item && item.rolquanty !== null) {
+              this.iconrows.token.value =  Math.trunc(item.rolquanty);
+            }
+
             break;
           case "setpvp":
+            if (item && item.pvp !== null) {
               this.iconrows.pvp.toggle = item.pvp
               this.iconrows.pvp.value = item.pvp ? 'ON' : 'OFF'
-              break;
+            }
+
+            break;
           case "setxp":
-            let lvl = item.xp / 1000
-            this.iconrows.lv.xp = item.xp
-            this.iconrows.lv.value = Math.trunc(lvl)
-            this.iconrows.lv.raw = lvl
-            this.iconrows.lv.anim = Math.floor((lv % 1)*100)
+            if (item && item.xp !== null) {
+              let lvl = item.xp / 1000
+              this.iconrows.lv.xp = item.xp
+              this.iconrows.lv.value = Math.trunc(lvl)
+              this.iconrows.lv.raw = lvl
+              this.iconrows.lv.anim = Math.floor((lv % 1)*100)
+            }
+            
             break;
           case "hide":
             this.visible = false;
