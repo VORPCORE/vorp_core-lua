@@ -16,7 +16,7 @@ RegisterNetEvent('vorp:saveLastCoords', function(coord, lastHeading)
     return
   end
 
-  local characterCoords = json.encode({ x = coord.x, y = coord.x, z = coord.z, heading = lastHeading })
+  local characterCoords = json.encode({ x = coord.x, y = coord.y, z = coord.z, heading = lastHeading })
   used_char.Coords(characterCoords)
 end)
 
