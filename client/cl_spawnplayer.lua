@@ -175,7 +175,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
         end
         if Config.SavePlayersStatus then
             TriggerServerEvent("vorp:GetValues")
-            Wait(6000)
+            Wait(10000)
             Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner)
             SetEntityHealth(player, HealthData.hOuter + HealthData.hInner)
             Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner)
