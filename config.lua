@@ -151,7 +151,7 @@ Config = {
     GroupAllowed = { "admin" }, -- add here groups
     -- dont change this unless you change them in sv_commands too
     Commands = { "addGroup", "addJob", "addItems", "addWeapons", "addMoney", "delMoney", "healplayer",
-        "reviveplayer", "tpm", "delhorse", "delwagons", "banplayer", "wlplayer", "unwlplayer", "warn",
+        "reviveplayer", "tpm", "delhorse", "delwagons", "addchar", "banplayer", "wlplayer", "unwlplayer", "warn",
         "unban", "unwarn", "changeCharName" }, -- commands available
 
     --------------------------------------------------------------------------------------
