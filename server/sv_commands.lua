@@ -113,7 +113,7 @@ CreateThread(function()
                             CharacterT.setGroup(newgroup)
                         end
                         VorpCore.NotifyRightTip(_source, "You gave Group to ID: " .. target, 4000)
-                        VorpCore.NotifyRightTip(_source, "Admin gave you Group of " .. newgroup, 4000)
+                        VorpCore.NotifyRightTip(target, "Admin gave you Group of " .. newgroup, 4000)
 
                         if Config.Logs.SetgroupWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "` \n**Group given** `" .. newgroup .. "`"
