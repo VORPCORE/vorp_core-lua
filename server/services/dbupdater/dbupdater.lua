@@ -237,7 +237,18 @@ local Updates = {
         AND  Column_Name = 'LastLogin';
         ]],
         sql = [[
-            ALTER TABLE `characters` ADD COLUMN `LastLogin` date DEFAULT NULL
+            ALTER TABLE `characters` ADD COLUMN `LastLogin` date DEFAULT NULL;
+        ]]
+    },
+    {
+        name = "coords",
+        script = "vorp_core",
+        find = [[select *  from Information_Schema.Columns
+        where Table_Name = 'characters'
+        AND  Column_Name = 'coords';
+        ]],
+        sql = [[
+            ALTER TABLE `characters` MODIFY `coords`LONGTEXT;
         ]]
     }
 }
