@@ -35,7 +35,7 @@ AddEventHandler('getCore', function(cb)
             LoadTexture(dict)
         end
         exports.vorp_core:DisplayLeftNotification(tostring(title), tostring(subtitle), tostring(dict), tostring(icon),
-            tonumber(duration), tostring(color))
+            tonumber(duration), tostring(color or "COLOR_WHITE"))
     end
 
     corefunctions.NotifyRightTip = function(text, duration)
