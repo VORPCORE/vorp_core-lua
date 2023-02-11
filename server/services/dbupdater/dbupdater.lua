@@ -272,36 +272,38 @@ local function runSQLList(list, type)
     for index, it in ipairs(list) do
         local hascolumn = false
         if it.find then
-            local isfound = MySQL.query(it.find)
-            if #isfound > 0 then
-                hascolumn = true
-                print('^4Database Auto Updater ^3(' .. it.script .. ')^2✅ Column Exists: ' .. it.name .. ' ^0')
-            end
+            MySQL.query(it.find, function(isfound)
+                if #isfound > 0 then
+                    hascolumn = true
+                    print('^4Database Auto Updater ^3(' .. it.script .. ')^2✅ Column Exists: ' .. it.name .. ' ^0')
+                end
+            end)
         end
 
         if hascolumn == false then
-            local result = MySQL.prepare.await(it.sql)
-            if result and result.warningStatus > 0 then
-                local out = ''
-                if type == 'table' then
-                    out = '^1❌ (' .. dbversion .. ') Failed to Create: '
-                    if result.warningStatus == 1 or dbversion == 'MySQL' then
-                        out = '^2✅ ' .. 'Table exists: '
+            MySQL.query(it.sql, function(result)
+                if result and result.warningStatus > 0 then
+                    local out = ''
+                    if type == 'table' then
+                        out = '^1❌ (' .. dbversion .. ') Failed to Create: '
+                        if result.warningStatus == 1 or dbversion == 'MySQL' then
+                            out = '^2✅ ' .. 'Table exists: '
+                        end
+                    else
+                        out = '^1❌ (' .. dbversion .. ') Failed to Updated: '
                     end
+                    print('^4Database Auto Updater ^3(' .. it.script .. ')' .. out .. it.name .. ' ^0')
                 else
-                    out = '^1❌ (' .. dbversion .. ') Failed to Updated: '
+                    local out = ''
+                    if type == 'table' then
+                        out = 'Created Table: '
+                        tableupdated = true
+                    else
+                        out = 'Updated Column: '
+                    end
+                    print('^4Database Auto Updater ^3(' .. it.script .. ')^2✅ ' .. out .. it.name .. '^0')
                 end
-                print('^4Database Auto Updater ^3(' .. it.script .. ')' .. out .. it.name .. ' ^0')
-            else
-                local out = ''
-                if type == 'table' then
-                    out = 'Created Table: '
-                    tableupdated = true
-                else
-                    out = 'Updated Column: '
-                end
-                print('^4Database Auto Updater ^3(' .. it.script .. ')^2✅ ' .. out .. it.name .. '^0')
-            end
+            end)
         end
     end
 end
