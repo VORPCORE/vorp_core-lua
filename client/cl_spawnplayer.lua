@@ -127,7 +127,6 @@ end)
 --================================ EVENTS ============================================--
 
 RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
-    local player = PlayerPedId()
     TeleportToCoords(coords, heading) -- teleport player to coords
 
     if isdead then -- is player dead
@@ -165,17 +164,6 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             Wait(1000)
             ShutdownLoadingScreen()
         end
-        if Config.SavePlayersStatus then
-            TriggerServerEvent("vorp:GetValues")
-            Wait(10000)
-            Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner)
-            SetEntityHealth(player, HealthData.hOuter + HealthData.hInner)
-            Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner)
-            Citizen.InvokeNative(0x675680D089BFA21F, player, HealthData.sOuter / 1065353215 * 100)
-            HealthData = {}
-        else
-            HealPlayer()
-        end
 
         if not Config.HealthRecharge.enable then
             Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0) -- SetPlayerHealthRechargeMultiplier
@@ -189,6 +177,19 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
         else
             Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), Config.StaminaRecharge.multiplier) -- SetPlayerStaminaRechargeMultiplier
             multiplierStamina = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId()) -- GetPlayerStaminaRechargeMultiplier
+        end
+
+        if Config.SavePlayersStatus then
+            TriggerServerEvent("vorp:GetValues")
+            Wait(10000)
+            local player = PlayerPedId()
+            Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner)
+            SetEntityHealth(player, HealthData.hOuter + HealthData.hInner)
+            Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner)
+            Citizen.InvokeNative(0x675680D089BFA21F, player, HealthData.sOuter / 1065353215 * 100)
+            HealthData = {}
+        else
+            HealPlayer()
         end
     end
 end)
