@@ -4,7 +4,6 @@ _healthData = {}
 
 
 function LoadUser(source, setKickReason, deferrals, identifier, license)
-
     local resultList = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
     _usersLoading[identifier] = true
 
@@ -19,7 +18,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
                 setKickReason("You are banned permanently!")
             elseif bannedUntilTime > currentTime then
                 local bannedUntil = os.date(Config.Langs.DateTimeFormat,
-                    bannedUntilTime + Config.TimeZoneDifference * 3600)
+                        bannedUntilTime + Config.TimeZoneDifference * 3600)
                 deferrals.done(Config.Langs.BannedUser .. bannedUntil .. Config.Langs.TimeZone)
                 setKickReason(Config.Langs.BannedUser .. bannedUntil .. Config.Langs.TimeZone)
             else
@@ -49,6 +48,12 @@ AddEventHandler('playerDropped', function()
     local _source = source
     local identifier = GetSteamID(_source)
     local steamName = GetPlayerName(_source)
+    local pCoords, pHeading
+
+    if config.onesync then
+        pCoords = GetEntityCoords(GetPlayerPed(_source))
+        pHeading = GetEntityHeading(GetPlayerPed(_source))
+    end
 
     if _users[identifier] and not _usersLoading[identifier] then
         if _users[identifier].GetUsedCharacter() then
@@ -58,9 +63,9 @@ AddEventHandler('playerDropped', function()
                 _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
                 _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
             end
-            _users[identifier].SaveUser()
+            _users[identifier].SaveUser(pCoords, pHeading)
             if Config.PrintPlayerInfoOnLeave then
-                print("Player ^2", GetPlayerName(_source) .. " ^7steam:^3 " .. identifier .. "^7 saved")
+                print("Player ^2", steamName .. " ^7steam:^3 " .. identifier .. "^7 saved")
             end
             Wait(10000)
             _users[identifier] = nil
@@ -71,8 +76,9 @@ AddEventHandler('playerDropped', function()
         MySQL.update("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ",
             { steamName, identifier })
     end
-
 end)
+
+
 
 
 AddEventHandler('playerJoining', function()
@@ -110,19 +116,16 @@ AddEventHandler('playerJoining', function()
     if _whitelist[userid].GetEntry().getFirstconnection() then
         local steamName = GetPlayerName(_source)
         if steamName == nil then
-
             local message = "`**\nIdentifier:** `" ..
                 identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .. "`"
             TriggerEvent("vorp_core:addWebhook", "📋` New player joined server` ", Config.Logs.NewPlayerWebhook,
                 message)
         else
-
             local message = "**Steam name: **`" .. steamName .. "`**\nIdentifier:** `" ..
                 identifier .. "` \n**Discord:** <@" .. discordId .. ">\n **User-Id:** `" .. userid .. "`"
 
             TriggerEvent("vorp_core:addWebhook", "📋` New player joined server` ", Config.Logs.NewPlayerWebhook,
                 message)
-
         end
         _whitelist[userid].GetEntry().setFirstconnection(false)
     end
@@ -167,7 +170,6 @@ RegisterNetEvent('vorp:playerSpawn', function()
 end)
 
 RegisterNetEvent('vorp:getUser', function(cb)
-
     --[[{
         string steam = "steam:" + Players[source].Identifiers["steam"];
         if (_users.ContainsKey(steam))
@@ -244,7 +246,6 @@ end)
 
 
 Citizen.CreateThread(function()
-
     while true do
         Citizen.Wait(Config.savePlayersTimer * 60000) -- this should be above 10 minutes
         for k, v in pairs(_users) do
@@ -257,7 +258,6 @@ end)
 
 RegisterNetEvent("vorpchar:addtodb")
 AddEventHandler("vorpchar:addtodb", function(status, identifier)
-
     local resultList = MySQL.prepare.await("SELECT 1 FROM users WHERE identifier = ?", { identifier })
     local char
     if resultList then
@@ -273,7 +273,6 @@ AddEventHandler("vorpchar:addtodb", function(status, identifier)
                 break
             end
         end
-
     end
 
     MySQL.update("UPDATE users SET `char` = ? WHERE `identifier` = ? ", { char, identifier })

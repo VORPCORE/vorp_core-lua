@@ -9,7 +9,7 @@ local playerHash = GetHashKey("PLAYER")
 local multiplierHealth, multiplierStamina
 
 --===================================== FUNCTIONS ======================================--
-TogglePVP = function ()
+TogglePVP = function()
     pvp = not pvp
     TriggerEvent("vorp:setPVPUi", pvp)
     return pvp
@@ -17,7 +17,6 @@ end
 
 
 setPVP = function()
-
     NetworkSetFriendlyFireOption(pvp)
 
     if not active then
@@ -54,7 +53,6 @@ end
 
 --====================================== PLAYERSPAWN =======================================================--
 AddEventHandler('playerSpawned', function()
-
     TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557) --instance players
     Wait(2000)
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost) -- try to hide arthur spawning
@@ -67,7 +65,6 @@ AddEventHandler('playerSpawned', function()
     Wait(2000)
     ShutdownLoadingScreen()
     CreateThread(function()
-
         while firstSpawn do -- trigger on spawn
             Wait(0)
             DisableControlAction(0, `INPUT_MP_TEXT_CHAT_ALL`, true) --T
@@ -97,7 +94,6 @@ CreateThread(function()
         end
         Wait(0)
     end
-
 end)
 
 --====================================== APPLY HEALTHRECHARGE WHEN CHARACTER RC ======================================
@@ -110,7 +106,6 @@ CreateThread(function()
             if multiplierHealth and multiplierHealth ~= multiplierH then
                 Wait(500)
                 Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
-
             elseif not multiplierHealth and multiplierH then
                 Wait(500)
                 Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0) -- SetPlayerHealthRechargeMultiplier
@@ -121,12 +116,10 @@ CreateThread(function()
             if multiplierStamina and multiplierStamina ~= multiplierS then
                 Wait(500)
                 Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), Config.StaminaRecharge.multiplier) -- SetPlayerStaminaRechargeMultiplier
-
             elseif not multiplierStamina and multiplierS then
                 Wait(500)
                 Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), 0.0) -- SetPlayerStaminaRechargeMultiplier
             end
-
         end
     end
 end)
@@ -138,7 +131,6 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
     TeleportToCoords(coords, heading) -- teleport player to coords
 
     if isdead then -- is player dead
-
         if not Config.CombatLogDeath then
             --start loading screen
             if Config.Loadinscreen then
@@ -198,9 +190,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), Config.StaminaRecharge.multiplier) -- SetPlayerStaminaRechargeMultiplier
             multiplierStamina = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId()) -- GetPlayerStaminaRechargeMultiplier
         end
-
     end
-
 end)
 
 --========================================= PLAYER SPAWN AFTER SELECT CHARACTER =======================================--
@@ -234,7 +224,6 @@ AddEventHandler("vorp:SelectedCharacter", function()
         Citizen.InvokeNative(0xE8770EE02AEE45C2, 1) --guarma water
         Citizen.InvokeNative(0x74E2261D2A66849A, true)
     end
-
 end)
 
 RegisterNetEvent("vorp:GetHealthFromCore")
@@ -285,13 +274,16 @@ CreateThread(function()
 
         if not firstSpawn then -- save players coords after char select
             MapCheck()
-            local player = PlayerPedId()
-            local playerCoords = GetEntityCoords(player, true, true)
-            local playerHeading = GetEntityHeading(player)
-            TriggerServerEvent("vorp:saveLastCoords", playerCoords, playerHeading)
+            if not Config.onesync then
+                local player = PlayerPedId()
+                local playerCoords = GetEntityCoords(player, true, true)
+                local playerHeading = GetEntityHeading(player)
+                TriggerServerEvent("vorp:saveLastCoords", playerCoords, playerHeading)
+            end
         end
     end
 end)
+
 
 -- config this to allow other resources to use it
 CreateThread(function()
