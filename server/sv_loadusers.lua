@@ -50,7 +50,7 @@ AddEventHandler('playerDropped', function()
     local steamName = GetPlayerName(_source)
     local pCoords, pHeading
 
-    if config.onesync then
+    if Config.onesync then
         pCoords = GetEntityCoords(GetPlayerPed(_source))
         pHeading = GetEntityHeading(GetPlayerPed(_source))
     end
