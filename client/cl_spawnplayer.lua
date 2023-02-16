@@ -220,6 +220,8 @@ AddEventHandler("vorp:SelectedCharacter", function()
     TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
     TriggerServerEvent("vorp:SaveDate") -- Saves the date when logging in
     Wait(10000)
+    local pedCoords = GetEntityCoords(PlayerPedId())
+    local area = Citizen.InvokeNative(0x43AD8FC02B429D33, pedCoords.x,pedCoords.y,pedCoords.z, 10)
     if area == -512529193 then -- if player is in guarma and relogs there we call the map
         Citizen.InvokeNative(0xA657EC9DBC6CC900, 1935063277) --guarma map
         Citizen.InvokeNative(0xE8770EE02AEE45C2, 1) --guarma water
