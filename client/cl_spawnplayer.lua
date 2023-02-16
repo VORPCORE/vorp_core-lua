@@ -197,17 +197,14 @@ end)
 --========================================= PLAYER SPAWN AFTER SELECT CHARACTER =======================================--
 RegisterNetEvent('vorp:SelectedCharacter')
 AddEventHandler("vorp:SelectedCharacter", function()
-    local playerId = PlayerId()
-    local pedCoords = GetEntityCoords(playerId)
-    local area = Citizen.InvokeNative(0x43AD8FC02B429D33, pedCoords, 10)
     firstSpawn = false
     damage = true
     setPVP()
     if Config.ActiveEagleEye then
-        Citizen.InvokeNative(0xA63FCAD3A6FEC6D2, playerId, true)
+        Citizen.InvokeNative(0xA63FCAD3A6FEC6D2, PlayerPedId(), true)
     end
     if Config.ActiveDeadEye then
-        Citizen.InvokeNative(0x95EE1DEE1DCD9070, playerId, true)
+        Citizen.InvokeNative(0x95EE1DEE1DCD9070, PlayerPedId(), true)
     end
     if Config.HideUi then
         TriggerEvent("vorp:showUi", false) -- hide Core UI
@@ -220,8 +217,9 @@ AddEventHandler("vorp:SelectedCharacter", function()
     TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
     TriggerServerEvent("vorp:SaveDate") -- Saves the date when logging in
     Wait(10000)
+    -- if player spawns in guarma request map 
     local pedCoords = GetEntityCoords(PlayerPedId())
-    local area = Citizen.InvokeNative(0x43AD8FC02B429D33, pedCoords.x,pedCoords.y,pedCoords.z, 10)
+    local area = Citizen.InvokeNative(0x43AD8FC02B429D33, pedCoords, 10)
     if area == -512529193 then -- if player is in guarma and relogs there we call the map
         Citizen.InvokeNative(0xA657EC9DBC6CC900, 1935063277) --guarma map
         Citizen.InvokeNative(0xE8770EE02AEE45C2, 1) --guarma water
