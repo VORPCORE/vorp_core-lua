@@ -91,11 +91,11 @@ local function InsertIntoWhitelist(identifier)
     MySQL.prepare.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)"
         , { identifier, false, true }, function(result) end)
 
-    local entryList = MySQL.single.await('SELECT 1 FROM whitelist WHERE identifier = ?', { identifier })
+    local entryList = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     local currentFreeId
-    if entryList then
-        local entry = entryList
-        currentFreeId = entry.id
+    if #entryList > 0 then
+        local entry = entryList[1]
+        currentFreeId = entry["id"]
     end
     _whitelist[currentFreeId] = Whitelist(currentFreeId, identifier, false, true)
 
@@ -147,7 +147,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
     end
 
-    MySQL.single("SELECT 1 FROM characters WHERE `identifier` = ?", { steamIdentifier }, function(result)
+    MySQL.single("SELECT * FROM characters WHERE `identifier` = ?", { steamIdentifier }, function(result)
         if result then
             local inventory = "{}"
             if not result.inventory == nil then
