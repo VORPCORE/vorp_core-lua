@@ -1,7 +1,6 @@
 ---@param player number
 ---@return table|nil
 local function _getUsedCharacter(player)
-
     local sid = GetSteamID(player)
 
     if not sid then
@@ -22,7 +21,6 @@ end
 ---@param player number
 ---@return table|nil
 local function _getCharDetails(player)
-
     local used_char = _getUsedCharacter(player)
 
     if not used_char then

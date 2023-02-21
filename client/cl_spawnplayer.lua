@@ -200,12 +200,9 @@ AddEventHandler("vorp:SelectedCharacter", function()
     firstSpawn = false
     damage = true
     setPVP()
-    if Config.ActiveEagleEye then
-        Citizen.InvokeNative(0xA63FCAD3A6FEC6D2, PlayerPedId(), true)
-    end
-    if Config.ActiveDeadEye then
-        Citizen.InvokeNative(0x95EE1DEE1DCD9070, PlayerPedId(), true)
-    end
+    Citizen.InvokeNative(0xA63FCAD3A6FEC6D2, PlayerId(), Config.ActiveEagleEye)
+    Citizen.InvokeNative(0x95EE1DEE1DCD9070, PlayerId(), Config.ActiveDeadEye)
+
     if Config.HideUi then
         TriggerEvent("vorp:showUi", false) -- hide Core UI
     else
@@ -217,7 +214,7 @@ AddEventHandler("vorp:SelectedCharacter", function()
     TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
     TriggerServerEvent("vorp:SaveDate") -- Saves the date when logging in
     Wait(10000)
-    -- if player spawns in guarma request map 
+    -- if player spawns in guarma request map
     local pedCoords = GetEntityCoords(PlayerPedId())
     local area = Citizen.InvokeNative(0x43AD8FC02B429D33, pedCoords, 10)
     if area == -512529193 then -- if player is in guarma and relogs there we call the map

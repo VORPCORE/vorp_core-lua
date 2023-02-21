@@ -18,7 +18,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
                 setKickReason("You are banned permanently!")
             elseif bannedUntilTime > currentTime then
                 local bannedUntil = os.date(Config.Langs.DateTimeFormat,
-                        bannedUntilTime + Config.TimeZoneDifference * 3600)
+                    bannedUntilTime + Config.TimeZoneDifference * 3600)
                 deferrals.done(Config.Langs.BannedUser .. bannedUntil .. Config.Langs.TimeZone)
                 setKickReason(Config.Langs.BannedUser .. bannedUntil .. Config.Langs.TimeZone)
             else
