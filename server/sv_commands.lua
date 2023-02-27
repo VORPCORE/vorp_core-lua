@@ -142,6 +142,9 @@ CreateThread(function()
                             VorpCore.AddWebhook(title, Config.Logs.SetjobWebhook, message .. Message)
                         end
                     elseif CurrentCommand == "addMoney" then
+                        if type(args[2]) == "string" then
+                            return VorpCore.NotifyRightTip(_source, "0 for MOney 1 for gold dumb ass", 4000)
+                        end
                         local target, montype, quantity = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
                         local UserT = VorpCore.getUser(target)
                         local CharacterT = UserT.getUsedCharacter
