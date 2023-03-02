@@ -24,7 +24,6 @@ Changelogs = 0
 VorpInitialized = false
 
 Citizen.CreateThread(function()
-
     local Resources = GetNumResources()
 
     for i = 0, Resources, 1 do
@@ -32,20 +31,16 @@ Citizen.CreateThread(function()
         UpdateChecker(resource)
     end
 
-
-
     if next(ScriptList) ~= nil then
         VorpInitialized = true
         init_core()
         Checker()
     end
-
 end)
 
 function UpdateChecker(resource)
     if resource and GetResourceState(resource) == 'started' then
         if GetResourceMetadata(resource, 'vorp_checker', 0) == 'yes' then
-
             local Name = GetResourceMetadata(resource, 'vorp_name', 0)
             local Github = GetResourceMetadata(resource, 'vorp_github', 0)
             local Version = GetResourceMetadata(resource, 'vorp_version', 0)
@@ -95,12 +90,11 @@ function UpdateChecker(resource)
                         Changelog = "Your script version is newer than what was found in github"
                         NewestVersion = Version
                     else
-                        
                         local MinV = NewestVersion:gsub("<" .. Version1 .. ">", "")
                         local StripedExtra
-                        local isMatch = MinV:match("<"..Version..">")
+                        local isMatch = MinV:match("<" .. Version .. ">")
                         if isMatch then
-                            StripedExtra = MinV:gsub("<"..Version..">.*", "")
+                            StripedExtra = MinV:gsub("<" .. Version .. ">.*", "")
                         else
                             StripedExtra = MinV:gsub("<%d?%d.%d?%d.?%d?%d?>.*", "")
                         end
@@ -110,16 +104,16 @@ function UpdateChecker(resource)
                         local Changelog = stripedVersions
                         Changelog = string.gsub(Changelog, "\n", "")
                         Changelog = string.gsub(Changelog, "-", " \n-"):gsub("%b<>", ""):sub(1, -2)
-                        
+
                         NewestVersion = Version1
-                        
+
                         Script['CL'] = true
                         Script['Changelog'] = Changelog
                     end
-                end    
+                end
                 Script['NewestVersion'] = Version1
                 Script['Version'] = Version
-                
+
                 table.insert(ScriptList, Script)
             end
         end
@@ -127,7 +121,6 @@ function UpdateChecker(resource)
 end
 
 function Checker()
-
     print("^3VORPcore Version check ")
     print("^2Resources found")
     print('')
@@ -136,9 +129,20 @@ function Checker()
         if string.find(v.NewestVersion, v.Version) then
             print('^4' .. v.Name .. ' (' .. v.Resource .. ') ^2✅ ' .. 'Up to date - Version ' .. v.Version .. '^0')
         elseif v.Version > v.NewestVersion then
-            print('^4' .. v.Name .. ' (' .. v.Resource .. ') ⚠️ ' .. 'Mismatch (v' .. v.Version .. ') ^5- Official Version: ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')')
+            print('^4' ..
+                v.Name ..
+                ' (' ..
+                v.Resource ..
+                ') ⚠️ ' ..
+                'Mismatch (v' .. v.Version .. ') ^5- Official Version: ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')')
         else
-            print('^4' .. v.Name .. ' (' .. v.Resource .. ') ^1❌ ' .. 'Outdated (v' .. v.Version .. ') ^5- Update found: Version ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')')
+            print('^4' ..
+                v.Name ..
+                ' (' ..
+                v.Resource ..
+                ') ^1❌ ' ..
+                'Outdated (v' ..
+                v.Version .. ') ^5- Update found: Version ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')')
         end
 
         if v.CL then
@@ -149,14 +153,12 @@ function Checker()
     if Changelogs > 0 then
         print('^1###############################')
         Changelog()
-
     else
         print('^0###############################################################################')
     end
 end
 
 function Changelog()
-
     print('')
     for i, v in pairs(ScriptList) do
         if v.Version ~= v.NewestVersion then
@@ -168,5 +170,4 @@ function Changelog()
         end
     end
     print('^0###############################################################################')
-
 end

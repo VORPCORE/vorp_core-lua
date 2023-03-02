@@ -53,24 +53,24 @@ end
 
 --====================================== PLAYERSPAWN =======================================================--
 AddEventHandler('playerSpawned', function()
-    TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557) --instance players
+    TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557)             --instance players
     Wait(2000)
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost) -- try to hide arthur spawning
-    DisplayRadar(false) --hide RADAR on player select char
-    SetMinimapHideFow(false) -- hide map fog of war
+    DisplayRadar(false)                                                                                          --hide RADAR on player select char
+    SetMinimapHideFow(false)                                                                                     -- hide map fog of war
     Wait(2000)
     TriggerServerEvent("vorp:playerSpawn")
-    Wait(9000) -- give time to load in
+    Wait(9000)           -- give time to load in
     ExecuteCommand("rc") --reload char so it doesnt come invisible
     Wait(2000)
     ShutdownLoadingScreen()
     CreateThread(function()
-        while firstSpawn do -- trigger on spawn
+        while firstSpawn do                                         -- trigger on spawn
             Wait(0)
             DisableControlAction(0, `INPUT_MP_TEXT_CHAT_ALL`, true) --T
-            DisableControlAction(0, `INPUT_QUICK_USE_ITEM`, true) -- I add ahere the button you chose to open inventory
+            DisableControlAction(0, `INPUT_QUICK_USE_ITEM`, true)   -- I add ahere the button you chose to open inventory
             --add more here if you wish
-            if not firstSpawn then -- break after select char
+            if not firstSpawn then                                  -- break after select char
                 break
             end
         end
@@ -84,10 +84,10 @@ CreateThread(function()
     while true do
         -- if not Config.CanBeDamagedToSpawn then -- i dont thin kthis needs a config
         if Citizen.InvokeNative(0x75DF9E73F2F005FD, PlayerPedId()) then -- GetEntityCanBeDamaged
-            SetEntityCanBeDamaged(PlayerPedId(), false) -- just set this
+            SetEntityCanBeDamaged(PlayerPedId(), false)                 -- just set this
         end
         --  end
-        if damage then -- and break the loop after spawn
+        if damage then  -- and break the loop after spawn
             Wait(12000) -- 12 seconds should be enough
             SetEntityCanBeDamaged(PlayerPedId(), true)
             break
@@ -129,7 +129,7 @@ end)
 RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
     TeleportToCoords(coords, heading) -- teleport player to coords
 
-    if isdead then -- is player dead
+    if isdead then                    -- is player dead
         if not Config.CombatLogDeath then
             --start loading screen
             if Config.Loadinscreen then
@@ -166,17 +166,17 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
         end
 
         if not Config.HealthRecharge.enable then
-            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0) -- SetPlayerHealthRechargeMultiplier
+            Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0)                              -- SetPlayerHealthRechargeMultiplier
         else
             Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
-            multiplierHealth = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
+            multiplierHealth = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId())                -- GetPlayerHealthRechargeMultiplier
         end
 
         if not Config.StaminaRecharge.enable then
-            Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), 0.0) -- SetPlayerStaminaRechargeMultiplier
+            Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), 0.0)                               -- SetPlayerStaminaRechargeMultiplier
         else
             Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), Config.StaminaRecharge.multiplier) -- SetPlayerStaminaRechargeMultiplier
-            multiplierStamina = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId()) -- GetPlayerStaminaRechargeMultiplier
+            multiplierStamina = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId())                -- GetPlayerStaminaRechargeMultiplier
         end
 
         if Config.SavePlayersStatus then
@@ -208,18 +208,18 @@ AddEventHandler("vorp:SelectedCharacter", function()
     else
         TriggerEvent("vorp:showUi", true)
     end
-    DisplayRadar(true) -- show HUD
-    SetMinimapHideFow(true) -- enable FOW
-    TriggerServerEvent("vorp:chatSuggestion") --- chat add suggestion trigger
+    DisplayRadar(true)                                 -- show HUD
+    SetMinimapHideFow(true)                            -- enable FOW
+    TriggerServerEvent("vorp:chatSuggestion")          --- chat add suggestion trigger
     TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
-    TriggerServerEvent("vorp:SaveDate") -- Saves the date when logging in
+    TriggerServerEvent("vorp:SaveDate")                -- Saves the date when logging in
     Wait(10000)
     -- if player spawns in guarma request map
     local pedCoords = GetEntityCoords(PlayerPedId())
     local area = Citizen.InvokeNative(0x43AD8FC02B429D33, pedCoords, 10)
-    if area == -512529193 then -- if player is in guarma and relogs there we call the map
+    if area == -512529193 then                               -- if player is in guarma and relogs there we call the map
         Citizen.InvokeNative(0xA657EC9DBC6CC900, 1935063277) --guarma map
-        Citizen.InvokeNative(0xE8770EE02AEE45C2, 1) --guarma water
+        Citizen.InvokeNative(0xE8770EE02AEE45C2, 1)          --guarma water
         Citizen.InvokeNative(0x74E2261D2A66849A, true)
     end
 end)
