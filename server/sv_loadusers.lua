@@ -51,8 +51,9 @@ AddEventHandler('playerDropped', function()
     local pCoords, pHeading
 
     if Config.onesync then
-        pCoords = GetEntityCoords(GetPlayerPed(_source))
-        pHeading = GetEntityHeading(GetPlayerPed(_source))
+        local ped = GetPlayerPed(_source)
+        pCoords = GetEntityCoords(ped)
+        pHeading = GetEntityHeading(ped)
     end
 
     if _users[identifier] and not _usersLoading[identifier] then
@@ -67,14 +68,16 @@ AddEventHandler('playerDropped', function()
             if Config.PrintPlayerInfoOnLeave then
                 print("Player ^2", steamName .. " ^7steam:^3 " .. identifier .. "^7 saved")
             end
-            Wait(10000)
-            _users[identifier] = nil
-        end
-    end
+            CreateThread(function()
+                if Config.SaveSteamNameDB then
+                    MySQL.update("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ",
+                        { steamName, identifier })
+                end
 
-    if Config.SaveSteamNameDB then
-        MySQL.update("UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ",
-            { steamName, identifier })
+                Wait(10000)
+                _users[identifier] = nil
+            end)
+        end
     end
 end)
 
@@ -89,7 +92,7 @@ AddEventHandler('playerJoining', function()
     if not Config.Whitelist then
         if not isWhiteListed then
             MySQL.insert.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)"
-                , { identifier, false, true })
+            , { identifier, false, true })
 
             isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
         end
@@ -247,7 +250,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(Config.savePlayersTimer * 60000) -- this should be above 10 minutes
+        Citizen.Wait(Config.savePlayersTimer * 60000)             -- this should be above 10 minutes
         for k, v in pairs(_users) do
             if v.usedCharacterId and v.usedCharacterId ~= -1 then -- save only when player has selected char and save only that char
                 v.SaveUser()

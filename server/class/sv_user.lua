@@ -159,12 +159,12 @@ function User(source, identifier, group, playerwarnings, license, char)
                     for _, character in ipairs(usercharacters) do
                         if character.identifier then
                             local newCharacter = Character(self.source, self._identifier, character.charidentifier,
-                                    character.group, character.job, character.jobgrade, character.firstname,
-                                    character.lastname, character.inventory, character.status, character.coords,
-                                    character.money, character.gold, character.rol, character.healthouter,
-                                    character.healthinner, character.staminaouter, character.staminainner,
-                                    character.xp, character.hours, character.isdead, character.skinPlayer,
-                                    character.compPlayer)
+                                character.group, character.job, character.jobgrade, character.firstname,
+                                character.lastname, character.inventory, character.status, character.coords,
+                                character.money, character.gold, character.rol, character.healthouter,
+                                character.healthinner, character.staminaouter, character.staminainner,
+                                character.xp, character.hours, character.isdead, character.skinPlayer,
+                                character.compPlayer)
 
                             self._usercharacters[newCharacter.CharIdentifier()] = newCharacter
                         end
@@ -175,9 +175,9 @@ function User(source, identifier, group, playerwarnings, license, char)
 
     self.addCharacter = function(firstname, lastname, skin, comps)
         local newChar = Character(self.source, self._identifier, -1, Config.initGroup, Config.initJob,
-                Config.initJobGrade, firstname, lastname, "{}", "{}", "{}", Config.initMoney, Config.initGold,
-                Config.initRol
-                , 500, 100, 500, 100, Config.initXp, 0, false, skin, comps)
+            Config.initJobGrade, firstname, lastname, "{}", "{}", "{}", Config.initMoney, Config.initGold,
+            Config.initRol
+            , 500, 100, 500, 100, Config.initXp, 0, false, skin, comps)
 
         newChar.SaveNewCharacterInDb(function(id)
             newChar.CharIdentifier(id)
@@ -207,48 +207,34 @@ function User(source, identifier, group, playerwarnings, license, char)
         end
     end
 
-    --self.SaveUser = function()
-    --  if self.usedCharacterId and self._usercharacters[self.usedCharacterId] then
-    --    self._usercharacters[self.usedCharacterId].SaveCharacterInDb()
-    --  end
-    --end
     self.SaveUser = function(coords, heading)
         if self.usedCharacterId and self._usercharacters[self.usedCharacterId] then
             if Config.onesync then
                 if coords then
-                    if coords.x and (coords.x ~= 0 and coords.y ~= 0) then
-                        local characterCoords = json.encode({
-                                x = coords.x,
-                                y = coords.y,
-                                z = coords.z,
-                                heading = heading
-                            })
-                        self._usercharacters[self.usedCharacterId].Coords(characterCoords)
-                    end
+                    local characterCoords = json.encode({
+                        x = coords.x,
+                        y = coords.y,
+                        z = coords.z,
+                        heading = heading
+                    })
+                    self._usercharacters[self.usedCharacterId].Coords(characterCoords)
                 else
-                    local Pcoords, Pheading = self.Getcoords(self.source)
-                    if Pcoords.x and (Pcoords.x ~= 0 and Pcoords.y ~= 0) then
-                        local characterCoords = json.encode({
-                                x = Pcoords.x,
-                                y = Pcoords.y,
-                                z = Pcoords.z,
-                                heading = Pheading
-                            })
-                        self._usercharacters[self.usedCharacterId].Coords(characterCoords)
-                    end
+                    local player = self.source
+                    local ped = GetPlayerPed(player)
+                    local Pcoords = GetEntityCoords(ped)
+                    local Pheading = GetEntityHeading(ped)
+
+                    local characterCoords = json.encode({
+                        x = Pcoords.x,
+                        y = Pcoords.y,
+                        z = Pcoords.z,
+                        heading = Pheading
+                    })
+                    self._usercharacters[self.usedCharacterId].Coords(characterCoords)
                 end
             end
             self._usercharacters[self.usedCharacterId].SaveCharacterInDb()
         end
     end
-
-    self.Getcoords = function(_source)
-        local player = _source
-        local ped = GetPlayerPed(player)
-        local pCoords = GetEntityCoords(ped)
-        local pHeading = GetEntityHeading(ped)
-        return pCoords, pHeading
-    end
-
     return self
 end
