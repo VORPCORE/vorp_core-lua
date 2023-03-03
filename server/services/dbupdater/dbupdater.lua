@@ -272,12 +272,12 @@ local function runSQLList(list, type)
     for index, it in ipairs(list) do
         local hascolumn = false
         if it.find then
-            MySQL.query(it.find, function(isfound)
-                if #isfound > 0 then
-                    hascolumn = true
-                    print('^4Database Auto Updater ^3(' .. it.script .. ')^2✅ Column Exists: ' .. it.name .. ' ^0')
-                end
-            end)
+            local findresponse = MySQL.query.await(it.find)
+
+            if #findresponse > 0 then
+                hascolumn = true
+                print('^4Database Auto Updater ^3(' .. it.script .. ')^2✅ Column Exists: ' .. it.name .. ' ^0')
+            end
         end
 
         if hascolumn == false then
