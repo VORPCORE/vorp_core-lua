@@ -6,11 +6,10 @@ AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
         for _, player in ipairs(GetPlayers()) do
             if sid == GetPlayerIdentifiers(player)[1] then
                 if datetime == 0 then
-                    DropPlayer(player, "You were banned permanently!")
+                    DropPlayer(player, Translation[Lang].Notify.banned3)
                 else
-                    local bannedUntil = os.date(Config.Langs["DateTimeFormat"], datetime + Config.TimeZoneDifference *
-                        3600)
-                    DropPlayer(player, Config.Langs["DropReasonBanned"] .. bannedUntil .. Config.Langs["TimeZone"])
+                    local bannedUntil = os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600)
+                    DropPlayer(player, Config.Langs.DropReasonBanned .. bannedUntil .. Config.TimeZone)
                 end
                 break
             end
@@ -18,14 +17,15 @@ AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
     end
 
     MySQL.update("UPDATE users SET banned = @banned, banneduntil=@time WHERE identifier = @identifier",
-        { ['@banned'] = status, ['@time'] = datetime, ['@identifier'] = sid }, function(result) end)
+        { ['@banned'] = status,['@time'] = datetime,['@identifier'] = sid }, function(result)
+    end)
 end)
 
 RegisterNetEvent("vorpwarns:addtodb")
 AddEventHandler("vorpwarns:addtodb", function(status, id)
     local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
 
-    local resultList = MySQL.prepare.await("SELECT 1 FROM users WHERE identifier = ?", { sid })
+    local resultList = MySQL.prepare.await("SELECT * FROM users WHERE identifier = ?", { sid })
 
     local warnings
 
@@ -59,5 +59,6 @@ AddEventHandler("vorpwarns:addtodb", function(status, id)
 
 
     MySQL.update("UPDATE users SET warnings = @warnings WHERE identifier = @identifier",
-        { ['@warnings'] = warnings, ['@identifier'] = sid }, function(result) end)
+        { ['@warnings'] = warnings,['@identifier'] = sid }, function(result)
+    end)
 end)

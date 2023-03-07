@@ -236,5 +236,6 @@ function User(source, identifier, group, playerwarnings, license, char)
             self._usercharacters[self.usedCharacterId].SaveCharacterInDb()
         end
     end
+
     return self
 end

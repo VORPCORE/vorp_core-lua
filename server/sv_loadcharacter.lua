@@ -36,7 +36,7 @@ RegisterNetEvent('vorp:UpdateCharacter', function(steamId, firstname, lastname)
     characters[steamId].Firstname(firstname)
     characters[steamId].Lastname(lastname)
 end)
-
+--TX ADMIN HEAL EVENT
 AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
     if GetInvokingResource() ~= "monitor" or type(eventData) ~= "table" or type(eventData.id) ~= "number" then
         return
@@ -46,13 +46,12 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
         local identifier = GetSteamID(Player)
         local xCharacter = _users[identifier].GetUsedCharacter()
         if xCharacter and xCharacter.isdead then
-
-            TriggerClientEvent("vorp:ShowBasicTopNotification", Player, "You Revived Yourself.", 4000)
+            TriggerClientEvent("vorp:TipRight", Player, Translation[Lang].Notify.healself, 4000)
             TriggerClientEvent('vorp:resurrectPlayer', Player)
             TriggerClientEvent('vorp:heal', Player)
         end
     else
-        TriggerClientEvent("vorp:ShowBasicTopNotification", -1, "You Have Been Healed.", 4000)
+        TriggerClientEvent("vorp:TipRight", -1, Translation[Lang].Notify.healall, 4000)
         TriggerClientEvent('vorp:resurrectPlayer', -1)
         TriggerClientEvent('vorp:heal', -1)
     end
