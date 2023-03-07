@@ -20,17 +20,18 @@ local function LoadWhitelist()
     end)
 end
 
-local function SetUpdateWhitelistPolicy()
+local function SetUpdateWhitelistPolicy() -- this needs a source to only get these values if player is joining
     while Config.AllowWhitelistAutoUpdate do
-        Wait(3600000) --change this value if you want to have update from SQL not every 1 hour
+        Wait(3600000) -- this needs to be changed and saved on players drop
         _whitelist = {}
-        MySQL.query("SELECT * FROM whitelist", {}, function(result)
-            if #result > 0 then
-                for _, v in ipairs(result) do
-                    _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.firstconnection)
+        MySQL.query("SELECT * FROM whitelist", {},
+            function(result) -- why are we loading all the entries into memmory ? so we are adding to a table even players that are not playing or have been banned or whatever.
+                if #result > 0 then
+                    for _, v in ipairs(result) do
+                        _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.firstconnection)
+                    end
                 end
-            end
-        end)
+            end)
     end
 end
 
@@ -89,9 +90,10 @@ local function InsertIntoWhitelist(identifier)
     end
 
     MySQL.prepare.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)"
-        , { identifier, false, true }, function(result) end)
+        , { identifier, false, true }, function(result)
+    end)
 
-    local entryList = MySQL.single.await('SELECT 1 FROM whitelist WHERE identifier = ?', { identifier })
+    local entryList = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     local currentFreeId
     if entryList then
         local entry = entryList
@@ -147,7 +149,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
     end
 
-    MySQL.single("SELECT 1 FROM characters WHERE `identifier` = ?", { steamIdentifier }, function(result)
+    MySQL.single("SELECT * FROM characters WHERE `identifier` = ?", { steamIdentifier }, function(result)
         if result then
             local inventory = "{}"
             if not result.inventory == nil then
