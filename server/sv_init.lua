@@ -22,7 +22,7 @@ ScriptList = {}
 Changelogs = 0
 
 VorpInitialized = false
-
+--
 Citizen.CreateThread(function()
     local Resources = GetNumResources()
 
@@ -30,6 +30,8 @@ Citizen.CreateThread(function()
         local resource = GetResourceByFindIndex(i)
         UpdateChecker(resource)
     end
+
+
 
     if next(ScriptList) ~= nil then
         VorpInitialized = true
@@ -122,51 +124,70 @@ end
 
 function Checker()
     print("^3VORPcore Version check ")
-    print("^2Resources found")
-    print('')
+    print("^2Resources found\n")
+
+    local outdated, upToDate = {}, {}
 
     for i, v in pairs(ScriptList) do
         if string.find(v.NewestVersion, v.Version) then
-            print('^4' .. v.Name .. ' (' .. v.Resource .. ') ^2✅ ' .. 'Up to date - Version ' .. v.Version .. '^0')
+            table.insert(upToDate,
+                {
+                    message = '^4' .. v.Name .. ' (' .. v.Resource .. ') ^2✅ ' ..
+                        'Up to date - Version ' .. v.Version .. '\n'
+                })
         elseif v.Version > v.NewestVersion then
-            print('^4' ..
-                v.Name ..
-                ' (' ..
-                v.Resource ..
-                ') ⚠️ ' ..
-                'Mismatch (v' .. v.Version .. ') ^5- Official Version: ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')')
+            table.insert(outdated, {
+                message = '^4' ..
+                    v.Name ..
+                    ' (' ..
+                    v.Resource ..
+                    ') ⚠️ ' ..
+                    'Mismatch (v' ..
+                    v.Version .. ') ^5- Official Version: ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')\n'
+            })
         else
-            print('^4' ..
-                v.Name ..
-                ' (' ..
-                v.Resource ..
-                ') ^1❌ ' ..
-                'Outdated (v' ..
-                v.Version .. ') ^5- Update found: Version ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')')
+            table.insert(outdated, {
+                message = '^4' ..
+                    v.Name ..
+                    ' (' ..
+                    v.Resource ..
+                    ') ^1❌ ' ..
+                    'Outdated (v' ..
+                    v.Version .. ') ^5- Update found: Version ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')\n'
+            })
         end
 
         if v.CL then
             Changelogs = Changelogs + 1
         end
     end
+    -- print outdated first and up-to-date at the end
+    for _, data in ipairs(outdated) do
+        print(data.message)
+    end
 
     if Changelogs > 0 then
         print('^1###############################')
         Changelog()
     else
-        print('^0###############################################################################')
+        print('^0\n###############################################################################')
+    end
+
+    for _, data in ipairs(upToDate) do
+        print(data.message)
     end
 end
 
 function Changelog()
     print('')
-    for i, v in pairs(ScriptList) do
-        if v.Version ~= v.NewestVersion then
-            if v.CL then
-                print('^3' .. v.Resource:upper() .. ' - Changelog:')
-                print('^0' .. v.Changelog)
-                print('^1###############################^0')
-            end
+    for _, v in pairs(ScriptList) do
+        local isNewVersion = v.Version ~= v.NewestVersion
+        local hasChangelog = v.CL
+
+        if isNewVersion and hasChangelog then
+            local resourceUpper = v.Resource:upper()
+            local clStringFmt = '^3%s - Changelog:\n^0%s\n^1###############################^0\n'
+            print(string.format(clStringFmt, resourceUpper, v.Changelog))
         end
     end
     print('^0###############################################################################')
