@@ -9,7 +9,10 @@ author 'VORP' -- converted from the original C# vorp core by goncalobsccosta#904
 
 --=========================================== CONVARS =====================================================--
 
-shared_script 'config.lua'
+shared_scripts {
+  'config.lua',
+  'translation/language.lua'
+}
 
 client_scripts {
   'client/Notifications.lua',
@@ -19,7 +22,8 @@ client_scripts {
 
 server_scripts {
   'server/class/sv_*.lua',
-  'server/sv_*.lua',
+  'config/commands.lua',
+  'server/sv_*lua',
   'server/services/*.lua',
   'server/services/dbupdater/*.lua',
   '@oxmysql/lib/MySQL.lua'
@@ -34,13 +38,6 @@ files {
 
 ui_page 'ui/index.html'
 
-
-dependencies {
-  '/onesync',
-  'oxmysql',
-}
-
-
 --========================================== DEPRECATED ====================================================--
 
 server_exports { 'vorpAPI' } -- deprecated refer to the API docs
@@ -53,3 +50,8 @@ vorp_name '^4Resource version Check^3'
 vorp_github 'https://github.com/VORPCORE/vorp-core-lua'
 
 --===========================================================================================================--
+
+dependencies {
+  '/onesync',
+  'oxmysql',
+}
