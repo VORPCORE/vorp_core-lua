@@ -139,7 +139,7 @@ function SetGroup(data)
         end
     end
     SendDiscordLogs(data.config.SetgroupWebhook, data, data.source, newgroup, "")
-    VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.setGroup, target), 4000)
+    VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)
 end
 
