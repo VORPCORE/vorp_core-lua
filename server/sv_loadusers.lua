@@ -85,7 +85,7 @@ AddEventHandler('playerJoining', function()
 
     if not Config.Whitelist and not isWhiteListed then
         MySQL.insert.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)"
-            , { identifier, false, true })
+        , { identifier, false, true })
 
         isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     end
@@ -103,7 +103,7 @@ AddEventHandler('playerJoining', function()
         local steamName = GetPlayerName(_source) or ""
         local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier,
             discordId, userid)
-        TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.Logs.NewPlayerWebhook,
+        TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook,
             message)
 
         entry.setFirstconnection(false)
@@ -228,7 +228,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(Config.savePlayersTimer * 60000) -- this should be above 10 minutes
+        Citizen.Wait(Config.savePlayersTimer * 60000)             -- this should be above 10 minutes
         for k, v in pairs(_users) do
             if v.usedCharacterId and v.usedCharacterId ~= -1 then -- save only when player has selected char and save only that char
                 v.SaveUser()
