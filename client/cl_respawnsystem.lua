@@ -53,7 +53,7 @@ local ProcessNewPosition = function()
         z = pCoords.z + ((Sin(angleY))) * (3.0 + 0.5)
     }
     local rayHandle = StartShapeTestRay(pCoords.x, pCoords.y, pCoords.z + 0.5, behindCam.x, behindCam.y, behindCam.z, -1
-        , PlayerPedId(), 0)
+    , PlayerPedId(), 0)
     local hitBool, hitCoords = GetShapeTestResult(rayHandle)
 
     local maxRadius = 3.0
@@ -108,13 +108,13 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName, justreviv
     Wait(2000)
     HealPlayer() -- heal fully the player
     if Config.RagdollOnResurrection and not justrevive then
-
         keepdown = true
         CreateThread(function() -- tread to keep player down
             while keepdown do
                 Wait(0)
                 SetPedToRagdoll(PlayerPedId(), 4000, 4000, 0, 0, 0, 0)
                 ResetPedRagdollTimer(PlayerPedId())
+                DisablePedPainAudio(PlayerPedId(), true) 
             end
         end)
         AnimpostfxPlay("Title_Gen_FewHoursLater")
@@ -129,9 +129,8 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName, justreviv
             dict, icon
             , 8000, "COLOR_PURE_WHITE") -- mesage only if this is active and justrevive is false
     else
-        DoScreenFadeIn(2000) -- fadein
+        DoScreenFadeIn(2000)            -- fadein
     end
-
 end
 
 ResspawnPlayer = function()
@@ -172,7 +171,6 @@ local ProcessCamControls = function()
     SetCamCoord(cam, newPos.x, newPos.y, newPos.z)
     PointCamAtCoord(cam, playerCoords.x, playerCoords.y, playerCoords.z + 0.5)
 end]]
-
 local StartDeathCam = function()
     ClearFocus()
     local playerPed = PlayerPedId()
@@ -191,16 +189,13 @@ local ProcessCamControls = function()
 
     local newPos = playerCoords
     if IsEntityAttachedToAnyPed(PlayerPedId()) then
-
         SetCamCoord(cam, newPos.x, newPos.y + -2, newPos.z + 0.50)
         SetCamRot(cam, -20.0, 0.0, 0.0, 1)
         SetCamFov(cam, 50.0)
     else
-
         SetCamCoord(cam, newPos.x, newPos.y, newPos.z + 1.0)
         SetCamRot(cam, -80.0, 0.0, 0.0, 1)
         SetCamFov(cam, 50.0)
-
     end
 end
 
@@ -239,7 +234,7 @@ end)
 local RespawnTimer = function()
     CreateThread(function() -- asyncronous
         while true do
-            Wait(1000) -- every second
+            Wait(1000)      -- every second
             TimeToRespawn = TimeToRespawn - 1
             if TimeToRespawn < 0 and setDead then
                 TimeToRespawn = 0
@@ -250,11 +245,11 @@ local RespawnTimer = function()
 end
 
 -- use this events to request more time to a player to wait for respawn  for example if they call a doctor they need to wait if doctor answers back
-RegisterNetEvent("vorp_core:Client:AddTimeToRespawn") -- from server
+RegisterNetEvent("vorp_core:Client:AddTimeToRespawn")               -- from server
 AddEventHandler("vorp_core:Client:AddTimeToRespawn", function(time) -- from client
-    if TimeToRespawn >= 1 then -- if still has time then add more
+    if TimeToRespawn >= 1 then                                      -- if still has time then add more
         TimeToRespawn = TimeToRespawn + time
-    else -- if not then create new timer
+    else                                                            -- if not then create new timer
         RespawnTimer()
     end
 end)
@@ -270,7 +265,7 @@ CreateThread(function()
 
         if IsEntityDead(player) then -- if player is dead
             sleep = false
-            if not setDead then -- set only once
+            if not setDead then      -- set only once
                 NetworkSetInSpectatorMode(false, player)
                 exports.spawnmanager.setAutoSpawn(false)
                 TriggerServerEvent("vorp:ImDead", true)
@@ -287,7 +282,6 @@ CreateThread(function()
 
             if not PressKey and setDead then
                 if not IsEntityAttachedToAnyPed(player) then -- is not  player being carried
-
                     PromptSetActiveGroupThisFrame(prompts, CheckLable())
 
                     if PromptHasHoldModeCompleted(prompt) then
