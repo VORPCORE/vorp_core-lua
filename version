@@ -1,3 +1,11 @@
+<2.2>
+- commands refactor
+- optimisation 
+- improvement over saving coords  will save now on player drop instead of every 3 seconds
+- added translation file
+- version check now shows first the outdated resources
+- update all files, note there is new files.
+- back your current version as always.
 <2.1>
 - version v2.1
 - added new UI where you can toggle each and one of them
