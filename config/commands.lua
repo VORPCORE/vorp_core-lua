@@ -2,13 +2,12 @@ local T = Translation[Lang].Commands
 
 --============================
 --? EXAMPLE
--- * in this file is where vor core commands are registered
+-- * in this file is where vorp core commands are registered
 -- * you can register your own commands here too
 -- * it has features such as : arguments needed , is user in game , groups allowed ,aces allowed ,jobs allowed, webhooks and chat suggestions
 -- * callfunction bellow, will return a table  with    {source , args , rawCommand , config} config is the value on this file the parameters of the command used like commandName
 -- TODO job grade support
---! dont use t this way
- 
+
 --[[ addgroup = {
         webhook = "", -- discord log when someone uses this command leave to false if you dont need
         custom = "\n**PlayerID** `%d`\n**Group given** `%s`", -- for webhook
@@ -54,7 +53,6 @@ Commands = {
         callFunction = function(...)
             SetGroup(...)
         end
-
     },
     addJob = {
         webhook = "",
@@ -77,15 +75,15 @@ Commands = {
     },
     addItem = {
         webhook = "",
-        custom = "\n**PlayerID:** `%d` \n**Item given** `%s`\n**Count:** `%d`",
-        title = "📋` /additems command` ",
+        custom = T.addItem.custom,
+        title = T.addItem.title,
         ---#end webhook
         commandName = "addItems",
-        label = "VORPcore command to give items",
+        label = T.addItem.label,
         suggestion = {
-            { name = "Id",       help = 'player ID to give item' },
-            { name = "Name",     help = 'item name' },
-            { name = "Quantity", help = 'amount' },
+            { name = T.addItem.name,  help = T.addItem.help },
+            { name = T.addItem.name1, help = T.addItem.help1 },
+            { name = T.addItem.name2, help = T.addItem.help2 },
         },
         userCheck = true,
         groupAllowed = { "admin" },
@@ -96,14 +94,14 @@ Commands = {
     },
     addWeapon = {
         webhook = "",
-        custom = "\n**PlayerID** `%d` \n**Weapon given** `%s`",
-        title = "📋` /addweapons command` ",
+        custom = T.addWeapon.custom,
+        title = T.addWeapon.title,
         ---#end webhook
         commandName = "addWeapon",
-        label = "VORPcore command add weapon to player ",
+        label = T.addWeapon.label,
         suggestion = {
-            { name = "Id",     help = "" },
-            { name = "weapon", help = 'weapon name ex: weapon_revolver_lemat' },
+            { name = T.addWeapon.name,  help = T.addWeapon.help },
+            { name = T.addWeapon.name1, help = T.addWeapon.help1 },
         },
         userCheck = true,
         groupAllowed = { "admin" },
@@ -114,15 +112,15 @@ Commands = {
     },
     delMoney = {
         webhook = "",
-        custom = "`\n**PlayerID** `%d` \n**Type** `%d` \n**Quantity** `%d`",
-        title = "📋` /delcurrency command` ",
+        custom = T.delMoney.custom,
+        title = T.delMoney.title,
         ---#end webhook
         commandName = "delMoney",
-        label = "VORPcore command to remove money from players",
+        label = T.delMoney.label,
         suggestion = {
-            { name = "Id",       help = "" },
-            { name = "Type",     help = 'type 0 to give money or 1 to give gold' },
-            { name = "Quantity", help = 'Quantity to remove from player' },
+            { name = T.delMoney.name,  help = T.delMoney.help },
+            { name = T.delMoney.name1, help = T.delMoney.help1 },
+            { name = T.delMoney.name2, help = T.delMoney.help2 },
         },
         userCheck = true,
         groupAllowed = { "admin" },
@@ -133,15 +131,16 @@ Commands = {
     },
     addMoney = {
         webhook = "",
-        custom = "\n**PlayerID** `%d` \n**Type** `%d`\n**Quantity** `%d`",
-        title = "📋` /Addmoney command` ",
+        custom = T.addMoney.custom,
+        title = T.addMoney.title,
         ---#end webhook
         commandName = "addMoney",
-        label = "VORPcore command to to give Money or gold",
+        label = T.addMoney.label,
         suggestion = {
-            { name = "Id",       help = "server id" },
-            { name = "Type",     help = 'type 0 to give money or 1 to give gold' },
-            { name = "Quantity", help = 'Quantity to give' },
+            { name = T.addMoney.name,  help = T.addMoney.help },
+            { name = T.addMoney.name1, help = T.addMoney.help1 },
+            { name = T.addMoney.name2, help = T.addMoney.help2 },
+
         },
         userCheck = true,
         groupAllowed = { "admin" },
@@ -152,13 +151,13 @@ Commands = {
     },
     delWagons = {
         webhook = "",
-        custom = "`\n**PlayerID** `%d`\n **Action:** `Used delwagons` \n **Radius:** `%d`",
-        title = "📋` /delwagons command` ",
+        custom = T.delWagons.custom,
+        title = T.delWagons.title,
         ---#end webhook
         commandName = "delWagons",
-        label = "VORPcore command to remove delete wagons within radius",
+        label = T.delWagons.label,
         suggestion = {
-            { name = "radius", help = 'add a number from 1 to any' },
+            { name = T.delWagons.name, help = T.delWagons.help },
         },
         userCheck = false,
         groupAllowed = { "admin" },
@@ -169,12 +168,12 @@ Commands = {
     },
     revive = {
         webhook = "",
-        custom = "`\n**PlayerID** `%d`\n **Action:** `Was Revived`",
-        title = "📋` /revive command` ",
+        custom = T.revive.custom,
+        title = T.revive.title,
         commandName = "revive",
-        label = "VORPcore command to revive players or yourself",
+        label = T.revive.label,
         suggestion = {
-            { name = "Id", help = "player id" },
+            { name = T.revive.name, help = T.revive.help }
         },
         userCheck = true,
         groupAllowed = { "admin" },
@@ -185,10 +184,10 @@ Commands = {
     },
     teleport = {
         webhook = "",
-        custom = "\n**PlayerID** `%d`\n**Action:** `Used TPM`",
-        title = "📋` /Tpm command` ",
+        custom = T.teleport.custom,
+        title = T.teleport.title,
         commandName = "tpm",
-        label = "VORPcore command to teleport to marker",
+        label = T.teleport.label,
         suggestion = {},
         userCheck = false,
         groupAllowed = { "admin" },
@@ -199,10 +198,10 @@ Commands = {
     },
     delHorse = {
         webhook = "",
-        custom = "`\n**PlayerID** `%d `\n **Action:** `Used Delhorse`",
-        title = "📋` /delhorse command` ",
+        custom = T.delHorse.custom,
+        title = T.delHorse.title,
         commandName = "delHorse",
-        label = "VORPcore command to delete a horse you are mounted",
+        label = T.delHorse.label,
         suggestion = {},
         userCheck = false,
         groupAllowed = { "admin" },
@@ -213,12 +212,12 @@ Commands = {
     },
     heal = {
         webhook = "",
-        custom = "`\n**PlayerID** `%d`\n **Action:** `Was healed`",
-        title = "📋` /healplayer command` ",
+        custom = T.heal.custom,
+        title = T.heal.title,
         commandName = "heal",
-        label = "VORPcore command to heal a player or yourself",
+        label = T.heal.label,
         suggestion = {
-            { name = "Id", help = 'player ID no need for player id if its for you' }
+            { name = T.heal.name, help = T.heal.help }
         },
         userCheck = true,
         groupAllowed = { "admin" },
@@ -233,12 +232,13 @@ Commands = {
     },
     addWhitelist = {
         webhook = "",
-        custom = "`\n**PlayerID:** ` %d `\n **Action:** `has used whitelist`",
-        title = "📋` /wlplayer command` ",
+        custom = T.addWhitelist.custom,
+        title = T.addWhitelist.title,
         commandName = "addWhtelist",
-        label = "VORPcore command set player as whitelisted",
+        label = T.addWhitelist.label,
         suggestion = {
-            { name = "steamid", help = 'steam ID like this > 11000010c8aa16e' }
+            { name = T.addWhitelist.name, help = T.addWhitelist.help },
+        
         },
         userCheck = false,
         groupAllowed = { "admin" },
@@ -249,12 +249,12 @@ Commands = {
     },
     unWhitelist = {
         webhook = "",
-        custom = "`\n**PlayerID** ` %d `\n **Action:** `has used unwhitelist`",
-        title = "📋` /unwlplayer command` ",
+        custom = T.unWhitelist.custom,
+        title = T.unWhitelist.title,
         commandName = "unWhitelist",
-        label = "VORPcore command to set player as unwhitelisted", -- set up the log for this
+        label = T.unWhitelist.label,
         suggestion = {
-            { name = "steamid", help = 'steam id must be provided' },
+            { name = T.unWhitelist.name, help = T.unWhitelist.help },
         },
         userCheck = false,
         groupAllowed = { "admin" },
@@ -265,13 +265,13 @@ Commands = {
     },
     ban = {
         webhook = "",
-        custom = "\n**PlayerID** `%d`\n **Action:** `%s`",
-        title = "📋` /ban command` ",
+        custom = T.ban.custom,
+        title = T.ban.title,
         commandName = "ban",
-        label = "VORPcore command to set player as banned", -- set up the log for this
+        label = T.ban.label,
         suggestion = {
-            { name = "steamid", help = 'steam id must be provided' },
-            { name = "Time",    help = 'Time of ban: d for day w for week m for month y for years example /ban steamid d2   player will be banned for 2 days' },
+            { name = T.ban.name, help = T.ban.help },
+            { name = T.ban.name1, help = T.ban.help1 },
         },
         userCheck = false,
         groupAllowed = { "admin" },
@@ -282,12 +282,12 @@ Commands = {
     },
     unBan = {
         webhook = "",
-        custom = "\n**PlayerID:** ` %d `\n**Action:** `has used unbanned`",
-        title = "📋` /unban command` ",
+        custom = T.unBan.custom,
+        title = T.unBan.title,
         commandName = "unBan",
-        label = "VORPcore command to set player as unBanned", -- set up the log for this
+        label = T.unBan.label,
         suggestion = {
-            { name = "steamid", help = 'steam id must be provided' },
+            { name = T.unBan.name, help = T.unBan.help },
         },
         userCheck = false,
         groupAllowed = { "admin" },
@@ -298,12 +298,12 @@ Commands = {
     },
     warn = {
         webhook = "",
-        custom = "`\n**PlayerID** ` %d `\n **Action:** `has used warned`",
-        title = "📋` /warn command` ",
+        custom = T.warn.custom,
+        title = T.warn.title,
         commandName = "warn",
-        label = "VORPcore command to add a warn to player ", -- set up the log for this
+        label = T.warn.label,
         suggestion = {
-            { name = "steamid", help = 'steam id must be provided' }
+            { name = T.warn.name, help = T.warn.help },
         },
         userCheck = false,
         groupAllowed = { "admin" },
@@ -314,12 +314,12 @@ Commands = {
     },
     unWarn = {
         webhook = "",
-        custom = "`\n**PlayerID** ` %d `\n **Action:** `has used unwarned`",
-        title = "📋` /unwarn command` ",
+        custom = T.unWarn.custom,
+        title = T.unWarn.title,
         commandName = "unWarn",
-        label = "VORPcore command to remove a warn from player", -- set up the log for this
+        label = T.unWarn.label,
         suggestion = {
-            { name = "steamid", help = 'steam id must be provided' },
+            { name = T.unWarn.name, help = T.unWarn.help }
         },
         userCheck = false,
         groupAllowed = { "admin" },
@@ -330,14 +330,15 @@ Commands = {
     },
     charName = {
         webhook = "",
-        custom = "`\n**PlayerID** ` %d `\n **Action:** `Has used changename`",
-        title = "📋` /changename command` ",
+        custom = T.charName.custom,
+        title = T.charName.title,
         commandName = "modifyCharName",
-        label = "VORPcore command to modify a player name", -- set up the log for this
+        label = T.charName.label,
         suggestion = {
-            { name = "Id",        help = 'player ID ' },
-            { name = "firstname", help = 'new player first name' },
-            { name = "lastname",  help = 'new player last  name' },
+            { name = T.charName.name, help = T.charName.help },
+            { name = T.charName.name1, help = T.charName.help1 },
+            { name = T.charName.name2, help = T.charName.help2 },
+
         },
         userCheck = true,
         groupAllowed = { "admin" },
@@ -348,12 +349,12 @@ Commands = {
     },
     charCreateAdd = {
         webhook = "",
-        custom = "`\n**PlayerID: ** ` %d `\n **Action:** `has used multicharacter`",
-        title = "📋` /addchar command` ",
+        custom =T.charCreateAdd.custom,
+        title = T.charCreateAdd.title,
         commandName = "addChar",
-        label = "VORPcore command to set player can create more than one character will be allowed to create: " .. Config.MaxCharacters,
+        label = T.charCreateAdd.label,
         suggestion = {
-            { name = "Steam Hex", help = 'steam id required' },
+            { name = T.charCreateAdd.name, help = T.charCreateAdd.help },
         },
         userCheck = false,
         groupAllowed = { "admin" },
@@ -364,13 +365,13 @@ Commands = {
     },
     charCreateRemove = {
         webhook = "",
-        custom = "`\n**PlayerID:** ` %d `\n **Action:** `Has used remove multicharacter`",
-        title = "📋` /removechar command` ",
+        custom = T.charCreateRemove.custom,
+        title = T.charCreateRemove.title,
         --end webhook
         commandName = "removeChar",
-        label = "VORPcore command to remove player from being able to create more than one character ",
+        label = T.charCreateRemove.label,
         suggestion = {
-            { name = "Steam Hex", help = 'steam id required' },
+            { name = T.charCreateRemove.name, help = T.charCreateRemove.help },
         },
         userCheck = false,
         groupAllowed = { "admin" },
@@ -382,11 +383,11 @@ Commands = {
     myJob = {
         webhook = "",
         commandName = "myJob",
-        label = "VORPcore command to check what job you hold",
+        label = T.myJob.label,
         suggestion = {},
         userCheck = false,
         groupAllowed = {}, -- leave empty anyone can use
-        aceAllowed = nil, -- leave nil anyone can use
+        aceAllowed = nil,  -- leave nil anyone can use
         callFunction = function(...)
             MyJob(...)
         end
@@ -394,11 +395,11 @@ Commands = {
     myHours = {
         webhook = "",
         commandName = "myHours",
-        label = " VORPcore command to check your hours player in this server  ",
+        label = T.myHours.label,
         suggestion = {},
         userCheck = false,
         groupAllowed = {}, -- leave empty anyone can use
-        aceAllowed = nil, -- leave nil anyone can use
+        aceAllowed = nil,  -- leave nil anyone can use
         callFunction = function(...)
             MyHours(...)
         end
