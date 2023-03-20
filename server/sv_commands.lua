@@ -410,7 +410,7 @@ end
 --MYHOUR
 function MyHours(data)
     local _source = data.source
-    local User    = VorpCore.getUser(_source)
+    local User    = VorpCore.getUser(_source).getUsedCharacter
     local hours   = User.hours
 
     local function isInteger(num)
