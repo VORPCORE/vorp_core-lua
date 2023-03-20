@@ -794,7 +794,7 @@ Translation = {
                 name = "Id",
                 help = 'player ID',
             },
-            addWitelist = {
+            addWhitelist = {
                 custom = "`\n**PlayerID** `%d `\n **Action:** `Used Whitelist`",
                 title = "📋` /whitelist command` ",
                 label = "VORPcore command to  whitelist a player ",
