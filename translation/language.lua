@@ -801,14 +801,14 @@ Translation = {
                 name = "Steamid",
                 help = "steam id example 11000010c8aa16e",
             },
-            unWhitelist = {
+            addWhitelist = {
                 custom = "`\n**PlayerID** `%d `\n **Action:** `Used Unwhitelist`",
                 title = "📋` /unwhitelist command` ",
                 label = "VORPcore command to  unwhitelist a player ",
                 name = "Steamid",
                 help = "steam id example 11000010c8aa16e",
             },
-            Ban = {
+            ban = {
                 custom = "\n**PlayerID** `%d`\n **Action:** `used ban`",
                 title = "📋` /ban command` ",
                 label = "VORPcore command to ban a player ",
