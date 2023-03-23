@@ -138,7 +138,7 @@ function SetGroup(data)
             Character.setGroup(newgroup)
         end
     end
-    SendDiscordLogs(data.config.SetgroupWebhook, data, data.source, newgroup, "")
+    SendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
     VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)
 end
@@ -152,7 +152,7 @@ function AddJob(data)
 
     Character.setJob(newjob)
     Character.setJobGrade(jobgrade)
-    SendDiscordLogs(data.config.SetjobWebhook, data, data.source, newjob, jobgrade)
+    SendDiscordLogs(data.config.webhook, data, data.source, newjob, jobgrade)
 
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.AddJob, newjob, target, jobgrade),
         4000)
@@ -172,7 +172,7 @@ function AddMoney(data)
 
     Character.addCurrency(montype, quantity)
 
-    SendDiscordLogs(data.config.AddmoneyWebhook, data, data.source, montype, quantity)
+    SendDiscordLogs(data.config.webhook, data, data.source, montype, quantity)
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.AddMoney, quantity, target), 4000)
     VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddMoney1, quantity), 4000)
 end
@@ -201,7 +201,7 @@ function AddItems(data)
     end
 
     VORPInv.addItem(target, item, count)
-    SendDiscordLogs(data.config.AddItemsWebhook, data, data.source, item, count)
+    SendDiscordLogs(data.config.webhook, data, data.source, item, count)
 end
 
 --ADDWEAPONS
@@ -216,7 +216,7 @@ function AddWeapons(data)
             return VorpCore.NotifyObjective(data.source, Config.Langs.cantCarry, 4000)
         end
         VORPInv.createWeapon(target, weaponHash)
-        SendDiscordLogs(data.config.AddWeaponsWebhook, data, data.source, weaponHash, "")
+        SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
     end)
 end
 
@@ -232,7 +232,7 @@ function RemmoveCurrency(data)
     local Character = VorpCore.getUser(target).getUsedCharacter
 
     Character.removeCurrency(montype, quantity)
-    SendDiscordLogs(data.config.DelMoneyWebhook, data, data.source, montype, quantity)
+    SendDiscordLogs(data.config.webhook, data, data.source, montype, quantity)
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.removedcurrency, quantity, target), 4000)
 end
 
@@ -249,20 +249,20 @@ function RevivePlayer(data)
             VorpCore.NotifyObjective(data.source, Translation[Lang].Notify.userNonExistent, 4000)
         end
     end
-    SendDiscordLogs(data.config.ReviveWebhook, data, target > 0 or data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, target > 0 or data.source, "", "")
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.revived, target), 4000)
 end
 
 --TELPORTPLAYER
 function TeleporPlayer(data)
     TriggerClientEvent('vorp:teleportWayPoint', data.source)
-    SendDiscordLogs(data.config.TpmWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --DELETEHORSES
 function DeleteHorse(data)
     TriggerClientEvent("vorp:delHorse", data.source)
-    SendDiscordLogs(data.config.DelHorseWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --DELETEWAGONS
@@ -273,7 +273,7 @@ function DeleteWagons(data)
         return VorpCore.NotifyRightTip(data.source, Translation[Lang].Notify.radius, 4000)
     end
     TriggerClientEvent("vorp:deleteVehicle", data.source, radius)
-    SendDiscordLogs(data.config.DelWagonsWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --HEALPLAYERS
@@ -288,7 +288,7 @@ function HealPlayers(data)
             VorpCore.NotifyObjective(data.source, Translation[Lang].Notify.userNonExistent, 4000)
         end
     end
-    SendDiscordLogs(data.config.HealPlayerWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --BANPLAYERS
@@ -322,35 +322,35 @@ function BanPlayers(data)
     local text = banTime == 0 and Translation[Lang].Notify.banned or
         (Translation[Lang].Notify.banned2 .. os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600) .. Config.TimeZone)
 
-    SendDiscordLogs(data.config.BanWarnWebhook, data, data.source, text, "")
+    SendDiscordLogs(data.config.webhook, data, data.source, text, "")
 end
 
 --UNBANPLAYERS
 function UnBanPlayers(data)
     local target = tonumber(data.args[1])
     TriggerClientEvent("vorp:unban", data.source, target)
-    SendDiscordLogs(data.config.BanWarnWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --WHITELISTPLAYERS
 function AddPlayerToWhitelist(data)
     local target = tonumber(data.args[1])
     TriggerEvent("vorp:whitelistPlayer", target)
-    SendDiscordLogs(data.config.WhitelistWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --UNWHITELISTPLAYERS
 function RemovePlayerFromWhitelist(data)
     local target = tonumber(data.args[1])
     TriggerEvent("vorp:unwhitelistPlayer", target)
-    SendDiscordLogs(data.config.WhitelistWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --UNWARNPLAYERS
 function UnWarnPlayer(data)
     local target = tonumber(data.args[1])
     TriggerClientEvent("vorp:unwarn", data.source, target)
-    SendDiscordLogs(data.config.BanWarnWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --WARN PLAYERS
@@ -358,7 +358,7 @@ function WarnPlayers(data)
     local target = tonumber(data.args[1])
     if data.source ~= target then -- dont warn yourself
         TriggerClientEvent("vorp:warn", data.source, target)
-        SendDiscordLogs(data.config.BanWarnWebhook, data, data.source, "", "")
+        SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     end
 end
 
@@ -369,7 +369,7 @@ function AddCharCanCreateMore(data)
     end
     local target = tonumber(data.args[1])
     TriggerClientEvent("vorp:addchar", data.source, target)
-    SendDiscordLogs(data.config.CharPermWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     VorpCore.NotifyRightTip(data.source, Config.Langs.AddChar .. target, 4000)
 end
 
@@ -380,7 +380,7 @@ function RemoveCharCanCreateMore(data)
     end
     local target = tonumber(data.args[1])
     TriggerClientEvent("vorp:removechar", data.source, target)
-    SendDiscordLogs(data.config.CharPermWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     VorpCore.NotifyRightTip(data.source, Config.Langs.RemoveChar .. target, 4000)
 end
 
@@ -393,7 +393,7 @@ function ModifyCharName(data)
     local Character = VorpCore.getUser(target).getUsedCharacter -- get old name
     Character.setFirstname(firstname)
     Character.setLastname(lastname)
-    SendDiscordLogs(data.config.ChangeNameWebhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     VorpCore.NotifyRightTip(target,
         string.format(Translation[Lang].Notify.namechange, firstname, lastname), 4000)
 end
