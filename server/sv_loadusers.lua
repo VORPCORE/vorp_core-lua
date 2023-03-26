@@ -30,7 +30,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         if Config.UseCharPermission then
             _users[identifier] = User(source, identifier, user["group"], user["warnings"], license, user["char"])
         else
-            _users[identifier] = User(source, identifier, user["group"], user["warnings"], license)
+            _users[identifier] = User(source, identifier, user["group"], user["warnings"], license, false)
         end
 
         _users[identifier].LoadCharacters()
@@ -110,6 +110,7 @@ AddEventHandler('playerJoining', function()
     end
 end)
 
+--* character selection
 RegisterNetEvent('vorp:playerSpawn', function()
     local source = source
     local identifier = GetSteamID(source)
@@ -131,21 +132,22 @@ RegisterNetEvent('vorp:playerSpawn', function()
     local numCharacters = user.Numofcharacters()
 
     if numCharacters <= 0 then
-        TriggerEvent("vorp_CreateNewCharacter", source)
-        CreateThread(function()
-            Wait(7000)
-            local T = Translation[Lang].Notify.left
-            VorpCore.NotifyLeft(source, T.title, T.subtitle, T.dict, T.icon, 6000, T.color)
-        end)
-    elseif Config.UseCharPermission and user._charperm == "false" and numCharacters <= 1 then
-        TriggerEvent("vorp_SpawnUniqueCharacter", source)
+        return TriggerEvent("vorp_CreateNewCharacter", source)
     else
-        TriggerEvent("vorp_GoToSelectionMenu", source)
-        CreateThread(function()
-            Wait(14000)
-            local T = Translation[Lang].Notify.left1
-            VorpCore.NotifyLeft(source, T.title, T.subtitle, T.dict, T.icon, 6000, T.color)
-        end)
+        --* if chosen maxchars is more than 1 then allow to choose character
+        if not Config.UseCharPermission then
+            if Config.MaxCharacters > 1 then
+                return TriggerEvent("vorp_GoToSelectionMenu", source)
+            else
+                return TriggerEvent("vorp_SpawnUniqueCharacter", source)
+            end
+        end
+
+        if tostring(user._charperm) == "true" then
+            TriggerEvent("vorp_GoToSelectionMenu", source)
+        else
+            TriggerEvent("vorp_SpawnUniqueCharacter", source)
+        end
     end
 end)
 
