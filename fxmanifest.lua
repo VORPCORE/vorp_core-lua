@@ -54,4 +54,5 @@ vorp_github 'https://github.com/VORPCORE/vorp-core-lua'
 dependencies {
   '/onesync',
   'oxmysql',
+  '/server:6231', -- there are new natives that only work on newer builds of redm
 }
