@@ -60,9 +60,9 @@ AddEventHandler('playerSpawned', function()
     SetMinimapHideFow(false)                                                                                     -- hide map fog of war
     Wait(2000)
     TriggerServerEvent("vorp:playerSpawn")
-    Wait(9000)           -- give time to load in
-    ExecuteCommand("rc") --reload char so it doesnt come invisible
-    Wait(2000)
+    Wait(9000) -- give time to load in
+    -- ExecuteCommand("rc") --reload char so it doesnt come invisible
+    -- Wait(2000)
     ShutdownLoadingScreen()
     CreateThread(function()
         while firstSpawn do                                         -- trigger on spawn
