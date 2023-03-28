@@ -102,6 +102,8 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName, justreviv
     DisplayHud(true)
     DisplayRadar(true)
     setPVP()
+    TriggerEvent("vorpcharacter:reloadafterdeath")
+    Wait(500)
     if currentHospital and currentHospital then -- set entitycoords with heading
         Citizen.InvokeNative(0x203BEFFDBE12E96A, player, currentHospital, false, false, false)
     end
@@ -114,7 +116,7 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName, justreviv
                 Wait(0)
                 SetPedToRagdoll(PlayerPedId(), 4000, 4000, 0, 0, 0, 0)
                 ResetPedRagdollTimer(PlayerPedId())
-                DisablePedPainAudio(PlayerPedId(), true) 
+                DisablePedPainAudio(PlayerPedId(), true)
             end
         end)
         AnimpostfxPlay("Title_Gen_FewHoursLater")
