@@ -38,7 +38,7 @@ AddEventHandler('vorp:TipRight', function(text, duration)
 end)
 
 AddEventHandler('vorp:TipBottom', function(text, duration)
-    TriggerEvent('vorp:TipBottom', text, duration) -- allows to listen for this notification
+    exports.vorp_core:DisplayObjective(tostring(text), tonumber(duration))
 end)
 
 AddEventHandler('vorp:ShowTopNotification', function(tittle, subtitle, duration)

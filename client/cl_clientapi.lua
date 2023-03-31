@@ -43,7 +43,7 @@ AddEventHandler('getCore', function(cb)
     end
 
     corefunctions.NotifyObjective = function(text, duration)
-        exports.vorp_core:DisplayObjective(tostring(text), tonumber(duration))
+        TriggerEvent('vorp:TipBottom', text, duration) -- allows to listen for this notification
     end
 
     corefunctions.NotifyTop = function(text, location, duration)
