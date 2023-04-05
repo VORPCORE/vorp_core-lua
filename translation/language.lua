@@ -40,7 +40,7 @@ Translation = {
             webHookMessage = "**Steam name: **`%s`**\nIdentifier**`%s` \n**Discord:** <@%s>**\nIP: **`%s`", -- only translate
             addGroup = {
                 custom = "\n**PlayerID** `%d`\n**Group given** `%s`",
-                tittle = "📋 `/Group command`",
+                title = "📋 `/Group command`",
                 label = "VORPcore command set player group",
                 help = 'player ID',
                 help1 = 'Group Name',
@@ -49,7 +49,7 @@ Translation = {
             },
             addJob = {
                 custom = "\n**PlayerID:** `%d` \n**Job given** `%s`\n**Grade:** `%d`",
-                tittle = "📋 `/Job command`",
+                title = "📋 `/Job command`",
                 label = "VORPcore command set player job and grade",
                 help = 'player ID',
                 help1 = 'Job Name',
@@ -219,6 +219,225 @@ Translation = {
             whitelistid1 = "📋` New player joined server` ",
         }
     },
+    Italian = {
+        Notify = {
+            userNonExistent = "L'ID è errato o l'utente non esiste.",
+            ReadSuggestion = "Si prega di leggere i suggerimenti della chat su come utilizzare il comando.",
+            SetGroup = "Hai assegnato il gruppo a ID: %d",
+            SetGroup1 = "L'amministratore ti ha assegnato il gruppo di %s",
+            AddJob = "Hai assegnato il lavoro %s a ID %d Grado %d",
+            AddJob1 = "Uno staffer ti ha assegnato il lavoro %s Grado %d",
+            error = " digita 0 per il denaro contante e 1 per l'oro",
+            AddMoney = "Hai dato la valuta %d a ID %d",
+            AddMoney1 = "Hai ricevuto da un amministratore una somma di %d",
+            invfull = "L'inventario è pieno",
+            cantcarry = "Impossibile trasportare più di questo oggetto",
+            removedcurrency = "Hai rimosso %d $ da ID: %d",
+            revived = "Il giocatore con ID server %d è stato rianimato",
+            radius = "Il raggio deve essere superiore a 1",
+            namechange = "Il tuo nome è stato cambiato in: %s %s da un amministratore",
+            banned = "è stato bannato permanentemente",
+            banned2 = "ha bannato qualcuno fino a",
+            banned3 = "Sei stato bannato permanentemente!",
+            healself = "Ti sei rianimato.",
+            healall = "Sei stato curato."            
+            left = {
+                title = "~e~IMPORTANTE!",
+                subtitle = "Devi impostare l'altezza del tuo personaggio a 1.0, ci saranno molti bug se non lo fai.",                
+                dict = "minigames_hud",
+                icon = "five_finger_burnout",
+                color = "COLOR_RED"
+            },
+            left1 = {
+                title = "~e~IMPORTANTE!",
+                subtitle = "Una volta che ~e~elimini ~q~un personaggio, non c'è modo di tornare indietro!",
+                dict = "minigames_hud",
+                icon = "five_finger_burnout",
+                color = "COLOR_RED"
+            }
+        },
+        Commands = {
+            webHookMessage = "**Nome Steam: **`%s`**\nIdentifier**`%s` \n**Discord:** <@%s>**\nIP: **`%s`", -- only translate
+            addGroup = {
+                custom = "\n**IDPlayer** `%d`\n**Gruppo settato** `%s`",
+                title = "📋 `/addgroup`",
+                label = "Comando VORPcore per impostare un gruppo ad un giocatore ",
+                help = 'ID Player',
+                help1 = 'Nome gruppo',
+                name = "Id",
+                name1 = "Gruppo"
+            },
+            addJob = {
+                custom = "\n**IDPlayer:** `%d` \n**Lavoro settato** `%s`\n**Grado:** `%d`",
+                title = "📋 `/addjob`",
+                label = "Comando VORPcore per settare un lavoro ad un giocatore ",
+                help = 'ID Player',
+                help1 = 'Nome lavoro',
+                help2 = 'Nome lavoro',
+                name = "Id",
+                name1 = "NomeLavoro",
+                name2 = "GradoLavoro",
+            },
+            addItem = {
+                custom = "\n**IDPlayer:** `%d` \n**Oggetto consegnato** `%s`\n**Quantità:** `%d`",
+                title = "📋` /additems` ",
+                label = "Comando VORPcore per consegnare oggetti ",
+                help = 'ID Player',
+                help1 = 'Item name',
+                help2 = 'Quantità',
+                name = "Id",
+                name1 = "ItemName",
+                name2 = "Quantità",
+            },
+            addWeapon = {
+                custom = "\n**IDPlayer** `%d` \n**Arma consegnata** `%s`",
+                title = "📋` /addweapon` ",
+                label = "Comando VORPcore per consegnare armi ",
+                help = 'ID Player',
+                help1 = 'Nome arma',
+                help2 = 'Munizioni',
+                name = "Id",
+                name1 = "NomeArma",
+            },
+            delMoney = {
+                custom = "\n**IDPlayer** `%d` \n**Tipo** `%d`\n**Quantità** `%d`",
+                title = "📋` /delmoney` ",
+                label = "Comando VORPcore per rimuovere denaro ",
+                help = 'ID Player',
+                help1 = 'Tipo 0 per contanti e 1 per l\'oro',
+                help2 = 'Quantità',
+                name = "Id",
+                name1 = "Tipo",
+                name2 = "Quantità",
+            },
+            addMoney = {
+                custom = "\n**IDPlayer** `%d` \n**Tipo** `%d`\n**Quantità** `%d`",
+                title = "📋` /addmoney` ",
+                label = "Comando VORPcore per dare denaro ",
+                help = 'ID Player',
+                help1 = 'Tipo 0 per contanti e 1 per l\'oro',
+                help2 = 'Quantità',
+                name = "Id",
+                name1 = "Tipo",
+                name2 = "Quantità",
+            },
+            delWagons = {
+                custom = "`\n**IDPlayer** `%d`\n **Azione:** `ha usato delwagons` \n **Radius:** `%d`",
+                title = "📋` /delwagons` ",
+                label = "Comando VORPcore per eliminare i carri con un raggio ",
+                help = 'add a number from 1 to any ',
+                name = "radius",
+            },
+            revive = {
+                custom = "`\n**IDPlayer** `%d`\n **Azione:** `E' stato rianimato`",
+                title = "📋` /revive` ",
+                label = "Comando VORPcore per rianimare un giocatore ",
+                help = 'ID Player',
+                name = "Id",
+            },
+            teleport = {
+                custom = "`\n**IDPlayer** `%d`\n **Azione:** ` E' stato teletrasportato`",
+                title = "📋` /teleport` ",
+                label = "Comando VORPcore per teletrasportare un giocatore ",
+                help = 'ID Player',
+                name = "Id",
+            },
+            delHorse = {
+                custom = "`\n**IDPlayer** `%d `\n **Azione:** `ha usato Delhorse`",
+                title = "📋` /delhorse` ",
+                label = "Comando VORPcore per cancellare un cavallo ",
+            },
+            heal = {
+                custom = "`\n**IDPlayer** `%d `\n **Azione:** `ha usato Heal`",
+                title = "📋` /heal` ",
+                label = "Comando VORPcore per curare un giocatore ",
+                name = "Id",
+                help = 'ID Player',
+            },
+            addWhitelist = {
+                custom = "`\n**IDPlayer** `%d `\n **Azione:** `ha usato Whitelist`",
+                title = "📋` /whitelist` ",
+                label = "Comando VORPcore per dare la whitelist ad un giocatore ",
+                name = "Steamid",
+                help = "steam id esempio 11000010c8aa16e",
+            },
+            unWhitelist = {
+                custom = "`\n**IDPlayer** `%d `\n **Azione:** `ha usato Unwhitelist`",
+                title = "📋` /unwhitelist` ",
+                label = "Comando VORPcore per togliere la whitelist ad un giocatore ",
+                name = "Steamid",
+                help = "steam id esempio 11000010c8aa16e",
+            },
+            ban = {
+                custom = "\n**IDPlayer** `%d`\n **Azione:** `ha usato ban`",
+                title = "📋` /ban` ",
+                label = "Comando VORPcore per bannare un giocatore ",
+                name = "Steamid",
+                name1 = "time",
+                help = "steam id esempio 11000010c8aa16e",
+                help1 = "Tempo di ban: d per giorni w per settimane m per mesi y per anni esempio con /ban steamid d2, il giocatore sarà bannato per 2 giorni",
+            },
+            unBan = {
+                custom = "\n**IDPlayer** `%d`\n **Azione:** `%s`",
+                title = "📋` /unban` ",
+                label = "Comando VORPcore per togliere il ban ad un giocatore ",
+                name = "Steamid",
+                help = "steam id esempio 11000010c8aa16e",
+            },
+            warn = {
+                custom = "\n**IDPlayer** `%d`\n **Azione:** `ha usato warn`",
+                title = "📋` /warn` ",
+                label = "Comando VORPcore per dare un warn ad un giocatore ",
+                name = "Steamid",
+                help = "steam id esempio 11000010c8aa16e",
+            },
+            unWarn = {
+                custom = "\n**IDPlayer** `%d`\n **Azione:** `ha usato unwarn`",
+                title = "📋` /unwarn` ",
+                label = "Comando VORPcore per togliere un warn ad un giocatore ",
+                name = "Steamid",
+                help = "steam id esempio 11000010c8aa16e",
+            },
+            charName = {
+                custom = "\n**IDPlayer** `%d`\n **Azione:** `ha usato charname`",
+                title = "📋` /charname` ",
+                label = "Comando VORPcore per cambiare il nome ad un personaggio ",
+                name = "Id",
+                name1 = "nome",
+                name2 = "cognome",
+                help = "ID Player",
+                help1 = "nome esempio John",
+                help2 = "cognome esempio Doe",
+            },
+            charCreateAdd = {
+                custom = "\n**IDPlayer** `%d`\n **Azione:** `ha usato charcreateadd`",
+                title = "📋` /addchar` ",
+                label = "Comando VORPcore per aggiungere un personaggio ad un giocatore ",
+                name = "steamid",
+                help = "steam id esempio 11000010c8aa16e",
+                
+            },
+            charCreateRemove = {
+                custom = "\n**IDPlayer** `%d`\n **Azione:** `ha usato charcreateremove`",
+                title = "📋` /removechar` ",
+                label = "Comando VORPcore per rimuovere un personaggio ad un giocatore ",
+                name = "steamid",
+                help = "steam id esempio 11000010c8aa16e",
+            },
+            myJob = {
+                title = "📋` /myjob` ",
+                label = "Comando VORPcore per vedere il proprio lavoro",
+            },
+            myHours={
+                title = "📋` /myhours` ",
+                label = "Comando VORPcore per vedere le tue ore di gioco",
+            },
+        },
+        addWebhook = {
+            whitelistid = "**Nome Steam: **`%s`**\nIdentifier:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",
+            whitelistid1 = "📋` Un nuovo giocatore si è unito al server` ",
+        }
+    },
     Spanish = {
         Notify = {
             userNonExistent = "ID is wrong or user doesnt exist.",
@@ -260,7 +479,7 @@ Translation = {
             webHookMessage = "**Steam name: **`%s`**\nIdentifier**`%s` \n**Discord:** <@%s>**\nIP: **`%s`", -- only translate
             addGroup = {
                 custom = "\n**PlayerID** `%d`\n**Group given** `%s`",
-                tittle = "📋 `/Group command`",
+                title = "📋 `/Group command`",
                 label = "VORPcore command set player group",
                 help = 'player ID',
                 help1 = 'Group Name',
@@ -269,7 +488,7 @@ Translation = {
             },
             addJob = {
                 custom = "\n**PlayerID:** `%d` \n**Job given** `%s`\n**Grade:** `%d`",
-                tittle = "📋 `/Job command`",
+                title = "📋 `/Job command`",
                 label = "VORPcore command set player job and grade",
                 help = 'player ID',
                 help1 = 'Job Name',
@@ -480,7 +699,7 @@ Translation = {
             webHookMessage = "**Steam name: **`%s`**\nIdentifier**`%s` \n**Discord:** <@%s>**\nIP: **`%s`", -- only translate
             addGroup = {
                 custom = "\n**PlayerID** `%d`\n**Group given** `%s`",
-                tittle = "📋 `/Group command`",
+                title = "📋 `/Group command`",
                 label = "VORPcore command set player group",
                 help = 'player ID',
                 help1 = 'Group Name',
@@ -489,7 +708,7 @@ Translation = {
             },
             addJob = {
                 custom = "\n**PlayerID:** `%d` \n**Job given** `%s`\n**Grade:** `%d`",
-                tittle = "📋 `/Job command`",
+                title = "📋 `/Job command`",
                 label = "VORPcore command set player job and grade",
                 help = 'player ID',
                 help1 = 'Job Name',
@@ -700,7 +919,7 @@ Translation = {
             webHookMessage = "**Steam name: **`%s`**\nIdentifier**`%s` \n**Discord:** <@%s>**\nIP: **`%s`", -- only translate
             addGroup = {
                 custom = "\n**PlayerID** `%d`\n**Group given** `%s`",
-                tittle = "📋 `/Group command`",
+                title = "📋 `/Group command`",
                 label = "VORPcore command set player group",
                 help = 'player ID',
                 help1 = 'Group Name',
@@ -709,7 +928,7 @@ Translation = {
             },
             addJob = {
                 custom = "\n**PlayerID:** `%d` \n**Job given** `%s`\n**Grade:** `%d`",
-                tittle = "📋 `/Job command`",
+                title = "📋 `/Job command`",
                 label = "VORPcore command set player job and grade",
                 help = 'player ID',
                 help1 = 'Job Name',

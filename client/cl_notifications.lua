@@ -41,8 +41,8 @@ AddEventHandler('vorp:TipBottom', function(text, duration)
     exports.vorp_core:DisplayObjective(tostring(text), tonumber(duration))
 end)
 
-AddEventHandler('vorp:ShowTopNotification', function(tittle, subtitle, duration)
-    exports.vorp_core:ShowTopNotification(tostring(tittle), tostring(subtitle), tonumber(duration))
+AddEventHandler('vorp:ShowTopNotification', function(title, subtitle, duration)
+    exports.vorp_core:ShowTopNotification(tostring(title), tostring(subtitle), tonumber(duration))
 end)
 
 ---comment

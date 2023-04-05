@@ -39,7 +39,7 @@ Commands = {
     addgroup = {
         webhook = "",
         custom = T.addGroup.custom,
-        title = T.addGroup.tittle,
+        title = T.addGroup.title,
         ---#end webhook
         commandName = "addGroup",
         label = T.addGroup.label,
