@@ -37,6 +37,12 @@ body {
   opacity: 0;
 }
 
+.content-bottom-left {
+    position: absolute;
+    bottom: 18rem;
+    left: 1rem;
+}
+
 .content-bottom-right {
     position: absolute;
     bottom: 2rem;
