@@ -75,6 +75,8 @@ createApp({
     },
     contentstyle() {
       switch (this.uiposition) {
+        case 'BottomLeft':
+          return 'content-bottom-left'
         case 'BottomRight':
           return 'content-bottom-right'
         case 'MiddleRight':
