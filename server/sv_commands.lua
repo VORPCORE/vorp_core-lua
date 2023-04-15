@@ -240,7 +240,7 @@ end
 function RevivePlayer(data)
     local target = tonumber(data.args[1])
 
-    if #data.args == 0 then
+    if #data.args == 0 or "" then
         TriggerClientEvent('vorp:resurrectPlayer', data.source) -- heal staff
     else
         if VorpCore.getUser(target) then
@@ -249,7 +249,7 @@ function RevivePlayer(data)
             VorpCore.NotifyObjective(data.source, Translation[Lang].Notify.userNonExistent, 4000)
         end
     end
-    SendDiscordLogs(data.config.webhook, data, target > 0 or data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, target or data.source, "", "")
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.revived, target), 4000)
 end
 
