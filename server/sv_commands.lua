@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------------------------
 --------------------------------------- VORP ADMIN COMMANDS -------------------------------------
 -------------------------------------------------------------------------------------------------
-local AceAllowed = {}
+
 
 local CheckUser = function(target)
     if not VorpCore.getUser(tonumber(target)) then
@@ -18,18 +18,22 @@ local CheckArgs = function(args, requiered)
 end
 
 local function CheckAce(ace, source)
-    AceAllowed[source] = AceAllowed[source] or {}
     -- if nil allow commands that don't need permissions
     if ace then
         local all = 'vorpcore.showAllCommands'
 
-        if AceAllowed[source][all or ace] ~= nil then
-            return AceAllowed[source][all or ace]
-        else
-            local aceAllowed = IsPlayerAceAllowed(source, all or ace)
-            AceAllowed[source][all or ace] = aceAllowed
-            return aceAllowed
+        local aceAllowed = IsPlayerAceAllowed(source, all)
+        if aceAllowed then
+            return true
         end
+
+        aceAllowed = IsPlayerAceAllowed(source, ace)
+
+        if aceAllowed then
+            return true
+        end
+
+        return false
     else
         return true
     end
@@ -85,7 +89,7 @@ CreateThread(function()
                 return
             end
 
-            if not CheckAce(value.aceAllowed, _source) or not CheckGroupAllowed(value.groupAllowed, group) then -- check ace first then group
+            if not CheckAce(value.aceAllowed, _source) and not CheckGroupAllowed(value.groupAllowed, group) then -- check ace first then group
                 return VorpCore.NotifyObjective(_source, Config.Langs.NoPermissions, 4000)
             end
 
