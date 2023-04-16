@@ -49,6 +49,9 @@ local TeleportToCoords = function(coords, heading)
     if heading then
         SetEntityHeading(playerPedId, heading)
     end
+    while not HasCollisionLoadedAroundEntity(PlayerPedId()) do
+        Wait(500)
+    end
 end
 
 --====================================== PLAYERSPAWN =======================================================--

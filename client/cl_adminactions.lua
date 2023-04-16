@@ -1,7 +1,6 @@
 --=================================================== ADMIN ACTIONS ================================================================--
 
 local TeleportToWaypoint = function()
-
     local ped = PlayerPedId()
     local GetGroundZAndNormalFor_3dCoord = GetGroundZAndNormalFor_3dCoord
     local waypoint = IsWaypointActive()
@@ -25,6 +24,9 @@ local TeleportToWaypoint = function()
         found, groundZ = GetGroundZAndNormalFor_3dCoord(x, y, z)
         if found then
             SetEntityCoords(ped, x, y, groundZ)
+            while not HasCollisionLoadedAroundEntity(PlayerPedId()) do
+                Wait(500)
+            end
             FreezeEntityPosition(ped, false)
             Wait(1000)
             DoScreenFadeIn(650)
@@ -40,7 +42,7 @@ local GetVehicleInDirection = function()
     local inDirection    = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 5.0,
         0.0)
     local rayHandle      = StartExpensiveSynchronousShapeTestLosProbe(playerCoords
-        , inDirection, 10, playerPed, 0)
+    , inDirection, 10, playerPed, 0)
     local hit, entityHit = GetShapeTestResult(rayHandle)
 
     if hit == 1 and GetEntityType(entityHit) == 2 then
@@ -126,9 +128,9 @@ end
 --==================== HEAL PLAYER ==========================--
 HealPlayer = function()
     local ped = PlayerPedId()
-    Citizen.InvokeNative(0xC6258F41D86676E0, ped, 0, 100) -- inner first
-    SetEntityHealth(ped, 600, 1) -- outter after
-    Citizen.InvokeNative(0xC6258F41D86676E0, ped, 1, 100) -- only fills inner
+    Citizen.InvokeNative(0xC6258F41D86676E0, ped, 0, 100)     -- inner first
+    SetEntityHealth(ped, 600, 1)                              -- outter after
+    Citizen.InvokeNative(0xC6258F41D86676E0, ped, 1, 100)     -- only fills inner
     Citizen.InvokeNative(0x675680D089BFA21F, ped, 1065330373) -- only fills outter with a weird amount of numbers
     --TriggerEvent("vorpmetabolism:setValue", "Thirst", 1000) -- metabolism
     -- TriggerEvent("vorpmetabolism:setValue", "Hunger", 1000)
