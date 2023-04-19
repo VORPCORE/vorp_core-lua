@@ -22,7 +22,7 @@ end
 
 local function SetUpdateWhitelistPolicy() -- this needs a source to only get these values if player is joining
     while Config.AllowWhitelistAutoUpdate do
-        Wait(3600000) -- this needs to be changed and saved on players drop
+        Wait(3600000)                     -- this needs to be changed and saved on players drop
         _whitelist = {}
         MySQL.query("SELECT * FROM whitelist", {},
             function(result) -- why are we loading all the entries into memmory ? so we are adding to a table even players that are not playing or have been banned or whatever.
@@ -36,6 +36,10 @@ local function SetUpdateWhitelistPolicy() -- this needs a source to only get the
 end
 
 function GetSteamID(src)
+    if not src then
+        return false
+    end
+    
     local sid = GetPlayerIdentifiers(src)[1] or false
 
     if sid == false or sid:sub(1, 5) ~= "steam" then
@@ -90,7 +94,7 @@ local function InsertIntoWhitelist(identifier)
     end
 
     MySQL.prepare.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)"
-        , { identifier, false, true }, function(result)
+    , { identifier, false, true }, function(result)
     end)
 
     local entryList = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })

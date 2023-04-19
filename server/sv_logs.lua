@@ -4,6 +4,8 @@
 
 function GetIdentity(source, identity)
     local num = 0
+    if not source then return end
+    
     local num2 = GetNumPlayerIdentifiers(source)
 
     if GetNumPlayerIdentifiers(source) > 0 then
@@ -55,6 +57,3 @@ AddEventHandler("vorprich:getplayers", function()
     local playerCount = #GetPlayers()
     TriggerClientEvent("vorprich:update", source, playerCount)
 end)
-
-
-
