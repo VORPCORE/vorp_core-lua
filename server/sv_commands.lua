@@ -371,7 +371,7 @@ function AddCharCanCreateMore(data)
     if not Config.UseCharPermission then
         return
     end
-    local target = tonumber(data.args[1])
+    local target = data.args[1]
     TriggerClientEvent("vorp:addchar", data.source, target)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     VorpCore.NotifyRightTip(data.source, Config.Langs.AddChar .. target, 4000)
@@ -382,7 +382,7 @@ function RemoveCharCanCreateMore(data)
     if not Config.UseCharPermission then
         return
     end
-    local target = tonumber(data.args[1])
+    local target = data.args[1]
     TriggerClientEvent("vorp:removechar", data.source, target)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     VorpCore.NotifyRightTip(data.source, Config.Langs.RemoveChar .. target, 4000)
