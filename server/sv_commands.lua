@@ -424,7 +424,7 @@ function MyHours(data)
         return false
     end
 
-    if isInteger then
+    if isInteger(hours) then
         VorpCore.NotifyRightTip(_source, string.format(Config.Langs.charhours, hours), 4000)
     else
         local newhour = math.floor(hours - 0.5)
