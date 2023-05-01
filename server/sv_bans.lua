@@ -1,4 +1,3 @@
-RegisterNetEvent("vorpbans:addtodb")
 AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
     local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
 
@@ -17,8 +16,8 @@ AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
     end
 
     MySQL.update("UPDATE users SET banned = @banned, banneduntil=@time WHERE identifier = @identifier",
-        { ['@banned'] = status,['@time'] = datetime,['@identifier'] = sid }, function(result)
-    end)
+        { ['@banned'] = status, ['@time'] = datetime, ['@identifier'] = sid }, function(result)
+        end)
 end)
 
 RegisterNetEvent("vorpwarns:addtodb")
@@ -59,6 +58,6 @@ AddEventHandler("vorpwarns:addtodb", function(status, id)
 
 
     MySQL.update("UPDATE users SET warnings = @warnings WHERE identifier = @identifier",
-        { ['@warnings'] = warnings,['@identifier'] = sid }, function(result)
-    end)
+        { ['@warnings'] = warnings, ['@identifier'] = sid }, function(result)
+        end)
 end)

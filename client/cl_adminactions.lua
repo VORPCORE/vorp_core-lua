@@ -145,13 +145,7 @@ local DelHorse = function()
         TriggerEvent("vorp:TipRight", Config.Langs.sit, 3000)
     end
 end
----comment
----@param target number
----@param status any
----@param banTime any
-local BanPlayerByUserId = function(target, status, banTime)
-    TriggerServerEvent("vorpbans:addtodb", status, target, banTime)
-end
+
 ---comment
 ---@param target number
 ---@param status any
@@ -225,13 +219,6 @@ RegisterNetEvent('vorp:heal', function()
     HealPlayer()
 end)
 
-RegisterNetEvent('vorp:ban', function(target, banTime)
-    BanPlayerByUserId(target, true, banTime)
-end)
-
-RegisterNetEvent('vorp:unban', function(target)
-    BanPlayerByUserId(target, false, 0)
-end)
 
 RegisterNetEvent('vorp:warn', function(target)
     WarnPlayerByUserId(target, true)

@@ -321,7 +321,8 @@ function BanPlayers(data)
     end
 
     local datetime = os.time() + banTime * 3600
-    TriggerClientEvent("vorp:ban", data.source, target, datetime)
+    TriggerEvent("vorpbans:addtodb", true, target, banTime)
+    --TriggerClientEvent("vorp:ban", data.source, target, datetime)
 
     local text = banTime == 0 and Translation[Lang].Notify.banned or
         (Translation[Lang].Notify.banned2 .. os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600) .. Config.TimeZone)
@@ -332,7 +333,8 @@ end
 --UNBANPLAYERS
 function UnBanPlayers(data)
     local target = tonumber(data.args[1])
-    TriggerClientEvent("vorp:unban", data.source, target)
+    TriggerEvent("vorpbans:addtodb", false, target, 0)
+    --TriggerClientEvent("vorp:unban", data.source, target)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
