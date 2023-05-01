@@ -147,18 +147,6 @@ local DelHorse = function()
 end
 
 ---comment
----@param target number
----@param status any
-local WarnPlayerByUserId = function(target, status)
-    TriggerServerEvent("vorpwarns:addtodb", status, target)
-end
----comment
----@param target number
----@param status any
-local CharPlayerByUserId = function(target, status)
-    TriggerServerEvent("vorpchar:addtodb", status, target)
-end
----comment
 ---@param radius number
 local DeleteWagonsRadius = function(radius)
     local player = PlayerPedId()
@@ -219,20 +207,4 @@ RegisterNetEvent('vorp:heal', function()
     HealPlayer()
 end)
 
-
-RegisterNetEvent('vorp:warn', function(target)
-    WarnPlayerByUserId(target, true)
-end)
-
-RegisterNetEvent('vorp:unwarn', function(target)
-    WarnPlayerByUserId(target, false)
-end)
-
-RegisterNetEvent('vorp:addchar', function(target)
-    CharPlayerByUserId(target, true)
-end)
-
-RegisterNetEvent('vorp:removechar', function(target)
-    CharPlayerByUserId(target, false)
-end)
 --===========================================================================================================================--

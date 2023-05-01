@@ -355,7 +355,7 @@ end
 --UNWARNPLAYERS
 function UnWarnPlayer(data)
     local target = tonumber(data.args[1])
-    TriggerClientEvent("vorp:unwarn", data.source, target)
+    TriggerEvent("vorpwarns:addtodb", false, target)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
@@ -363,7 +363,7 @@ end
 function WarnPlayers(data)
     local target = tonumber(data.args[1])
     if data.source ~= target then -- dont warn yourself
-        TriggerClientEvent("vorp:warn", data.source, target)
+        TriggerEvent("vorpwarns:addtodb", true, target)
         SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     end
 end
@@ -374,7 +374,7 @@ function AddCharCanCreateMore(data)
         return
     end
     local target = data.args[1]
-    TriggerClientEvent("vorp:addchar", data.source, target)
+    TriggerEvent("vorpchar:addtodb", true, target)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     VorpCore.NotifyRightTip(data.source, Config.Langs.AddChar .. target, 4000)
 end
@@ -385,7 +385,7 @@ function RemoveCharCanCreateMore(data)
         return
     end
     local target = data.args[1]
-    TriggerClientEvent("vorp:removechar", data.source, target)
+    TriggerEvent("vorpchar:addtodb", false, target)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     VorpCore.NotifyRightTip(data.source, Config.Langs.RemoveChar .. target, 4000)
 end

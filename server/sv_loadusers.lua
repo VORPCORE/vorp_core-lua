@@ -239,7 +239,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-RegisterNetEvent("vorpchar:addtodb")
+
 AddEventHandler("vorpchar:addtodb", function(status, identifier)
     local resultList = MySQL.prepare.await("SELECT * FROM users WHERE identifier = ?", { identifier })
     local char

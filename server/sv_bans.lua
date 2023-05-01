@@ -20,7 +20,7 @@ AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
         end)
 end)
 
-RegisterNetEvent("vorpwarns:addtodb")
+
 AddEventHandler("vorpwarns:addtodb", function(status, id)
     local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
 
