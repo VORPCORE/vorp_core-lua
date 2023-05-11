@@ -1,85 +1,89 @@
-CREATE TABLE IF NOT EXISTS `whitelist`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `status` boolean,
-  `firstconnection` boolean DEFAULT TRUE,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `identifier`(`identifier`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+CREATE DATABASE IF NOT EXISTS `vorpv2`
+USE `vorpv2`;
+
+CREATE TABLE IF NOT EXISTS `whitelist` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`identifier` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_bin',
+	`status` TINYINT(1) NULL DEFAULT '1',
+	`firstconnection` TINYINT(1) NULL DEFAULT '1',
+	PRIMARY KEY (`id`) USING BTREE,
+	UNIQUE INDEX `identifier` (`identifier`) USING BTREE,
+	CONSTRAINT `FK_characters_whitelist` FOREIGN KEY (`identifier`) REFERENCES `users` (`identifier`) ON UPDATE CASCADE ON DELETE CASCADE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+AUTO_INCREMENT=4
+;
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `group` varchar(50) DEFAULT 'user',
-  `warnings` int(11) DEFAULT 0,
-  `banned` boolean,
-  `banneduntil` int(10) DEFAULT 0,
-  PRIMARY KEY (`identifier`),
-  UNIQUE KEY `identifier` (`identifier`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	`identifier` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_bin',
+	`group` VARCHAR(50) NULL DEFAULT 'user' COLLATE 'utf8mb4_general_ci',
+	`warnings` INT(11) NULL DEFAULT '0',
+	`banned` TINYINT(1) NULL DEFAULT NULL,
+	`banneduntil` INT(10) NULL DEFAULT '0',
+	`char` VARCHAR(50) NOT NULL DEFAULT 'false' COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`identifier`) USING BTREE,
+	UNIQUE INDEX `identifier` (`identifier`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
 
-
-
--- Dumping structure for table vorpv2.characters
 CREATE TABLE IF NOT EXISTS `characters` (
-  `identifier` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-  `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-  `charidentifier` int(11) NOT NULL AUTO_INCREMENT,
-  `group` varchar(10) COLLATE utf8mb4_bin DEFAULT 'user',
-  `money` double(11,2) DEFAULT 0.00,
-  `gold` double(11,2) DEFAULT 0.00,
-  `rol` double(11,2) NOT NULL DEFAULT 0.00,
-  `xp` int(11) DEFAULT 0,
-  `healthouter` int(4) DEFAULT 500,
-  `healthinner` int(4) DEFAULT 100,
-  `staminaouter` int(4) DEFAULT 100,
-  `staminainner` int(4) DEFAULT 100,
-  `hours` float NOT NULL DEFAULT 0,
-  `inventory` longtext COLLATE utf8mb4_bin DEFAULT NULL,
-  `job` varchar(50) COLLATE utf8mb4_bin DEFAULT 'unemployed',
-  `status` varchar(140) COLLATE utf8mb4_bin DEFAULT '{}',
-  `meta` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '{}',
-  `firstname` varchar(50) COLLATE utf8mb4_bin DEFAULT ' ',
-  `lastname` varchar(50) COLLATE utf8mb4_bin DEFAULT ' ',
-  `skinPlayer` longtext COLLATE utf8mb4_bin DEFAULT NULL,
-  `compPlayer` longtext COLLATE utf8mb4_bin DEFAULT NULL,
-  `jobgrade` int(11) DEFAULT 0,
-  `coords` varchar(75) COLLATE utf8mb4_bin DEFAULT '{}',
-  `isdead` tinyint(1) DEFAULT 0,
-  `clanid` int(11) DEFAULT 0,
-  `trust` int(11) DEFAULT 0,
-  `supporter` int(11) DEFAULT 0,
-  `walk` varchar(50) COLLATE utf8mb4_bin DEFAULT 'noanim',
-  `crafting` longtext COLLATE utf8mb4_bin DEFAULT '{"medical":0,"blacksmith":0,"basic":0,"survival":0,"brewing":0,"food":0}',
-  `info` longtext COLLATE utf8mb4_bin DEFAULT '{}',
-  `gunsmith` double(11,2) DEFAULT 0.00,
-  `ammo` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '{}',
-  UNIQUE KEY `identifier_charidentifier` (`identifier`,`charidentifier`) USING BTREE,
-  KEY `charidentifier` (`charidentifier`) USING BTREE,
-  INDEX `ammo` (`ammo`) USING BTREE,
-  KEY `clanid` (`clanid`),
-  KEY `crafting` (`crafting`(768)),
-  KEY `compPlayer` (`compPlayer`(768)),
-  KEY `info` (`info`(768)),
-  KEY `inventory` (`inventory`(768)),
-  KEY `coords` (`coords`),
-  KEY `money` (`money`),
-  KEY `meta` (`meta`),
-  KEY `steamname` (`steamname`),
-  CONSTRAINT `FK_characters_users` FOREIGN KEY (`identifier`) REFERENCES `users` (`identifier`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC;
-
-
--- ANY NEW UPDATES TO THE TABLES ABOVE NEED TO HAVE TABLE ALTERS ALSO ADDED BELOW FOR THOSE WHO ALREADY HAVE SERVERS RUNNING.
--- The following updates tables that were not included in the original table (Support for those who already have the tables above)
-ALTER TABLE `users` ALTER COLUMN  `banned` boolean;
-ALTER TABLE `users` ADD `banneduntil` int(10) DEFAULT 0;
-ALTER TABLE `whitelist` ADD `status` boolean;
-ALTER TABLE `whitelist` ADD `firstconnection` boolean;
-ALTER TABLE `characters` ADD `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `users` ADD `char` varchar(50) NOT NULL DEFAULT 'false';
-ALTER TABLE `characters` ADD COLUMN `ammo` longtext DEFAULT '{}';
-ALTER TABLE `characters` ADD INDEX `ammo` (`ammo`);
-ALTER TABLE `characters` ADD COLUMN `healthouter` int(4) DEFAULT 500 AFTER `xp`;
-ALTER TABLE `characters` ADD COLUMN `healthinner` int(4) DEFAULT 100 AFTER `healthouter`;
-ALTER TABLE `characters` ADD COLUMN `staminaouter` int(4) DEFAULT 100 AFTER `healthinner`;
-ALTER TABLE `characters` ADD COLUMN `staminainner` int(4) DEFAULT 100 AFTER `staminaouter`;
+	`identifier` VARCHAR(50) NOT NULL DEFAULT '' COLLATE 'utf8mb4_bin',
+	`steamname` VARCHAR(50) NOT NULL DEFAULT '' COLLATE 'utf8mb4_bin',
+	`charidentifier` INT(11) NOT NULL AUTO_INCREMENT,
+	`group` VARCHAR(10) NULL DEFAULT 'user' COLLATE 'utf8mb4_bin',
+	`money` DOUBLE(11,2) NULL DEFAULT '0.00',
+	`gold` DOUBLE(11,2) NULL DEFAULT '0.00',
+	`rol` DOUBLE(11,2) NOT NULL DEFAULT '0.00',
+	`xp` INT(11) NULL DEFAULT '0',
+	`healthouter` INT(4) NULL DEFAULT '500',
+	`healthinner` INT(4) NULL DEFAULT '100',
+	`staminaouter` INT(4) NULL DEFAULT '100',
+	`staminainner` INT(4) NULL DEFAULT '100',
+	`hours` FLOAT NOT NULL DEFAULT '0',
+	`LastLogin` DATE NULL DEFAULT NULL,
+	`inventory` LONGTEXT NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+	`job` VARCHAR(50) NULL DEFAULT 'unemployed' COLLATE 'utf8mb4_bin',
+	`status` VARCHAR(140) NULL DEFAULT '{}' COLLATE 'utf8mb4_bin',
+	`meta` VARCHAR(255) NOT NULL DEFAULT '{}' COLLATE 'utf8mb4_bin',
+	`firstname` VARCHAR(50) NULL DEFAULT ' ' COLLATE 'utf8mb4_bin',
+	`lastname` VARCHAR(50) NULL DEFAULT ' ' COLLATE 'utf8mb4_bin',
+	`skinPlayer` LONGTEXT NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+	`compPlayer` LONGTEXT NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+	`jobgrade` INT(11) NULL DEFAULT '0',
+	`coords` LONGTEXT NULL DEFAULT '{}' COLLATE 'utf8mb4_bin',
+	`isdead` TINYINT(1) NULL DEFAULT '0',
+	`clanid` INT(11) NULL DEFAULT '0',
+	`trust` INT(11) NULL DEFAULT '0',
+	`supporter` INT(11) NULL DEFAULT '0',
+	`walk` VARCHAR(50) NULL DEFAULT 'noanim' COLLATE 'utf8mb4_bin',
+	`crafting` LONGTEXT NULL DEFAULT '{"medical":0,"blacksmith":0,"basic":0,"survival":0,"brewing":0,"food":0}' COLLATE 'utf8mb4_bin',
+	`info` LONGTEXT NULL DEFAULT '{}' COLLATE 'utf8mb4_bin',
+	`gunsmith` DOUBLE(11,2) NULL DEFAULT '0.00',
+	`ammo` LONGTEXT NULL DEFAULT '{}' COLLATE 'utf8mb4_bin',
+	`clan` INT(11) NULL DEFAULT '0',
+	`discordid` VARCHAR(255) NULL DEFAULT '0' COLLATE 'utf8mb4_bin',
+	`lastjoined` LONGTEXT NULL DEFAULT '[]' COLLATE 'utf8mb4_bin',
+	`motel` VARCHAR(255) NULL DEFAULT '0' COLLATE 'utf8mb4_bin',
+	`moonshineenty` LONGTEXT NULL DEFAULT '{}' COLLATE 'utf8mb4_bin',
+	UNIQUE INDEX `identifier_charidentifier` (`identifier`, `charidentifier`) USING BTREE,
+	INDEX `charidentifier` (`charidentifier`) USING BTREE,
+	INDEX `clanid` (`clanid`) USING BTREE,
+	INDEX `crafting` (`crafting`(768)) USING BTREE,
+	INDEX `compPlayer` (`compPlayer`(768)) USING BTREE,
+	INDEX `info` (`info`(768)) USING BTREE,
+	INDEX `inventory` (`inventory`(768)) USING BTREE,
+	INDEX `coords` (`coords`(768)) USING BTREE,
+	INDEX `money` (`money`) USING BTREE,
+	INDEX `meta` (`meta`) USING BTREE,
+	INDEX `steamname` (`steamname`) USING BTREE,
+	CONSTRAINT `FK_characters_users` FOREIGN KEY (`identifier`) REFERENCES `users` (`identifier`) ON UPDATE CASCADE ON DELETE CASCADE
+)
+COLLATE='utf8mb4_bin'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+AUTO_INCREMENT=4
+;
