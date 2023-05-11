@@ -1,5 +1,6 @@
 _whitelist = {}
 
+local T = Translation[Lang].MessageOfSystem
 
 function AddUserToWhitelistById(id)
     _whitelist[id].GetEntry().setStatus(true)
@@ -123,7 +124,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     local IDs = GetIdentifier(_source, 'steam')
 
     if IDs == nil then
-        deferrals.done(Config.Langs.NoSteam)
+        deferrals.done(T.NoSteam)
         userEntering = false
         CancelEvent()
         return
@@ -141,15 +142,15 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
             userEntering = true
         else
             playerWlId = InsertIntoWhitelist(steamIdentifier)
-            deferrals.done(Config.Langs.NoInWhitelist .. playerWlId)
-            setKickReason(Config.Langs.NoInWhitelist .. playerWlId)
+            deferrals.done(T.NoInWhitelist .. playerWlId)
+            setKickReason(T.NoInWhitelist .. playerWlId)
         end
     else
         userEntering = true
     end
 
     if userEntering then
-        deferrals.update(Config.Langs.LoadingUser)
+        deferrals.update(T.LoadingUser)
         LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
     end
 

@@ -2,6 +2,7 @@
 --------------------------------------- VORP ADMIN COMMANDS -------------------------------------
 -------------------------------------------------------------------------------------------------
 
+local T = Translation[Lang].MessageOfSystem
 
 local CheckUser = function(target)
     if not VorpCore.getUser(tonumber(target)) then
@@ -90,7 +91,7 @@ CreateThread(function()
             end
 
             if not CheckAce(value.aceAllowed, _source) and not CheckGroupAllowed(value.groupAllowed, group) then -- check ace first then group
-                return VorpCore.NotifyObjective(_source, Config.Langs.NoPermissions, 4000)
+                return VorpCore.NotifyObjective(_source, T.NoPermissions, 4000)
             end
 
             if value.userCheck then            -- dont check for user existentence
@@ -100,7 +101,7 @@ CreateThread(function()
             end
 
             if not CheckJobAllowed(value.jobAllow, _source) then -- check ace first then group
-                return VorpCore.NotifyObjective(_source, Config.Langs.NoPermissions, 4000)
+                return VorpCore.NotifyObjective(_source, T.NoPermissions, 4000)
             end
 
             if not CheckArgs(args, #value.suggestion) then -- if requiered argsuments are not met
@@ -217,7 +218,7 @@ function AddWeapons(data)
     VORPInv.canCarryWeapons(target, 1, function(result) --can carry weapons
         local canCarry = result
         if not canCarry then
-            return VorpCore.NotifyObjective(data.source, Config.Langs.cantCarry, 4000)
+            return VorpCore.NotifyObjective(data.source, T.cantCarry, 4000)
         end
         VORPInv.createWeapon(target, weaponHash)
         SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
@@ -376,7 +377,7 @@ function AddCharCanCreateMore(data)
     local target = data.args[1]
     TriggerEvent("vorpchar:addtodb", true, target)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
-    VorpCore.NotifyRightTip(data.source, Config.Langs.AddChar .. target, 4000)
+    VorpCore.NotifyRightTip(data.source, T.AddChar .. target, 4000)
 end
 
 --REMOVE ALLOW CHAR CREATION
@@ -387,7 +388,7 @@ function RemoveCharCanCreateMore(data)
     local target = data.args[1]
     TriggerEvent("vorpchar:addtodb", false, target)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
-    VorpCore.NotifyRightTip(data.source, Config.Langs.RemoveChar .. target, 4000)
+    VorpCore.NotifyRightTip(data.source, T.RemoveChar .. target, 4000)
 end
 
 --MODIFY CHARACTER NAME
@@ -410,7 +411,7 @@ function MyJob(data)
     local Character = VorpCore.getUser(_source).getUsedCharacter
     local job       = Character.job
     local grade     = Character.jobGrade
-    VorpCore.NotifyRightTip(_source, Config.Langs.myjob .. job .. Config.Langs.mygrade .. grade, 4000)
+    VorpCore.NotifyRightTip(_source, T.myjob .. job .. T.mygrade .. grade, 4000)
 end
 
 --MYHOUR
@@ -427,10 +428,10 @@ function MyHours(data)
     end
 
     if isInteger(hours) then
-        VorpCore.NotifyRightTip(_source, string.format(Config.Langs.charhours, hours), 4000)
+        VorpCore.NotifyRightTip(_source, string.format(T.charhours, hours), 4000)
     else
         local newhour = math.floor(hours - 0.5)
-        VorpCore.NotifyRightTip(_source, string.format(Config.Langs.playhours, newhour, 30), 4000)
+        VorpCore.NotifyRightTip(_source, string.format(T.playhours, newhour, 30), 4000)
     end
 end
 

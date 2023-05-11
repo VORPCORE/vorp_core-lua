@@ -9,6 +9,8 @@ local PressKey = false
 local carried = false
 local Done = false
 
+local T = Translation[Lang].MessageOfSystem
+
 --================================= FUNCTIONS ==========================================--
 
 ---GET LABLE FOR PROMPT
@@ -17,15 +19,15 @@ local CheckLable = function()
     if not carried then
         if not Done then
             local label = CreateVarString(10, 'LITERAL_STRING',
-                Config.Langs.RespawnIn ..
-                TimeToRespawn .. Config.Langs.SecondsMove .. Config.Langs.message)
+                T.RespawnIn ..
+                TimeToRespawn .. T.SecondsMove .. T.message)
             return label
         else
-            local label = CreateVarString(10, 'LITERAL_STRING', Config.Langs.message2)
+            local label = CreateVarString(10, 'LITERAL_STRING', T.message2)
             return label
         end
     else
-        local label = CreateVarString(10, 'LITERAL_STRING', Config.Langs.YouAreCarried)
+        local label = CreateVarString(10, 'LITERAL_STRING', T.YouAreCarried)
         return label
     end
 end
@@ -127,7 +129,7 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName, justreviv
         keepdown = false
         local dict = "minigames_hud"
         local icon = "five_finger_burnout"
-        TriggerEvent('vorp:NotifyLeft', currentHospitalName or Config.Langs.message6, Config.Langs.message5,
+        TriggerEvent('vorp:NotifyLeft', currentHospitalName or T.message6, T.message5,
             dict, icon
             , 8000, "COLOR_PURE_WHITE") -- mesage only if this is active and justrevive is false
     else
@@ -204,7 +206,7 @@ end
 -- CREATE PROMPT
 CreateThread(function()
     Wait(1000)
-    local str = Config.Langs.prompt
+    local str = T.prompt
     local keyPress = Config.RespawnKey
     prompt = PromptRegisterBegin()
     PromptSetControlAction(prompt, keyPress)

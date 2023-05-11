@@ -1,3 +1,5 @@
+local T = Translation[Lang].MessageOfSystem
+
 AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
     local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
 
@@ -8,7 +10,7 @@ AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
                     DropPlayer(player, Translation[Lang].Notify.banned3)
                 else
                     local bannedUntil = os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600)
-                    DropPlayer(player, Config.Langs.DropReasonBanned .. bannedUntil .. Config.TimeZone)
+                    DropPlayer(player, T.DropReasonBanned .. bannedUntil .. Config.TimeZone)
                 end
                 break
             end
@@ -35,10 +37,10 @@ AddEventHandler("vorpwarns:addtodb", function(status, id)
         for _, player in ipairs(GetPlayers()) do
             if sid == GetPlayerIdentifiers(player)[1] then
                 if status == true then
-                    TriggerClientEvent("vorp:Tip", player, Config.Langs["Warned"], 10000)
+                    TriggerClientEvent("vorp:Tip", player, T["Warned"], 10000)
                     warnings = warnings + 1
                 else
-                    TriggerClientEvent("vorp:Tip", player, Config.Langs["Unwarned"], 10000)
+                    TriggerClientEvent("vorp:Tip", player, T["Unwarned"], 10000)
                     warnings = warnings - 1
                 end
                 break

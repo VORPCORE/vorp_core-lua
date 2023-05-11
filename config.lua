@@ -30,6 +30,7 @@ Config = {
     maxStamina               = 10,           -- 10 is FULL 0 IS EMPTY define max outer core for players
     PVP                      = true,         -- Can players attack/hurt one another
     PVPToggle                = true,         -- If true, players can set their own pvp state
+    CommandOnOffPVP          = 'pvp',        -- [ NEED PVPToggle = true ] TOGGLE or OFF pvp for your character
     savePlayersTimer         = 10,           -- this will tell the core in how many minutes should all players be saved to the database
     showplayerIDwhenfocus    = true,         -- set false will show steam name when focus on another player RMB
     disableAutoAIM           = true,         -- if false players with controllers will have autoaim just like in rdr2
@@ -37,8 +38,8 @@ Config = {
     --========================================
     ---MULTICHAR
     SaveSteamNameDB          = true,  -- TRUE if you want save steamname on character DB when player drop (need to update SQL)
-    UseCharPermission        = false, --| if false it will let players create maxchars bellow
-    MaxCharacters            = 5,     --MAX ALLOWED TO BE CREATED [if UseCharPermission = true, SELECTED players(with command) can create MaxCharacters characters / if UseCharPermission = false, players can create MaxCharacters characters]
+    UseCharPermission        = false, -- | if false it will let players create maxchars bellow
+    MaxCharacters            = 5,     -- MAX ALLOWED TO BE CREATED [if UseCharPermission = true, SELECTED players(with command) can create MaxCharacters characters / if UseCharPermission = false, players can create MaxCharacters characters]
     --========================================
     --UI CORES
     HideOnlyDEADEYE          = true,
@@ -55,35 +56,39 @@ Config = {
     --=======================================
     ---UI Configurations
     HideUi                   = false,      -- Show or Hide the Overall UI
-    HideGold                 = false,      --disables Gold UI for all
-    HideMoney                = false,      --disables Money UI for all
-    HideLevel                = false,      --disables Level UI for all
-    HideID                   = false,      --disables ID UI for all
-    HideTokens               = false,      --disables Token UI for all
-    HidePVP                  = false,      --disables PVP UI for all
+    HideGold                 = false,      -- disables Gold UI for all
+    HideMoney                = false,      -- disables Money UI for all
+    HideLevel                = false,      -- disables Level UI for all
+    HideID                   = false,      -- disables ID UI for all
+    HideTokens               = false,      -- disables Token UI for all
+    HidePVP                  = false,      -- disables PVP UI for all
     UIPosition               = 'TopRight', -- Changes position of UI. Options: BottomRight, MiddleRight, TopRight, TopMiddle, BottomMiddle
     UILayout                 = 'Column',   -- Changes the layour of the UI. Options: Row, Column
     HideWithRader            = true,       -- UI will hide whenever the radar(minimap) is hidden
     OpenAfterRader           = true,       -- UI will show whenever the radar(minimap) is showing again
     CloseOnDelay             = false,      -- UI will automatically close after an amount of time
     CloseOnDelayMS           = 10000,      -- CloseOnDelays time in miliseconds, 10000 = 10seconds
+    -- Commands of UI
+    CommandHideIU            = 'hideUi',   -- HIDE all UI's from screen, nice to take screenshots.
+    CommandToogleUI          = 'toggleUi', -- Toggle vorp UI's from screen
+    -- Others
+    CommandClearAnim         = 'stopAnim', -- To use if you are stuck on an animation
     --=======================================
     ---MAP Configurations
     mapTypeOnFoot            = 3,     -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on foot
     mapTypeOnMount           = 3,     -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on horse
-    enableTypeRadar          = false, --- if true the above will work, if false players can choose their radar type in the game settings.
-    Loadinscreen             = true,  --ENABLE LOADING SCREENS on spawn and while spawn dead
+    enableTypeRadar          = false, -- if true the above will work, if false players can choose their radar type in the game settings.
+    Loadinscreen             = true,  -- ENABLE LOADING SCREENS on spawn and while spawn dead
     LoadinScreenTimer        = 10000, -- miliseconds
     --=======================================
     ---RESPAWN
-
-    HealthOnRespawn          = 500,                                  --Player's health when respawned in hospital (MAX = 500)
-    HealthOnResurrection     = 100,                                  --Player's health when resurrected (MAX = 500)
+    HealthOnRespawn          = 500,                                  -- Player's health when respawned in hospital (MAX = 500)
+    HealthOnResurrection     = 100,                                  -- Player's health when resurrected (MAX = 500)
     RagdollOnResurrection    = true,                                 -- Enable or disable Ragdoll and revive effects when revived
     HealthRecharge           = { enable = true, multiplier = 0.37 }, -- enable or disable auto recharge of health outer core (real ped health), multiplier 1.0 is default
     StaminaRecharge          = { enable = true, multiplier = 0.4 },  -- enable or disable auto recharge of stamina outer core, multiplier 1.0 is default
-    RespawnTime              = 10,                                   --seconds
-    RespawnKey               = 0xDFF812F9,                           --[E] KEY
+    RespawnTime              = 10,                                   -- seconds
+    RespawnKey               = 0xDFF812F9,                           -- [E] KEY
     RespawnKeyTime           = 5000,                                 -- Milliseconds it will take to press the button
     CombatLogDeath           = true,                                 -- people who combat log now spawn in dead rather than force spawned
     UseControlsCamera        = false,                                -- if youset this to true players while dead  or being carried can move the camera using w a d s controls this is resource intensive leave to false
@@ -135,51 +140,4 @@ Config = {
     richpresencebutton       = "Join Discord",            --set button text for Rich Presence Button
     shownameandid            = true,                      --show player steam name and id
     --======================================================
-    --- TRANSLATE
-    Langs                    = {
-        IsConnected        = "🚫 Duplicated account connected (steam | rockstar)",
-        NoSteam            = "🚫 You have to have Steam open, please open Steam & restart RedM",
-        NoInWhitelist      = "🚫 You are not in the Whitelist. Send in discord channel #user-id your user-id: ",
-        NoPermissions      = "You don't have enough permissions",
-        CheckingIdentifier = "Checking Identifiers",
-        LoadingUser        = "Loading User",
-        BannedUser         = "You Are Banned Until ",
-        DropReasonBanned   = "You were banned from the server until ",
-        Warned             = "You were warned",
-        Unwarned           = "You were unwarned",
-        TitleOnDead        = "Do /alertdoctor in chat to request doctors aid", -- you need a script for this , its just an example
-        SubTitleOnDead     = "You can respawn in %s seconds",
-        SecondsMove        = " seconds",
-        YouAreCarried      = "You are being carried by a person",
-        promptLabel        = "Respawn",
-        prompt             = "Respawn",
-        wayPoint           = "VORP: You need to set a waypoint first!",
-        mustBeSeated       = "VORP: You must be in the driver's seat!",
-        wagonInFront       = "VORP: You must be seated or near a wagon to delete it!",
-        cantCarry          = "VORP: Can't carry more weapons!",
-        Hold               = "HOLD ON!!",
-        Load               = "You are loading in",
-        Almost             = "Almost there...",
-        Holddead           = "YOU ARE DEAD",
-        Loaddead           = "you left the server while dead",
-        forcedrespawn      = "YOU WILL BE RESPAWNED",
-        forced             = "Because you left the server while dead",
-        sit                = "you need to be steated",
-        PVPNotifyOn        = "PVP On ",
-        PVPNotifyOff       = "PVP Off",
-        AddChar            = "Added Multicharacter ",
-        RemoveChar         = "Removed Multicharacter ",
-        WrongHex           = "Hex not in DB or Wrong Hex",
-        myjob              = "your job is: ~o~",
-        mygrade            = " ~q~grade: ~o~",
-        charhours          = "your character hours is: ~o~ %d",
-        playhours          = "hours played is: ~o~ %d",
-        RespawnIn          = "You can respawn in ",
-        message            = " or " .. " /calldoctor",
-        message2           = "Time has passed respawn",
-        message3           = "You need to wait untill you can respawn",
-        message4           = "Player ID ",
-        message5           = "you were injured , per rule you must forget the past 30 minutes",
-        message6           = "Respawn!!!"
-    },
 }
