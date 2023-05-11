@@ -1,3 +1,5 @@
+local T = Translation[Lang].MessageOfSystem
+
 --=================================== FUNCTIONS ======================================--
 
 ---comment
@@ -91,7 +93,7 @@ CreateThread(function()
         Wait(400)
         for _, playersid in ipairs(GetActivePlayers()) do
             local ped = GetPlayerPed(playersid)
-            SetPedPromptName(ped, Config.Langs.message4 .. tostring(GetPlayerServerId(playersid)))
+            SetPedPromptName(ped, T.message4 .. tostring(GetPlayerServerId(playersid)))
         end
     end
 end)

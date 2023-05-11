@@ -1,37 +1,40 @@
+local T = Translation[Lang].MessageOfSystem
+local S = Translation[Lang].SuggestChat
+
 --============================================ PLAYER COMMANDS ==============================================--
 
 PlayersCommands = {
     hideui = {
-        command = "hideui",
-        suggestion = "VORPcore command to HIDE all UI's from screen, nice to take screenshots.",
+        command = Config.CommandHideIU,
+        suggestion = S.hideUi,
         run = ToggleAllUI,
         restricted = false
     },
     toggleui = {
-        command = "toggleui",
-        suggestion = "VORPcore command to toggle vorp UI's from screen",
+        command = Config.CommandToogleUI,
+        suggestion = S.toogleUi,
         run = ToggleVorpUI,
         restricted = false
     },
     clear = {
-        command = "cleartask",
-        suggestion = "VORPcore command to use if you are stuck on an animation.",
-        run = function ()
+        command = Config.CommandClearAnim,
+        suggestion = S.stopAnim,
+        run = function()
             local player = PlayerPedId()
             ClearPedTasksImmediately(player)
         end,
         restricted = false
     },
     pvp = {
-        command = "pvp",
-        suggestion = "VORPcore command to TOGGLE pvp for your character.",
-        run = function ()
+        command = Config.CommandOnOffPVP,
+        suggestion = S.tooglePVP,
+        run = function()
             local pvp = TogglePVP()
 
             if pvp then
-                TriggerEvent("vorp:TipRight", Config.Langs.PVPNotifyOn, 4000)
+                TriggerEvent("vorp:TipRight", T.PVPNotifyOn, 4000)
             else
-                TriggerEvent("vorp:TipRight", Config.Langs.PVPNotifyOff, 4000)
+                TriggerEvent("vorp:TipRight", T.PVPNotifyOff, 4000)
             end
         end,
         restricted = not Config.PVPToggle -- false means it should not display, so we have to negate with the not

@@ -1,5 +1,4 @@
 local T = Translation[Lang].Commands
-
 --============================
 --? EXAMPLE
 -- * in this file is where vorp core commands are registered

@@ -2,6 +2,7 @@ _usersLoading = {}
 _users = {}
 _healthData = {}
 
+local T = Translation[Lang].MessageOfSystem
 
 function LoadUser(source, setKickReason, deferrals, identifier, license)
     local resultList = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
@@ -14,13 +15,13 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
             local currentTime = tonumber(os.time(os.date("!*t")))
 
             if bannedUntilTime == 0 then
-                deferrals.done("You are banned permanently!")
-                setKickReason("You are banned permanently!")
+                deferrals.done(T.permanentlyBan)
+                setKickReason(T.permanentlyBan)
             elseif bannedUntilTime > currentTime then
-                local bannedUntil = os.date(Config.Langs.DateTimeFormat,
+                local bannedUntil = os.date(T.DateTimeFormat,
                     bannedUntilTime + Config.TimeZoneDifference * 3600)
-                deferrals.done(Config.Langs.BannedUser .. bannedUntil .. Config.Langs.TimeZone)
-                setKickReason(Config.Langs.BannedUser .. bannedUntil .. Config.Langs.TimeZone)
+                deferrals.done(T.BannedUser .. bannedUntil .. T.TimeZone)
+                setKickReason(T.BannedUser .. bannedUntil .. T.TimeZone)
             else
                 local getuser = GetUserId(identifier)
                 TriggerEvent("vorpbans:addtodb", false, getuser, 0)
@@ -247,10 +248,10 @@ AddEventHandler("vorpchar:addtodb", function(status, identifier)
         for _, player in ipairs(GetPlayers()) do
             if identifier == GetPlayerIdentifiers(player)[1] then
                 if status == true then
-                    TriggerClientEvent("vorp:Tip", player, Config.Langs.AddChar, 10000)
+                    TriggerClientEvent("vorp:Tip", player, T.AddChar, 10000)
                     char = "true"
                 else
-                    TriggerClientEvent("vorp:Tip", player, Config.Langs.RemoveChar, 10000)
+                    TriggerClientEvent("vorp:Tip", player, T.RemoveChar, 10000)
                     char = "false"
                 end
                 break

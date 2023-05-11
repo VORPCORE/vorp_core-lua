@@ -8,6 +8,8 @@ local pvp = Config.PVP
 local playerHash = GetHashKey("PLAYER")
 local multiplierHealth, multiplierStamina
 
+local T = Translation[Lang].MessageOfSystem
+
 --===================================== FUNCTIONS ======================================--
 TogglePVP = function()
     pvp = not pvp
@@ -58,7 +60,7 @@ end
 AddEventHandler('playerSpawned', function()
     TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557)             --instance players
     Wait(2000)
-    Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost) -- try to hide arthur spawning
+    Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost) -- try to hide arthur spawning
     DisplayRadar(false)                                                                                          --hide RADAR on player select char
     SetMinimapHideFow(false)                                                                                     -- hide map fog of war
     Wait(2000)
@@ -136,8 +138,8 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
         if not Config.CombatLogDeath then
             --start loading screen
             if Config.Loadinscreen then
-                Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.forcedrespawn, Config.Langs.forced,
-                    Config.Langs.Almost)
+                Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.forcedrespawn, T.forced,
+                    T.Almost)
             end
             TriggerServerEvent("vorp:PlayerForceRespawn")
             TriggerEvent("vorp:PlayerForceRespawn")
@@ -150,8 +152,8 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             HealPlayer() -- fill cores
         else
             if Config.Loadinscreen then
-                Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Holddead, Config.Langs.Loaddead,
-                    Config.Langs.Almost)
+                Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Holddead, T.Loaddead,
+                    T.Almost)
             end
             Wait(10000) -- this is needed to ensure the player has enough time to load in their character before it kills them. other wise they revive when the character loads in
             TriggerEvent("vorp_inventory:CloseInv")
@@ -162,7 +164,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
     else -- is player not dead
         --ExecuteCommand("rc")
         if Config.Loadinscreen then
-            Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost)
+            Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost)
             Wait(Config.LoadinScreenTimer)
             Wait(1000)
             ShutdownLoadingScreen()

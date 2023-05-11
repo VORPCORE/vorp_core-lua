@@ -1,3 +1,5 @@
+local T = Translation[Lang].MessageOfSystem
+
 --=================================================== ADMIN ACTIONS ================================================================--
 
 local TeleportToWaypoint = function()
@@ -142,7 +144,7 @@ local DelHorse = function()
     if IsPedOnMount(player) then
         DeleteEntity(mount)
     else
-        TriggerEvent("vorp:TipRight", Config.Langs.sit, 3000)
+        TriggerEvent("vorp:TipRight", T.sit, 3000)
     end
 end
 
