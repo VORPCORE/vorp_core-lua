@@ -18,10 +18,9 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
                 deferrals.done(T.permanentlyBan)
                 setKickReason(T.permanentlyBan)
             elseif bannedUntilTime > currentTime then
-                local bannedUntil = os.date(T.DateTimeFormat,
-                    bannedUntilTime + Config.TimeZoneDifference * 3600)
-                deferrals.done(T.BannedUser .. bannedUntil .. T.TimeZone)
-                setKickReason(T.BannedUser .. bannedUntil .. T.TimeZone)
+                local bannedUntil = os.date(Config.DateTimeFormat, bannedUntilTime + Config.TimeZoneDifference * 3600)
+                deferrals.done(T.BannedUser .. bannedUntil .. Config.TimeZone)
+                setKickReason(T.BannedUser .. bannedUntil .. Config.TimeZone)
             else
                 local getuser = GetUserId(identifier)
                 TriggerEvent("vorpbans:addtodb", false, getuser, 0)
