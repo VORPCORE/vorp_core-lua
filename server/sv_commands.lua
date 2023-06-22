@@ -222,7 +222,7 @@ function AddWeapons(data)
         end
         VORPInv.createWeapon(target, weaponHash)
         SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
-    end)
+    end,weaponHash)
 end
 
 --DELCURRENCY
