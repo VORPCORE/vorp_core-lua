@@ -26,10 +26,10 @@ AddEventHandler("vorp_core:instanceplayers", function(setRoom)
         end
 
         if instanceSource == nil then
-            instanceSource = setRoom
-
+            instanceSource = math.random(1, 63)
+ 
             while Namedinstances[instanceSource] and #Namedinstances[instanceSource] >= 1 do
-                instanceSource = setRoom
+                instanceSource = math.random(1, 63)
                 Citizen.Wait(1)
             end
         end
