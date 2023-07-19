@@ -222,7 +222,7 @@ function AddWeapons(data)
         end
         VORPInv.createWeapon(target, weaponHash)
         SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
-    end,weaponHash)
+    end, weaponHash)
 end
 
 --DELCURRENCY
@@ -242,19 +242,11 @@ function RemmoveCurrency(data)
 end
 
 --REVIVEPLAYERS
+--REVIVEPLAYERS
 function RevivePlayer(data)
     local target = tonumber(data.args[1])
-
-    if #data.args == 0 or "" then
-        TriggerClientEvent('vorp:resurrectPlayer', data.source) -- heal staff
-    else
-        if VorpCore.getUser(target) then
-            TriggerClientEvent('vorp:resurrectPlayer', target) -- heal target
-        else
-            VorpCore.NotifyObjective(data.source, Translation[Lang].Notify.userNonExistent, 4000)
-        end
-    end
-    SendDiscordLogs(data.config.webhook, data, target or data.source, "", "")
+    TriggerClientEvent('vorp:resurrectPlayer', target) -- heal target
+    SendDiscordLogs(data.config.webhook, data, target, "", "")
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.revived, target), 4000)
 end
 
