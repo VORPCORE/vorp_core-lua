@@ -277,7 +277,7 @@ end
 function HealPlayers(data)
     local target = tonumber(data.args[1])
     TriggerClientEvent('vorp:heal', target)
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, target, "", "")
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.healedPlayer, target), 4000)
 end
 
