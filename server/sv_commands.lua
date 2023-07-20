@@ -276,16 +276,9 @@ end
 --HEALPLAYERS
 function HealPlayers(data)
     local target = tonumber(data.args[1])
-    if #data.args == 0 then
-        TriggerClientEvent('vorp:heal', data.source)
-    else
-        if VorpCore.getUser(target) then
-            TriggerClientEvent('vorp:heal', target)
-        else
-            VorpCore.NotifyObjective(data.source, Translation[Lang].Notify.userNonExistent, 4000)
-        end
-    end
+    TriggerClientEvent('vorp:heal', target)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.healedPlayer, target), 4000)
 end
 
 --BANPLAYERS
