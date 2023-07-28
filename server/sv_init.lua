@@ -46,7 +46,7 @@ function UpdateChecker(resource)
             local Name = GetResourceMetadata(resource, 'vorp_name', 0)
             local Github = GetResourceMetadata(resource, 'vorp_github', 0)
             local Version = GetResourceMetadata(resource, 'vorp_version', 0)
-            local Changelog, GithubL, NewestVersion
+            local  GithubL, NewestVersion
 
             Script = {}
 

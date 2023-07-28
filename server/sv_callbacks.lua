@@ -4,10 +4,6 @@ RegisterServerEvent('vorp:addNewCallBack', function(name, ncb)
     ServerCallBacks[name] = ncb
 end)
 
----comment
----@param name string
----@param requestId number
----@param args any
 RegisterServerEvent('vorp:TriggerServerCallback', function(name, requestId, args)
     local source = source
 

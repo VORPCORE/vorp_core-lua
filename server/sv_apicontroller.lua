@@ -1,5 +1,3 @@
----@param player number
----@return table|nil
 local function _getUsedCharacter(player)
     local sid = GetSteamID(player)
 
@@ -18,8 +16,6 @@ local function _getUsedCharacter(player)
     return used_char
 end
 
----@param player number
----@return table|nil
 local function _getCharDetails(player)
     local used_char = _getUsedCharacter(player)
 
@@ -101,7 +97,15 @@ AddEventHandler('vorp:unwhitelistPlayer', function(id)
     RemoveUserFromWhitelistById(id)
 end)
 
+
 AddEventHandler('getCore', function(cb)
+    local ResourceName = GetCurrentResourceName()
+
+    if ResourceName ~= 'vorp_core' then
+        return print(
+            "^1[vorp_notifications] ^3WARNING ^0This resource is not named correctly, please change it to ^1'vorp_core'^0 to work properly.")
+    end
+
     local coreData = {}
 
     coreData.getUser = function(source)
@@ -132,7 +136,6 @@ AddEventHandler('getCore', function(cb)
 
     coreData.Error = function(text)
         print("^1ERROR: ^7" .. tostring(text) .. "^7")
-        TriggerClientEvent("vorp_core:LogError")
     end
 
     coreData.Success = function(text)

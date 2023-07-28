@@ -21,9 +21,9 @@ exports("DisplayLeftNotification", function(title, subTitle, dict, icon, duratio
     struct2:SetInt64(8 * 1, bigInt(string1))
     struct2:SetInt64(8 * 2, bigInt(string2))
     struct2:SetInt32(8 * 3, 0)
-    struct2:SetInt64(8 * 4, bigInt(GetHashKey(dict)))
-    struct2:SetInt64(8 * 5, bigInt(GetHashKey(icon)))
-    struct2:SetInt64(8 * 6, bigInt(GetHashKey(color or "COLOR_WHITE")))
+    struct2:SetInt64(8 * 4, bigInt(joaat(dict)))
+    struct2:SetInt64(8 * 5, bigInt(joaat(icon)))
+    struct2:SetInt64(8 * 6, bigInt(joaat(color or "COLOR_WHITE")))
     Citizen.InvokeNative(0x26E87218390E6729, struct1:Buffer(), struct2:Buffer(), 1, 1)
 end)
 
@@ -85,8 +85,8 @@ exports("ShowAdvancedRightNotification", function(_text, _dict, icon, text_color
     local struct2 = DataView.ArrayBuffer(8 * 10)
     struct2:SetInt64(8 * 1, bigInt(text))
     struct2:SetInt64(8 * 2, bigInt(dict))
-    struct2:SetInt64(8 * 3, bigInt(GetHashKey(icon)))
-    struct2:SetInt64(8 * 5, bigInt(GetHashKey(text_color or "COLOR_WHITE")))
+    struct2:SetInt64(8 * 3, bigInt(joaat(icon)))
+    struct2:SetInt64(8 * 5, bigInt(joaat(text_color or "COLOR_WHITE")))
     if showquality then
         struct2:SetInt32(8 * 6, quality or 1)
     end
@@ -110,7 +110,7 @@ exports("ShowSimpleCenterText", function(text, duration, text_color)
     local string1 = CreateVarString(10, "LITERAL_STRING", text)
     local struct2 = DataView.ArrayBuffer(8 * 4)
     struct2:SetInt64(8 * 1, bigInt(string1))
-    struct2:SetInt64(8 * 2, bigInt(GetHashKey(text_color or "COLOR_PURE_WHITE")))
+    struct2:SetInt64(8 * 2, bigInt(joaat(text_color or "COLOR_PURE_WHITE")))
     Citizen.InvokeNative(0x893128CDB4B81FBB, struct1:Buffer(), struct2:Buffer(), 1)
 end)
 

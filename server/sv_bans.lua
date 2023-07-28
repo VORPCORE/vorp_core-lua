@@ -37,10 +37,10 @@ AddEventHandler("vorpwarns:addtodb", function(status, id)
         for _, player in ipairs(GetPlayers()) do
             if sid == GetPlayerIdentifiers(player)[1] then
                 if status == true then
-                    TriggerClientEvent("vorp:Tip", player, T["Warned"], 10000)
+                    TriggerClientEvent("vorp:Tip", tonumber(player), T["Warned"], 10000)
                     warnings = warnings + 1
                 else
-                    TriggerClientEvent("vorp:Tip", player, T["Unwarned"], 10000)
+                    TriggerClientEvent("vorp:Tip", tonumber(player), T["Unwarned"], 10000)
                     warnings = warnings - 1
                 end
                 break

@@ -16,13 +16,9 @@ RegisterNetEvent('vorp:warningNotify')
 
 
 AddEventHandler('vorp:NotifyLeft', function(firsttext, secondtext, dict, icon, duration, color)
-    local _dict = dict
-    local _icon = icon
-    local _color = color or "COLOR_WHITE"
-    LoadTexture(_dict)
-
-    exports.vorp_core:DisplayLeftNotification(tostring(firsttext), tostring(secondtext), tostring(_dict), tostring(_icon)
-    , tonumber(duration), tostring(_color))
+    LoadTexture(dict)
+    exports.vorp_core:DisplayLeftNotification(tostring(firsttext), tostring(secondtext), tostring(dict), tostring(icon)
+    , tonumber(duration), (tostring(color) or "COLOR_WHITE"))
 end)
 
 AddEventHandler('vorp:Tip', function(text, duration)
@@ -45,13 +41,6 @@ AddEventHandler('vorp:ShowTopNotification', function(tittle, subtitle, duration)
     exports.vorp_core:ShowTopNotification(tostring(tittle), tostring(subtitle), tonumber(duration))
 end)
 
----comment
----@param text string
----@param dict string
----@param icon string
----@param text_color string
----@param duration number
----@param quality boolean
 AddEventHandler('vorp:ShowAdvancedRightNotification', function(text, dict, icon, text_color, duration, quality)
     exports.vorp_core:ShowAdvancedRightNotification(tostring(text), tostring(dict), tostring(icon),
         tostring(text_color), tonumber(duration), quality)
@@ -86,4 +75,3 @@ AddEventHandler('vorp:warningNotify', function(title, msg, audioRef, audioName, 
     exports.vorp_core:warningNotify(tostring(title), tostring(msg), tostring(audioRef), tostring(audioName),
         tonumber(duration))
 end)
---====================================================================--

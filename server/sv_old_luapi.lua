@@ -18,10 +18,11 @@ exports('vorpAPI', function()
         if timeout == 0 then
             print("VORP Core: Callback is nil or not loaded ERROR: Timeout")
         end
-        print("WARNING: this are deprecated API please refer to api docs to use new ones. soon this will be deleted")
+        print("JUST A WARNING: this are deprecated API please refer to api docs to use new ones.")
         return user
     end
-    print("WARNING: this are deprecated API please refer to api docs to use new ones. soon this will be deleted")
+    print("JUST A WARNING: this are deprecated API please refer to api docs to use new ones.")
+
     self.addMoney = function(source, currency, quantity)
         TriggerEvent("vorp:addMoney", source, tonumber(currency), tonumber(quantity))
     end

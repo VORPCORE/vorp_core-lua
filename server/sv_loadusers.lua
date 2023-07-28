@@ -152,15 +152,15 @@ RegisterNetEvent('vorp:playerSpawn', function()
 end)
 
 
-RegisterNetEvent('vorp:getUser', function(cb)
-    --[[{
+--[[ RegisterNetEvent('vorp:getUser', function(cb)
+    {
         string steam = "steam:" + Players[source].Identifiers["steam"];
         if (_users.ContainsKey(steam))
         {
             cb.Invoke(_users[steam].GetUser());
         }
-    });]]
-end)
+    });
+end) ]]
 
 RegisterNetEvent('vorp:SaveHealth')
 AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
@@ -202,7 +202,7 @@ AddEventHandler('vorp:HealthCached', function(healthOuter, healthInner, staminaO
     local _source = source
     local identifier = GetSteamID(_source)
 
-    if not _healthData[identifier] then
+    if not _healthData[identifier] and identifier then
         _healthData[identifier] = {}
     end
 
@@ -247,10 +247,10 @@ AddEventHandler("vorpchar:addtodb", function(status, identifier)
         for _, player in ipairs(GetPlayers()) do
             if identifier == GetPlayerIdentifiers(player)[1] then
                 if status == true then
-                    TriggerClientEvent("vorp:Tip", player, T.AddChar, 10000)
+                    TriggerClientEvent("vorp:Tip", tonumber(player), T.AddChar, 10000)
                     char = "true"
                 else
-                    TriggerClientEvent("vorp:Tip", player, T.RemoveChar, 10000)
+                    TriggerClientEvent("vorp:Tip", tonumber(player), T.RemoveChar, 10000)
                     char = "false"
                 end
                 break

@@ -2,7 +2,7 @@ local T = Translation[Lang].MessageOfSystem
 
 --=================================================== ADMIN ACTIONS ================================================================--
 
-local TeleportToWaypoint = function()
+local function TeleportToWaypoint()
     local ped = PlayerPedId()
     local GetGroundZAndNormalFor_3dCoord = GetGroundZAndNormalFor_3dCoord
     local waypoint = IsWaypointActive()
@@ -13,6 +13,7 @@ local TeleportToWaypoint = function()
     if not waypoint then
         return
     end
+
     DoScreenFadeOut(500)
     Wait(1000)
     FreezeEntityPosition(ped, true)
@@ -27,6 +28,7 @@ local TeleportToWaypoint = function()
         if found then
             SetEntityCoords(ped, x, y, groundZ)
             while not HasCollisionLoadedAroundEntity(PlayerPedId()) do
+                RequestCollisionAtCoord(x, y, groundZ)
                 Wait(500)
             end
             FreezeEntityPosition(ped, false)
@@ -38,13 +40,14 @@ local TeleportToWaypoint = function()
 end
 
 
-local GetVehicleInDirection = function()
+local function GetVehicleInDirection()
     local playerPed      = PlayerPedId()
     local playerCoords   = GetEntityCoords(playerPed)
     local inDirection    = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 5.0,
         0.0)
     local rayHandle      = StartExpensiveSynchronousShapeTestLosProbe(playerCoords
     , inDirection, 10, playerPed, 0)
+
     local hit, entityHit = GetShapeTestResult(rayHandle)
 
     if hit == 1 and GetEntityType(entityHit) == 2 then
@@ -66,10 +69,6 @@ local entityEnumerator = {
     end
 }
 
----comment
----@param initFunc any
----@param moveFunc any
----@param disposeFunc any
 local function EnumerateEntities(initFunc, moveFunc, disposeFunc)
     return coroutine.wrap(function()
         local iter, id = initFunc()
@@ -92,12 +91,11 @@ local function EnumerateEntities(initFunc, moveFunc, disposeFunc)
     end)
 end
 
-local EnumerateVehicles = function()
+local function EnumerateVehicles()
     return EnumerateEntities(FindFirstVehicle, FindNextVehicle, EndFindVehicle)
 end
----comment
----@return table
-local GetVehicles = function()
+
+local function GetVehicles()
     local vehicles = {}
 
     for vehicle in EnumerateVehicles() do
@@ -107,17 +105,13 @@ local GetVehicles = function()
     return vehicles
 end
 
----comment
----@param coords any
----@param area any
----@return table
-local GetVehiclesInArea = function(coords, area)
+local function GetVehiclesInArea(coords, area)
     local vehicles       = GetVehicles()
     local vehiclesInArea = {}
 
     for i = 1, #vehicles, 1 do
         local vehicleCoords = GetEntityCoords(vehicles[i])
-        local distance      = GetDistanceBetweenCoords(vehicleCoords, coords.x, coords.y, coords.z, true)
+        local distance      = #(coords - vehicleCoords)
 
         if distance <= area then
             table.insert(vehiclesInArea, vehicles[i])
@@ -127,18 +121,16 @@ local GetVehiclesInArea = function(coords, area)
     return vehiclesInArea
 end
 
---==================== HEAL PLAYER ==========================--
-HealPlayer = function()
+-- global function
+function HealPlayer()
     local ped = PlayerPedId()
     Citizen.InvokeNative(0xC6258F41D86676E0, ped, 0, 100)     -- inner first
     SetEntityHealth(ped, 600, 1)                              -- outter after
     Citizen.InvokeNative(0xC6258F41D86676E0, ped, 1, 100)     -- only fills inner
     Citizen.InvokeNative(0x675680D089BFA21F, ped, 1065330373) -- only fills outter with a weird amount of numbers
-    --TriggerEvent("vorpmetabolism:setValue", "Thirst", 1000) -- metabolism
-    -- TriggerEvent("vorpmetabolism:setValue", "Hunger", 1000)
 end
 
-local DelHorse = function()
+local function DelHorse()
     local player = PlayerPedId()
     local mount  = GetMount(player)
     if IsPedOnMount(player) then
@@ -148,9 +140,7 @@ local DelHorse = function()
     end
 end
 
----comment
----@param radius number
-local DeleteWagonsRadius = function(radius)
+local function DeleteWagonsRadius(radius)
     local player = PlayerPedId()
 
     if radius and tonumber(radius) then
@@ -190,7 +180,7 @@ local DeleteWagonsRadius = function(radius)
     end
 end
 
---=========================================================== EVENTS ======================================================--
+-- * EVENTS * --
 RegisterNetEvent('vorp:deleteVehicle')
 AddEventHandler('vorp:deleteVehicle', function(radius)
     DeleteWagonsRadius(radius)
@@ -208,5 +198,3 @@ end)
 RegisterNetEvent('vorp:heal', function()
     HealPlayer()
 end)
-
---===========================================================================================================================--

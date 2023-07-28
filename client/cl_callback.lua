@@ -4,10 +4,6 @@ local RequestId = 0
 
 RegisterNetEvent('vorp:ExecuteServerCallBack')
 
----comment
----@param name string
----@param ncb table
----@param args any
 AddEventHandler('vorp:ExecuteServerCallBack', function(name, ncb, args)
 
     ServerCallBacks[RequestId] = ncb
@@ -21,9 +17,7 @@ AddEventHandler('vorp:ExecuteServerCallBack', function(name, ncb, args)
     end
 end)
 
----comment
----@param requestId number
----@param args any
+
 RegisterNetEvent('vorp:ServerCallback', function(requestId, args)
 
     if ServerCallBacks[requestId] then

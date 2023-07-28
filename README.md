@@ -77,21 +77,13 @@ add_ace group.admin vorpcore.showAllCommands allow
 ```
 ---
 
-## Note
 
-We recommend using the latest version of server artifacts.
-- [ARTIFACTS](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/)
-
----
 
 ## For support 
 - [DISCORD](https://discord.gg/DHGVAbCj7N)
 
 ---
 
-## Wiki
-- [Wiki VORP Core](https://github.com/outsider31000/VORP_API-docs)
----
 
 ## Credits
 - [VORP-Core](https://github.com/VORPCORE/VORP-Core/releases) This script was based on this C# core.

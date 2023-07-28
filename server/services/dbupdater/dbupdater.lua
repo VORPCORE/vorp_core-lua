@@ -1,5 +1,4 @@
 -- Service that creates a table if it doesnt exist or if the table does exist, add new columns.
-local tableupdated = false
 local dbversion = nil
 
 local Tables = {

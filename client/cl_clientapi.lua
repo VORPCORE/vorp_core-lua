@@ -4,7 +4,6 @@
 AddEventHandler('getCore', function(cb)
     local corefunctions = {}
 
-
     corefunctions.RpcCall = function(name, callback, args)
         TriggerEvent('vorp:ExecuteServerCallBack', name, callback, args)
     end
@@ -15,7 +14,6 @@ AddEventHandler('getCore', function(cb)
 
     corefunctions.Error = function(text)
         print("^1ERROR: ^7" .. tostring(text) .. "^7")
-        TriggerClientEvent("vorp_core:LogError")
     end
 
     corefunctions.Success = function(text)

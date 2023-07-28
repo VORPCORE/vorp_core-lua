@@ -11,14 +11,13 @@ local multiplierHealth, multiplierStamina
 local T = Translation[Lang].MessageOfSystem
 
 --===================================== FUNCTIONS ======================================--
-TogglePVP = function()
+function TogglePVP()
     pvp = not pvp
     TriggerEvent("vorp:setPVPUi", pvp)
     return pvp
 end
 
-
-setPVP = function()
+function setPVP()
     NetworkSetFriendlyFireOption(pvp)
 
     if not active then
@@ -32,7 +31,7 @@ setPVP = function()
     end
 end
 
-local MapCheck = function()
+local function MapCheck()
     local player = PlayerPedId()
     local playerOnMout = IsPedOnMount(player)
     local playerOnVeh = IsPedInAnyVehicle(player)
@@ -45,7 +44,7 @@ local MapCheck = function()
     end
 end
 
-local TeleportToCoords = function(coords, heading)
+local function TeleportToCoords(coords, heading)
     local playerPedId = PlayerPedId()
     SetEntityCoords(playerPedId, coords.x, coords.y, coords.z, true, true, true, false)
     if heading then
@@ -58,42 +57,39 @@ end
 
 --====================================== PLAYERSPAWN =======================================================--
 AddEventHandler('playerSpawned', function()
-    TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557)             --instance players
+    TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557) --instance players
     Wait(2000)
-    Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost) -- try to hide arthur spawning
-    DisplayRadar(false)                                                                                          --hide RADAR on player select char
-    SetMinimapHideFow(false)                                                                                     -- hide map fog of war
+    Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost)
+    DisplayRadar(false)
+    SetMinimapHideFow(false)
     Wait(2000)
     TriggerServerEvent("vorp:playerSpawn")
     Wait(9000) -- give time to load in
-    -- ExecuteCommand("rc") --reload char so it doesnt come invisible
-    -- Wait(2000)
     ShutdownLoadingScreen()
     CreateThread(function()
-        while firstSpawn do                                         -- trigger on spawn
+        while firstSpawn do
             Wait(0)
+            -- diable chat and inventory on spawn select
             DisableControlAction(0, `INPUT_MP_TEXT_CHAT_ALL`, true) --T
-            DisableControlAction(0, `INPUT_QUICK_USE_ITEM`, true)   -- I add ahere the button you chose to open inventory
+            DisableControlAction(0, `INPUT_QUICK_USE_ITEM`, true)   -- I
             --add more here if you wish
-            if not firstSpawn then                                  -- break after select char
+            if not firstSpawn then
                 break
             end
         end
     end)
-    -- hide your ui here
 end)
 
 --====================================== CAN BE DAMAGED TO PLAYERSPAWN ======================================
 local damage = false
 CreateThread(function()
     while true do
-        -- if not Config.CanBeDamagedToSpawn then -- i dont thin kthis needs a config
-        if Citizen.InvokeNative(0x75DF9E73F2F005FD, PlayerPedId()) then -- GetEntityCanBeDamaged
-            SetEntityCanBeDamaged(PlayerPedId(), false)                 -- just set this
+        if Citizen.InvokeNative(0x75DF9E73F2F005FD, PlayerPedId()) then
+            SetEntityCanBeDamaged(PlayerPedId(), false)
         end
-        --  end
-        if damage then  -- and break the loop after spawn
-            Wait(12000) -- 12 seconds should be enough
+
+        if damage then
+            Wait(12000)
             SetEntityCanBeDamaged(PlayerPedId(), true)
             break
         end
@@ -132,11 +128,10 @@ end)
 --================================ EVENTS ============================================--
 
 RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
-    TeleportToCoords(coords, heading) -- teleport player to coords
+    TeleportToCoords(coords, heading)
 
-    if isdead then                    -- is player dead
+    if isdead then
         if not Config.CombatLogDeath then
-            --start loading screen
             if Config.Loadinscreen then
                 Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.forcedrespawn, T.forced,
                     T.Almost)
@@ -145,11 +140,10 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             TriggerEvent("vorp:PlayerForceRespawn")
             ResspawnPlayer()
             Wait(Config.LoadinScreenTimer)
-            --  ExecuteCommand("rc")
             Wait(1000)
             ShutdownLoadingScreen()
             Wait(7000)
-            HealPlayer() -- fill cores
+            HealPlayer()
         else
             if Config.Loadinscreen then
                 Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Holddead, T.Loaddead,
@@ -161,8 +155,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             SetEntityHealth(PlayerPedId(), 0, 0)
             ShutdownLoadingScreen()
         end
-    else -- is player not dead
-        --ExecuteCommand("rc")
+    else
         if Config.Loadinscreen then
             Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost)
             Wait(Config.LoadinScreenTimer)
@@ -209,22 +202,22 @@ AddEventHandler("vorp:SelectedCharacter", function()
     Citizen.InvokeNative(0x95EE1DEE1DCD9070, PlayerId(), Config.ActiveDeadEye)
 
     if Config.HideUi then
-        TriggerEvent("vorp:showUi", false) -- hide Core UI
+        TriggerEvent("vorp:showUi", false)
     else
         TriggerEvent("vorp:showUi", true)
     end
-    DisplayRadar(true)                                 -- show HUD
-    SetMinimapHideFow(true)                            -- enable FOW
-    TriggerServerEvent("vorp:chatSuggestion")          --- chat add suggestion trigger
+    DisplayRadar(true)
+    SetMinimapHideFow(true)
+    TriggerServerEvent("vorp:chatSuggestion")
     TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
-    TriggerServerEvent("vorp:SaveDate")                -- Saves the date when logging in
+    TriggerServerEvent("vorp:SaveDate")
     Wait(10000)
-    -- if player spawns in guarma request map
+    -- if player left in guarma request map on playerspawn
     local pedCoords = GetEntityCoords(PlayerPedId())
     local area = Citizen.InvokeNative(0x43AD8FC02B429D33, pedCoords, 10)
-    if area == -512529193 then                               -- if player is in guarma and relogs there we call the map
-        Citizen.InvokeNative(0xA657EC9DBC6CC900, 1935063277) --guarma map
-        Citizen.InvokeNative(0xE8770EE02AEE45C2, 1)          --guarma water
+    if area == -512529193 then
+        Citizen.InvokeNative(0xA657EC9DBC6CC900, 1935063277)
+        Citizen.InvokeNative(0xE8770EE02AEE45C2, 1)
         Citizen.InvokeNative(0x74E2261D2A66849A, true)
     end
 end)
@@ -254,18 +247,17 @@ CreateThread(function()
             end
 
             if not IsPedOnMount(pped) and not IsPedInAnyVehicle(pped, false) and active then
-                -- When you press E to get off a horse or carriage
                 active = false
                 setPVP()
             elseif active and IsPedOnMount(pped) or IsPedInAnyVehicle(pped, false) then
                 if IsPedInAnyVehicle(pped, false) then
-                    --Nothing?
+
                 elseif GetPedInVehicleSeat(GetMount(pped), -1) == pped then
                     active = false
                     setPVP()
                 end
             else
-                setPVP() --Set pvp defaults
+                setPVP()
             end
         end
     end
@@ -275,7 +267,7 @@ CreateThread(function()
     while true do
         Wait(3000)
 
-        if not firstSpawn then -- save players coords after char select
+        if not firstSpawn then
             MapCheck()
             if not Config.onesync then
                 local player = PlayerPedId()

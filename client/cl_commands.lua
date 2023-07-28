@@ -46,7 +46,7 @@ CreateThread(function()
         if not value.restricted then
             RegisterCommand(value.command, function()
                 value.run()
-            end)
+            end, false)
             TriggerEvent("chat:addSuggestion", "/" .. value.command, value.suggestion)
         end
     end
