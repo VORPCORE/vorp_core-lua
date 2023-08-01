@@ -152,6 +152,9 @@ function ResspawnPlayer()
             coords = location.pos
         end
     end
+    TriggerEvent("vorpmetabolism:changeValue", "Thirst", 1000)
+    TriggerEvent("vorpmetabolism:changeValue", "Hunger", 1000)
+    TriggerEvent('fred_meta:consume', 100, 100, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0)
     ResurrectPlayer(coords, closestLocation, false)
     TriggerServerEvent("vorpcharacter:getPlayerSkin")
 end
