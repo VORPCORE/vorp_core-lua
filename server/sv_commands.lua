@@ -84,11 +84,11 @@ CreateThread(function()
     for _, value in pairs(Commands) do
         RegisterCommand(value.commandName, function(source, args, rawCommand)
             local _source = source
-            local group = VorpCore.getUser(_source).getGroup -- User DB table group
-
-            if _source == 0 then                             -- its a player
-                return
+            if _source == 0 then -- its a player
+                return print("you must be in game to use this command")
             end
+
+            local group = VorpCore.getUser(_source).getGroup                                                     -- User DB table group
 
             if not CheckAce(value.aceAllowed, _source) and not CheckGroupAllowed(value.groupAllowed, group) then -- check ace first then group
                 return VorpCore.NotifyObjective(_source, T.NoPermissions, 4000)
@@ -110,7 +110,7 @@ CreateThread(function()
 
             local arguments = { source = _source, args = args, rawCommand = rawCommand, config = value } -- arguments passed
             value.callFunction(arguments)
-        end)
+        end, false)
     end
 end)
 
