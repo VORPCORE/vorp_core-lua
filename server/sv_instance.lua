@@ -50,6 +50,8 @@ AddEventHandler("vorp_core:instanceplayers", function(setRoom)
         src,
         instanceSource
     )
+    
+    TriggerClientEvent('vorp_core:instanceChanged', src, instanceSource)
 end)
 
 -- credits to MrDankKetchup
