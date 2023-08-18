@@ -1,15 +1,9 @@
-VorpNotification = setmetatable({}, VorpNotification)
-VorpNotification.__index = VorpNotification
-VorpNotification.__call = function()
-  return 'VorpNotifications'
-end
-
 ---VorpNotifications can be used to display notifications on the screen. You can reference this file in your resource manifest to ensure the VorpNotifications API resource is started before your own resource.
 ---VorpNotifications is a singleton class that should be accessed using the global variable VorpNotifications.
 ---You can reference this in your fxmanifest.lua using the following code: client_script '@vorp-core/client/ref/vorp_notifications.lua'
 
 ---@class VorpNotifications
----@field public NotifyLeft fun(title: string, subTitle: string, dict: string, icon: string, duration?: string, color?: string): nil
+---@field public NotifyLeft fun(title: string, subTitle: string, dict: string, icon: string, duration?: string, color?:string): nil
 ---@field public DisplayTip fun(tipMessage: string, duration?: string): nil
 ---@field public DisplayTopCenter fun(message: string, location: string, duration?: string): nil
 ---@field public DisplayTipRight fun(tipMessage: string, duration?: string): nil
@@ -23,6 +17,12 @@ end
 ---@field public ShowDeadPlayer fun(title: string, _audioRef: string, _audioName: string, duration?: string): nil
 ---@field public ShowUpdateMission fun(utitle: string, umsg: string, duration?: string): nil
 ---@field public ShowWarning fun(title: string, msg: string, _audioRef: string, _audioName: string, duration?: string): nil
+VorpNotification = setmetatable({}, VorpNotification)
+VorpNotification.__index = VorpNotification
+VorpNotification.__call = function()
+  return 'VorpNotifications'
+end
+
 
 ---NotifyLeft
 ---@param title string
@@ -268,6 +268,33 @@ function VorpNotification:ShowWarning(title, message, audioRef, audioName, durat
   Citizen.InvokeNative(0x00A15B94CBA4F76F, result)
 end
 
+
+---@param title string title of the notification
+---@param subtitle string subtitle of the notification
+---@param dict string dictionary of the texture
+---@param texture string texture (icon) of the notification
+---@param duration number duration of the notification
+---@param color string color of the notification
+function VorpNotification:LeftRank(title, subtitle, dict, texture, duration, color)
+  duration = duration or 5000
+  local dict = joaat(dict or "TOASTS_MP_GENERIC")
+  local texture = joaat(texture or "toast_mp_standalone_sp")
+  local string1 = CreateVarString(10, "LITERAL_STRING", title)
+  local string2 = CreateVarString(10, "LITERAL_STRING", subtitle)
+
+  local struct1 = DataView.ArrayBuffer(8 * 8)
+  local struct2 = DataView.ArrayBuffer(8 * 10)
+
+  struct1:SetInt32(8 * 0, duration)
+
+  struct2:SetInt64(8 * 1, bigInt(string1))
+  struct2:SetInt64(8 * 2, bigInt(string2))
+  struct2:SetInt64(8 * 4, bigInt(dict))
+  struct2:SetInt64(8 * 5, bigInt(texture))
+  struct2:SetInt32(8 * 7, 1)
+  Citizen.InvokeNative(0x3F9FDDBA79117C69, struct1:Buffer(), struct2:Buffer(), 1, 1)
+end
+
 ---Test function to test all notifications
 ---@return nil
 function VorpNotification:Test()
@@ -322,5 +349,9 @@ function VorpNotification:Test()
   print("^2Displaying: ShowWarning")
   Wait(testWaitDuration)
   VorpNotification:NotifyLeft("Testing Completed", "All notifications tested", testDict, testIcon, testDuration,
+    testColor)
+  print("^2Displaying: NotifyLeft")
+  Wait(testWaitDuration)
+  VorpNotification:LeftRank("Testing Completed", "All notifications tested", testDict, testIcon, testDuration,
     testColor)
 end

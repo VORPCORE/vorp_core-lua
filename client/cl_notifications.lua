@@ -13,6 +13,7 @@ RegisterNetEvent('vorp:failmissioNotifY')
 RegisterNetEvent('vorp:deadplayerNotifY')
 RegisterNetEvent('vorp:updatemissioNotify')
 RegisterNetEvent('vorp:warningNotify')
+RegisterNetEvent('vorp:LeftRank')
 
 
 AddEventHandler('vorp:NotifyLeft', function(firsttext, secondtext, dict, icon, duration, color)
@@ -54,7 +55,7 @@ AddEventHandler('vorp:ShowSimpleCenterText', function(text, duration)
 end)
 
 AddEventHandler('vorp:ShowBottomRight', function(text, duration)
-    VorpNotification:showBottomRight(tostring(text), tonumber(duration))
+    VorpNotification:ShowBottomRight(tostring(text), tonumber(duration))
 end)
 
 AddEventHandler('vorp:failmissioNotifY', function(title, subtitle, duration)
@@ -65,7 +66,6 @@ AddEventHandler('vorp:deadplayerNotifY', function(title, audioRef, audioName, du
     VorpNotification:ShowDeadPlayer(tostring(title), tostring(audioRef), tostring(audioName), tonumber(duration))
 end)
 
-
 AddEventHandler('vorp:updatemissioNotify', function(utitle, umsg, duration)
     VorpNotification:ShowUpdateMission(tostring(utitle), tostring(umsg), tonumber(duration))
 end)
@@ -74,3 +74,8 @@ AddEventHandler('vorp:warningNotify', function(title, msg, audioRef, audioName, 
     VorpNotification:ShowWarning(tostring(title), tostring(msg), tostring(audioRef), tostring(audioName),
         tonumber(duration))
 end)
+
+AddEventHandler('vorp:LeftRank', function(title, subtitle, dict, icon, duration, color)
+    VorpNotification:LeftRank(tostring(title), tostring(subtitle), tostring(dict), tostring(icon) , tonumber(duration), (tostring(color))) 
+end)
+ 

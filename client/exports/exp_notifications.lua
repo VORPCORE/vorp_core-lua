@@ -13,8 +13,8 @@ exports("DisplayTopCenterNotification", function(text, location, duration)
   VorpNotification:DisplayTopCenter(tostring(text), tostring(location), tonumber(duration))
 end)
 
-exports("DisplayRightTip", function(text, duration)
-  VorpNotification:DisplayRightTip(tostring(text), tonumber(duration))
+exports("DisplayTipRight", function(text, duration)
+  VorpNotification:DisplayTipRight(tostring(text), tonumber(duration))
 end)
 
 exports("DisplayObjective", function(text, duration)
@@ -57,4 +57,9 @@ end)
 exports("warningNotify", function(title, msg, _audioRef, _audioName, duration)
   VorpNotification:ShowWarning(tostring(title), tostring(msg), tostring(_audioRef), tostring(_audioName),
     tonumber(duration))
+end)
+
+exports("LeftRank", function(title, subTitle, dict, icon, duration, color)
+  VorpNotification:LeftRank(tostring(title), tostring(subTitle), tostring(dict), tostring(icon), tonumber(duration),
+    (tostring(color)))
 end)

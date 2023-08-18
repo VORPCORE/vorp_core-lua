@@ -85,6 +85,14 @@ AddEventHandler('getCore', function(cb)
             tonumber(duration))
     end
 
+    corefunctions.NotifyLeftRank = function(title, subtitle, dict, icon, duration, color)
+        if not LoadTexture(dict) then
+            LoadTexture(dict)
+        end
+        VorpNotification:LeftRank(tostring(title), tostring(subtitle), tostring(dict), tostring(icon),
+            tonumber(duration), tostring(color or "COLOR_WHITE"))
+    end
+
     corefunctions.AddWebhook = function(title, webhook, description, color, name, logo, footerlogo, avatar)
         TriggerServerEvent('vorp_core:addWebhook', title, webhook, description, color, name, logo, footerlogo, avatar)
     end
