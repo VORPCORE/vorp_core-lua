@@ -291,6 +291,7 @@ function VorpNotification:LeftRank(title, subtitle, dict, texture, duration, col
   struct2:SetInt64(8 * 2, bigInt(string2))
   struct2:SetInt64(8 * 4, bigInt(dict))
   struct2:SetInt64(8 * 5, bigInt(texture))
+  struct2:SetInt64(8 * 6, bigInt(joaat(color or "COLOR_WHITE")))
   struct2:SetInt32(8 * 7, 1)
   Citizen.InvokeNative(0x3F9FDDBA79117C69, struct1:Buffer(), struct2:Buffer(), 1, 1)
 end

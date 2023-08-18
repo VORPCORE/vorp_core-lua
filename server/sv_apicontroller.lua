@@ -207,6 +207,10 @@ AddEventHandler('getCore', function(cb)
         local _source = source
         TriggerClientEvent('vorp:warningNotify', _source, title, msg, audioRef, audioName, duration)
     end
+    coreData.NotifyLeftRank = function(source, title, subtitle,dict,icon, duration, color)
+        local _source = source
+        TriggerClientEvent('vorp:LeftRank', _source, title, subtitle,dict,icon, duration,color)
+    end
 
     coreData.dbUpdateAddTables = function(tbl)
         if VorpInitialized == true then
