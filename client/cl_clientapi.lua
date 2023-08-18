@@ -29,9 +29,6 @@ AddEventHandler('getCore', function(cb)
     end
 
     corefunctions.NotifyLeft = function(title, subtitle, dict, icon, duration, color)
-        if not LoadTexture(dict) then
-            LoadTexture(dict)
-        end
         VorpNotification:NotifyLeft(tostring(title), tostring(subtitle), tostring(dict), tostring(icon),
             tonumber(duration), tostring(color or "COLOR_WHITE"))
     end
@@ -53,9 +50,6 @@ AddEventHandler('getCore', function(cb)
     end
 
     corefunctions.NotifyAvanced = function(text, dict, icon, text_color, duration, quality, showquality)
-        if not LoadTexture(dict) then
-            LoadTexture(dict)
-        end
         VorpNotification:ShowAdvancedRightNotification(tostring(text), tostring(dict), tostring(icon),
             tostring(text_color), tonumber(duration), quality, showquality)
     end
@@ -86,9 +80,6 @@ AddEventHandler('getCore', function(cb)
     end
 
     corefunctions.NotifyLeftRank = function(title, subtitle, dict, icon, duration, color)
-        if not LoadTexture(dict) then
-            LoadTexture(dict)
-        end
         VorpNotification:LeftRank(tostring(title), tostring(subtitle), tostring(dict), tostring(icon),
             tonumber(duration), tostring(color or "COLOR_WHITE"))
     end

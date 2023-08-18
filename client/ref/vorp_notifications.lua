@@ -46,6 +46,8 @@ function VorpNotification:NotifyLeft(title, subtitle, dict, icon, duration, colo
   structData:SetInt64(8 * 6, bigInt(joaat(color or "COLOR_WHITE")))
 
   Citizen.InvokeNative(0x26E87218390E6729, structConfig:Buffer(), structData:Buffer(), 1, 1)
+  -- SET_STREAMED_TEXTURE_DICT_AS_NO_LONGER_NEEDED
+  Citizen.InvokeNative(0x4ACA10A91F66F1E2, dict)
 end
 
 ---DisplayTip
@@ -132,6 +134,7 @@ end
 ---@param quality? number -- default 1
 ---@param showquality? boolean -- default false
 function VorpNotification:ShowAdvancedRightNotification(text, dict, icon, text_color, duration, quality, showquality)
+  LoadTexture(dict)
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
   structConfig:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", "Transaction_Feed_Sounds")))
@@ -147,6 +150,8 @@ function VorpNotification:ShowAdvancedRightNotification(text, dict, icon, text_c
   end
 
   Citizen.InvokeNative(0xB249EBCB30DD88E0, structConfig:Buffer(), structData:Buffer(), 1)
+  -- SET_STREAMED_TEXTURE_DICT_AS_NO_LONGER_NEEDED
+  Citizen.InvokeNative(0x4ACA10A91F66F1E2, dict)
 end
 
 ---ShowBasicTopNotification
@@ -268,7 +273,6 @@ function VorpNotification:ShowWarning(title, message, audioRef, audioName, durat
   Citizen.InvokeNative(0x00A15B94CBA4F76F, result)
 end
 
-
 ---@param title string title of the notification
 ---@param subtitle string subtitle of the notification
 ---@param dict string dictionary of the texture
@@ -276,6 +280,7 @@ end
 ---@param duration number duration of the notification
 ---@param color string color of the notification
 function VorpNotification:LeftRank(title, subtitle, dict, texture, duration, color)
+  LoadTexture(dict)
   duration = duration or 5000
   local dict = joaat(dict or "TOASTS_MP_GENERIC")
   local texture = joaat(texture or "toast_mp_standalone_sp")
@@ -294,6 +299,8 @@ function VorpNotification:LeftRank(title, subtitle, dict, texture, duration, col
   struct2:SetInt64(8 * 6, bigInt(joaat(color or "COLOR_WHITE")))
   struct2:SetInt32(8 * 7, 1)
   Citizen.InvokeNative(0x3F9FDDBA79117C69, struct1:Buffer(), struct2:Buffer(), 1, 1)
+    -- SET_STREAMED_TEXTURE_DICT_AS_NO_LONGER_NEEDED
+    Citizen.InvokeNative(0x4ACA10A91F66F1E2, dict)
 end
 
 ---Test function to test all notifications
