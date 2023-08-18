@@ -16,62 +16,61 @@ RegisterNetEvent('vorp:warningNotify')
 
 
 AddEventHandler('vorp:NotifyLeft', function(firsttext, secondtext, dict, icon, duration, color)
-    LoadTexture(dict)
-    exports.vorp_core:DisplayLeftNotification(tostring(firsttext), tostring(secondtext), tostring(dict), tostring(icon)
+    VorpNotification:NotifyLeft(tostring(firsttext), tostring(secondtext), tostring(dict), tostring(icon)
     , tonumber(duration), (tostring(color) or "COLOR_WHITE"))
 end)
 
 AddEventHandler('vorp:Tip', function(text, duration)
-    exports.vorp_core:DisplayTip(tostring(text), tonumber(duration))
+    VorpNotification:DisplayTip(tostring(text), tonumber(duration))
 end)
 
 AddEventHandler('vorp:NotifyTop', function(text, location, duration)
-    exports.vorp_core:DisplayTopCenterNotification(tostring(text), tostring(location), tonumber(duration))
+    VorpNotification:DisplayTopCenter(tostring(text), tostring(location), tonumber(duration))
 end)
 
 AddEventHandler('vorp:TipRight', function(text, duration)
-    exports.vorp_core:DisplayRightTip(tostring(text), tonumber(duration))
+    VorpNotification:DisplayTipRight(tostring(text), tonumber(duration))
 end)
 
 AddEventHandler('vorp:TipBottom', function(text, duration)
-    exports.vorp_core:DisplayObjective(tostring(text), tonumber(duration))
+    VorpNotification:DisplayObjective(tostring(text), tonumber(duration))
 end)
 
 AddEventHandler('vorp:ShowTopNotification', function(tittle, subtitle, duration)
-    exports.vorp_core:ShowTopNotification(tostring(tittle), tostring(subtitle), tonumber(duration))
+    VorpNotification:ShowTopNotification(tostring(tittle), tostring(subtitle), tonumber(duration))
 end)
 
 AddEventHandler('vorp:ShowAdvancedRightNotification', function(text, dict, icon, text_color, duration, quality)
-    exports.vorp_core:ShowAdvancedRightNotification(tostring(text), tostring(dict), tostring(icon),
+    VorpNotification:ShowAdvancedRightNotification(tostring(text), tostring(dict), tostring(icon),
         tostring(text_color), tonumber(duration), quality)
 end)
 
 AddEventHandler('vorp:ShowBasicTopNotification', function(text, duration)
-    exports.vorp_core:ShowBasicTopNotification(tostring(text), tonumber(duration))
+    VorpNotification:ShowBasicTopNotification(tostring(text), tonumber(duration))
 end)
 
 AddEventHandler('vorp:ShowSimpleCenterText', function(text, duration)
-    exports.vorp_core:ShowSimpleCenterText(tostring(text), tonumber(duration))
+    VorpNotification:ShowSimpleCenterText(tostring(text), tonumber(duration))
 end)
 
 AddEventHandler('vorp:ShowBottomRight', function(text, duration)
-    exports.vorp_core:showBottomRight(tostring(text), tonumber(duration))
+    VorpNotification:showBottomRight(tostring(text), tonumber(duration))
 end)
 
 AddEventHandler('vorp:failmissioNotifY', function(title, subtitle, duration)
-    exports.vorp_core:failmissioNotifY(tostring(title), tostring(subtitle), tonumber(duration))
+    VorpNotification:ShowFailedMission(tostring(title), tostring(subtitle), tonumber(duration))
 end)
 
 AddEventHandler('vorp:deadplayerNotifY', function(title, audioRef, audioName, duration)
-    exports.vorp_core:deadplayerNotifY(tostring(title), tostring(audioRef), tostring(audioName), tonumber(duration))
+    VorpNotification:ShowDeadPlayer(tostring(title), tostring(audioRef), tostring(audioName), tonumber(duration))
 end)
 
 
 AddEventHandler('vorp:updatemissioNotify', function(utitle, umsg, duration)
-    exports.vorp_core:updatemissioNotify(tostring(utitle), tostring(umsg), tonumber(duration))
+    VorpNotification:ShowUpdateMission(tostring(utitle), tostring(umsg), tonumber(duration))
 end)
 
 AddEventHandler('vorp:warningNotify', function(title, msg, audioRef, audioName, duration)
-    exports.vorp_core:warningNotify(tostring(title), tostring(msg), tostring(audioRef), tostring(audioName),
+    VorpNotification:ShowWarning(tostring(title), tostring(msg), tostring(audioRef), tostring(audioName),
         tonumber(duration))
 end)

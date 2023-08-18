@@ -15,7 +15,8 @@ shared_scripts {
 }
 
 client_scripts {
-  'client/Notifications.lua',
+  'client/ref/*.lua',
+  'client/exports/*.lua',
   'client/cl_*.lua',
   'client/cl_commands.lua'
 }
