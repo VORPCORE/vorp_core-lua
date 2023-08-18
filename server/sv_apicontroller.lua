@@ -203,6 +203,11 @@ AddEventHandler('getCore', function(cb)
         local _source = source
         TriggerClientEvent('vorp:updatemissioNotify', _source, title, subtitle, duration)
     end
+    
+    coreData.NotifyBasicTop = function(source, title, duration)
+        local _source = source
+        TriggerClientEvent('vorp:ShowBasicTopNotification', _source, title, duration)
+    end
 
     coreData.NotifyWarning = function(source, title, msg, audioRef, audioName, duration)
         local _source = source
