@@ -25,7 +25,7 @@ AddEventHandler('getCore', function(cb)
     end
 
     corefunctions.NotifyTip = function(text, duration)
-        VorpNotification:DisplayTip(tostring(text), tonumber(duration))
+        VorpNotification:NotifyTip(tostring(text), tonumber(duration))
     end
 
     corefunctions.NotifyLeft = function(title, subtitle, dict, icon, duration, color)
@@ -34,53 +34,55 @@ AddEventHandler('getCore', function(cb)
     end
 
     corefunctions.NotifyRightTip = function(text, duration)
-        VorpNotification:DisplayTipRight(tostring(text), tonumber(duration))
+        VorpNotification:NotifyRightTip(tostring(text), tonumber(duration))
     end
 
     corefunctions.NotifyObjective = function(text, duration)
-        VorpNotification:DisplayObjective(tostring(text), tonumber(duration))
+        VorpNotification:NotifyObjective(tostring(text), tonumber(duration))
     end
 
     corefunctions.NotifyTop = function(text, location, duration)
-        VorpNotification:DisplayTopCenter(tostring(text), tostring(location), tonumber(duration))
+        VorpNotification:NotifyTop(tostring(text), tostring(location), tonumber(duration))
     end
 
     corefunctions.NotifySimpleTop = function(text, subtitle, duration)
-        VorpNotification:ShowTopNotification(tostring(text), tostring(subtitle), tonumber(duration))
+        VorpNotification:NotifySimpleTop(tostring(text), tostring(subtitle), tonumber(duration))
     end
 
     corefunctions.NotifyAvanced = function(text, dict, icon, text_color, duration, quality, showquality)
-        VorpNotification:ShowAdvancedRightNotification(tostring(text), tostring(dict), tostring(icon),
+        VorpNotification:NotifyAvanced(tostring(text), tostring(dict), tostring(icon),
             tostring(text_color), tonumber(duration), quality, showquality)
     end
-
+   corefunctions.NotifyBasicTop = function(text, duration)
+        VorpNotification:NotifyBasicTop(tostring(text), tonumber(duration))
+    end
     corefunctions.NotifyCenter = function(text, duration, text_color)
-        VorpNotification:ShowSimpleCenterText(tostring(text), tonumber(duration), tostring(text_color))
+        VorpNotification:NotifyCenter(tostring(text), tonumber(duration), tostring(text_color))
     end
 
     corefunctions.NotifyBottomRight = function(text, duration)
-        VorpNotification:ShowBottomRight(tostring(text), tonumber(duration))
+        VorpNotification:NotifyBottomRight(tostring(text), tonumber(duration))
     end
 
     corefunctions.NotifyFail = function(text, subtitle, duration)
-        VorpNotification:ShowFailedMission(tostring(text), tostring(subtitle), tonumber(duration))
+        VorpNotification:NotifyFail(tostring(text), tostring(subtitle), tonumber(duration))
     end
 
     corefunctions.NotifyDead = function(title, audioRef, audioName, duration)
-        VorpNotification:ShowDeadPlayer(tostring(title), tostring(audioRef), tostring(audioName), tonumber(duration))
+        VorpNotification:NotifyDead(tostring(title), tostring(audioRef), tostring(audioName), tonumber(duration))
     end
 
     corefunctions.NotifyUpdate = function(title, subtitle, duration)
-        VorpNotification:ShowUpdateMission(tostring(title), tostring(subtitle), tonumber(duration))
+        VorpNotification:NotifyUpdate(tostring(title), tostring(subtitle), tonumber(duration))
     end
 
     corefunctions.NotifyWarning = function(title, msg, audioRef, audioName, duration)
-        VorpNotification:ShowWarning(tostring(title), tostring(msg), tostring(audioRef), tostring(audioName),
+        VorpNotification:NotifyWarning(tostring(title), tostring(msg), tostring(audioRef), tostring(audioName),
             tonumber(duration))
     end
 
     corefunctions.NotifyLeftRank = function(title, subtitle, dict, icon, duration, color)
-        VorpNotification:LeftRank(tostring(title), tostring(subtitle), tostring(dict), tostring(icon),
+        VorpNotification:NotifyLeftRank(tostring(title), tostring(subtitle), tostring(dict), tostring(icon),
             tonumber(duration), tostring(color or "COLOR_WHITE"))
     end
 

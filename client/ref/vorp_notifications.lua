@@ -3,20 +3,21 @@
 ---You can reference this in your fxmanifest.lua using the following code: client_script '@vorp-core/client/ref/vorp_notifications.lua'
 
 ---@class VorpNotifications
----@field public NotifyLeft fun(title: string, subTitle: string, dict: string, icon: string, duration?: string, color?:string): nil
----@field public DisplayTip fun(tipMessage: string, duration?: string): nil
----@field public DisplayTopCenter fun(message: string, location: string, duration?: string): nil
----@field public DisplayTipRight fun(tipMessage: string, duration?: string): nil
----@field public DisplayObjective fun(message: string, duration?: string): nil
----@field public ShowTopNotification fun(title: string, subtext: string, duration?: string): nil
----@field public ShowAdvancedRightNotification fun(text: string, dict: string, icon: string, text_color: string, duration?: string, quality?: string, showquality?: string): nil
----@field public ShowBasicTopNotification fun(text: string, duration?: string): nil
----@field public ShowSimpleCenterText fun(text: string, duration?: string, text_color?: string): nil
----@field public ShowBottomRight fun(text: string, duration?: string): nil
----@field public ShowFailedMission fun(title: string, subTitle: string, duration?: string): nil
----@field public ShowDeadPlayer fun(title: string, _audioRef: string, _audioName: string, duration?: string): nil
----@field public ShowUpdateMission fun(utitle: string, umsg: string, duration?: string): nil
----@field public ShowWarning fun(title: string, msg: string, _audioRef: string, _audioName: string, duration?: string): nil
+---@field public NotifyLeft fun(title: string, subtitle: string, dict: string, icon: string, duration?: number, color?: string): nil
+---@field public NotifyTip fun(tipMessage: string, duration?: number): nil
+---@field public NotifyTop fun(message: string, location: string, duration?: number): nil
+---@field public NotifyRightTip fun(tipMessage: string, duration?: number): nil
+---@field public NotifyObjective fun(message: string, duration?: number): nil
+---@field public NotifySimpleTop fun(tittle: string, duration?: number): nil 
+---@field public NotifyAvanced fun(text: string, dict: string, icon: string, text_color: string, duration?: number, quality?: number, showquality?: boolean): nil 
+---@field public NotifyBasicTop fun(text: string, duration?: number): nil
+---@field public NotifyCenter fun(text: string, duration?: number, text_color?: string): nil
+---@field public NotifyBottomRight fun(text: string, duration?: number): nil
+---@field public NotifyFail fun(title: string, subtitle: string, duration?: number): nil
+---@field public NotifyDead fun(title: string, audioRef: string, audioName: string, duration?: number): nil
+---@field public NotifyUpdate fun(title: string, message: string, duration?: number): nil
+---@field public NotifyWarning fun(title: string, message: string, audioRef: string, audioName: string, duration?: number): nil
+---@field public NotifyLeftRank fun(title: string, subtitle: string, dict: string, texture: string, duration?: number, color?: string): nil
 VorpNotification = setmetatable({}, VorpNotification)
 VorpNotification.__index = VorpNotification
 VorpNotification.__call = function()
@@ -50,10 +51,10 @@ function VorpNotification:NotifyLeft(title, subtitle, dict, icon, duration, colo
   Citizen.InvokeNative(0x4ACA10A91F66F1E2, dict)
 end
 
----DisplayTip
+---NotifyTip
 ---@param tipMessage string
 ---@param duration? number -- default 3000
-function VorpNotification:DisplayTip(tipMessage, duration)
+function VorpNotification:NotifyTip(tipMessage, duration)
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
   structConfig:SetInt32(8 * 1, 0)
@@ -66,11 +67,11 @@ function VorpNotification:DisplayTip(tipMessage, duration)
   Citizen.InvokeNative(0x049D5C615BD38BAD, structConfig:Buffer(), structData:Buffer(), 1)
 end
 
----DisplayTopCenter
+---NotifyTop
 ---@param message string
 ---@param location string
 ---@param duration? number -- default 3000
-function VorpNotification:DisplayTopCenter(message, location, duration)
+function VorpNotification:NotifyTop(message, location, duration)
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
@@ -81,10 +82,10 @@ function VorpNotification:DisplayTopCenter(message, location, duration)
   Citizen.InvokeNative(0xD05590C1AB38F068, structConfig:Buffer(), structData:Buffer(), 0, 1)
 end
 
----DisplayTipRight
+---NotifyRightTip
 ---@param tipMessage string
 ---@param duration? number -- default 3000
-function VorpNotification:DisplayTipRight(tipMessage, duration)
+function VorpNotification:NotifyRightTip(tipMessage, duration)
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
@@ -97,7 +98,7 @@ end
 ---DisplayObjective
 ---@param message string
 ---@param duration? number -- default 3000
-function VorpNotification:DisplayObjective(message, duration)
+function VorpNotification:NotifyObjective(message, duration)
   Citizen.InvokeNative("0xDD1232B332CBB9E7", 3, 1, 0)
 
   local structConfig = DataView.ArrayBuffer(8 * 7)
@@ -110,11 +111,11 @@ function VorpNotification:DisplayObjective(message, duration)
   Citizen.InvokeNative(0xCEDBF17EFCC0E4A4, structConfig:Buffer(), structData:Buffer(), 1)
 end
 
----ShowTopNotification
+---NotifySimpleTop
 ---@param title string
 ---@param subtitle string
 ---@param duration? number -- default 3000
-function VorpNotification:ShowTopNotification(title, subtitle, duration)
+function VorpNotification:NotifySimpleTop(title, subtitle, duration)
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
@@ -125,7 +126,7 @@ function VorpNotification:ShowTopNotification(title, subtitle, duration)
   Citizen.InvokeNative(0xA6F4216AB10EB08E, structConfig:Buffer(), structData:Buffer(), 1, 1)
 end
 
----ShowAdvancedRightNotification
+---NotifyAvanced
 ---@param text string
 ---@param dict string
 ---@param icon string
@@ -133,7 +134,7 @@ end
 ---@param duration? number -- default 3000
 ---@param quality? number -- default 1
 ---@param showquality? boolean -- default false
-function VorpNotification:ShowAdvancedRightNotification(text, dict, icon, text_color, duration, quality, showquality)
+function VorpNotification:NotifyAvanced(text, dict, icon, text_color, duration, quality, showquality)
   LoadTexture(dict)
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
@@ -154,10 +155,10 @@ function VorpNotification:ShowAdvancedRightNotification(text, dict, icon, text_c
   Citizen.InvokeNative(0x4ACA10A91F66F1E2, dict)
 end
 
----ShowBasicTopNotification
+---NotifyBasicTop
 ---@param text string
 ---@param duration? number -- default 3000
-function VorpNotification:ShowBasicTopNotification(text, duration)
+function VorpNotification:NotifyBasicTop(text, duration)
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
@@ -167,11 +168,11 @@ function VorpNotification:ShowBasicTopNotification(text, duration)
   Citizen.InvokeNative(0x7AE0589093A2E088, structConfig:Buffer(), structData:Buffer(), 1)
 end
 
----ShowSimpleCenterText
+---NotifyCenter
 ---@param text string
 ---@param duration? number -- default 3000
 ---@param text_color? string -- default COLOR_PURE_WHITE
-function VorpNotification:ShowSimpleCenterText(text, duration, text_color)
+function VorpNotification:NotifyCenter(text, duration, text_color)
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
@@ -182,10 +183,10 @@ function VorpNotification:ShowSimpleCenterText(text, duration, text_color)
   Citizen.InvokeNative(0x893128CDB4B81FBB, structConfig:Buffer(), structData:Buffer(), 1)
 end
 
----ShowBottomRight
+---NotifyBottomRight
 ---@param text string
 ---@param duration? number -- default 3000
-function VorpNotification:ShowBottomRight(text, duration)
+function VorpNotification:NotifyBottomRight(text, duration)
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
@@ -195,11 +196,11 @@ function VorpNotification:ShowBottomRight(text, duration)
   Citizen.InvokeNative(0x2024F4F333095FB1, structConfig:Buffer(), structData:Buffer(), 1)
 end
 
----ShowFailedMission
+---NotifyFail
 ---@param title string
 ---@param subtitle string
 ---@param duration? number -- default 3000
-function VorpNotification:ShowFailedMission(title, subtitle, duration)
+function VorpNotification:NotifyFail(title, subtitle, duration)
   local structConfig = DataView.ArrayBuffer(8 * 5)
 
   local structData = DataView.ArrayBuffer(8 * 9)
@@ -213,12 +214,12 @@ function VorpNotification:ShowFailedMission(title, subtitle, duration)
   Citizen.InvokeNative(0x00A15B94CBA4F76F, result)
 end
 
----ShowDeadPlayer
+---NotifyDead
 ---@param title string
 ---@param audioRef string
 ---@param audioName string
 ---@param duration? number -- default 3000
-function VorpNotification:ShowDeadPlayer(title, audioRef, audioName, duration)
+function VorpNotification:NotifyDead(title, audioRef, audioName, duration)
   local structConfig = DataView.ArrayBuffer(8 * 5)
 
   local structData = DataView.ArrayBuffer(8 * 9)
@@ -233,11 +234,11 @@ function VorpNotification:ShowDeadPlayer(title, audioRef, audioName, duration)
   Citizen.InvokeNative(0x00A15B94CBA4F76F, result)
 end
 
----ShowUpdateMission
+---NotifyUpdate
 ---@param title string
 ---@param message string
 ---@param duration? number -- default 3000
-function VorpNotification:ShowUpdateMission(title, message, duration)
+function VorpNotification:NotifyUpdate(title, message, duration)
   local structConfig = DataView.ArrayBuffer(8 * 5)
 
   local structData = DataView.ArrayBuffer(8 * 9)
@@ -251,13 +252,13 @@ function VorpNotification:ShowUpdateMission(title, message, duration)
   Citizen.InvokeNative(0x00A15B94CBA4F76F, result)
 end
 
----ShowWarning
+---NotifyWarning
 ---@param title string
 ---@param message string
 ---@param audioRef string
 ---@param audioName string
 ---@param duration? number -- default 3000
-function VorpNotification:ShowWarning(title, message, audioRef, audioName, duration)
+function VorpNotification:NotifyWarning(title, message, audioRef, audioName, duration)
   local structConfig = DataView.ArrayBuffer(8 * 5)
 
   local structData = DataView.ArrayBuffer(8 * 9)
@@ -273,13 +274,14 @@ function VorpNotification:ShowWarning(title, message, audioRef, audioName, durat
   Citizen.InvokeNative(0x00A15B94CBA4F76F, result)
 end
 
+---NotifyLeftRank
 ---@param title string title of the notification
 ---@param subtitle string subtitle of the notification
 ---@param dict string dictionary of the texture
 ---@param texture string texture (icon) of the notification
 ---@param duration number duration of the notification
 ---@param color string color of the notification
-function VorpNotification:LeftRank(title, subtitle, dict, texture, duration, color)
+function VorpNotification:NotifyLeftRank(title, subtitle, dict, texture, duration, color)
   LoadTexture(dict)
   duration = duration or 5000
   local dict = joaat(dict or "TOASTS_MP_GENERIC")
@@ -299,8 +301,8 @@ function VorpNotification:LeftRank(title, subtitle, dict, texture, duration, col
   struct2:SetInt64(8 * 6, bigInt(joaat(color or "COLOR_WHITE")))
   struct2:SetInt32(8 * 7, 1)
   Citizen.InvokeNative(0x3F9FDDBA79117C69, struct1:Buffer(), struct2:Buffer(), 1, 1)
-    -- SET_STREAMED_TEXTURE_DICT_AS_NO_LONGER_NEEDED
-    Citizen.InvokeNative(0x4ACA10A91F66F1E2, dict)
+  -- SET_STREAMED_TEXTURE_DICT_AS_NO_LONGER_NEEDED
+  Citizen.InvokeNative(0x4ACA10A91F66F1E2, dict)
 end
 
 ---Test function to test all notifications
@@ -317,49 +319,46 @@ function VorpNotification:Test()
   VorpNotification:NotifyLeft(testText, testText, testDict, testIcon, testDuration, testColor)
   print("^2Displaying: NotifyLeft")
   Wait(testWaitDuration)
-  VorpNotification:DisplayTip(testText, testDuration)
-  print("^2Displaying: DisplayTip")
+  VorpNotification:NotifyTip(testText, testDuration)
+  print("^2Displaying: NotifyTip")
   Wait(testWaitDuration)
-  VorpNotification:DisplayTopCenter(testText, testLocation, testDuration)
-  print("^2Displaying: DisplayTopCenter")
+  VorpNotification:NotifyTop(testText, testLocation, testDuration)
+  print("^2Displaying: NotifyTop")
   Wait(testWaitDuration)
-  VorpNotification:DisplayTipRight(testText, testDuration)
-  print("^2Displaying: DisplayTipRight")
+  VorpNotification:NotifyRightTip(testText, testDuration)
+  print("^2Displaying: NotifyRightTip")
   Wait(testWaitDuration)
-  VorpNotification:DisplayObjective(testText, testDuration)
-  print("^2Displaying: DisplayObjective")
+  VorpNotification:NotifyObjective(testText, testDuration)
+  print("^2Displaying: NotifyObjective")
   Wait(testWaitDuration)
-  VorpNotification:ShowTopNotification(testText, testText, testDuration)
-  print("^2Displaying: ShowTopNotification")
+  VorpNotification:NotifySimpleTop(testText, testText, testDuration)
+  print("^2Displaying: NotifySimpleTop")
   Wait(testWaitDuration)
-  VorpNotification:ShowAdvancedRightNotification(testText, testDict, testIcon, testColor, testDuration)
-  print("^2Displaying: ShowAdvancedRightNotification")
+  VorpNotification:NotifyAvanced(testText, testDict, testIcon, testColor, testDuration)
+  print("^2Displaying: NotifyAvanced")
   Wait(testWaitDuration)
-  VorpNotification:ShowBasicTopNotification(testText, testDuration)
-  print("^2Displaying: ShowBasicTopNotification")
+  VorpNotification:NotifyBasicTop(testText, testDuration)
+  print("^2Displaying: NotifyBasicTop")
   Wait(testWaitDuration)
-  VorpNotification:ShowSimpleCenterText(testText, testDuration, testColor)
-  print("^2Displaying: ShowSimpleCenterText")
+  VorpNotification:NotifyCenter(testText, testDuration)
+  print("^2Displaying: NotifyCenter")
   Wait(testWaitDuration)
-  VorpNotification:ShowBottomRight(testText, testDuration)
-  print("^2Displaying: ShowBottomRight")
+  VorpNotification:NotifyBottomRight(testText, testDuration)
+  print("^2Displaying: NotifyBottomRight")
   Wait(testWaitDuration)
-  VorpNotification:ShowFailedMission(testText, testText, testDuration)
-  print("^2Displaying: ShowFailedMission")
+  VorpNotification:NotifyFail(testText, testText, testDuration)
+  print("^2Displaying: NotifyFail")
   Wait(testWaitDuration)
-  VorpNotification:ShowDeadPlayer(testText, testDict, testIcon, testDuration)
-  print("^2Displaying: ShowDeadPlayer")
+  VorpNotification:NotifyDead(testText, testDict, testIcon, testDuration)
+  print("^2Displaying: NotifyDead")
   Wait(testWaitDuration)
-  VorpNotification:ShowUpdateMission(testText, testText, testDuration)
-  print("^2Displaying: ShowUpdateMission")
+  VorpNotification:NotifyUpdate(testText, testText, testDuration)
+  print("^2Displaying: NotifyUpdate")
   Wait(testWaitDuration)
-  VorpNotification:ShowWarning(testText, testText, testDict, testIcon, testDuration)
-  print("^2Displaying: ShowWarning")
+  VorpNotification:NotifyWarning(testText, testText, testDict, testIcon, testDuration)
+  print("^2Displaying: NotifyWarning")
   Wait(testWaitDuration)
-  VorpNotification:NotifyLeft("Testing Completed", "All notifications tested", testDict, testIcon, testDuration,
-    testColor)
-  print("^2Displaying: NotifyLeft")
+  VorpNotification:NotifyLeftRank(testText, testText, testDict, testIcon, testDuration, testColor)
+  print("^2Displaying: NotifyLeftRank")
   Wait(testWaitDuration)
-  VorpNotification:LeftRank("Testing Completed", "All notifications tested", testDict, testIcon, testDuration,
-    testColor)
 end
