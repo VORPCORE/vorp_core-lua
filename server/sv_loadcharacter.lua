@@ -14,7 +14,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
     local sid = GetSteamID(source)
 
     if sid and not characters[sid] then
-        characters[sid] = Character(source, sid, nil, "user", "unemployed", nil, nil, nil, "{}")
+        characters[sid] = Character(source, sid, nil, "user", "unemployed", nil, nil, nil, "{}") 
 
         TriggerClientEvent("vorpcharacter:createPlayer", source)
     else

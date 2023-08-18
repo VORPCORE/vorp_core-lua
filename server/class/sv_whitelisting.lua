@@ -1,4 +1,11 @@
---class for whitelist entries
+---@class Whitelist
+
+
+---@param id number
+---@param identifier string
+---@param status number
+---@param firstconnection boolean
+---@return Whitelist
 function Whitelist(id, identifier, status, firstconnection)
     local self = {}
 

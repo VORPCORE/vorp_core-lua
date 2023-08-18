@@ -1,3 +1,4 @@
+
 local function _getUsedCharacter(player)
     local sid = GetSteamID(player)
 

@@ -1,4 +1,31 @@
---Class for user characters
+---@class Character
+
+
+---comment
+---@param source number
+---@param identifier string
+---@param charIdentifier number
+---@param group string
+---@param job string
+---@param jobgrade number
+---@param firstname string
+---@param lastname string
+---@param inventory string
+---@param status string
+---@param coords vector
+---@param money number
+---@param gold number
+---@param rol number
+---@param healthOuter number
+---@param healthInner number
+---@param staminaOuter number
+---@param staminaInner number
+---@param xp number
+---@param hours number
+---@param isdead boolean
+---@param skin table
+---@param comps table
+---@return Character
 function Character(source, identifier, charIdentifier, group, job, jobgrade, firstname, lastname, inventory, status,
                    coords, money, gold, rol, healthOuter, healthInner, staminaOuter, staminaInner, xp, hours, isdead,
                    skin,
@@ -119,7 +146,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         if value ~= nil then
             self.skin = value
             MySQL.update("UPDATE characters SET `skinPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
-                , { value, self.Identifier(), self.CharIdentifier() })
+            , { value, self.Identifier(), self.CharIdentifier() })
         end
 
         return self.skin
@@ -129,7 +156,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         if value ~= nil then
             self.comps = value
             MySQL.update("UPDATE characters SET `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
-                , { value, self.Identifier(), self.CharIdentifier() })
+            , { value, self.Identifier(), self.CharIdentifier() })
         end
 
         return self.comps
@@ -320,7 +347,8 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.SaveNewCharacterInDb = function(cb)
-        MySQL.query("INSERT INTO characters(`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        MySQL.query(
+            "INSERT INTO characters(`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             ,
             { self.Identifier(), self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.HealthOuter(),
                 self.HealthInner(), self.StaminaOuter(), self.StaminaInner(), self.Hours(), self.Inventory(), self.Job(),
@@ -340,11 +368,12 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.SaveCharacterCoords = function(coords)
         self.Coords(coords)
         MySQL.update("UPDATE characters SET `coords` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
-            , { self.Coords(), self.Identifier(), self.CharIdentifier() })
+        , { self.Coords(), self.Identifier(), self.CharIdentifier() })
     end
 
     self.SaveCharacterInDb = function()
-        MySQL.update("UPDATE characters SET `group` = ?,`money` = ?,`gold` = ?,`rol` = ?,`xp` = ?,`healthouter` = ?,`healthinner` = ?,`staminaouter` = ?,`staminainner` = ?,`hours` = ?,`job` = ?, `status` = ?,`firstname` = ?, `lastname` = ?, `jobgrade` = ?,`coords` = ?,`isdead` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
+        MySQL.update(
+            "UPDATE characters SET `group` = ?,`money` = ?,`gold` = ?,`rol` = ?,`xp` = ?,`healthouter` = ?,`healthinner` = ?,`staminaouter` = ?,`staminainner` = ?,`hours` = ?,`job` = ?, `status` = ?,`firstname` = ?, `lastname` = ?, `jobgrade` = ?,`coords` = ?,`isdead` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
             ,
             { self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.HealthOuter(), self.HealthInner(),
                 self.StaminaOuter(), self.StaminaInner(), self.Hours(), self.Job(), self.Status(), self.Firstname(),

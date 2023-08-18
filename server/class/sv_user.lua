@@ -1,4 +1,13 @@
---class for users that contains their characters
+---@class User
+
+
+---@param source number
+---@param identifier string
+---@param group string
+---@param playerwarnings number
+---@param license string
+---@param char boolean
+---@return User
 function User(source, identifier, group, playerwarnings, license, char)
     local self = {}
 
