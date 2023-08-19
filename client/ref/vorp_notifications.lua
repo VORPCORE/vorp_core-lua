@@ -144,8 +144,8 @@ function VorpNotification:NotifyAvanced(text, dict, icon, text_color, duration, 
   local structData = DataView.ArrayBuffer(8 * 10)
   structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", text)))
   structData:SetInt64(8 * 2, bigInt(CreateVarString(10, "LITERAL_STRING", dict)))
-  structData:SetInt64(8 * 3, bigInt(joaat(CreateVarString(10, "LITERAL_STRING", icon))))
-  structData:SetInt64(8 * 5, bigInt(joaat(CreateVarString(10, "LITERAL_STRING", text_color))))
+  structData:SetInt64(8 * 3, bigInt(joaat(icon)))
+  structData:SetInt64(8 * 5, bigInt(joaat(text_color or "COLOR_WHITE")))
   if showquality then
     structData:SetInt32(8 * 6, quality or 1)
   end
