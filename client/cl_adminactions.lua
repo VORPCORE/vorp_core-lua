@@ -48,7 +48,7 @@ local function GetVehicleInDirection()
     local rayHandle      = StartExpensiveSynchronousShapeTestLosProbe(playerCoords
     , inDirection, 10, playerPed, 0)
 
-    local hit, entityHit = GetShapeTestResult(rayHandle)
+    local retval , hit , endCoords , surfaceNormal , entityHit = GetShapeTestResult(rayHandle)
 
     if hit == 1 and GetEntityType(entityHit) == 2 then
         local entityCoords = GetEntityCoords(entityHit)
