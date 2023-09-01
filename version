@@ -1,3 +1,11 @@
+
+<2.3>
+- in this new version  notifications were refactored and a new notify was introduced NotifyLeftRank.
+- notifications can be used as exports for client side alternatively you can declare in your resources fxmanifest to use them direclty.
+- callbacks have been refactored and was introduced exports for Async and Await triggers for both server and client as well as register new callbacks.
+- everything old is still working for backwards compatibility rest assure. 
+- new folder was added with Annotation types for callbacks and notification exports.
+- docs and vsc code extention will be soon updated check discord for more info on how to use these changes.
 <2.2>
 - commands refactor
 - optimisation 
