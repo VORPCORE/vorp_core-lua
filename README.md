@@ -1,42 +1,32 @@
----
-## VORPcore Lua version
----
 
-If you have the C# version of the core and want to replace it, it's just drag and drop. Everything works without having to change anything!
----
-## Requirements
+## VORPcore Lua version
+
+
+### Requirements
 - [oxmysql](https://github.com/VORPCORE/oxmysql) 
----
-## How to install 
+
+### How to install 
 * Rename the folder to ``vorp_core``
 * Copy and paste ``vorp_core`` folder to ``[resources]/[vorp_core]``
 * Add ensure to the top load order ``vorp_core`` to your ``resources.cfg`` file
 
 ---
 
-## Screenshot
-![image](https://user-images.githubusercontent.com/10902965/215692452-200c3460-9adc-4437-becc-6bda01ed3cb9.png)
-
----
-
-## some of the features 
+### features 
 - admin commands 
 - client commands
-- config file to edit easly for server owners
 - UI to display currency such as gold cash xp token.
 - API to work with other scripts and exports
-- refer to WIKI (link bellow )
 - ace permissions and or group DB
 - notifications can be used as exports or declare in your script fxmanifest
+- callback system client and server
 ```lua
 client_scripts {
   "@vorp_core/client/ref/vorp_notifications.lua"
 }
 ```
 
----
-
-## Bans, warns and whitelists
+### Admin
 
 Whitelisting, banning and warning is based on static user-ids that can be changed only in the database. 
 **Important!** Setup the *NewPlayerWebhook* to get player's user-id on first connection.
@@ -51,49 +41,12 @@ The user-id will be send to your discord **only** when *NewPlayerWebhook* is set
 ![image](https://i.imgur.com/cWlyIC8.png)
 
 
---
-## Add permissions to perms.cfg
-```
-#############################################################################################
-# VORP COMMANDS YOU CAN USE DISCORD ACE PERMS and use roles as permissions. just configure it.
-#############################################################################################
 
-add_ace group.admin vorpcore.tpm.Command allow
-add_ace group.admin vorpcore.addMoney.Command allow
-add_ace group.admin vorpcore.additems.Command allow
-add_ace group.admin vorpcore.setGroup.Command allow
-add_ace group.admin vorpcore.delCurrency.Command allow
-add_ace group.admin vorpcore.addweapons.Command allow
-add_ace group.admin vorpcore.setJob.Command allow
-add_ace group.admin vorpcore.reviveplayer.Command allow
-add_ace group.admin vorpcore.delhorse.Command allow
-add_ace group.admin vorpcore.delwagons.Command allow
-add_ace group.admin vorpcore.healplayer.Command allow 
-add_ace group.admin vorpcore.wlplayer.Command allow
-add_ace group.admin vorpcore.unwlplayer.Command allow
-add_ace group.admin vorpcore.ban.Command allow
-add_ace group.admin vorpcore.unban.Command allow
-add_ace group.admin vorpcore.warn.Command allow
-add_ace group.admin vorpcore.unwarn.Command allow
-## to show the list of commands in chat
-add_ace group.admin vorpcore.showAllCommands allow
-
-```
----
-
-
-
-## For support 
+### For support 
 - [DISCORD](https://discord.gg/DHGVAbCj7N)
 
----
-
-
-## Credits
+### Credits
 - [VORP-Core](https://github.com/VORPCORE/VORP-Core/releases) This script was based on this C# core.
-
 ---
-
 converted by `goncalobsccosta#9041`
 
----
