@@ -1,7 +1,6 @@
 local T = Translation[Lang].MessageOfSystem
 local S = Translation[Lang].SuggestChat
 
---============================================ PLAYER COMMANDS ==============================================--
 
 PlayersCommands = {
     hideui = {
@@ -32,9 +31,9 @@ PlayersCommands = {
             local pvp = TogglePVP()
 
             if pvp then
-                TriggerEvent("vorp:TipRight", T.PVPNotifyOn, 4000)
+                VorpNotification:NotifyRightTip(T.PVPNotifyOn, 4000)
             else
-                TriggerEvent("vorp:TipRight", T.PVPNotifyOff, 4000)
+                VorpNotification:NotifyRightTip(T.PVPNotifyOff, 4000)
             end
         end,
         restricted = not Config.PVPToggle -- false means it should not display, so we have to negate with the not
@@ -51,5 +50,3 @@ CreateThread(function()
         end
     end
 end)
-
---============================================================================================================--
