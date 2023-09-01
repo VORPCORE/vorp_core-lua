@@ -1,23 +1,8 @@
---================================ VORP CORE API =====================================--
--- for examples look at vorp codumentation
-
 AddEventHandler('getCore', function(cb)
     local corefunctions = {}
 
-    corefunctions.RpcCall = function(name, callback, args)
-        TriggerEvent('vorp:ExecuteServerCallBack', name, callback, args)
-    end
-
-    corefunctions.Warning = function(text)
-        print("^3WARNING: ^7" .. tostring(text) .. "^7")
-    end
-
-    corefunctions.Error = function(text)
-        print("^1ERROR: ^7" .. tostring(text) .. "^7")
-    end
-
-    corefunctions.Success = function(text)
-        print("^2SUCCESS: ^7" .. tostring(text) .. "^7")
+    corefunctions.RpcCall = function(name, callback, ...)
+        ClientRPC.Callback.TriggerAsync(name, callback, ...)
     end
 
     corefunctions.instancePlayers = function(set)
@@ -53,9 +38,11 @@ AddEventHandler('getCore', function(cb)
         VorpNotification:NotifyAvanced(tostring(text), tostring(dict), tostring(icon),
             tostring(text_color), tonumber(duration), quality, showquality)
     end
-   corefunctions.NotifyBasicTop = function(text, duration)
+
+    corefunctions.NotifyBasicTop = function(text, duration)
         VorpNotification:NotifyBasicTop(tostring(text), tonumber(duration))
     end
+
     corefunctions.NotifyCenter = function(text, duration, text_color)
         VorpNotification:NotifyCenter(tostring(text), tonumber(duration), tostring(text_color))
     end

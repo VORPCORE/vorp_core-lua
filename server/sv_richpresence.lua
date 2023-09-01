@@ -1,6 +1,5 @@
-
-RegisterServerEvent("vorprich:getplayers")
-AddEventHandler("vorprich:getplayers", function()
-local playerCount = #GetPlayers()
-TriggerClientEvent("vorprich:update",source,playerCount)
+-- get player count from server
+ServerRPC.Callback.Register("vorp:richpresence:callback:getplayers", function(source, callback, args)
+    local pCount = #GetPlayers()
+    callback(pCount)
 end)
