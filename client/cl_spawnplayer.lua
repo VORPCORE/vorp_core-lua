@@ -143,7 +143,7 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             Wait(1000)
             ShutdownLoadingScreen()
             Wait(7000)
-            HealPlayer()
+            CoreAction.Admin.HealPlayer()
         else
             if Config.Loadinscreen then
                 Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Holddead, T.Loaddead,
@@ -182,12 +182,12 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             Wait(10000)
             local player = PlayerPedId()
             Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner)
-            SetEntityHealth(player, HealthData.hOuter + HealthData.hInner)
+            SetEntityHealth(player, HealthData.hOuter + HealthData.hInner, 0)
             Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner)
             Citizen.InvokeNative(0x675680D089BFA21F, player, HealthData.sOuter / 1065353215 * 100)
             HealthData = {}
         else
-            HealPlayer()
+            CoreAction.Admin.HealPlayer()
         end
     end
 end)

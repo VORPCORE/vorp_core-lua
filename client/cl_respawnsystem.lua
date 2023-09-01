@@ -1,6 +1,6 @@
 local setDead = false
 local TimeToRespawn = 1
-local cam = nil
+local cam
 local angleY = 0.0
 local angleZ = 0.0
 local prompts = GetRandomIntInRange(0, 0xffffff)
@@ -8,10 +8,8 @@ local prompt
 local PressKey = false
 local carried = false
 local Done = false
-
 local T = Translation[Lang].MessageOfSystem
 
---================================= FUNCTIONS ==========================================--
 
 local function CheckLable()
     if not carried then
@@ -107,7 +105,7 @@ local function ResurrectPlayer(currentHospital, currentHospitalName, justrevive)
         Citizen.InvokeNative(0x203BEFFDBE12E96A, player, currentHospital, false, false, false)
     end
     Wait(2000)
-    HealPlayer()
+    CoreAction.Admin.HealPlayer()
     if Config.RagdollOnResurrection and not justrevive then
         keepdown = true
         CreateThread(function() -- tread to keep player down
@@ -160,29 +158,13 @@ function ResspawnPlayer()
     TriggerServerEvent("vorpcharacter:getPlayerSkin")
 end
 
---[[local StartDeathCam = function()
-    ClearFocus()
-    local playerPed = PlayerPedId()
-    cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(playerPed), 0, 0, 0, GetGameplayCamFov())
-    SetCamActive(cam, true)
-    RenderScriptCams(true, true, 1000, true, false)
-
-end
-
-local ProcessCamControls = function()
-    local playerPed = PlayerPedId()
-    local playerCoords = ProcessNewPosition()
-    local newPos = playerCoords
-    SetCamCoord(cam, newPos.x, newPos.y, newPos.z)
-    PointCamAtCoord(cam, playerCoords.x, playerCoords.y, playerCoords.z + 0.5)
-end]]
 local function StartDeathCam()
     ClearFocus()
     local playerPed = PlayerPedId()
     local pos = GetEntityCoords(playerPed)
     cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", pos.x, pos.y, pos.z, 0, 0, 0, GetGameplayCamFov(), false, 0)
     SetCamActive(cam, true)
-    RenderScriptCams(true, true, 1000, true, false)
+    RenderScriptCams(true, true, 1000, true, false, 0)
 end
 
 local function ProcessCamControls()
@@ -259,8 +241,6 @@ AddEventHandler("vorp_core:Client:AddTimeToRespawn", function(time) -- from clie
         RespawnTimer()
     end
 end)
---=========================== DEATH HANDLER =================================--
-
 
 --DEATH HANDLER
 CreateThread(function()

@@ -8,8 +8,8 @@
 ---@field public NotifyTop fun(message: string, location: string, duration?: number): nil
 ---@field public NotifyRightTip fun(tipMessage: string, duration?: number): nil
 ---@field public NotifyObjective fun(message: string, duration?: number): nil
----@field public NotifySimpleTop fun(tittle: string, duration?: number): nil 
----@field public NotifyAvanced fun(text: string, dict: string, icon: string, text_color: string, duration?: number, quality?: number, showquality?: boolean): nil 
+---@field public NotifySimpleTop fun(tittle: string, duration?: number): nil
+---@field public NotifyAvanced fun(text: string, dict: string, icon: string, text_color: string, duration?: number, quality?: number, showquality?: boolean): nil
 ---@field public NotifyBasicTop fun(text: string, duration?: number): nil
 ---@field public NotifyCenter fun(text: string, duration?: number, text_color?: string): nil
 ---@field public NotifyBottomRight fun(text: string, duration?: number): nil
@@ -33,18 +33,18 @@ end
 ---@param duration? number -- default 3000
 ---@param color? string -- default COLOR_WHITE
 function VorpNotification:NotifyLeft(title, subtitle, dict, icon, duration, color)
-  LoadTexture(dict)
+  CoreAction.Utils.LoadTexture(dict)
 
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
   local structData = DataView.ArrayBuffer(8 * 8)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", title)))
-  structData:SetInt64(8 * 2, bigInt(CreateVarString(10, "LITERAL_STRING", subtitle)))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", title)))
+  structData:SetInt64(8 * 2, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", subtitle)))
   structData:SetInt32(8 * 3, 0)
-  structData:SetInt64(8 * 4, bigInt(joaat(dict)))
-  structData:SetInt64(8 * 5, bigInt(joaat(icon)))
-  structData:SetInt64(8 * 6, bigInt(joaat(color or "COLOR_WHITE")))
+  structData:SetInt64(8 * 4, CoreAction.Utils.bigInt(joaat(dict)))
+  structData:SetInt64(8 * 5, CoreAction.Utils.bigInt(joaat(icon)))
+  structData:SetInt64(8 * 6, CoreAction.Utils.bigInt(joaat(color or "COLOR_WHITE")))
 
   Citizen.InvokeNative(0x26E87218390E6729, structConfig:Buffer(), structData:Buffer(), 1, 1)
   -- SET_STREAMED_TEXTURE_DICT_AS_NO_LONGER_NEEDED
@@ -62,7 +62,7 @@ function VorpNotification:NotifyTip(tipMessage, duration)
   structConfig:SetInt32(8 * 3, 0)
 
   local structData = DataView.ArrayBuffer(8 * 3)
-  structData:SetUint64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", tipMessage)))
+  structData:SetUint64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", tipMessage)))
 
   Citizen.InvokeNative(0x049D5C615BD38BAD, structConfig:Buffer(), structData:Buffer(), 1)
 end
@@ -76,8 +76,8 @@ function VorpNotification:NotifyTop(message, location, duration)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
   local structData = DataView.ArrayBuffer(8 * 5)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", location)))
-  structData:SetInt64(8 * 2, bigInt(CreateVarString(10, "LITERAL_STRING", message)))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", location)))
+  structData:SetInt64(8 * 2, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", message)))
 
   Citizen.InvokeNative(0xD05590C1AB38F068, structConfig:Buffer(), structData:Buffer(), 0, 1)
 end
@@ -90,7 +90,7 @@ function VorpNotification:NotifyRightTip(tipMessage, duration)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
   local structData = DataView.ArrayBuffer(8 * 3)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", tipMessage)))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", tipMessage)))
 
   Citizen.InvokeNative(0xB2920B9760F0F36B, structConfig:Buffer(), structData:Buffer(), 1)
 end
@@ -106,7 +106,7 @@ function VorpNotification:NotifyObjective(message, duration)
 
   local structData = DataView.ArrayBuffer(8 * 3)
   local strMessage = CreateVarString(10, "LITERAL_STRING", message)
-  structData:SetInt64(8 * 1, bigInt(strMessage))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(strMessage))
 
   Citizen.InvokeNative(0xCEDBF17EFCC0E4A4, structConfig:Buffer(), structData:Buffer(), 1)
 end
@@ -120,8 +120,8 @@ function VorpNotification:NotifySimpleTop(title, subtitle, duration)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
   local structData = DataView.ArrayBuffer(8 * 7)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", title)))
-  structData:SetInt64(8 * 2, bigInt(CreateVarString(10, "LITERAL_STRING", subtitle)))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", title)))
+  structData:SetInt64(8 * 2, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", subtitle)))
 
   Citizen.InvokeNative(0xA6F4216AB10EB08E, structConfig:Buffer(), structData:Buffer(), 1, 1)
 end
@@ -135,17 +135,18 @@ end
 ---@param quality? number -- default 1
 ---@param showquality? boolean -- default false
 function VorpNotification:NotifyAvanced(text, dict, icon, text_color, duration, quality, showquality)
-  LoadTexture(dict)
+  CoreAction.Utils.LoadTexture(dict)
+
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
-  structConfig:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", "Transaction_Feed_Sounds")))
-  structConfig:SetInt64(8 * 2, bigInt(CreateVarString(10, "LITERAL_STRING", "Transaction_Positive")))
+  structConfig:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", "Transaction_Feed_Sounds")))
+  structConfig:SetInt64(8 * 2, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", "Transaction_Positive")))
 
   local structData = DataView.ArrayBuffer(8 * 10)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", text)))
-  structData:SetInt64(8 * 2, bigInt(CreateVarString(10, "LITERAL_STRING", dict)))
-  structData:SetInt64(8 * 3, bigInt(joaat(icon)))
-  structData:SetInt64(8 * 5, bigInt(joaat(text_color or "COLOR_WHITE")))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", text)))
+  structData:SetInt64(8 * 2, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", dict)))
+  structData:SetInt64(8 * 3, CoreAction.Utils.bigInt(joaat(icon)))
+  structData:SetInt64(8 * 5, CoreAction.Utils.bigInt(joaat(text_color or "COLOR_WHITE")))
   if showquality then
     structData:SetInt32(8 * 6, quality or 1)
   end
@@ -163,7 +164,7 @@ function VorpNotification:NotifyBasicTop(text, duration)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
   local structData = DataView.ArrayBuffer(8 * 7)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", text)))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", text)))
 
   Citizen.InvokeNative(0x7AE0589093A2E088, structConfig:Buffer(), structData:Buffer(), 1)
 end
@@ -177,8 +178,8 @@ function VorpNotification:NotifyCenter(text, duration, text_color)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
   local structData = DataView.ArrayBuffer(8 * 4)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", text)))
-  structData:SetInt64(8 * 2, bigInt(joaat(text_color or "COLOR_PURE_WHITE")))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", text)))
+  structData:SetInt64(8 * 2, CoreAction.Utils.bigInt(joaat(text_color or "COLOR_PURE_WHITE")))
 
   Citizen.InvokeNative(0x893128CDB4B81FBB, structConfig:Buffer(), structData:Buffer(), 1)
 end
@@ -191,7 +192,7 @@ function VorpNotification:NotifyBottomRight(text, duration)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
 
   local structData = DataView.ArrayBuffer(8 * 5)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", text)))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", text)))
 
   Citizen.InvokeNative(0x2024F4F333095FB1, structConfig:Buffer(), structData:Buffer(), 1)
 end
@@ -204,13 +205,11 @@ function VorpNotification:NotifyFail(title, subtitle, duration)
   local structConfig = DataView.ArrayBuffer(8 * 5)
 
   local structData = DataView.ArrayBuffer(8 * 9)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", title)))
-  structData:SetInt64(8 * 2, bigInt(CreateVarString(10, "LITERAL_STRING", subtitle)))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", title)))
+  structData:SetInt64(8 * 2, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", subtitle)))
 
   local result = Citizen.InvokeNative(0x9F2CC2439A04E7BA, structConfig:Buffer(), structData:Buffer(), 1)
-
   Wait(duration or 3000)
-
   Citizen.InvokeNative(0x00A15B94CBA4F76F, result)
 end
 
@@ -223,14 +222,12 @@ function VorpNotification:NotifyDead(title, audioRef, audioName, duration)
   local structConfig = DataView.ArrayBuffer(8 * 5)
 
   local structData = DataView.ArrayBuffer(8 * 9)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", title)))
-  structData:SetInt64(8 * 2, bigInt(CreateVarString(10, "LITERAL_STRING", audioRef)))
-  structData:SetInt64(8 * 3, bigInt(CreateVarString(10, "LITERAL_STRING", audioName)))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", title)))
+  structData:SetInt64(8 * 2, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", audioRef)))
+  structData:SetInt64(8 * 3, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", audioName)))
 
   local result = Citizen.InvokeNative(0x815C4065AE6E6071, structConfig:Buffer(), structData:Buffer(), 1)
-
   Wait(duration or 3000)
-
   Citizen.InvokeNative(0x00A15B94CBA4F76F, result)
 end
 
@@ -242,13 +239,11 @@ function VorpNotification:NotifyUpdate(title, message, duration)
   local structConfig = DataView.ArrayBuffer(8 * 5)
 
   local structData = DataView.ArrayBuffer(8 * 9)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", title)))
-  structData:SetInt64(8 * 2, bigInt(CreateVarString(10, "LITERAL_STRING", message)))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", title)))
+  structData:SetInt64(8 * 2, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", message)))
 
   local result = Citizen.InvokeNative(0x339E16B41780FC35, structConfig:Buffer(), structData:Buffer(), 1)
-
   Wait(duration or 3000)
-
   Citizen.InvokeNative(0x00A15B94CBA4F76F, result)
 end
 
@@ -262,15 +257,13 @@ function VorpNotification:NotifyWarning(title, message, audioRef, audioName, dur
   local structConfig = DataView.ArrayBuffer(8 * 5)
 
   local structData = DataView.ArrayBuffer(8 * 9)
-  structData:SetInt64(8 * 1, bigInt(CreateVarString(10, "LITERAL_STRING", title)))
-  structData:SetInt64(8 * 2, bigInt(CreateVarString(10, "LITERAL_STRING", message)))
-  structData:SetInt64(8 * 3, bigInt(CreateVarString(10, "LITERAL_STRING", audioRef)))
-  structData:SetInt64(8 * 4, bigInt(CreateVarString(10, "LITERAL_STRING", audioName)))
+  structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", title)))
+  structData:SetInt64(8 * 2, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", message)))
+  structData:SetInt64(8 * 3, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", audioRef)))
+  structData:SetInt64(8 * 4, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", audioName)))
 
   local result = Citizen.InvokeNative(0x339E16B41780FC35, structConfig:Buffer(), structData:Buffer(), 1)
-
   Wait(duration or 3000)
-
   Citizen.InvokeNative(0x00A15B94CBA4F76F, result)
 end
 
@@ -282,7 +275,7 @@ end
 ---@param duration number duration of the notification
 ---@param color string color of the notification
 function VorpNotification:NotifyLeftRank(title, subtitle, dict, texture, duration, color)
-  LoadTexture(dict)
+  CoreAction.Utils.LoadTexture(dict)
   duration = duration or 5000
   local dict = joaat(dict or "TOASTS_MP_GENERIC")
   local texture = joaat(texture or "toast_mp_standalone_sp")
@@ -294,11 +287,11 @@ function VorpNotification:NotifyLeftRank(title, subtitle, dict, texture, duratio
 
   struct1:SetInt32(8 * 0, duration)
 
-  struct2:SetInt64(8 * 1, bigInt(string1))
-  struct2:SetInt64(8 * 2, bigInt(string2))
-  struct2:SetInt64(8 * 4, bigInt(dict))
-  struct2:SetInt64(8 * 5, bigInt(texture))
-  struct2:SetInt64(8 * 6, bigInt(joaat(color or "COLOR_WHITE")))
+  struct2:SetInt64(8 * 1, CoreAction.Utils.bigInt(string1))
+  struct2:SetInt64(8 * 2, CoreAction.Utils.bigInt(string2))
+  struct2:SetInt64(8 * 4, CoreAction.Utils.bigInt(dict))
+  struct2:SetInt64(8 * 5, CoreAction.Utils.bigInt(texture))
+  struct2:SetInt64(8 * 6, CoreAction.Utils.bigInt(joaat(color or "COLOR_WHITE")))
   struct2:SetInt32(8 * 7, 1)
   Citizen.InvokeNative(0x3F9FDDBA79117C69, struct1:Buffer(), struct2:Buffer(), 1, 1)
   -- SET_STREAMED_TEXTURE_DICT_AS_NO_LONGER_NEEDED
