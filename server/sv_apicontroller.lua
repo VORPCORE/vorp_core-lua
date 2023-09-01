@@ -1,4 +1,3 @@
-
 local function _getUsedCharacter(player)
     local sid = GetSteamID(player)
 
@@ -124,7 +123,7 @@ AddEventHandler('getCore', function(cb)
     coreData.maxCharacters = Config["MaxCharacters"]
 
     coreData.addRpcCallback = function(name, callback)
-        TriggerEvent("vorp:addNewCallBack", name, callback)
+        ServerRPC.Callback.Register(name, callback)
     end
 
     coreData.getUsers = function()
@@ -203,7 +202,7 @@ AddEventHandler('getCore', function(cb)
         local _source = source
         TriggerClientEvent('vorp:updatemissioNotify', _source, title, subtitle, duration)
     end
-    
+
     coreData.NotifyBasicTop = function(source, title, duration)
         local _source = source
         TriggerClientEvent('vorp:ShowBasicTopNotification', _source, title, duration)
@@ -213,9 +212,9 @@ AddEventHandler('getCore', function(cb)
         local _source = source
         TriggerClientEvent('vorp:warningNotify', _source, title, msg, audioRef, audioName, duration)
     end
-    coreData.NotifyLeftRank = function(source, title, subtitle,dict,icon, duration, color)
+    coreData.NotifyLeftRank = function(source, title, subtitle, dict, icon, duration, color)
         local _source = source
-        TriggerClientEvent('vorp:LeftRank', _source, title, subtitle,dict,icon, duration,color)
+        TriggerClientEvent('vorp:LeftRank', _source, title, subtitle, dict, icon, duration, color)
     end
 
     coreData.dbUpdateAddTables = function(tbl)
