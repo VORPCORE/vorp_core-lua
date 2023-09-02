@@ -23,7 +23,6 @@ server_scripts {
   '@oxmysql/lib/MySQL.lua',
   'server/class/sv_*.lua',
   'config/commands.lua',
-  'server/sv_coreactions.lua',
   'server/sv_*lua',
   'server/services/dbupdater/*.lua',
 
