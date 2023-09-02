@@ -97,15 +97,13 @@ AddEventHandler('vorp:unwhitelistPlayer', function(id)
     RemoveUserFromWhitelistById(id)
 end)
 
+local ResourceName = GetCurrentResourceName()
+if ResourceName ~= 'vorp_core' then
+    return error(
+        "^3WARNING ^0This resource is not named correctly, please change it to ^1'vorp_core'^0 to work properly.", 1)
+end
 
 AddEventHandler('getCore', function(cb)
-    local ResourceName = GetCurrentResourceName()
-
-    if ResourceName ~= 'vorp_core' then
-        return print(
-            "^1[vorp_notifications] ^3WARNING ^0This resource is not named correctly, please change it to ^1'vorp_core'^0 to work properly.")
-    end
-
     local coreData = {}
 
     coreData.getUser = function(source)
@@ -120,7 +118,7 @@ AddEventHandler('getCore', function(cb)
         end
     end
 
-    coreData.maxCharacters = Config["MaxCharacters"]
+    coreData.maxCharacters = Config.MaxCharacters
 
     coreData.addRpcCallback = function(name, callback)
         ServerRPC.Callback.Register(name, callback)
@@ -130,104 +128,71 @@ AddEventHandler('getCore', function(cb)
         return _users
     end
 
-    coreData.Warning = function(text)
-        print("^3WARNING: ^7" .. tostring(text) .. "^7")
-    end
-
-    coreData.Error = function(text)
-        print("^1ERROR: ^7" .. tostring(text) .. "^7")
-    end
-
-    coreData.Success = function(text)
-        print("^2SUCCESS: ^7" .. tostring(text) .. "^7")
-    end
-
     coreData.NotifyTip = function(source, text, duration)
-        local _source = source
-        TriggerClientEvent('vorp:Tip', _source, text, duration)
+        TriggerClientEvent('vorp:Tip', source, text, duration)
     end
 
     coreData.NotifyLeft = function(source, title, subtitle, dict, icon, duration, colors)
-        local _source = source
-        TriggerClientEvent('vorp:NotifyLeft', _source, title, subtitle, dict, icon, duration, colors)
+        TriggerClientEvent('vorp:NotifyLeft', source, title, subtitle, dict, icon, duration, colors)
     end
 
     coreData.NotifyRightTip = function(source, text, duration)
-        local _source = source
-        TriggerClientEvent('vorp:TipRight', _source, text, duration)
+        TriggerClientEvent('vorp:TipRight', source, text, duration)
     end
 
     coreData.NotifyObjective = function(source, text, duration)
-        local _source = source
-        TriggerClientEvent('vorp:TipBottom', _source, text, duration)
+        TriggerClientEvent('vorp:TipBottom', source, text, duration)
     end
 
     coreData.NotifyTop = function(source, text, location, duration)
-        local _source = source
-        TriggerClientEvent('vorp:NotifyTop', _source, text, location, duration)
+        TriggerClientEvent('vorp:NotifyTop', source, text, location, duration)
     end
 
     coreData.NotifySimpleTop = function(source, text, subtitle, duration)
-        local _source = source
-        TriggerClientEvent('vorp:ShowTopNotification', _source, text, subtitle, duration)
+        TriggerClientEvent('vorp:ShowTopNotification', source, text, subtitle, duration)
     end
 
     coreData.NotifyAvanced = function(source, text, dict, icon, text_color, duration, quality, showquality)
-        local _source = source
-        TriggerClientEvent('vorp:ShowAdvancedRightNotification', _source, text, dict, icon, text_color, duration, quality
-        , showquality)
+        TriggerClientEvent('vorp:ShowAdvancedRightNotification', source, text, dict, icon, text_color, duration, quality,
+            showquality)
     end
 
     coreData.NotifyCenter = function(source, text, duration, color)
-        local _source = source
-        TriggerClientEvent('vorp:ShowSimpleCenterText', _source, text, duration, color)
+        TriggerClientEvent('vorp:ShowSimpleCenterText', source, text, duration, color)
     end
 
     coreData.NotifyBottomRight = function(source, text, duration)
-        local _source = source
-        TriggerClientEvent('vorp:ShowBottomRight', _source, text, duration)
+        TriggerClientEvent('vorp:ShowBottomRight', source, text, duration)
     end
 
     coreData.NotifyFail = function(source, text, subtitle, duration)
-        local _source = source
-        TriggerClientEvent('vorp:failmissioNotifY', _source, text, subtitle, duration)
+        TriggerClientEvent('vorp:failmissioNotifY', source, text, subtitle, duration)
     end
 
     coreData.NotifyDead = function(source, title, audioRef, audioName, duration)
-        local _source = source
-        TriggerClientEvent('vorp:deadplayerNotifY', _source, title, audioRef, audioName, duration)
+        TriggerClientEvent('vorp:deadplayerNotifY', source, title, audioRef, audioName, duration)
     end
 
     coreData.NotifyUpdate = function(source, title, subtitle, duration)
-        local _source = source
-        TriggerClientEvent('vorp:updatemissioNotify', _source, title, subtitle, duration)
+        TriggerClientEvent('vorp:updatemissioNotify', source, title, subtitle, duration)
     end
 
     coreData.NotifyBasicTop = function(source, title, duration)
-        local _source = source
-        TriggerClientEvent('vorp:ShowBasicTopNotification', _source, title, duration)
+        TriggerClientEvent('vorp:ShowBasicTopNotification', source, title, duration)
     end
 
     coreData.NotifyWarning = function(source, title, msg, audioRef, audioName, duration)
-        local _source = source
-        TriggerClientEvent('vorp:warningNotify', _source, title, msg, audioRef, audioName, duration)
+        TriggerClientEvent('vorp:warningNotify', source, title, msg, audioRef, audioName, duration)
     end
     coreData.NotifyLeftRank = function(source, title, subtitle, dict, icon, duration, color)
-        local _source = source
-        TriggerClientEvent('vorp:LeftRank', _source, title, subtitle, dict, icon, duration, color)
+        TriggerClientEvent('vorp:LeftRank', source, title, subtitle, dict, icon, duration, color)
     end
 
     coreData.dbUpdateAddTables = function(tbl)
-        if VorpInitialized == true then
-            print('Updates must be added before vorpcore is initiates')
-        end
         dbupdaterAPI.addTables(tbl)
     end
 
     coreData.dbUpdateAddUpdates = function(updt)
-        if VorpInitialized == true then
-            print('Updates must be added before vorpcore is initiates')
-        end
         dbupdaterAPI.addUpdates(updt)
     end
 
