@@ -1930,7 +1930,6 @@ Translation = {
             message5           = "du wurdest verletzt, gemäß den Regeln musst du die letzten 30 Minuten vergessen",
             message6           = "Wiederbeleben!!!",
             permanentlyBan     = "Du bist permanent gebannt!",
-            hogtied            = "you are hogtied or handcuffedor even maybe dead ",
 
         },
         SuggestChat     = {
