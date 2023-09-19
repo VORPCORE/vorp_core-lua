@@ -1738,6 +1738,17 @@ Translation = {
                 name = "Id",
                 name1 = "Waffenname",
             },
+            delMoney = {
+                custom = "\n**PlayerID** `%d` \n**Typ** `%d`\n**Menge** `%d`",
+                title = "📋` /delmoney Befehl` ",
+                label = "VORPcore-Befehl Geld abheben",
+                help = 'Spieler-ID',
+                help1 = 'Gib 0 für Bargeld und 1 für Gold ein',
+                help2 = 'Menge',
+                name = "Id",
+                name1 = "Typ",
+                name2 = "Menge",
+            },
             addMoney = {
                 custom = "\n**PlayerID** `%d` \n**Typ** `%d`\n**Menge** `%d`",
                 title = "📋` /addmoney Befehl` ",
@@ -1841,10 +1852,10 @@ Translation = {
             charCreateAdd = {
                 custom = "\n**PlayerID** `%d`\n **Aktion:** `charcreateadd verwendet`",
                 title = "📋` /addchar Befehl` ",
-                label = "VORPcore-Befehl, um festzulegen, ob ein Spieler mehr als einen Charakter erstellen darf: " ..
-                    Config.MaxCharacters,
+                label = "VORPcore-Befehl, um festzulegen, ob ein Spieler mehr als einen Charakter erstellen darf: " ..Config.MaxCharacters,
                 name = "steamid",
                 help = "Steam-ID Beispiel 11000010c8aa16e",
+
             },
             charCreateRemove = {
                 custom = "\n**PlayerID** `%d`\n **Aktion:** `charcreateremove verwendet`",
@@ -1862,6 +1873,7 @@ Translation = {
                 title = "📋` /myhours Befehl` ",
                 label = "VORPcore-Befehl, um deine Spielstunden zu überprüfen",
             },
+
         },
         addWebhook      = {
             whitelistid = "**Steam-Name: **`%s`**\nIdentifier:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",
@@ -1875,6 +1887,8 @@ Translation = {
             CheckingIdentifier = "Überprüfe Identifikatoren",
             LoadingUser        = "Benutzer wird geladen",
             BannedUser         = "Du bist bis zum folgenden Zeitpunkt gebannt: ",
+            DateTimeFormat     = "%d/%m/%y %H:%M:%S",-- Setzt das gewünschte DateTimeFormat für die Ausgabe in der Sperrbenachrichtigung
+            TimeZone           = " CET", -- Set your timezone            
             DropReasonBanned   = "Du wurdest vom Server gebannt bis zum folgenden Zeitpunkt: ",
             Warned             = "Du wurdest verwarnt",
             Unwarned           = "Die Verwarnung wurde aufgehoben",
@@ -1882,12 +1896,12 @@ Translation = {
             SubTitleOnDead     = "Du kannst in %s Sekunden wiederbeleben",
             SecondsMove        = " Sekunden",
             YouAreCarried      = "Du wirst von einer Person getragen",
+            VoiceRangeChanged  = "Die Reichweite des Voice-Chats wurde auf %s Meter geändert",
             promptLabel        = "Wiederbeleben",
             prompt             = "Wiederbeleben",
             wayPoint           = "VORP: Du musst zuerst einen Wegpunkt setzen!",
             mustBeSeated       = "VORP: Du musst auf dem Fahrersitz sitzen!",
-            wagonInFront       =
-            "VORP: Du musst im Wagen sitzen oder dich in der Nähe eines Wagens befinden, um ihn zu löschen!",
+            wagonInFront       = "VORP: Du musst im Wagen sitzen oder dich in der Nähe eines Wagens befinden, um ihn zu löschen!",
             cantCarry          = "VORP: Kann keine weiteren Waffen tragen!",
             Hold               = "HALTEN!!",
             Load               = "Du wachst auf",
@@ -1897,6 +1911,8 @@ Translation = {
             forcedrespawn      = "DU WIRST WIEDERBELEBT",
             forced             = "Weil du den Server verlassen hast, während du tot warst",
             sit                = "Du musst sitzen",
+            NotifyChar         = "Sie müssen Ihre Zeichenhöhe auf 1,0 setzen. Wenn Sie dies nicht tun, treten Fehler auf.",
+            NotifyCharSelect   = "Sobald Sie einen Charakter gelöscht haben, gibt es kein Zurück mehr!",
             PVPNotifyOn        = "PVP an",
             PVPNotifyOff       = "PVP aus",
             AddChar            = "Mehrere Charaktere hinzugefügt",
@@ -1914,10 +1930,11 @@ Translation = {
             message5           = "du wurdest verletzt, gemäß den Regeln musst du die letzten 30 Minuten vergessen",
             message6           = "Wiederbeleben!!!",
             permanentlyBan     = "Du bist permanent gebannt!",
+            hogtied            = "you are hogtied or handcuffedor even maybe dead ",
+
         },
         SuggestChat     = {
-            hideUi =
-            "VORPcore-Befehl, um ALLE Benutzeroberflächen auf dem Bildschirm AUSZUBLICKEN, nützlich für Screenshots.",
+            hideUi ="VORPcore-Befehl, um ALLE Benutzeroberflächen auf dem Bildschirm AUSZUBLICKEN, nützlich für Screenshots.",
             toogleUi = "VORPcore-Befehl zum Ein- und Ausschalten der VORP-Benutzeroberflächen auf dem Bildschirm",
             stopAnim = "VORPcore-Befehl, wenn Sie in einer Animation feststecken.",
             tooglePVP = "VORPcore-Befehl zum Ein- und Ausschalten des PvP für deinen Charakter.",
