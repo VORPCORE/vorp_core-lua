@@ -224,8 +224,8 @@ Commands = {
         callFunction = function(...)
             local data = ...
             -- in here you can add your metabolism events
-            TriggerClientEvent("vorpmetabolism:changeValue", data.source, "Thirst", 1000)
-            TriggerClientEvent("vorpmetabolism:changeValue", data.source, "Hunger", 1000)
+            TriggerClientEvent("vorpmetabolism:changeValue", tonumber(data.args[1]), "Thirst", 1000)
+            TriggerClientEvent("vorpmetabolism:changeValue", tonumber(data.args[1]), "Hunger", 1000)
             HealPlayers(...)
         end
     },
