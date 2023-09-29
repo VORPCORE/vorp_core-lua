@@ -270,14 +270,14 @@ end
 ---NotifyLeftRank
 ---@param title string title of the notification
 ---@param subtitle string subtitle of the notification
----@param dict string dictionary of the texture
+---@param dict1 string dictionary of the texture
 ---@param texture string texture (icon) of the notification
 ---@param duration number duration of the notification
 ---@param color string color of the notification
-function VorpNotification:NotifyLeftRank(title, subtitle, dict, texture, duration, color)
-  CoreAction.Utils.LoadTexture(dict)
+function VorpNotification:NotifyLeftRank(title, subtitle, dict1, texture, duration, color)
+  CoreAction.Utils.LoadTexture(dict1)
   duration = duration or 5000
-  local dict = joaat(dict or "TOASTS_MP_GENERIC")
+  local dict = joaat(dict1 or "TOASTS_MP_GENERIC")
   local texture = joaat(texture or "toast_mp_standalone_sp")
   local string1 = CreateVarString(10, "LITERAL_STRING", title)
   local string2 = CreateVarString(10, "LITERAL_STRING", subtitle)
@@ -295,7 +295,7 @@ function VorpNotification:NotifyLeftRank(title, subtitle, dict, texture, duratio
   struct2:SetInt32(8 * 7, 1)
   Citizen.InvokeNative(0x3F9FDDBA79117C69, struct1:Buffer(), struct2:Buffer(), 1, 1)
   -- SET_STREAMED_TEXTURE_DICT_AS_NO_LONGER_NEEDED
-  Citizen.InvokeNative(0x4ACA10A91F66F1E2, dict)
+  Citizen.InvokeNative(0x4ACA10A91F66F1E2, dict1)
 end
 
 ---Test function to test all notifications
