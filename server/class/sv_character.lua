@@ -71,14 +71,17 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         if value ~= nil then
             self.group = value
         end
+        TriggerEvent("vorp:playerGroupChange", self.source, self.group) -- listener for group change
         return self.group
     end
     self.Job = function(value)
         if value ~= nil then self.job = value end
+        TriggerEvent("vorp:playerJobChange", self.source, self.job) -- listener for job change
         return self.job
     end
     self.Jobgrade = function(value)
         if value ~= nil then self.jobgrade = value end
+        TriggerEvent("vorp:playerJobGradeChange", self.source, self.jobgrade) -- listener for job grade change
         return self.jobgrade
     end
     self.Firstname = function(value)
