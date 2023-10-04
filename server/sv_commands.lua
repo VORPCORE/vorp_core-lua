@@ -88,7 +88,8 @@ CreateThread(function()
                 return print("you must be in game to use this command")
             end
 
-            local group = VorpCore.getUser(_source).getGroup                                                     -- User DB table group
+            local group = VorpCore.getUser(_source)
+                .getGroup                                                                                        -- User DB table group
 
             if not CheckAce(value.aceAllowed, _source) and not CheckGroupAllowed(value.groupAllowed, group) then -- check ace first then group
                 return VorpCore.NotifyObjective(_source, T.NoPermissions, 4000)
@@ -159,8 +160,7 @@ function AddJob(data)
     Character.setJobGrade(jobgrade)
     SendDiscordLogs(data.config.webhook, data, data.source, newjob, jobgrade)
 
-    VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.AddJob, newjob, target, jobgrade),
-        4000)
+    VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.AddJob, newjob, target, jobgrade), 4000)
     VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddJob1, newjob, jobgrade), 4000)
 end
 
@@ -207,6 +207,7 @@ function AddItems(data)
 
     VORPInv.addItem(target, item, count)
     SendDiscordLogs(data.config.webhook, data, data.source, item, count)
+    VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddItems, item, count), 4000)
 end
 
 --ADDWEAPONS
@@ -222,6 +223,7 @@ function AddWeapons(data)
         end
         VORPInv.createWeapon(target, weaponHash)
         SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
+        VorpCore.NotifyRightTip(target, Translation[Lang].Notify.AddWeapons, 4000)
     end, weaponHash)
 end
 
