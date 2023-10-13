@@ -9,6 +9,7 @@ local Tables = {
             CREATE TABLE IF NOT EXISTS `whitelist`  (
             `id` int(11) NOT NULL AUTO_INCREMENT,
             `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+            `discordid` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
             `status` boolean,
             `firstconnection` boolean DEFAULT TRUE,
             PRIMARY KEY (`id`) USING BTREE,
@@ -278,6 +279,17 @@ local Updates = {
         ]],
         sql = [[
             ALTER TABLE `users` ADD COLUMN `discordid` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '' AFTER `identifier`;
+        ]]
+    },
+    {
+        name = "Whitelist - discordid",
+        script = "vorp_core",
+        find = [[select *  from Information_Schema.Columns
+        where Table_Name = 'whitelist'
+        AND  Column_Name = 'discordid';
+        ]],
+        sql = [[
+            ALTER TABLE `whitelist` ADD COLUMN `discordid` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '' AFTER `identifier`;
         ]]
     }
 }
