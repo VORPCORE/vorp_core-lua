@@ -60,11 +60,8 @@ end)
 RegisterNetEvent('vorp:ImDead', function(isDead)
     local source = source
     local identifier = GetSteamID(source)
-    local xCharacter = _users[identifier].GetUsedCharacter()
-    if xCharacter then
-        xCharacter.setDead(isDead)
-    else
-        print('^3vorp_character/server.lua ^7- Character not found! / '..source, identifier)
+    if _users[identifier] then
+        _users[identifier].GetUsedCharacter().setDead(isDead)
     end
 end)
 
