@@ -82,8 +82,6 @@ AddEventHandler('playerDropped', function()
 
     if Config.SaveDiscordNameDB then
         MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
-        MySQL.update('UPDATE users SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
-        MySQL.update('UPDATE whitelist SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
     end
 end)
 
@@ -119,15 +117,11 @@ AddEventHandler('playerJoining', function()
             message)
         if Config.SaveDiscordNameDB then
             MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
-            MySQL.update('UPDATE users SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
-            MySQL.update('UPDATE whitelist SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
         end
         entry.setFirstconnection(false)
     else
         if Config.SaveDiscordNameDB then
             MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
-            MySQL.update('UPDATE users SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
-            MySQL.update('UPDATE whitelist SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
         end
     end
 end)
