@@ -39,6 +39,7 @@ local Tables = {
             `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
             `charidentifier` int(11) NOT NULL AUTO_INCREMENT,
             `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+            `discordid` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '0',
             `group` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT 'user',
             `money` double(11, 2) NULL DEFAULT 0,
             `gold` double(11, 2) NULL DEFAULT 0,
@@ -68,6 +69,12 @@ local Updates = {
     {
         name = "banned",
         script = "vorp_core",
+        find = [[
+            select *
+            from Information_Schema.Columns
+            where Table_Name = 'users'
+            AND  Column_Name = 'banned';
+        ]],
         sql = [[
             ALTER TABLE `users` MODIFY COLUMN  `banned` boolean;
         ]]
@@ -249,11 +256,21 @@ local Updates = {
         sql = [[
             ALTER TABLE `characters` MODIFY `coords`LONGTEXT;
         ]]
+    },
+    {
+        name = "Characters - discordid",
+        script = "vorp_core",
+        find = [[select *  from Information_Schema.Columns
+        where Table_Name = 'characters'
+        AND  Column_Name = 'discordid';
+        ]],
+        sql = [[
+            ALTER TABLE `characters` ADD COLUMN `discordid` varchar(250) COLLATE utf8mb4_bin NOT NULL DEFAULT '0' AFTER `steamname`;
+        ]]
     }
 }
 
-dbupdaterAPI = {
-}
+dbupdaterAPI = {}
 
 dbupdaterAPI.addTables = function(tbls)
     for _, tbl in ipairs(tbls) do

@@ -50,10 +50,15 @@ AddEventHandler('playerDropped', function()
     local steamName = GetPlayerName(_source)
     local pCoords, pHeading
 
+    if Config.SaveDiscordNameDB then
+        local discordIdentity = GetPlayerIdentifierByType(_source, 'discord')
+        local discordId = discordIdentity and discordIdentity:sub(9) or ""
+    end
+
     if Config.onesync then
         local ped = GetPlayerPed(_source)
         pCoords = GetEntityCoords(ped)
-        pHeading = GetEntityHeading(ped)
+        pHeading = GetEntityHeading(ped) or 0
     end
 
     if _users[identifier] and _users[identifier].GetUsedCharacter() then
@@ -74,6 +79,10 @@ AddEventHandler('playerDropped', function()
         MySQL.update('UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ',
             { steamName, identifier })
     end
+
+    if Config.SaveDiscordNameDB then
+        MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
+    end
 end)
 
 
@@ -90,9 +99,10 @@ AddEventHandler('playerJoining', function()
         isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     end
 
-    local discordIdentity = GetPlayerIdentifierByType(_source, 'discord')
-    local discordId = discordIdentity and discordIdentity:sub(9) or ""
-
+    if Config.SaveDiscordNameDB then
+        local discordIdentity = GetPlayerIdentifierByType(_source, 'discord')
+        local discordId = discordIdentity and discordIdentity:sub(9) or ""
+    end
     local userid = isWhiteListed and isWhiteListed.id
     if not _whitelist[userid] then
         _whitelist[userid] = Whitelist(userid, identifier, false, true)
@@ -105,8 +115,14 @@ AddEventHandler('playerJoining', function()
             discordId, userid)
         TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook,
             message)
-
+        if Config.SaveDiscordNameDB then
+            MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
+        end
         entry.setFirstconnection(false)
+    else
+        if Config.SaveDiscordNameDB then
+            MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
+        end
     end
 end)
 
