@@ -81,13 +81,8 @@ AddEventHandler('playerDropped', function()
     end
 
     if Config.SaveDiscordNameDB then
-        MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ',
-            { discordId, identifier })
-    end
-
-    if Config.SaveDiscordNameDB then
-        MySQL.update('UPDATE users SET `discordid` = ? WHERE `identifier` = ? ',
-            { discordId, identifier })
+        MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
+        MySQL.update('UPDATE users SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
     end
 end)
 

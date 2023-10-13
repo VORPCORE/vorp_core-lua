@@ -64,7 +64,7 @@ RegisterNetEvent('vorp:ImDead', function(isDead)
     if xCharacter then
         xCharacter.setDead(isDead)
     else
-        print('^3vorp_character/server.lua ^7- Character not found! / '..source, identifier, xCharacter)
+        print('^3vorp_character/server.lua ^7- Character not found! / '..source, identifier)
     end
 end)
 
