@@ -20,7 +20,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
     else
         local pos = json.decode(characters[sid].Coords())
 
-        if pos  and pos.x then
+        if pos and pos.x then
             TriggerClientEvent("vorp:initPlayer", source, vector3(pos["x"], pos["y"], pos["z"]), pos["heading"],
                 characters[sid].IsDead())
         end
@@ -60,9 +60,11 @@ end)
 RegisterNetEvent('vorp:ImDead', function(isDead)
     local source = source
     local identifier = GetSteamID(source)
-
-    if _users[identifier] then
-        _users[identifier].GetUsedCharacter().setDead(isDead)
+    local xCharacter = _users[identifier].GetUsedCharacter()
+    if xCharacter then
+        xCharacter.setDead(isDead)
+    else
+        print('^3vorp_character/server.lua ^7- Character not found! / '..source, identifier, xCharacter)
     end
 end)
 

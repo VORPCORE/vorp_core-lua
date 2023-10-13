@@ -5,7 +5,11 @@ CreateThread(function()
         SetDiscordRichPresenceAssetText(Config.biglogodesc)
         SetDiscordRichPresenceAssetSmall(Config.smalllogo)
         SetDiscordRichPresenceAssetSmallText(Config.smalllogodesc)
-        SetDiscordRichPresenceAction(0, Config.richpresencebutton, Config.discordlink)
+        if Config.Buttons and type(Config.Buttons) == "table" then
+            for k, v in pairs(Config.Buttons) do
+                SetDiscordRichPresenceAction(k-1, v.text, v.url)
+            end
+        end
         local playercount = ClientRPC.Callback.TriggerAwait("vorp:richpresence:callback:getplayers", {})
 
         if Config.shownameandid then

@@ -38,6 +38,7 @@ Config = {
     --========================================
     ---MULTICHAR
     SaveSteamNameDB          = true,  -- TRUE if you want save steamname on character DB when player drop (need to update SQL)
+    SaveDiscordNameDB        = false,  -- TRUE if you want save discordid on character/user DB when player join and drop (need to update SQL)
     UseCharPermission        = false, -- | if false it will let players create maxchars bellow
     MaxCharacters            = 5,     -- MAX ALLOWED TO BE CREATED [if UseCharPermission = true, SELECTED players(with command) can create MaxCharacters characters / if UseCharPermission = false, players can create MaxCharacters characters]
     --========================================
@@ -136,8 +137,17 @@ Config = {
     biglogodesc              = " Redm Server Connect: ",  -- text when hover over image
     smalllogo                = "smallboy name",           -- image assets name for the "small" icon.(OPTIONAL)
     smalllogodesc            = "Join us for a good time", -- text when hover over image
-    discordlink              = "https://discord.gg/",     -- discord link
-    richpresencebutton       = "Join Discord",            --set button text for Rich Presence Button
-    shownameandid            = true,                      --show player steam name and id
+    richpresencebutton       = "Join Discord",            -- set button text for Rich Presence Button
+    shownameandid            = true,                      -- show player steam name and id
+    Buttons = {                                           -- Show Discord Rich Presence Button
+        {
+            text = 'Join Discord!',
+            url = 'https://discord.gg/vorpcore'                     -- Example for Rich Presence Button
+        },
+        {
+            text = 'Website',
+            url = 'https://vorpcore.github.io/VORP_Documentation/'  -- Example for Rich Presence Button
+        }
+    }
     --======================================================
 }
