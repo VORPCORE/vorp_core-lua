@@ -40,18 +40,21 @@ function User(source, identifier, group, playerwarnings, license, char)
         end
         return self.source
     end
+
     self.Numofcharacters = function(value)
         if value ~= nil then
             self._numofcharacters = value
         end
         return self._numofcharacters
     end
+
     self.Identifier = function(value)
         if value ~= nil then
             self._identifier = value
         end
         return self._identifier
     end
+
     self.License = function(value)
         if value ~= nil then
             self._license = value
@@ -62,8 +65,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     self.Group = function(value)
         if value ~= nil then
             self._group = value
-            MySQL.update("UPDATE users SET `group` = ? WHERE `identifier` = ?",
-                { self._group, self.Identifier() })
+            MySQL.update("UPDATE users SET `group` = ? WHERE `identifier` = ?", { self._group, self.Identifier() })
         end
         return self._group
     end
@@ -81,8 +83,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     self.Charperm = function(value)
         if value ~= nil then
             self._charperm = value
-            MySQL.update("UPDATE users SET `char` = ? WHERE `identifier` = ?",
-                { self._charperm, self.Identifier() })
+            MySQL.update("UPDATE users SET `char` = ? WHERE `identifier` = ?", { self._charperm, self.Identifier() })
         end
 
         return self._charperm
@@ -90,12 +91,15 @@ function User(source, identifier, group, playerwarnings, license, char)
 
     self.GetUser = function()
         local userData = {}
+        userData.getCharperm = self.Charperm()
+        userData.source = self.source
+        userData.getGroup = self.Group()
+        userData.getUsedCharacter = self.UsedCharacter()
+        userData.getUserCharacters = self.UserCharacters()
 
         userData.getIdentifier = function()
             return self.Identifier()
         end
-
-        userData.getGroup = self.Group()
 
         userData.getPlayerwarnings = function()
             return self.Playerwarnings()
@@ -105,10 +109,6 @@ function User(source, identifier, group, playerwarnings, license, char)
             self.Playerwarnings(warnings)
         end
 
-        userData.getCharperm = self.Charperm()
-
-        userData.source = self.source
-
         userData.setGroup = function(group)
             self.Group(group)
         end
@@ -116,9 +116,6 @@ function User(source, identifier, group, playerwarnings, license, char)
         userData.setCharperm = function(char)
             self.Charperm(char)
         end
-
-        userData.getUsedCharacter = self.UsedCharacter()
-        userData.getUserCharacters = self.UserCharacters()
 
         userData.getNumOfCharacters = function()
             return self._numofcharacters
