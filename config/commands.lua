@@ -101,9 +101,6 @@ Commands = {
         suggestion = {
             { name = T.addWeapon.name,  help = T.addWeapon.help },
             { name = T.addWeapon.name1, help = T.addWeapon.help1 },
-            { name = T.addWeapon.name2, help = T.addWeapon.help2 },
-            { name = T.addWeapon.name3, help = T.addWeapon.help3 },
-            { name = T.addWeapon.name4, help = T.addWeapon.help4 },
         },
         userCheck = true,
         groupAllowed = { "admin" },

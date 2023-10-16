@@ -214,17 +214,13 @@ end
 function AddWeapons(data)
     local target = tonumber(data.args[1])
     local weaponHash = tostring(data.args[2])
-    local serial = tostring(data.args[3]) or nil
-    local label = tostring(data.args[4]) or nil
-    local desc = tostring(data.args[5]) or nil
-
     exports.vorp_inventory:canCarryWeapons(target, 1, function(result) --can carry weapons
         local canCarry = result
         if not canCarry then
             return VorpCore.NotifyObjective(data.source, T.cantCarry, 4000)
         end
 
-        exports.vorp_inventory:createWeapon(target, weaponHash, nil, nil, nil, serial, label, desc)
+        exports.vorp_inventory:createWeapon(target, weaponHash)
         SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
         VorpCore.NotifyRightTip(target, Translation[Lang].Notify.AddWeapons, 4000)
     end, weaponHash)
