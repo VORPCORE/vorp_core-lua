@@ -124,7 +124,6 @@ function User(source, identifier, group, playerwarnings, license, char)
         userData.addCharacter = function(firstname, lastname, skin, comps)
             self._numofcharacters = self._numofcharacters + 1 --Should not be done like this
             self.addCharacter(firstname, lastname, skin, comps)
-            return self._numofcharacters
         end
 
         userData.removeCharacter = function(charid)
