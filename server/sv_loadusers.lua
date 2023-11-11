@@ -123,7 +123,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
     local identifier = GetSteamID(source)
 
     if not identifier then
-        return
+        return print("user cant load no identifier steam found")
     end
 
     _usersLoading[identifier] = false
@@ -210,7 +210,7 @@ AddEventHandler('vorp:HealthCached', function(healthOuter, healthInner, staminaO
     local identifier = GetSteamID(_source)
 
     if not identifier then
-      return
+        return
     end
 
     if not _healthData[identifier] then
@@ -225,7 +225,6 @@ end)
 
 RegisterNetEvent("vorp:GetValues")
 AddEventHandler("vorp:GetValues", function()
-
     -- Default values
     local healthData = {
         hOuter = 0,
@@ -241,12 +240,10 @@ AddEventHandler("vorp:GetValues", function()
 
     -- Only if the player exists in online table...
     if user and user.GetUsedCharacter then
-
-        local used_char =  user.GetUsedCharacter() or nil
+        local used_char = user.GetUsedCharacter() or nil
 
         -- Only there is an character...
         if used_char then
-
             healthData.hOuter = used_char.HealthOuter() or 0
             healthData.hInner = used_char.HealthInner() or 0
             healthData.sOuter = used_char.StaminaOuter() or 0

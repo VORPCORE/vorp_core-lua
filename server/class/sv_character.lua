@@ -1,7 +1,4 @@
 ---@class Character
-
-
----comment
 ---@param source number
 ---@param identifier string
 ---@param charIdentifier number
@@ -31,7 +28,6 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
                    skin,
                    comps)
     local self = {}
-
     self.identifier = identifier
     self.charIdentifier = charIdentifier
     self.group = group
@@ -54,7 +50,6 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.xp = xp
     self.hours = hours
     self.isdead = isdead
-    --self.userPlayer --Isto serve para que mesmo???
     self.source = source
 
     self.Identifier = function()
@@ -67,6 +62,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         end
         return self.charIdentifier
     end
+
     self.Group = function(value)
         if value ~= nil then
             self.group = value
@@ -74,72 +70,89 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         TriggerEvent("vorp:playerGroupChange", self.source, self.group) -- listener for group change
         return self.group
     end
+
     self.Job = function(value)
         if value ~= nil then self.job = value end
         TriggerEvent("vorp:playerJobChange", self.source, self.job) -- listener for job change
         return self.job
     end
+
     self.Jobgrade = function(value)
         if value ~= nil then self.jobgrade = value end
         TriggerEvent("vorp:playerJobGradeChange", self.source, self.jobgrade) -- listener for job grade change
         return self.jobgrade
     end
+
     self.Firstname = function(value)
         if value ~= nil then self.firstname = value end
         return self.firstname
     end
+
     self.Lastname = function(value)
         if value ~= nil then self.lastname = value end
         return self.lastname
     end
+
     self.Inventory = function(value)
         if value ~= nil then self.inventory = value end
         return self.inventory
     end
+
     self.Status = function(value)
         if value ~= nil then self.status = value end
         return self.status
     end
+
     self.Coords = function(value)
         if value ~= nil then self.coords = value end
         return self.coords
     end
+
     self.Money = function(value)
         if value ~= nil then self.money = value end
         return self.money
     end
+
     self.Gold = function(value)
         if value ~= nil then self.gold = value end
         return self.gold
     end
+
     self.Rol = function(value)
         if value ~= nil then self.rol = value end
         return self.rol
     end
+
     self.HealthOuter = function(value)
         if value ~= nil then self.healthOuter = value end
         return self.healthOuter
     end
+
     self.HealthInner = function(value)
         if value ~= nil then self.healthInner = value end
         return self.healthInner
     end
+
     self.StaminaOuter = function(value)
         if value ~= nil then self.staminaOuter = value end
         return self.staminaOuter
     end
+
     self.StaminaInner = function(value)
         if value ~= nil then self.staminaInner = value end
         return self.staminaInner
     end
+
     self.Xp = function(value)
         if value ~= nil then self.xp = value end
         return self.xp
     end
+
     self.Hours = function(value)
         if value ~= nil then self.hours = value end
         return self.hours
     end
+
     self.IsDead = function(value)
         if value ~= nil then self.isdead = value end
         return self.isdead
