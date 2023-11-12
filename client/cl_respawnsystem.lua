@@ -245,12 +245,10 @@ end)
 --DEATH HANDLER
 CreateThread(function()
     while Config.UseDeathHandler do
-        Wait(0)
-        local sleep = true
+        local sleep = 1000
         local player = PlayerPedId()
-
         if IsEntityDead(player) then
-            sleep = false
+            sleep = 0
             if not setDead then
                 NetworkSetInSpectatorMode(false, player)
                 exports.spawnmanager.setAutoSpawn(false)
@@ -274,10 +272,10 @@ CreateThread(function()
                         DoScreenFadeOut(3000)
                         Wait(3000)
                         ResspawnPlayer()
-                        PressKey = true
-                        carried  = false
-                        Done     = false
-                        sleep    = true
+                        PressKey      = true
+                        carried       = false
+                        Done          = false
+                        TimeToRespawn = Config.RespawnTime
                     end
 
                     if TimeToRespawn >= 1 and setDead then
@@ -299,11 +297,8 @@ CreateThread(function()
                     end
                 end
             end
-        else
-            sleep = true
         end
-        if sleep then -- controller
-            Wait(1000)
-        end
+
+        Wait(sleep)
     end
 end)
