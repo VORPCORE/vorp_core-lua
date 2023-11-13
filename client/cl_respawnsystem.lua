@@ -156,6 +156,7 @@ function ResspawnPlayer()
     TriggerEvent('fred_meta:consume', 100, 100, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0)
     ResurrectPlayer(coords, closestLocation, false)
     TriggerServerEvent("vorpcharacter:getPlayerSkin")
+    TimeToRespawn = Config.RespawnTime
 end
 
 local function StartDeathCam()
