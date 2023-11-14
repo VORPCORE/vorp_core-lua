@@ -156,7 +156,6 @@ function ResspawnPlayer()
     TriggerEvent('fred_meta:consume', 100, 100, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0)
     ResurrectPlayer(coords, closestLocation, false)
     TriggerServerEvent("vorpcharacter:getPlayerSkin")
-    TimeToRespawn = Config.RespawnTime
 end
 
 local function StartDeathCam()
@@ -219,14 +218,20 @@ RegisterNetEvent('vorp_core:respawnPlayer', function()
     ResspawnPlayer()
 end)
 
----RESPAWN TIME
+--RESPAWN TIMER
 local RespawnTimer = function()
+    TimeToRespawn = Config.RespawnTime
     CreateThread(function() -- asyncronous
         while true do
             Wait(1000)
             TimeToRespawn = TimeToRespawn - 1
             if TimeToRespawn < 0 and setDead then
                 TimeToRespawn = 0
+                break
+            end
+
+            if not setDead then
+                TimeToRespawn = Config.RespawnTime
                 break
             end
         end
@@ -243,26 +248,26 @@ AddEventHandler("vorp_core:Client:AddTimeToRespawn", function(time) -- from clie
     end
 end)
 
---DEATH HANDLER
+-- DEATH HANDLER
 CreateThread(function()
     while Config.UseDeathHandler do
         local sleep = 1000
         local player = PlayerPedId()
+
         if IsEntityDead(player) then
             sleep = 0
             if not setDead then
+                setDead = true
+                PressKey = false
+                PromptSetEnabled(prompt, 1)
                 NetworkSetInSpectatorMode(false, player)
                 exports.spawnmanager.setAutoSpawn(false)
                 TriggerServerEvent("vorp:ImDead", true)
                 DisplayRadar(false)
-                TimeToRespawn = Config.RespawnTime
                 CreateThread(function() -- asyncronous timer
                     RespawnTimer()
                     StartDeathCam()
                 end)
-                PressKey = false
-                setDead = true
-                PromptSetEnabled(prompt, 1)
             end
 
             if not PressKey and setDead then
