@@ -61,10 +61,11 @@ function ClientRPC:TriggerRpcAwait(...)
     return result
 end
 
-function ClientRPC.ExecuteRpc(uniqueId, isSync, ...)
+function ClientRPC.ExecuteRpc(uniqueId, isSync, name, ...)
     if not TriggeredCalls[uniqueId] then
-        return error("ERROR: No callback with this id found!", 1)
+        return error("ERROR: No callback with this id found! callback name: " .. name, 1)
     end
+
     if not isSync then
         TriggeredCalls[uniqueId](...)
     else
@@ -108,7 +109,7 @@ function ClientRPC:Trigger(uniqueId, isSync, ...)
     end
 
     self._callback(function(...)
-        TriggerServerEvent("vorp:ServerCallback", uniqueId, isSync, ...)
+        TriggerServerEvent("vorp:ServerCallback", uniqueId, isSync, self.name, ...)
     end, ...)
 end
 

@@ -9,7 +9,6 @@ ServerRPC.__call = function()
     return 'ServerRPC'
 end
 
-
 function ServerRPC:New(name, callback)
     local self = setmetatable({}, ServerRPC)
     self.name = name
@@ -24,7 +23,7 @@ function ServerRPC:Trigger(_source, uniqueId, isSync, ...)
     end
 
     self._callback(_source, function(...)
-        TriggerClientEvent("vorp:ServerCallback", _source, uniqueId, isSync, ...)
+        TriggerClientEvent("vorp:ServerCallback", _source, uniqueId, isSync, self.name, ...)
     end, ...)
 end
 
@@ -39,8 +38,6 @@ RegisterNetEvent("vorp:TriggerServerCallback", function(name, uniqueId, isSync, 
 
     RegisteredCalls[name]:Trigger(_source, uniqueId, isSync, ...)
 end)
-
-
 
 --- Register a new Rpc callback
 ---@param name string callback name
@@ -105,10 +102,10 @@ function ServerRPC:TriggerRpcAwait(source, ...)
     return result
 end
 
-function ServerRPC.ExecuteRpc(uniqueId, isSync, ...)
+function ServerRPC.ExecuteRpc(uniqueId, isSync, name, ...)
     local _source = source
     if not TriggeredCalls[uniqueId] then
-        return error("No callback with this id found!", 1)
+        return error("ERROR: No callback with this id found! callback name: " .. name, 1)
     end
 
     if not isSync then
@@ -116,7 +113,6 @@ function ServerRPC.ExecuteRpc(uniqueId, isSync, ...)
     else
         TriggeredCalls[uniqueId]:resolve(...)
     end
-
     TriggeredCalls[uniqueId] = nil
 end
 
