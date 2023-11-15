@@ -37,7 +37,6 @@ function VorpNotification:NotifyLeft(title, subtitle, dict, icon, duration, colo
 
   local structConfig = DataView.ArrayBuffer(8 * 7)
   structConfig:SetInt32(8 * 0, tonumber(duration or 3000))
-
   local structData = DataView.ArrayBuffer(8 * 8)
   structData:SetInt64(8 * 1, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", title)))
   structData:SetInt64(8 * 2, CoreAction.Utils.bigInt(CreateVarString(10, "LITERAL_STRING", subtitle)))

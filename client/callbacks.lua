@@ -65,7 +65,6 @@ function ClientRPC.ExecuteRpc(uniqueId, isSync, name, ...)
     if not TriggeredCalls[uniqueId] then
         return error("ERROR: No callback with this id found! callback name: " .. name, 1)
     end
-
     if not isSync then
         TriggeredCalls[uniqueId](...)
     else
