@@ -5,7 +5,7 @@ local function HidePlayerCores()
     local playerCores = {
         playerhealth = 0,
         playerhealthcore = 1,
-        playerdeadeye = 3, 
+        playerdeadeye = 3,
         playerdeadeyecore = 2,
         playerstamina = 4,
         playerstaminacore = 5,
@@ -66,7 +66,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    while Config.showplayerIDwhenfocus do
+    while true do
         local sleep = 1000
         local IsTargetting = Citizen.InvokeNative(0x4605C66E0F935F83, PlayerId())
 
@@ -74,7 +74,12 @@ CreateThread(function()
             sleep = 0
             local target, entity = GetPlayerTargetEntity(PlayerId())
             if target and entity ~= 0 and IsPedAPlayer(entity) then
-                SetPedPromptName(entity, T.message3 .. tostring(GetPlayerServerId(entity)))
+                local ShowInfo = GetPlayerName(GetPlayerServerId(entity))
+
+                if Config.showplayerIDwhenfocus then
+                    ShowInfo = tostring(GetPlayerServerId(entity))
+                end
+                SetPedPromptName(entity, "Player: " .. ShowInfo)
             end
         end
         Wait(sleep)
