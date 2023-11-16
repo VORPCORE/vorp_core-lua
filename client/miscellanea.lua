@@ -68,7 +68,7 @@ end)
 CreateThread(function()
     -- by default the game assings steam names to players
     while Config.showplayerIDwhenfocus do
-        local sleep = 1000
+        local sleep = 500
         local target, entity = GetPlayerTargetEntity(PlayerId())
 
         if target then
