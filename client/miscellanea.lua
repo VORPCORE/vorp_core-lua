@@ -66,22 +66,23 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    while true do
+    -- by default the game assings steam names to players
+    while Config.showplayerIDwhenfocus do
         local sleep = 1000
-        local IsTargetting = Citizen.InvokeNative(0x4605C66E0F935F83, PlayerId())
+        local target, entity = GetPlayerTargetEntity(PlayerId())
 
-        if IsTargetting then
-            sleep = 0
-            local target, entity = GetPlayerTargetEntity(PlayerId())
-            if target and entity ~= 0 and IsPedAPlayer(entity) then
-                local ShowInfo = GetPlayerName(GetPlayerServerId(entity))
-
-                if Config.showplayerIDwhenfocus then
-                    ShowInfo = tostring(GetPlayerServerId(entity))
+        if target then
+            if entity ~= 0 and IsPedAPlayer(entity) then
+                sleep = 0
+                for _, playersid in ipairs(GetActivePlayers()) do
+                    if GetPlayerPed(playersid) == entity then
+                        local ShowInfo = GetPlayerServerId(playersid)
+                        SetPedPromptName(entity, "Player: " .. ShowInfo)
+                    end
                 end
-                SetPedPromptName(entity, "Player: " .. ShowInfo)
             end
         end
+
         Wait(sleep)
     end
 end)
