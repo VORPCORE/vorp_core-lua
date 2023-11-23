@@ -183,7 +183,7 @@ Translation = {
                 help = "steam id example 11000010c8aa16e",
             },
             charName = {
-                custom = "\n**PlayerID** `%d`\n **Action:** `used charname`",
+                custom = "\n**PlayerID** `%d`\n **Action:** `used charname` \n **name: ** %s %s ",
                 title = "📋` /charname command` ",
                 label = "VORPcore command to change a player name ",
                 name = "Id",

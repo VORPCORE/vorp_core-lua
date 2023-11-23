@@ -243,7 +243,6 @@ function RemmoveCurrency(data)
 end
 
 --REVIVEPLAYERS
---REVIVEPLAYERS
 function RevivePlayer(data)
     local target = tonumber(data.args[1])
     TriggerClientEvent('vorp:resurrectPlayer', target) -- heal target
@@ -384,7 +383,7 @@ function ModifyCharName(data)
     local Character = VorpCore.getUser(target).getUsedCharacter -- get old name
     Character.setFirstname(firstname)
     Character.setLastname(lastname)
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    SendDiscordLogs(data.config.webhook, data, data.source, firstname, lastname)
     VorpCore.NotifyRightTip(target,
         string.format(Translation[Lang].Notify.namechange, firstname, lastname), 4000)
 end
