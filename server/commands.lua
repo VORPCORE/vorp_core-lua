@@ -4,14 +4,14 @@
 
 local T = Translation[Lang].MessageOfSystem
 
-local CheckUser = function(target)
+local function CheckUser(target)
     if not VorpCore.getUser(tonumber(target)) then
         return false
     end
     return true
 end
 
-local CheckArgs = function(args, requiered)
+local function CheckArgs(args, requiered)
     if #args == requiered then
         return true
     end
@@ -19,7 +19,6 @@ local CheckArgs = function(args, requiered)
 end
 
 local function CheckAce(ace, source)
-    -- if nil allow commands that don't need permissions
     if ace then
         local all = 'vorpcore.showAllCommands'
 
@@ -41,7 +40,7 @@ local function CheckAce(ace, source)
 end
 
 local function LogMessage(_source)
-    local Identifier = GetPlayerIdentifier(_source) -- steam id
+    local Identifier = GetPlayerIdentifier(_source, 1) -- steam id
     local getDiscord = GetPlayerIdentifierByType(_source, 'discord')
     local discordId = string.sub(getDiscord, 9)
     local ip = GetPlayerEndpoint(_source)    -- ip
@@ -62,12 +61,12 @@ local function CheckGroupAllowed(Table, Group)
             return true
         end
     end
-    return false -- allow use command if array is empty
+    return false
 end
---future implementation
+
 local function CheckJobAllowed(Table, Job)
-    if not Table or not next(Table) then -- ? we check for nil or if its empty
-        return true                      -- if empty allows passing
+    if not Table or not next(Table) then
+        return true
     end
 
     for _, value in pairs(Table) do
@@ -76,40 +75,42 @@ local function CheckJobAllowed(Table, Job)
         end
     end
 
-    return false -- allow use command if array is empty
+    return false
 end
+
 --========================================== THREAD =====================================================--
 
 CreateThread(function()
     for _, value in pairs(Commands) do
         RegisterCommand(value.commandName, function(source, args, rawCommand)
             local _source = source
-            if _source == 0 then -- its a player
+
+            if _source == 0 then
                 return print("you must be in game to use this command")
             end
 
-            local group = VorpCore.getUser(_source)
-                .getGroup                                                                                        -- User DB table group
+            local group = VorpCore.getUser(_source).getGroup
+            local group2 = VorpCore.getUser(_source).getUsedCharacter.group
 
-            if not CheckAce(value.aceAllowed, _source) and not CheckGroupAllowed(value.groupAllowed, group) then -- check ace first then group
+            if not CheckAce(value.aceAllowed, _source) and not CheckGroupAllowed(value.groupAllowed, group) and not CheckGroupAllowed(value.groupAllowed, group2) then
                 return VorpCore.NotifyObjective(_source, T.NoPermissions, 4000)
             end
 
-            if value.userCheck then            -- dont check for user existentence
-                if not CheckUser(args[1]) then -- if target exists
+            if value.userCheck then
+                if not CheckUser(args[1]) then
                     return VorpCore.NotifyObjective(_source, Translation[Lang].Notify.userNonExistent, 4000)
                 end
             end
 
-            if not CheckJobAllowed(value.jobAllow, _source) then -- check ace first then group
+            if not CheckJobAllowed(value.jobAllow, _source) then
                 return VorpCore.NotifyObjective(_source, T.NoPermissions, 4000)
             end
 
-            if not CheckArgs(args, #value.suggestion) then -- if requiered argsuments are not met
+            if not CheckArgs(args, #value.suggestion) then
                 return VorpCore.NotifyObjective(_source, Translation[Lang].Notify.ReadSuggestion, 4000)
             end
 
-            local arguments = { source = _source, args = args, rawCommand = rawCommand, config = value } -- arguments passed
+            local arguments = { source = _source, args = args, rawCommand = rawCommand, config = value }
             value.callFunction(arguments)
         end, false)
     end
@@ -144,6 +145,7 @@ function SetGroup(data)
             Character.setGroup(newgroup)
         end
     end
+
     SendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
     VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)
