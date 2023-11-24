@@ -133,6 +133,10 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             HealthData = {}
         else
             CoreAction.Admin.HealPlayer()
+            FreezeEntityPosition(PlayerPedId(), false)
+            SetEntityVisible(PlayerPedId(), true)
+            SetPlayerInvincible(PlayerId, false)
+            SetEntityCanBeDamaged(PlayerPedId(), true)
         end
     end
 end)
