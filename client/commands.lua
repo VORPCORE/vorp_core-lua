@@ -5,13 +5,13 @@ PlayerCommands = {
     hideui = {
         command = Config.CommandHideIU,
         suggestion = S.hideUi,
-        run = CoreAction.Utils.ToggleAllUI,
+        run = CoreAction.Utils.ToggleAllUI(),
         restricted = false
     },
     toggleui = {
         command = Config.CommandToogleUI,
         suggestion = S.toogleUi,
-        run = CoreAction.Utils.ToggleVorpUI,
+        run = CoreAction.Utils.ToggleVorpUI(),
         restricted = false
     },
     clear = {
