@@ -41,20 +41,16 @@ local function MapCheck()
 end
 
 function CoreAction.Player.TeleportToCoords(coords, heading)
-    local playerPedId = PlayerPedId()
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-    SetEntityCoords(playerPedId, coords.x, coords.y, coords.z, true, true, true, false)
-    if heading then
-        SetEntityHeading(playerPedId, heading)
-    end
-    repeat Wait(100) until HasCollisionLoadedAroundEntity(playerPedId)
+    StartPlayerTeleport(PlayerId(), coords.x, coords.y, coords.z + 1, heading or 0.0, false, true, true, true)
+    repeat Wait(0) until not IsPlayerTeleportActive()
+    repeat Wait(0) until HasCollisionLoadedAroundEntity(PlayerPedId())
 end
 
 -- PLAYERSPAWN
 AddEventHandler('playerSpawned', function()
-    Wait(500)
+    DoScreenFadeOut(0)
     TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557)
-    Wait(2000)
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost) --_DISPLAY_LOADING_SCREENS
     DisplayRadar(false)
     SetMinimapHideFow(false)
@@ -75,7 +71,6 @@ end)
 --EVENTS character Innitialize
 RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
     CoreAction.Player.TeleportToCoords(coords, heading)
-
     if isdead then
         if not Config.CombatLogDeath then
             if Config.Loadinscreen then
@@ -137,8 +132,13 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             SetEntityVisible(PlayerPedId(), true)
             SetPlayerInvincible(PlayerId, false)
             SetEntityCanBeDamaged(PlayerPedId(), true)
+            SetGameplayCamRelativeHeading(0.0, 1.0)
         end
     end
+    SetTimeout(2000, function()
+        DoScreenFadeIn(4000)
+        repeat Wait(500) until IsScreenFadedIn()
+    end)
 end)
 
 -- PLAYER SPAWN AFTER SELECT CHARACTER

@@ -119,55 +119,37 @@ end)
 
 --* character selection
 RegisterNetEvent('vorp:playerSpawn', function()
-    local source = source
-    local identifier = GetSteamID(source)
-
+    local _source = source
+    local identifier = GetSteamID(_source)
     if not identifier then
         return print("user cant load no identifier steam found")
     end
-
     _usersLoading[identifier] = false
-
     local user = _users[identifier]
-
     if not user then
         return
     end
-
-    user.Source(source)
-
+    user.Source(_source)
     local numCharacters = user.Numofcharacters()
-
     if numCharacters <= 0 then
-        return TriggerEvent("vorp_CreateNewCharacter", source)
+        return TriggerEvent("vorp_CreateNewCharacter", _source)
     else
-        --* if chosen maxchars is more than 1 then allow to choose character
         if not Config.UseCharPermission then
             if Config.MaxCharacters > 1 then
-                return TriggerEvent("vorp_GoToSelectionMenu", source)
+                return TriggerEvent("vorp_GoToSelectionMenu", _source)
             else
-                return TriggerEvent("vorp_SpawnUniqueCharacter", source)
+                return TriggerEvent("vorp_SpawnUniqueCharacter", _source)
             end
         end
 
         if tostring(user._charperm) == "true" then
-            TriggerEvent("vorp_GoToSelectionMenu", source)
+            TriggerEvent("vorp_GoToSelectionMenu", _source)
         else
-            TriggerEvent("vorp_SpawnUniqueCharacter", source)
+            TriggerEvent("vorp_SpawnUniqueCharacter", _source)
         end
     end
 end)
 
-
---[[ RegisterNetEvent('vorp:getUser', function(cb)
-    {
-        string steam = "steam:" + Players[source].Identifiers["steam"];
-        if (_users.ContainsKey(steam))
-        {
-            cb.Invoke(_users[steam].GetUser());
-        }
-    });
-end) ]]
 
 RegisterNetEvent('vorp:SaveHealth')
 AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
