@@ -27,23 +27,10 @@ function CoreAction.Utils.setPVP()
     end
 end
 
-local function MapCheck()
-    local player = PlayerPedId()
-    local playerOnMout = IsPedOnMount(player)
-    local playerOnVeh = IsPedInAnyVehicle(player, false)
-    if Config.enableTypeRadar then
-        if not playerOnMout and not playerOnVeh then
-            SetMinimapType(Config.mapTypeOnFoot)
-        elseif playerOnMout or playerOnVeh then
-            SetMinimapType(Config.mapTypeOnMount)
-        end
-    end
-end
-
 function CoreAction.Player.TeleportToCoords(coords, heading)
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-    StartPlayerTeleport(PlayerId(), coords.x, coords.y, coords.z + 1, heading or 0.0, false, true, true, true)
-    repeat Wait(0) until not IsPlayerTeleportActive()
+    SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z + 1, false, false, false, true)
+    SetEntityHeading(PlayerPedId(), heading or 0.0)
     repeat Wait(0) until HasCollisionLoadedAroundEntity(PlayerPedId())
 end
 
@@ -208,10 +195,22 @@ CreateThread(function()
     end
 end)
 
+local function MapCheck()
+    local player = PlayerPedId()
+    local playerOnMout = IsPedOnMount(player)
+    local playerOnVeh = IsPedInAnyVehicle(player, false)
+    if Config.enableTypeRadar then
+        if not playerOnMout and not playerOnVeh then
+            SetMinimapType(Config.mapTypeOnFoot)
+        elseif playerOnMout or playerOnVeh then
+            SetMinimapType(Config.mapTypeOnMount)
+        end
+    end
+end
+
 CreateThread(function()
     while true do
         Wait(3000)
-
         if not firstSpawn then
             MapCheck()
             if not Config.onesync then
