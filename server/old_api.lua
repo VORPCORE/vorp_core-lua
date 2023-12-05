@@ -51,6 +51,10 @@ exports('vorpAPI', function()
         TriggerEvent("vorp:setJobGrade", source, jobgrade)
     end
 
+    self.setGang = function(source, gang)
+        TriggerEvent("vorp:setGang", source, gang)
+    end
+
     self.setCharperm = function(source, charname)
         TriggerEvent("vorp:setCharperm", source, charname)
     end

@@ -22,11 +22,12 @@
 ---@param isdead boolean
 ---@param skin table
 ---@param comps table
+---@param gang string
 ---@return Character
 function Character(source, identifier, charIdentifier, group, job, jobgrade, firstname, lastname, inventory, status,
                    coords, money, gold, rol, healthOuter, healthInner, staminaOuter, staminaInner, xp, hours, isdead,
                    skin,
-                   comps)
+                   comps, gang)
     local self = {}
     self.identifier = identifier
     self.charIdentifier = charIdentifier
@@ -51,6 +52,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.hours = hours
     self.isdead = isdead
     self.source = source
+    self.gang = gang
 
     self.Identifier = function()
         return self.identifier
@@ -81,6 +83,12 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         if value ~= nil then self.jobgrade = value end
         TriggerEvent("vorp:playerJobGradeChange", self.source, self.jobgrade) -- listener for job grade change
         return self.jobgrade
+    end
+
+    self.Gang = function(value)
+        if value ~= nil then self.gang = value end
+        TriggerEvent("vorp:playerGangChange", self.source, self.gang) -- listener for job change
+        return self.gang
     end
 
     self.Firstname = function(value)
@@ -203,6 +211,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         userData.isdead = self.isdead
         userData.skin = self.skin
         userData.comps = self.comps
+        userData.gang = self.gang
 
         userData.setStatus = function(status) --Prevent bugs here
             self.Status(status)
@@ -222,6 +231,10 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
 
         self.setJobGrade = function(jobgrade)
             self.Jobgrade(jobgrade)
+        end
+
+        userData.setGang = function(gang)
+            self.Gang(gang)
         end
 
         userData.setMoney = function(money)
@@ -350,6 +363,10 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         self.Job(newjob)
     end
 
+    self.setGang = function(newGang)
+        self.Gang(newGang)
+    end
+
     self.setGroup = function(newgroup)
         self.Group(newgroup)
     end
@@ -364,12 +381,12 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
 
     self.SaveNewCharacterInDb = function(cb)
         MySQL.query(
-            "INSERT INTO characters(`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+            "INSERT INTO characters(`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`, `gang`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             ,
             { self.Identifier(), self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.HealthOuter(),
                 self.HealthInner(), self.StaminaOuter(), self.StaminaInner(), self.Hours(), self.Inventory(), self.Job(),
                 self.Status(), self.Firstname(), self.Lastname(), self.Skin(), self.Comps(), self.Jobgrade(),
-                self.Coords(), self.IsDead()
+                self.Coords(), self.IsDead(), self.Gang()
             },
             function(character)
                 cb(character.insertId)
@@ -389,11 +406,11 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
 
     self.SaveCharacterInDb = function()
         MySQL.update(
-            "UPDATE characters SET `group` = ?,`money` = ?,`gold` = ?,`rol` = ?,`xp` = ?,`healthouter` = ?,`healthinner` = ?,`staminaouter` = ?,`staminainner` = ?,`hours` = ?,`job` = ?, `status` = ?,`firstname` = ?, `lastname` = ?, `jobgrade` = ?,`coords` = ?,`isdead` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
+            "UPDATE characters SET `group` = ?,`money` = ?,`gold` = ?,`rol` = ?,`xp` = ?,`healthouter` = ?,`healthinner` = ?,`staminaouter` = ?,`staminainner` = ?,`hours` = ?,`job` = ?, `status` = ?,`firstname` = ?, `lastname` = ?, `jobgrade` = ?,`coords` = ?,`isdead` = ?, `gang` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
             ,
             { self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.HealthOuter(), self.HealthInner(),
                 self.StaminaOuter(), self.StaminaInner(), self.Hours(), self.Job(), self.Status(), self.Firstname(),
-                self.Lastname(), self.Jobgrade(), self.Coords(), self.IsDead(), tostring(self.Identifier()),
+                self.Lastname(), self.Jobgrade(), self.Coords(), self.IsDead(), self.Gang(), tostring(self.Identifier()),
                 self.CharIdentifier()
             }
         )

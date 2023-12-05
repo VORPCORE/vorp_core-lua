@@ -166,6 +166,19 @@ function AddJob(data)
     VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddJob1, newjob, jobgrade), 4000)
 end
 
+--ADDGANGS
+function AddGang(data)
+    local target = tonumber(data.args[1])
+    local newgang = tostring(data.args[2])
+    local Character = VorpCore.getUser(target).getUsedCharacter
+
+    Character.setGang(newgang)
+    SendDiscordLogs(data.config.webhook, data, data.source, newgang)
+
+    VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.AddGang, newgang, target), 4000)
+    VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddGang1, newgang), 4000)
+end
+
 --ADDMONEY
 function AddMoney(data)
     if type(tonumber(data.args[2])) ~= "number" then

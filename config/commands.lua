@@ -72,6 +72,24 @@ Commands = {
             AddJob(...)
         end
     },
+    addGang = {
+        webhook = "",
+        custom = T.addGang.custom,
+        title = T.addGang.title,
+        ---#end webhook
+        commandName = "addGang",
+        label = T.addGang.label,
+        suggestion = {
+            { name = T.addGang.name,  help = T.addGang.help },
+            { name = T.addGang.name1, help = T.addGang.help1 },
+        },
+        userCheck = true,
+        groupAllowed = { "admin" },
+        aceAllowed = 'vorpcore.setJob.Command',
+        callFunction = function(...)
+            AddGang(...)
+        end
+    },
     addItem = {
         webhook = "",
         custom = T.addItem.custom,
