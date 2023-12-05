@@ -121,9 +121,9 @@ function User(source, identifier, group, playerwarnings, license, char)
             return self._numofcharacters
         end
 
-        userData.addCharacter = function(firstname, lastname, skin, comps)
+        userData.addCharacter = function(firstname, lastname, skin, comps, gang)
             self._numofcharacters = self._numofcharacters + 1 --Should not be done like this
-            self.addCharacter(firstname, lastname, skin, comps)
+            self.addCharacter(firstname, lastname, skin, comps, gang)
         end
 
         userData.removeCharacter = function(charid)
@@ -170,7 +170,7 @@ function User(source, identifier, group, playerwarnings, license, char)
                                 character.money, character.gold, character.rol, character.healthouter,
                                 character.healthinner, character.staminaouter, character.staminainner,
                                 character.xp, character.hours, character.isdead, character.skinPlayer,
-                                character.compPlayer)
+                                character.compPlayer, character.gang)
 
                             self._usercharacters[newCharacter.CharIdentifier()] = newCharacter
                         end
@@ -179,11 +179,11 @@ function User(source, identifier, group, playerwarnings, license, char)
             end)
     end
 
-    self.addCharacter = function(firstname, lastname, skin, comps)
+    self.addCharacter = function(firstname, lastname, skin, comps, gang)
         local newChar = Character(self.source, self._identifier, -1, Config.initGroup, Config.initJob,
             Config.initJobGrade, firstname, lastname, "{}", "{}", "{}", Config.initMoney, Config.initGold,
             Config.initRol
-            , 500, 100, 500, 100, Config.initXp, 0, false, skin, comps)
+            , 500, 100, 500, 100, Config.initXp, 0, false, skin, comps, gang)
 
         newChar.SaveNewCharacterInDb(function(id)
             newChar.CharIdentifier(id)
