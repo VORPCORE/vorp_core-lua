@@ -13,10 +13,6 @@ AddEventHandler('getCore', function(cb)
         TriggerServerEvent('vorp_core:addWebhook', title, webhook, description, color, name, logo, footerlogo, avatar)
     end
 
-    corefunctions.GetDataView = function()
-        CoreAction.Utils.GetDataView()
-    end
-
     -- NOTIFICATIONS
     corefunctions.NotifyTip = function(text, duration)
         VorpNotification:NotifyTip(tostring(text), tonumber(duration))

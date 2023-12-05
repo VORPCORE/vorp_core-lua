@@ -222,10 +222,3 @@ function CoreAction.Utils.bigInt(text)
     return string1:GetInt64(0)
 end
 
-function CoreAction.Utils.GetDataView()
-    return DataView
-end
-
-exports("GetDataView", function()
-    return DataView
-end)
