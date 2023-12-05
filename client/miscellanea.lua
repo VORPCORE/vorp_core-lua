@@ -36,6 +36,15 @@ local function HidePlayerCores()
     end
 end
 
+local function FillUpCores()
+    local a2 = DataView.ArrayBuffer(12 * 8)
+    local a3 = DataView.ArrayBuffer(12 * 8)
+    Citizen.InvokeNative("0xCB5D11F9508A928D", 1, a2:Buffer(), a3:Buffer(), GetHashKey("UPGRADE_HEALTH_TANK_1"),
+        1084182731, Config.maxHealth, 752097756)
+    Citizen.InvokeNative("0xCB5D11F9508A928D", 1, a2:Buffer(), a3:Buffer(), GetHashKey("UPGRADE_STAMINA_TANK_1"),
+        1084182731, Config.maxStamina, 752097756)
+end
+
 -- remove event notifications
 local Events = {
     `EVENT_CHALLENGE_GOAL_COMPLETE`,
@@ -45,6 +54,7 @@ local Events = {
 
 CreateThread(function()
     HidePlayerCores()
+    FillUpCores()
     while true do
         Wait(0)
         local event = GetNumberOfEvents(0)
@@ -65,24 +75,13 @@ CreateThread(function()
     end
 end)
 
+-- show players id when focus on other players
 CreateThread(function()
-    -- by default the game assings steam names to players
     while Config.showplayerIDwhenfocus do
-        local sleep = 500
-        local target, entity = GetPlayerTargetEntity(PlayerId())
-
-        if target then
-            if entity ~= 0 and IsPedAPlayer(entity) then
-                sleep = 0
-                for _, playersid in ipairs(GetActivePlayers()) do
-                    if GetPlayerPed(playersid) == entity then
-                        local ShowInfo = GetPlayerServerId(playersid)
-                        SetPedPromptName(entity, "Player: " .. ShowInfo)
-                    end
-                end
-            end
+        for _, playersid in ipairs(GetActivePlayers()) do
+            local ped = GetPlayerPed(playersid)
+            SetPedPromptName(ped, "Player" .. tostring(GetPlayerServerId(playersid)))
         end
-
-        Wait(sleep)
+        Wait(800)
     end
 end)
