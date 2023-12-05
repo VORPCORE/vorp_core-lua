@@ -56,6 +56,7 @@ local Tables = {
             `coords` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '{}',
             `isdead` tinyint(1) NULL DEFAULT 0,
             `ammo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '{}',
+            `gang` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
             UNIQUE INDEX `identifier_charidentifier`(`identifier`, `charidentifier`) USING BTREE,
             INDEX `charidentifier`(`charidentifier`) USING BTREE,
             INDEX `ammo` (`ammo`) USING BTREE,
