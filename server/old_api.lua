@@ -1,5 +1,4 @@
 --DEPRECATE PLEASE UPDATE TO NEW API
-
 exports('vorpAPI', function()
     local self = {}
 
@@ -64,4 +63,97 @@ exports('vorpAPI', function()
     end
 
     return self
+end)
+
+
+local function _getUsedCharacter(player)
+    local sid = GetSteamID(player)
+
+    if not sid then
+        return nil
+    end
+
+    local user = _users[sid] or nil
+
+    if not user then
+        return nil
+    end
+
+    local used_char = user.GetUsedCharacter() or nil
+
+    return used_char
+end
+
+
+AddEventHandler('vorp:getCharacter', function(player, cb)
+    local function _getCharDetails(player)
+        local used_char = _getUsedCharacter(player)
+
+        if not used_char then
+            return nil
+        end
+
+        local char = used_char.getCharacter() or nil
+
+        return char
+    end
+
+    local char_details = _getCharDetails(player)
+
+    if char_details ~= nil then
+        cb(char_details)
+    end
+end)
+
+AddEventHandler('vorp:addMoney', function(player, typeCash, quantity)
+    local used_char = _getUsedCharacter(player)
+
+    if used_char ~= nil then
+        used_char.addCurrency(typeCash, quantity)
+        used_char.updateCharUi()
+    end
+end)
+
+AddEventHandler('vorp:removeMoney', function(player, typeCash, quantity)
+    local used_char = _getUsedCharacter(player)
+
+    if used_char ~= nil then
+        used_char.removeCurrency(typeCash, quantity)
+        used_char.updateCharUi()
+    end
+end)
+
+AddEventHandler('vorp:addXp', function(player, quantity)
+    local used_char = _getUsedCharacter(player)
+
+    if used_char ~= nil then
+        used_char.addXp(quantity)
+        used_char.updateCharUi()
+    end
+end)
+
+AddEventHandler('vorp:removeXp', function(player, quantity)
+    local used_char = _getUsedCharacter(player)
+
+    if used_char ~= nil then
+        used_char.removeXp(quantity)
+        used_char.updateCharUi()
+    end
+end)
+
+AddEventHandler('vorp:setJob', function(player, job, jobgrade)
+    local used_char = _getUsedCharacter(player)
+
+    if used_char ~= nil then
+        used_char.setJob(job)
+        used_char.setJobGrade(jobgrade)
+    end
+end)
+
+AddEventHandler('vorp:setGroup', function(player, group)
+    local used_char = _getUsedCharacter(player)
+
+    if used_char ~= nil then
+        used_char.setGroup(group)
+    end
 end)
