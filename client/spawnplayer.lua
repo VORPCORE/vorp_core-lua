@@ -78,7 +78,9 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             Wait(10000)
             TriggerEvent("vorp_inventory:CloseInv")
             Wait(4000)
+            SetEntityCanBeDamaged(PlayerPedId(), true)
             SetEntityHealth(PlayerPedId(), 0, 0)
+            Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 0, -1)
             ShutdownLoadingScreen()
         end
     else
