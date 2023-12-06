@@ -17,6 +17,12 @@ function CoreAction.Admin.HealPlayer()
     SetEntityHealth(player, 600, 1)
     Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, 100) --_SET_ATTRIBUTE_CORE_VALUE STAMINA
     Citizen.InvokeNative(0x675680D089BFA21F, player, 1065330373)
+    -- not sure why but player will be invincible from this point, only when max chars is to 1, makes no sense. so we gotta invoke these natives after healing.
+    FreezeEntityPosition(player, false)
+    SetEntityVisible(player, true)
+    SetPlayerInvincible(PlayerId(), false)
+    SetEntityCanBeDamaged(player, true)
+    SetGameplayCamRelativeHeading(0.0, 1.0)
 end
 
 function CoreAction.Admin.DeleteHorse()
@@ -221,4 +227,3 @@ function CoreAction.Utils.bigInt(text)
     string1:SetInt64(0, text)
     return string1:GetInt64(0)
 end
-

@@ -115,11 +115,6 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             HealthData = {}
         else
             CoreAction.Admin.HealPlayer()
-            FreezeEntityPosition(PlayerPedId(), false)
-            SetEntityVisible(PlayerPedId(), true)
-            SetPlayerInvincible(PlayerId, false)
-            SetEntityCanBeDamaged(PlayerPedId(), true)
-            SetGameplayCamRelativeHeading(0.0, 1.0)
         end
     end
     SetTimeout(2000, function()
