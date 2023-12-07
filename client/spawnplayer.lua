@@ -28,9 +28,9 @@ function CoreAction.Utils.setPVP()
 end
 
 function CoreAction.Player.TeleportToCoords(coords, heading)
+    StartPlayerTeleport(PlayerId(), coords.x, coords.y, coords.z + 1, heading, true, true, true, false)
+    repeat Wait(0) until not IsPlayerTeleportActive()
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-    SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z + 1, false, false, false, true)
-    SetEntityHeading(PlayerPedId(), heading or 0.0)
     repeat Wait(0) until HasCollisionLoadedAroundEntity(PlayerPedId())
 end
 
