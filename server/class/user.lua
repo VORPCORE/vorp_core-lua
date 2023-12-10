@@ -26,13 +26,14 @@ function User(source, identifier, group, playerwarnings, license, char)
             self.usedCharacterId = value
             self._usercharacters[value].source = self.source
             TriggerClientEvent("vorp:SelectedCharacter", self.source, self.usedCharacterId)
-
             self._usercharacters[value].updateCharUi()
             TriggerEvent("vorp:SelectedCharacter", self.source, self._usercharacters[self.usedCharacterId].getCharacter())
+            Player(self.source).state:set('IsInSession', true, true)
         end
 
         return self.usedCharacterId
     end
+
 
     self.Source = function(value)
         if value ~= nil then
@@ -240,6 +241,7 @@ function User(source, identifier, group, playerwarnings, license, char)
                 end
             end
             self._usercharacters[self.usedCharacterId].SaveCharacterInDb()
+            Player(self.source).state:set('IsInSession', false, true)
         end
     end
 

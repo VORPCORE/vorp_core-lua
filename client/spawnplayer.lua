@@ -36,7 +36,6 @@ end
 -- PLAYERSPAWN
 AddEventHandler('playerSpawned', function()
     DoScreenFadeOut(0)
-    LocalPlayer.state:set("IsInSession", false, true)
     TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557)
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost) --_DISPLAY_LOADING_SCREENS
     DisplayRadar(false)
@@ -128,8 +127,6 @@ end)
 -- PLAYER SPAWN AFTER SELECT CHARACTER
 RegisterNetEvent('vorp:SelectedCharacter')
 AddEventHandler("vorp:SelectedCharacter", function()
-    firstSpawn = false
-    LocalPlayer.state:set("IsInSession", true, true)
     local PlayerPed = PlayerPedId()
     local PlayerId = PlayerId()
     CoreAction.Utils.setPVP()
