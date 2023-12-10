@@ -1,4 +1,3 @@
-local firstSpawn = true
 local active = false
 local HealthData = {}
 local pvp = Config.PVP
@@ -28,7 +27,7 @@ function CoreAction.Utils.setPVP()
 end
 
 function CoreAction.Player.TeleportToCoords(coords, heading)
-    StartPlayerTeleport(PlayerId(), coords.x, coords.y, coords.z + 1, heading, true, true, true, false)
+    StartPlayerTeleport(PlayerId(), coords.x, coords.y, coords.z, heading, true, true, true, false)
     repeat Wait(0) until not IsPlayerTeleportActive()
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
     repeat Wait(0) until HasCollisionLoadedAroundEntity(PlayerPedId())
@@ -37,6 +36,7 @@ end
 -- PLAYERSPAWN
 AddEventHandler('playerSpawned', function()
     DoScreenFadeOut(0)
+    LocalPlayer.state:set("IsInSession", false, true)
     TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557)
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost) --_DISPLAY_LOADING_SCREENS
     DisplayRadar(false)
@@ -47,7 +47,7 @@ AddEventHandler('playerSpawned', function()
     ShutdownLoadingScreen()
     SetEntityCanBeDamaged(PlayerPedId(), false)
     CreateThread(function()
-        while firstSpawn do
+        while not LocalPlayer.state.IsInSession do
             Wait(0)
             DisableControlAction(0, `INPUT_MP_TEXT_CHAT_ALL`, true)
             DisableControlAction(0, `INPUT_QUICK_USE_ITEM`, true)
@@ -129,6 +129,7 @@ end)
 RegisterNetEvent('vorp:SelectedCharacter')
 AddEventHandler("vorp:SelectedCharacter", function()
     firstSpawn = false
+    LocalPlayer.state:set("IsInSession", true, true)
     local PlayerPed = PlayerPedId()
     local PlayerId = PlayerId()
     CoreAction.Utils.setPVP()
@@ -168,7 +169,7 @@ CreateThread(function()
         DisableControlAction(0, 0x9CC7A1A4, true) -- disable special ability when open hud
         DisableControlAction(0, 0x1F6D95E5, true) -- diable f4 key that contains HUD
 
-        if not firstSpawn then
+        if LocalPlayer.state.IsInSession then
             if IsControlPressed(0, 0xCEFD9220) then
                 active = true
                 CoreAction.Utils.setPVP()
@@ -208,7 +209,7 @@ end
 CreateThread(function()
     while true do
         Wait(3000)
-        if not firstSpawn then
+        if LocalPlayer.state.IsInSession then
             MapCheck()
             if not Config.onesync then
                 local player = PlayerPedId()
@@ -257,7 +258,7 @@ end)
 -- APPLY HEALTHRECHARGE WHEN CHARACTER RC
 CreateThread(function()
     while true do
-        if not firstSpawn then
+        if LocalPlayer.state.IsInSession then
             local PlayerId = PlayerId()
             local multiplierH = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId) -- GetPlayerHealthRechargeMultiplier
 
