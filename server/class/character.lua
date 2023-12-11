@@ -1,4 +1,52 @@
 ---@class Character
+---@field identifier fun():string
+---@field charIdentifier fun(value:string):string
+---@field group fun(value:string):string
+---@field job fun(value:string):string
+---@field jobgrade fun(value:number):number
+---@field firstname fun(value:string):string
+---@field lastname fun(value:string):string
+---@field inventory fun(value:string):string
+---@field status fun(value:string):string
+---@field coords fun(value:vector):vector
+---@field money fun(value:number):number
+---@field gold fun(value:number):number
+---@field rol fun(value:number):number
+---@field healthOuter fun(value:number):number
+---@field healthInner fun(value:number):number
+---@field staminaOuter fun(value:number):number
+---@field staminaInner fun(value:number):number
+---@field xp fun(value:number):number
+---@field hours fun(value:number):number
+---@field isdead fun(value:boolean):boolean
+---@field skin fun(value:table):table
+---@field comps fun(value:table):table
+---@field getCharacter fun():table
+---@field updateCharUi fun()
+---@field addCurrency fun(currency:number, quantity:number)
+---@field removeCurrency fun(currency:number, quantity:number)
+---@field addXp fun(quantity:number)
+---@field removeXp fun(quantity:number)
+---@field saveHealthAndStamina fun(healthOuter:number, healthInner:number, staminaOuter:number, staminaInner:number)
+---@field setJob fun(newjob:string)
+---@field setGroup fun(newgroup:string)
+---@field setDead fun(dead:boolean)
+---@field UpdateHours fun(hours:number)
+---@field SaveNewCharacterInDb fun(cb:function)
+---@field DeleteCharacter fun()
+---@field SaveCharacterCoords fun(coords:vector)
+---@field SaveCharacterInDb fun()
+
+
+--- update state bags
+local function SetState(source, key, field, newValue)
+    local state = Player(source).state[key]
+    if state then
+        state[field] = newValue
+        Player(source).state:set(key, state, true)
+    end
+end
+
 ---@param source number
 ---@param identifier string
 ---@param charIdentifier number
@@ -57,109 +105,110 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.CharIdentifier = function(value)
-        if value ~= nil then
-            self.charIdentifier = value
-        end
+        if value then self.charIdentifier = value end
         return self.charIdentifier
     end
 
     self.Group = function(value)
-        if value ~= nil then
-            self.group = value
-        end
+        if value then self.group = value end
         TriggerEvent("vorp:playerGroupChange", self.source, self.group) -- listener for group change
+        SetState(self.source, "Character", "Group", self.group)
         return self.group
     end
 
     self.Job = function(value)
-        if value ~= nil then self.job = value end
+        if value then self.job = value end
         TriggerEvent("vorp:playerJobChange", self.source, self.job) -- listener for job change
+        SetState(self.source, "Character", "Job", self.job)
         return self.job
     end
 
     self.Jobgrade = function(value)
-        if value ~= nil then self.jobgrade = value end
+        if value then self.jobgrade = value end
         TriggerEvent("vorp:playerJobGradeChange", self.source, self.jobgrade) -- listener for job grade change
+        SetState(self.source, "Character", "Grade", self.jobgrade)
         return self.jobgrade
     end
 
     self.Firstname = function(value)
-        if value ~= nil then self.firstname = value end
+        if value then self.firstname = value end
+        SetState(self.source, "Character", "FirstName", self.firstname)
         return self.firstname
     end
 
     self.Lastname = function(value)
-        if value ~= nil then self.lastname = value end
+        if value then self.lastname = value end
+        SetState(self.source, "Character", "LastName", self.lastname)
         return self.lastname
     end
 
     self.Inventory = function(value)
-        if value ~= nil then self.inventory = value end
+        if value then self.inventory = value end
         return self.inventory
     end
 
     self.Status = function(value)
-        if value ~= nil then self.status = value end
+        if value then self.status = value end
         return self.status
     end
 
     self.Coords = function(value)
-        if value ~= nil then self.coords = value end
+        if value then self.coords = value end
         return self.coords
     end
 
     self.Money = function(value)
-        if value ~= nil then self.money = value end
+        if value then self.money = value end
         return self.money
     end
 
     self.Gold = function(value)
-        if value ~= nil then self.gold = value end
+        if value then self.gold = value end
         return self.gold
     end
 
     self.Rol = function(value)
-        if value ~= nil then self.rol = value end
+        if value then self.rol = value end
         return self.rol
     end
 
     self.HealthOuter = function(value)
-        if value ~= nil then self.healthOuter = value end
+        if value then self.healthOuter = value end
         return self.healthOuter
     end
 
     self.HealthInner = function(value)
-        if value ~= nil then self.healthInner = value end
+        if value then self.healthInner = value end
         return self.healthInner
     end
 
     self.StaminaOuter = function(value)
-        if value ~= nil then self.staminaOuter = value end
+        if value then self.staminaOuter = value end
         return self.staminaOuter
     end
 
     self.StaminaInner = function(value)
-        if value ~= nil then self.staminaInner = value end
+        if value then self.staminaInner = value end
         return self.staminaInner
     end
 
     self.Xp = function(value)
-        if value ~= nil then self.xp = value end
+        if value then self.xp = value end
         return self.xp
     end
 
     self.Hours = function(value)
-        if value ~= nil then self.hours = value end
+        if value then self.hours = value end
         return self.hours
     end
 
     self.IsDead = function(value)
-        if value ~= nil then self.isdead = value end
+        if value then self.isdead = value end
         return self.isdead
     end
 
     self.Skin = function(value)
-        if value ~= nil then
+        if value then
             self.skin = value
             MySQL.update("UPDATE characters SET `skinPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
             , { value, self.Identifier(), self.CharIdentifier() })
@@ -169,10 +218,10 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.Comps = function(value)
-        if value ~= nil then
+        if value then
             self.comps = value
-            MySQL.update("UPDATE characters SET `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
-            , { value, self.Identifier(), self.CharIdentifier() })
+            MySQL.update("UPDATE characters SET `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?",
+                { value, self.Identifier(), self.CharIdentifier() })
         end
 
         return self.comps
@@ -204,7 +253,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         userData.skin = self.skin
         userData.comps = self.comps
 
-        userData.setStatus = function(status) --Prevent bugs here
+        userData.setStatus = function(status)
             self.Status(status)
         end
 
@@ -383,8 +432,8 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
 
     self.SaveCharacterCoords = function(coords)
         self.Coords(coords)
-        MySQL.update("UPDATE characters SET `coords` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
-        , { self.Coords(), self.Identifier(), self.CharIdentifier() })
+        MySQL.update("UPDATE characters SET `coords` = ? WHERE `identifier` = ? AND `charidentifier` = ?",
+            { self.Coords(), self.Identifier(), self.CharIdentifier() })
     end
 
     self.SaveCharacterInDb = function()
