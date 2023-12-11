@@ -64,6 +64,7 @@ AddEventHandler('playerDropped', function()
             _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
         end
         _users[identifier].SaveUser(pCoords, pHeading)
+        Player(_source).state:set('Character', {}, true)
         if Config.PrintPlayerInfoOnLeave then
             print('Player ^2' .. steamName .. ' ^7steam:^3 ' .. identifier .. '^7 saved')
         end
@@ -86,6 +87,7 @@ end)
 
 AddEventHandler('playerJoining', function()
     local _source = source
+    Player(_source).state:set('Character', { IsInSession = false }, true)
     local identifier = GetSteamID(_source)
     local isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
 
