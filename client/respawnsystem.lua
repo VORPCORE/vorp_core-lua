@@ -14,7 +14,8 @@ local keepdown
 local function CheckLable()
     if not carried then
         if not Done then
-            local label = CreateVarString(10, 'LITERAL_STRING', T.RespawnIn .. TimeToRespawn .. T.SecondsMove .. T.message)
+            local label = CreateVarString(10, 'LITERAL_STRING',
+                T.RespawnIn .. TimeToRespawn .. T.SecondsMove .. T.message)
             return label
         else
             local label = CreateVarString(10, 'LITERAL_STRING', T.message2)
@@ -65,7 +66,8 @@ local function ProcessNewPosition()
         y = pCoords.y + ((Sin(angleZ) * Cos(angleY)) + (Cos(angleY) * Sin(angleZ))) / 2 * (3.0 + 0.5),
         z = pCoords.z + ((Sin(angleY))) * (3.0 + 0.5)
     }
-    local rayHandle = StartShapeTestRay(pCoords.x, pCoords.y, pCoords.z + 0.5, behindCam.x, behindCam.y, behindCam.z, -1, PlayerPedId(), 0)
+    local rayHandle = StartShapeTestRay(pCoords.x, pCoords.y, pCoords.z + 0.5, behindCam.x, behindCam.y, behindCam.z, -1,
+        PlayerPedId(), 0)
 
     local hitBool, hitCoords = GetShapeTestResult(rayHandle)
 
@@ -162,7 +164,8 @@ function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName,
         AnimpostfxPlay("PlayerWakeUpInterrogation")
         Wait(19000)
         keepdown = false
-        VorpNotification:NotifyLeft(currentHospitalName or T.message6, T.message5, "minigames_hud", "five_finger_burnout", 8000, "COLOR_PURE_WHITE")
+        VorpNotification:NotifyLeft(currentHospitalName or T.message6, T.message5, "minigames_hud", "five_finger_burnout",
+            8000, "COLOR_PURE_WHITE")
     else
         DoScreenFadeIn(2000)
     end
@@ -189,7 +192,6 @@ function CoreAction.Player.RespawnPlayer()
 
     TriggerEvent("vorpmetabolism:changeValue", "Thirst", 1000)
     TriggerEvent("vorpmetabolism:changeValue", "Hunger", 1000)
-    TriggerEvent('fred_meta:consume', 100, 100, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0)
     CoreAction.Player.ResurrectPlayer(coords, closestLocation, false)
     TriggerServerEvent("vorpcharacter:getPlayerSkin")
 end
@@ -235,15 +237,13 @@ end)
 CreateThread(function()
     while Config.UseDeathHandler do
         local sleep = 1000
-        local player = PlayerPedId()
 
-        if IsEntityDead(player) then
-            sleep = 0
+        if IsPlayerDead(PlayerId()) then
             if not setDead then
                 setDead = true
                 PressKey = false
                 PromptSetEnabled(prompt, 1)
-                NetworkSetInSpectatorMode(false, player)
+                NetworkSetInSpectatorMode(false, PlayerPedId())
                 exports.spawnmanager.setAutoSpawn(false)
                 TriggerServerEvent("vorp:ImDead", true)
                 DisplayRadar(false)
@@ -252,9 +252,9 @@ CreateThread(function()
                     StartDeathCam()
                 end)
             end
-
             if not PressKey and setDead then
-                if not IsEntityAttachedToAnyPed(player) then
+                sleep = 0
+                if not IsEntityAttachedToAnyPed(PlayerPedId()) then
                     PromptSetActiveGroupThisFrame(prompts, CheckLable())
 
                     if PromptHasHoldModeCompleted(prompt) then

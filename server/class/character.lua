@@ -158,7 +158,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.Money = function(value)
-        if value then self.money = value end
+        if value  then self.money = value end
         return self.money
     end
 
