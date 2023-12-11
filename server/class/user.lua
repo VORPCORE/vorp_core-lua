@@ -1,4 +1,20 @@
 ---@class User
+---@field Source fun(value:number):number
+---@field Numofcharacters fun(value:number):number
+---@field Identifier fun(value:string):string
+---@field License fun(value:string):string
+---@field Group fun(value:string):string
+---@field Playerwarnings fun(value:number):number
+---@field Charperm fun(value:boolean):boolean
+---@field GetUser fun():{getCharperm:boolean, source:number, getGroup:string, getUsedCharacter:table, getUserCharacters:table, getIdentifier:fun():string, getPlayerwarnings:fun():number, setPlayerWarnings:fun(warnings:number), setGroup:fun(group:string), setCharperm:fun(char:boolean), getNumOfCharacters:fun():number, addCharacter:fun(firstname:string, lastname:string, skin:table, comps:table), removeCharacter:fun(charid:number), setUsedCharacter:fun(charid:number)}
+---@field UsedCharacter fun():table
+---@field UserCharacters fun():table
+---@field LoadCharacters fun()
+---@field addCharacter fun(firstname:string, lastname:string, skin:table, comps:table)
+---@field delCharacter fun(charIdentifier:number)
+---@field GetUsedCharacter fun():table
+---@field SetUsedCharacter fun(charid:number)
+---@field SaveUser fun(coords:table, heading:number)
 
 
 ---@param source number
@@ -28,7 +44,16 @@ function User(source, identifier, group, playerwarnings, license, char)
             TriggerClientEvent("vorp:SelectedCharacter", self.source, self.usedCharacterId)
             self._usercharacters[value].updateCharUi()
             TriggerEvent("vorp:SelectedCharacter", self.source, self._usercharacters[self.usedCharacterId].getCharacter())
-            Player(self.source).state:set('IsInSession', true, true)
+            Player(self.source).state:set('Character',
+                {
+                    Group = self._usercharacters[self.usedCharacterId].getCharacter().group,
+                    FirstName = self._usercharacters[self.usedCharacterId].getCharacter().firstname,
+                    LastName = self._usercharacters[self.usedCharacterId].getCharacter().lastname,
+                    Job = self._usercharacters[self.usedCharacterId].getCharacter().job,
+                    Grade = self._usercharacters[self.usedCharacterId].getCharacter().jobgrade,
+                    IsInSession = true
+
+                }, true)
         end
 
         return self.usedCharacterId
@@ -241,7 +266,6 @@ function User(source, identifier, group, playerwarnings, license, char)
                 end
             end
             self._usercharacters[self.usedCharacterId].SaveCharacterInDb()
-            Player(self.source).state:set('IsInSession', false, true)
         end
     end
 
