@@ -203,7 +203,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.IsDead = function(value)
-        if value then self.isdead = value end
+        if value ~= nil then self.isdead = value end
         return self.isdead
     end
 
