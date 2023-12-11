@@ -80,10 +80,16 @@ end)
 -- show players id when focus on other players
 CreateThread(function()
     while Config.showplayerIDwhenfocus do
-        for _, playersid in ipairs(GetActivePlayers()) do
-            local ped = GetPlayerPed(playersid)
-            SetPedPromptName(ped, "Player" .. tostring(GetPlayerServerId(playersid)))
+        local sleep = 1000
+        if #GetActivePlayers() > 1 then -- we also count ourselfs
+            sleep = 400
+            for _, playersid in ipairs(GetActivePlayers()) do
+                if playersid ~= PlayerId() then
+                    local ped = GetPlayerPed(playersid)
+                    SetPedPromptName(ped, "Player" .. tostring(GetPlayerServerId(playersid)))
+                end
+            end
         end
-        Wait(800)
+        Wait(sleep)
     end
 end)
