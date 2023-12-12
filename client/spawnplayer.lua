@@ -55,7 +55,8 @@ AddEventHandler('playerSpawned', function()
 end)
 
 --EVENTS character Innitialize
-RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
+RegisterNetEvent('vorp:initCharacter')
+AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
     CoreAction.Player.TeleportToCoords(coords, heading)
 
     if isdead then

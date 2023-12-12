@@ -1,6 +1,6 @@
 if GetCurrentResourceName() ~= 'vorp_core' then
     return error(
-        "^3WARNING ^0This resource is not named correctly, please change it to ^1'vorp_core'^0 to work properly.", 1)
+    "^3WARNING ^0This resource is not named correctly, please change it to ^1'vorp_core'^0 to work properly.", 1)
 end
 
 local CoreFunctions = {}
