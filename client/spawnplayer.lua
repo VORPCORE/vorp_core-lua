@@ -3,6 +3,7 @@ local pvp = Config.PVP
 local multiplierHealth, multiplierStamina
 local T = Translation[Lang].MessageOfSystem
 local active = false
+local Spawned = false
 -- FUNCTIONS
 function CoreAction.Utils.TogglePVP()
     pvp = not pvp
@@ -127,6 +128,7 @@ end)
 -- PLAYER SPAWN AFTER SELECT CHARACTER
 RegisterNetEvent('vorp:SelectedCharacter')
 AddEventHandler("vorp:SelectedCharacter", function()
+    Spawned = true
     CoreAction.Utils.setPVP()
     local PlayerPed = PlayerPedId()
     local PlayerId = PlayerId()
@@ -160,7 +162,7 @@ CreateThread(function()
     while true do
         local sleep = 1000
         local pped = PlayerPedId()
-        if LocalPlayer.state.Character.IsInSession then
+        if Spawned then
             sleep = 0
             if IsControlPressed(0, 0xCEFD9220) then
                 active = true
