@@ -106,18 +106,18 @@ end)
 AddEventHandler("playerConnecting", function(playerName, setKickReason, deferrals)
     local _source = source
     local userEntering = false
-
     deferrals.defer()
-    local steamIdentifier = GetSteamID(_source)
     local playerWlId = nil
-    local IDs = GetIdentifier(_source, 'steam')
+    local steamIdentifier = GetIdentifier(_source, 'steam')
 
-    if IDs == nil then
+    if not steamIdentifier then
         deferrals.done(T.NoSteam)
         userEntering = false
         CancelEvent()
         return
     end
+
+
 
     if steamIdentifier and _users[steamIdentifier] and not _usersLoading[steamIdentifier] then --Save and delete
         _users[steamIdentifier].SaveUser()
