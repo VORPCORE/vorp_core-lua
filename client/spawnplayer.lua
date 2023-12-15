@@ -3,7 +3,7 @@ local pvp = Config.PVP
 local multiplierHealth, multiplierStamina
 local T = Translation[Lang].MessageOfSystem
 local active = false
-local Spawned = false
+
 -- FUNCTIONS
 function CoreAction.Utils.TogglePVP()
     pvp = not pvp
@@ -129,7 +129,6 @@ end)
 -- PLAYER SPAWN AFTER SELECT CHARACTER
 RegisterNetEvent('vorp:SelectedCharacter')
 AddEventHandler("vorp:SelectedCharacter", function()
-    Spawned = true
     CoreAction.Utils.setPVP()
     local PlayerPed = PlayerPedId()
     local PlayerId = PlayerId()
@@ -161,45 +160,39 @@ end)
 -- THREADS
 CreateThread(function()
     while true do
-        local sleep = 1000
+
         local pped = PlayerPedId()
-        if Spawned then
-            sleep = 0
-            if IsControlPressed(0, 0xCEFD9220) then
-                active = true
-                CoreAction.Utils.setPVP()
-                Wait(4000)
-            end
-
-            if not IsPedOnMount(pped) and not IsPedInAnyVehicle(pped, false) and active then
-                active = false
-                CoreAction.Utils.setPVP()
-            elseif active and IsPedOnMount(pped) or IsPedInAnyVehicle(pped, false) then
-                if IsPedInAnyVehicle(pped, false) then
-
-                elseif GetPedInVehicleSeat(GetMount(pped), -1) == pped then
-                    active = false
-                    CoreAction.Utils.setPVP()
-                end
-            else
-                CoreAction.Utils.setPVP()
-            end
-        end
-        Wait(sleep)
-    end
-end)
-
-
-CreateThread(function()
-    while true do
-        Wait(0)
         DisableControlAction(0, 0x580C4473, true) -- Disable hud
         DisableControlAction(0, 0xCF8A4ECA, true) -- Disable hud
         DisableControlAction(0, 0x9CC7A1A4, true) -- disable special ability when open hud
         DisableControlAction(0, 0x1F6D95E5, true) -- diable f4 key that contains HUD
+
+        if IsControlPressed(0, 0xCEFD9220) then
+            active = true
+            CoreAction.Utils.setPVP()
+            Wait(4000)
+        end
+
+        if LocalPlayer.state.Character.IsInSession then
+            if not IsPlayerDead(PlayerId()) then
+                if not IsPedOnMount(pped) and not IsPedInAnyVehicle(pped, false) and active then
+                    active = false
+                    CoreAction.Utils.setPVP()
+                elseif active and IsPedOnMount(pped) or IsPedInAnyVehicle(pped, false) then
+                    if IsPedInAnyVehicle(pped, false) then
+
+                    elseif GetPedInVehicleSeat(GetMount(pped), -1) == pped then
+                        active = false
+                        CoreAction.Utils.setPVP()
+                    end
+                else
+                    CoreAction.Utils.setPVP()
+                end
+            end
+        end
+        Wait(0)
     end
 end)
-
 
 local function MapCheck()
     if Config.enableTypeRadar then
