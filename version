@@ -1,4 +1,13 @@
 
+<2.4>
+ - added export GetCore() instead of using trigger event
+ - GetCore export now has new call back system included
+ - you can call dataview in your scripts like `@vorp_core/client/dataview.lua` 
+ - added to the logs of modifyCharName the new name added to the player
+ - added state bags visit documentation `https://vorpcore.github.io/VORP_Documentation/api/core#state-bags`
+ - new event listeners for job changes and group `https://vorpcore.github.io/VORP_Documentation/api/core#event-listners`
+ - other small issues were fixed
+ - update all files
 <2.3>
 - in this new version  notifications were refactored and a new notify was introduced NotifyLeftRank.
 - notifications can be used as exports for client side alternatively you can declare in your resources fxmanifest to use them direclty.
