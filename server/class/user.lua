@@ -41,8 +41,8 @@ function User(source, identifier, group, playerwarnings, license, char)
         if value ~= nil then
             self.usedCharacterId = value
             self._usercharacters[value].source = self.source
-            TriggerClientEvent("vorp:SelectedCharacter", self.source, self.usedCharacterId)
             self._usercharacters[value].updateCharUi()
+            TriggerClientEvent("vorp:SelectedCharacter", self.source, self.usedCharacterId)
             TriggerEvent("vorp:SelectedCharacter", self.source, self._usercharacters[self.usedCharacterId].getCharacter())
             Player(self.source).state:set('Character',
                 {

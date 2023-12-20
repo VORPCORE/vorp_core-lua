@@ -127,8 +127,7 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
 end)
 
 -- PLAYER SPAWN AFTER SELECT CHARACTER
-RegisterNetEvent('vorp:SelectedCharacter')
-AddEventHandler("vorp:SelectedCharacter", function()
+RegisterNetEvent("vorp:SelectedCharacter", function()
     Spawned = true
     CoreAction.Utils.setPVP()
     local PlayerPed = PlayerPedId()
