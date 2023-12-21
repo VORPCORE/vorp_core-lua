@@ -106,10 +106,6 @@ CreateThread(function()
                 return VorpCore.NotifyObjective(_source, T.NoPermissions, 4000)
             end
 
-            if not CheckArgs(args, (key == "addJob" and (#value.suggestion + 1)) or #value.suggestion) then
-                return VorpCore.NotifyObjective(_source, Translation[Lang].Notify.ReadSuggestion, 4000)
-            end
-
             if not CheckArgs(args, (key == "addJob" and #args == 5) and #value.suggestion + 1 or #value.suggestion) then
                 return VorpCore.NotifyObjective(_source, Translation[Lang].Notify.ReadSuggestion, 4000)
             end
