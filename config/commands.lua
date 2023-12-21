@@ -64,6 +64,7 @@ Commands = {
             { name = T.addJob.name,  help = T.addJob.help },
             { name = T.addJob.name1, help = T.addJob.help1 },
             { name = T.addJob.name2, help = T.addJob.help2 },
+            { name = T.addJob.name3, help = T.addJob.help3 },
         },
         userCheck = true,
         groupAllowed = { "admin" },
