@@ -81,7 +81,7 @@ end
 --========================================== THREAD =====================================================--
 
 CreateThread(function()
-    for _, value in pairs(Commands) do
+    for key, value in pairs(Commands) do
         RegisterCommand(value.commandName, function(source, args, rawCommand)
             local _source = source
 
@@ -106,9 +106,14 @@ CreateThread(function()
                 return VorpCore.NotifyObjective(_source, T.NoPermissions, 4000)
             end
 
-            if not CheckArgs(args, #value.suggestion) then
+            if not CheckArgs(args, (key == "addJob" and (#value.suggestion + 1)) or #value.suggestion) then
                 return VorpCore.NotifyObjective(_source, Translation[Lang].Notify.ReadSuggestion, 4000)
             end
+
+            if not CheckArgs(args, (key == "addJob" and #args == 5) and #value.suggestion + 1 or #value.suggestion) then
+                return VorpCore.NotifyObjective(_source, Translation[Lang].Notify.ReadSuggestion, 4000)
+            end
+
 
             local arguments = { source = _source, args = args, rawCommand = rawCommand, config = value }
             value.callFunction(arguments)
@@ -156,12 +161,13 @@ function AddJob(data)
     local target = tonumber(data.args[1])
     local newjob = tostring(data.args[2])
     local jobgrade = tonumber(data.args[3])
+    local joblabel = tostring(data.args[4]) .. " " .. (tostring(data.args[5]) or "")
     local Character = VorpCore.getUser(target).getUsedCharacter
 
     Character.setJob(newjob)
     Character.setJobGrade(jobgrade)
+    Character.setJobLabel(joblabel)
     SendDiscordLogs(data.config.webhook, data, data.source, newjob, jobgrade)
-
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.AddJob, newjob, target, jobgrade), 4000)
     VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddJob1, newjob, jobgrade), 4000)
 end
@@ -222,7 +228,7 @@ function AddWeapons(data)
             return VorpCore.NotifyObjective(data.source, T.cantCarry, 4000)
         end
 
-        exports.vorp_inventory:createWeapon(target, weaponHash)
+        exports.vorp_inventory:createWeapon(target, weaponHash, {})
         SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
         VorpCore.NotifyRightTip(target, Translation[Lang].Notify.AddWeapons, 4000)
     end, weaponHash)
