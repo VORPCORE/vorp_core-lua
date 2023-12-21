@@ -57,9 +57,11 @@ Translation = {
                 help = 'player ID',
                 help1 = 'Job Name',
                 help2 = 'Job Name',
+                help3 = 'Job Label',
                 name = "Id",
                 name1 = "Jobname",
                 name2 = "JobGrade",
+                name3 = "JobLabel"
             },
             addItem = {
                 custom = "\n**PlayerID:** `%d` \n**Item given** `%s`\n**Count:** `%d`",
@@ -183,7 +185,7 @@ Translation = {
                 help = "steam id example 11000010c8aa16e",
             },
             charName = {
-                custom = "\n**PlayerID** `%d`\n **Action:** `used charname` \n **name: ** %s %s ",
+                custom = "\n**PlayerID** `%d`\n **Action:** `used charname` \n **name: ** `%s %s` ",
                 title = "📋` /charname command` ",
                 label = "VORPcore command to change a player name ",
                 name = "Id",

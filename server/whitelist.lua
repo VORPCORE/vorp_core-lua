@@ -117,8 +117,6 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         return
     end
 
-
-
     if steamIdentifier and _users[steamIdentifier] and not _usersLoading[steamIdentifier] then --Save and delete
         _users[steamIdentifier].SaveUser()
         _users[steamIdentifier] = nil
@@ -143,19 +141,6 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
     end
 
-    --[[  MySQL.single("SELECT * FROM characters WHERE `identifier` = ?", { steamIdentifier }, function(result)
-        if result then
-            local inventory = "{}"
-            if not result.inventory == nil then
-                inventory = result.inventory
-            end
-            LoadCharacter(steamIdentifier,  Character(_source, steamIdentifier, result.charidentifier, result.group, result.job,
-                    result.jobgrade, result.firstname, result.lastname, inventory, result.status,
-                    result.coords, result.money, result.gold, result.rol, result.healthouter,
-                    result.healthinner, result.staminaouter, result.staminainner, result.xp,
-                    result.hours, result.isdead ) )
-        end
-    end) ]]
     local getPlayer = GetPlayerName(_source)
     if getPlayer and Config.PrintPlayerInfoOnEnter then
         print("Player ^2" .. getPlayer .. " ^7steam: ^3" .. steamIdentifier .. "^7 Loading...")

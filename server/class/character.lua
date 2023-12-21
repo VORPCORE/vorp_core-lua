@@ -4,6 +4,7 @@
 ---@field group fun(value:string):string
 ---@field job fun(value:string):string
 ---@field jobgrade fun(value:number):number
+---@field joblabel fun(value:string):string
 ---@field firstname fun(value:string):string
 ---@field lastname fun(value:string):string
 ---@field inventory fun(value:string):string
@@ -47,58 +48,34 @@ local function SetState(source, key, field, newValue)
     end
 end
 
----@param source number
----@param identifier string
----@param charIdentifier number
----@param group string
----@param job string
----@param jobgrade number
----@param firstname string
----@param lastname string
----@param inventory string
----@param status string
----@param coords vector
----@param money number
----@param gold number
----@param rol number
----@param healthOuter number
----@param healthInner number
----@param staminaOuter number
----@param staminaInner number
----@param xp number
----@param hours number
----@param isdead boolean
----@param skin table
----@param comps table
----@return Character
-function Character(source, identifier, charIdentifier, group, job, jobgrade, firstname, lastname, inventory, status,
-                   coords, money, gold, rol, healthOuter, healthInner, staminaOuter, staminaInner, xp, hours, isdead,
-                   skin,
-                   comps)
+--- Character class
+---@return Character @Character class
+function Character(data)
     local self = {}
-    self.identifier = identifier
-    self.charIdentifier = charIdentifier
-    self.group = group
-    self.job = job
-    self.jobgrade = jobgrade
-    self.firstname = firstname
-    self.lastname = lastname
-    self.inventory = inventory
-    self.status = status
-    self.coords = coords
-    self.skin = skin
-    self.comps = comps
-    self.money = money
-    self.gold = gold
-    self.rol = rol
-    self.healthOuter = healthOuter
-    self.healthInner = healthInner
-    self.staminaOuter = staminaOuter
-    self.staminaInner = staminaInner
-    self.xp = xp
-    self.hours = hours
-    self.isdead = isdead
-    self.source = source
+    self.identifier = data.identifier
+    self.charIdentifier = data.charIdentifier
+    self.group = data.group
+    self.job = data.job
+    self.joblabel = data.joblabel
+    self.jobgrade = data.jobgrade
+    self.firstname = data.firstname
+    self.lastname = data.lastname
+    self.inventory = data.inventory
+    self.status = data.status
+    self.coords = data.coords
+    self.skin = data.skin
+    self.comps = data.comps
+    self.money = data.money
+    self.gold = data.gold
+    self.rol = data.rol
+    self.healthOuter = data.healthOuter
+    self.healthInner = data.healthInner
+    self.staminaOuter = data.staminaOuter
+    self.staminaInner = data.staminaInner
+    self.xp = data.xp
+    self.hours = data.hours
+    self.isdead = data.isdead
+    self.source = data.source
 
     self.Identifier = function()
         return self.identifier
@@ -110,35 +87,57 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.Group = function(value)
-        if value then self.group = value end
-        TriggerEvent("vorp:playerGroupChange", self.source, self.group) -- listener for group change
-        SetState(self.source, "Character", "Group", self.group)
+        if value then
+            self.group = value
+            TriggerEvent("vorp:playerGroupChange", self.source, self.group) -- listener for group change
+            SetState(self.source, "Character", "Group", self.group)
+        end
+
         return self.group
     end
 
     self.Job = function(value)
-        if value then self.job = value end
-        TriggerEvent("vorp:playerJobChange", self.source, self.job) -- listener for job change
-        SetState(self.source, "Character", "Job", self.job)
+        if value then
+            self.job = value
+            TriggerEvent("vorp:playerJobChange", self.source, self.job) -- listener for job change
+            SetState(self.source, "Character", "Job", self.job)
+        end
         return self.job
     end
 
+    self.Joblabel = function(value)
+        if value then
+            self.joblabel = value
+            SetState(self.source, "Character", "JobLabel", self.joblabel)
+        end
+
+        return self.joblabel
+    end
+
     self.Jobgrade = function(value)
-        if value then self.jobgrade = value end
-        TriggerEvent("vorp:playerJobGradeChange", self.source, self.jobgrade) -- listener for job grade change
-        SetState(self.source, "Character", "Grade", self.jobgrade)
+        if value then
+            self.jobgrade = value
+            TriggerEvent("vorp:playerJobGradeChange", self.source, self.jobgrade) -- listener for job grade change
+            SetState(self.source, "Character", "Grade", self.jobgrade)
+        end
+
         return self.jobgrade
     end
 
     self.Firstname = function(value)
-        if value then self.firstname = value end
-        SetState(self.source, "Character", "FirstName", self.firstname)
+        if value then
+            self.firstname = value
+            SetState(self.source, "Character", "FirstName", self.firstname)
+        end
         return self.firstname
     end
 
     self.Lastname = function(value)
-        if value then self.lastname = value end
-        SetState(self.source, "Character", "LastName", self.lastname)
+        if value then
+            self.lastname = value
+            SetState(self.source, "Character", "LastName", self.lastname)
+        end
+
         return self.lastname
     end
 
@@ -158,7 +157,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     end
 
     self.Money = function(value)
-        if value  then self.money = value end
+        if value then self.money = value end
         return self.money
     end
 
@@ -210,23 +209,109 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
     self.Skin = function(value)
         if value then
             self.skin = value
-            MySQL.update("UPDATE characters SET `skinPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
-            , { value, self.Identifier(), self.CharIdentifier() })
+            MySQL.update("UPDATE characters SET `skinPlayer` = @skin WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier", { skin = value, identifier = self.identifier, charIdentifier = self.charIdentifier })
         end
-
         return self.skin
     end
 
     self.Comps = function(value)
         if value then
             self.comps = value
-            MySQL.update("UPDATE characters SET `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ?",
-                { value, self.Identifier(), self.CharIdentifier() })
+            MySQL.update("UPDATE characters SET `compPlayer` = @comps WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier", { comps = value, identifier = self.identifier, charIdentifier = self.charIdentifier })
         end
-
         return self.comps
     end
 
+    self.updateCharUi = function()
+        local nuipost = {
+            type = "ui",
+            action = "update",
+            moneyquanty = self.Money(),
+            goldquanty = self.Gold(),
+            rolquanty = self.Rol(),
+            serverId = self.source,
+            xp = self.Xp()
+        }
+        TriggerClientEvent("vorp:updateUi", self.source, json.encode(nuipost))
+    end
+
+    self.addCurrency = function(currency, quantity) --add check for security
+        if currency == 0 then
+            self.money = self.money + quantity
+        elseif currency == 1 then
+            self.gold = self.gold + quantity
+        elseif currency == 2 then
+            self.rol = self.rol + quantity
+        end
+        self.updateCharUi()
+    end
+
+    self.removeCurrency = function(currency, quantity)
+        if currency == 0 then
+            self.money = self.money - quantity
+        elseif currency == 1 then
+            self.gold = self.gold - quantity
+        elseif currency == 2 then
+            self.rol = self.rol - quantity
+        end
+        self.updateCharUi()
+    end
+
+    self.addXp = function(quantity)
+        self.xp = self.xp + quantity
+        self.updateCharUi()
+    end
+
+    self.removeXp = function(quantity)
+        self.Xp = self.xp - quantity
+        self.updateCharUi()
+    end
+
+    self.saveHealthAndStamina = function(healthOuter, healthInner, staminaOuter, staminaInner)
+        self.healthOuter = healthOuter
+        self.healthInner = healthInner
+        self.staminaOuter = staminaOuter
+        self.staminaInner = staminaInner
+    end
+
+    self.setJob = function(newjob)
+        self.Job(newjob)
+    end
+
+    self.setGroup = function(newgroup)
+        self.Group(newgroup)
+    end
+
+    self.setDead = function(dead)
+        self.IsDead(dead)
+    end
+
+    self.UpdateHours = function(hours)
+        self.hours = self.hours + hours
+    end
+
+    self.SaveNewCharacterInDb = function(cb)
+        MySQL.query("INSERT INTO characters (`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`,`joblabel`) VALUES (@identifier,@group, @money, @gold, @rol, @xp, @healthouter, @healthinner, @staminaouter, @staminainner, @hours, @inventory, @job, @status, @firstname, @lastname, @skinPlayer, @compPlayer, @jobgrade, @coords, @isdead, @joblabel)",
+            { identifier = self.identifier, group = self.group, money = self.money, gold = self.gold, rol = self.rol, xp = self.xp, healthouter = self.healthOuter, healthinner = self.healthInner, staminaouter = self.staminaOuter, staminainner = self.staminaInner, hours = self.hours, inventory = self.inventory, job = self.job, status = self.status, firstname = self.firstname, lastname = self.lastname, skinPlayer = self.skin, compPlayer = self.comps, jobgrade = self.jobgrade, coords = self.coords, isdead = self.isdead, joblabel = self.joblabel },
+            function(character)
+                cb(character.insertId)
+            end)
+    end
+
+    self.DeleteCharacter = function()
+        MySQL.query("DELETE FROM characters WHERE `identifier` = @identifier AND `charidentifier` = @charidentifier ", { identifier = self.identifier, charidentifier = self.charIdentifier })
+    end
+
+    self.SaveCharacterCoords = function(coords)
+        MySQL.update("UPDATE characters SET `coords` = @coords WHERE `identifier` =  @identifier AND `charidentifier` = @charidentifier", { coords = coords, identifier = self.identifier, charidentifier = self.charIdentifier })
+    end
+
+    self.SaveCharacterInDb = function()
+        MySQL.update("UPDATE characters SET `group` =@group ,`money` =@money ,`gold` =@gold ,`rol` =@rol ,`xp` =@xp ,`healthouter` =@healthouter ,`healthinner` =@healthinner ,`staminaouter` =@staminaouter ,`staminainner` =@staminainner ,`hours` =@hours ,`job` =@job , `status` =@status ,`firstname` =@firstname , `lastname` =@lastname , `jobgrade` =@jobgrade , `coords` =@coords , `isdead` =@isdead , `joblabel` =@joblabel WHERE `identifier` =@identifier AND `charidentifier` =@charidentifier",
+            { group = self.group, money = self.money, gold = self.gold, rol = self.rol, xp = self.xp, healthouter = self.healthOuter, healthinner = self.healthInner, staminaouter = self.staminaOuter, staminainner = self.staminaInner, hours = self.hours, job = self.job, status = self.status, firstname = self.firstname, lastname = self.lastname, jobgrade = self.jobgrade, coords = self.coords, isdead = self.isdead, joblabel = self.joblabel, identifier = self.identifier, charidentifier = self.charIdentifier })
+    end
+
+    -- getters and functions setters
     self.getCharacter = function()
         local userData = {}
 
@@ -234,6 +319,7 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         userData.charIdentifier = self.charIdentifier
         userData.group = self.group
         userData.job = self.job
+        userData.jobLabel = self.joblabel
         userData.jobGrade = self.jobgrade
         userData.money = self.money
         userData.gold = self.gold
@@ -260,17 +346,15 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         userData.setJobGrade = function(jobgrade)
             self.Jobgrade(jobgrade)
         end
-
+        userData.setJobLabel = function(joblabel)
+            self.Joblabel(joblabel)
+        end
         userData.setGroup = function(group)
             self.Group(group)
         end
 
         userData.setJob = function(job)
             self.Job(job)
-        end
-
-        self.setJobGrade = function(jobgrade)
-            self.Jobgrade(jobgrade)
         end
 
         userData.setMoney = function(money)
@@ -326,126 +410,20 @@ function Character(source, identifier, charIdentifier, group, job, jobgrade, fir
         end
 
         userData.updateCharUi = function()
-            local nuipost = {}
-
-            nuipost["type"] = "ui"
-            nuipost["action"] = "update"
-            nuipost["moneyquanty"] = self.Money()
-            nuipost["goldquanty"] = self.Gold()
-            nuipost["rolquanty"] = self.Rol()
-            nuipost["serverId"] = self.source
-            nuipost["xp"] = self.Xp()
+            local nuipost = {
+                type = "ui",
+                action = "update",
+                moneyquanty = self.Money(),
+                goldquanty = self.Gold(),
+                rolquanty = self.Rol(),
+                serverId = self.source,
+                xp = self.Xp()
+            }
 
             TriggerClientEvent("vorp:updateUi", self.source, json.encode(nuipost))
         end
 
         return userData
-    end
-
-    self.updateCharUi = function()
-        local nuipost = {}
-
-        nuipost["type"] = "ui"
-        nuipost["action"] = "update"
-        nuipost["moneyquanty"] = self.Money()
-        nuipost["goldquanty"] = self.Gold()
-        nuipost["rolquanty"] = self.Rol()
-        nuipost["serverId"] = self.source
-        nuipost["xp"] = self.Xp()
-
-        TriggerClientEvent("vorp:updateUi", self.source, json.encode(nuipost))
-    end
-
-    self.addCurrency = function(currency, quantity) --add check for security
-        if currency == 0 then
-            self.money = self.money + quantity
-        elseif currency == 1 then
-            self.gold = self.gold + quantity
-        elseif currency == 2 then
-            self.rol = self.rol + quantity
-        end
-        self.updateCharUi()
-    end
-
-    self.removeCurrency = function(currency, quantity) --add check for security
-        if currency == 0 then
-            self.money = self.money - quantity
-        elseif currency == 1 then
-            self.gold = self.gold - quantity
-        elseif currency == 2 then
-            self.rol = self.rol - quantity
-        end
-        self.updateCharUi()
-    end
-
-    self.addXp = function(quantity) --add check for security
-        self.xp = self.xp + quantity
-        self.updateCharUi()
-    end
-
-    self.removeXp = function(quantity) --add check for security
-        self.Xp = self.xp - quantity
-        self.updateCharUi()
-    end
-
-    self.saveHealthAndStamina = function(healthOuter, healthInner, staminaOuter, staminaInner)
-        self.healthOuter = healthOuter
-        self.healthInner = healthInner
-        self.staminaOuter = staminaOuter
-        self.staminaInner = staminaInner
-    end
-
-    self.setJob = function(newjob)
-        self.Job(newjob)
-    end
-
-    self.setGroup = function(newgroup)
-        self.Group(newgroup)
-    end
-
-    self.setDead = function(dead)
-        self.IsDead(dead)
-    end
-
-    self.UpdateHours = function(hours)
-        self.hours = self.hours + hours
-    end
-
-    self.SaveNewCharacterInDb = function(cb)
-        MySQL.query(
-            "INSERT INTO characters(`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-            ,
-            { self.Identifier(), self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.HealthOuter(),
-                self.HealthInner(), self.StaminaOuter(), self.StaminaInner(), self.Hours(), self.Inventory(), self.Job(),
-                self.Status(), self.Firstname(), self.Lastname(), self.Skin(), self.Comps(), self.Jobgrade(),
-                self.Coords(), self.IsDead()
-            },
-            function(character)
-                cb(character.insertId)
-            end)
-    end
-
-    self.DeleteCharacter = function()
-        MySQL.query("DELETE FROM characters WHERE `identifier` = ? AND `charidentifier` = ? ",
-            { self.Identifier(), self.CharIdentifier() })
-    end
-
-    self.SaveCharacterCoords = function(coords)
-        self.Coords(coords)
-        MySQL.update("UPDATE characters SET `coords` = ? WHERE `identifier` = ? AND `charidentifier` = ?",
-            { self.Coords(), self.Identifier(), self.CharIdentifier() })
-    end
-
-    self.SaveCharacterInDb = function()
-        MySQL.update(
-            "UPDATE characters SET `group` = ?,`money` = ?,`gold` = ?,`rol` = ?,`xp` = ?,`healthouter` = ?,`healthinner` = ?,`staminaouter` = ?,`staminainner` = ?,`hours` = ?,`job` = ?, `status` = ?,`firstname` = ?, `lastname` = ?, `jobgrade` = ?,`coords` = ?,`isdead` = ? WHERE `identifier` = ? AND `charidentifier` = ?"
-            ,
-            { self.Group(), self.Money(), self.Gold(), self.Rol(), self.Xp(), self.HealthOuter(), self.HealthInner(),
-                self.StaminaOuter(), self.StaminaInner(), self.Hours(), self.Job(), self.Status(), self.Firstname(),
-                self.Lastname(), self.Jobgrade(), self.Coords(), self.IsDead(), tostring(self.Identifier()),
-                self.CharIdentifier()
-            }
-        )
     end
 
     return self
