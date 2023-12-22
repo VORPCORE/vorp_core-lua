@@ -50,8 +50,8 @@ function User(source, identifier, group, playerwarnings, license, char)
                     FirstName = self._usercharacters[self.usedCharacterId].getCharacter().firstname,
                     LastName = self._usercharacters[self.usedCharacterId].getCharacter().lastname,
                     Job = self._usercharacters[self.usedCharacterId].getCharacter().job,
-                    JobLabel = self._usercharacters[self.usedCharacterId].getCharacter().joblabel,
-                    Grade = self._usercharacters[self.usedCharacterId].getCharacter().jobgrade,
+                    JobLabel = self._usercharacters[self.usedCharacterId].getCharacter().jobLabel,
+                    Grade = self._usercharacters[self.usedCharacterId].getCharacter().jobGrade,
                     IsInSession = true
 
                 }, true)
