@@ -23,13 +23,14 @@ Config = {
     initJob                  = "unemployed", -- leave it like this
     initJobGrade             = 0,            -- leave it like this
     initGroup                = "user",       -- leave it like this
+    initJobLabel             = "Unemployed", -- leave it like this
     Whitelist                = false,        -- dont use
     AllowWhitelistAutoUpdate = false,        -- dont use
-    SavePlayersStatus        = false,        -- save players health stamina inner and outter core to DB?
+    SavePlayersStatus        = false,        -- dont use this it will be removed soon, no place for core.
     maxHealth                = 10,           -- 10 is FULL 0 IS EMPTY define max outer core for players
     maxStamina               = 10,           -- 10 is FULL 0 IS EMPTY define max outer core for players
     PVP                      = true,         -- Can players attack/hurt one another
-    PVPToggle                = true,         -- If true, players can set their own pvp state
+    PVPToggle                = false,         -- If true, players can set their own pvp state
     CommandOnOffPVP          = 'pvp',        -- [ NEED PVPToggle = true ] TOGGLE or OFF pvp for your character
     savePlayersTimer         = 10,           -- this will tell the core in how many minutes should all players be saved to the database
     showplayerIDwhenfocus    = true,         -- set false will show steam name when focus on another player RMB
@@ -37,7 +38,6 @@ Config = {
     SavePlayersHours         = false,        -- if you want to save players played hours in DB, tx admin already have this
     --========================================
     ---MULTICHAR
-    SaveSteamNameDB          = true,  -- TRUE if you want save steamname on character DB when player drop (need to update SQL)
     SaveDiscordNameDB        = false,  -- TRUE if you want save discordid on character/user DB when player join and drop (need to update SQL)
     UseCharPermission        = false, -- | if false it will let players create maxchars bellow
     MaxCharacters            = 5,     -- MAX ALLOWED TO BE CREATED [if UseCharPermission = true, SELECTED players(with command) can create MaxCharacters characters / if UseCharPermission = false, players can create MaxCharacters characters]

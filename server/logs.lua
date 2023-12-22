@@ -1,27 +1,6 @@
 --------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------- DISCORD --------------------------------------------------------
 
-function GetIdentity(source, identity)
-    local num = 0
-    if not source then return end
-
-    local num2 = GetNumPlayerIdentifiers(source)
-
-    if num2 and num2 > 0 then
-        local ident = nil
-        while num < num2 and not ident do
-            local a = GetPlayerIdentifier(source, num)
-            if string.find(a, identity) then ident = a end
-            num = num + 1
-        end
-
-        if ident == nil then
-            return ""
-        end
-        return string.sub(ident, 9)
-    end
-end
-
 RegisterServerEvent('vorp_core:addWebhook')
 AddEventHandler('vorp_core:addWebhook', function(title, webhook, description, color, name, logo, footerlogo, avatar)
     PerformHttpRequest(webhook, function(err, text, headers)

@@ -39,7 +39,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
     else
         --New User
         MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, "false" })
-        _users[identifier] = User(source, identifier, "user", 0, license)
+        _users[identifier] = User(source, identifier, "user", 0, license, false)
         deferrals.done()
     end
 end
@@ -63,18 +63,17 @@ AddEventHandler('playerDropped', function()
             _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
             _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
         end
-        _users[identifier].SaveUser(pCoords, pHeading)
-        Player(_source).state:set('Character', {}, true)
+
         if Config.PrintPlayerInfoOnLeave then
             print('Player ^2' .. steamName .. ' ^7steam:^3 ' .. identifier .. '^7 saved')
         end
+
+        _users[identifier].SaveUser(pCoords, pHeading)
+        Player(_source).state:set('Character', {}, true)
         _users[identifier] = nil
     end
 
-    if Config.SaveSteamNameDB then
-        MySQL.update('UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ',
-            { steamName, identifier })
-    end
+    MySQL.update('UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ', { steamName, identifier })
 
     if Config.SaveDiscordNameDB then
         local discordIdentity = GetPlayerIdentifierByType(_source, 'discord')
@@ -92,29 +91,27 @@ AddEventHandler('playerJoining', function()
     local isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
 
     if not Config.Whitelist and not isWhiteListed then
-        MySQL.insert.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)"
-        , { identifier, false, true })
-
+        MySQL.insert.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)",
+            { identifier, false, true })
         isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     end
 
     local userid = isWhiteListed and isWhiteListed.id
     if not _whitelist[userid] then
-        _whitelist[userid] = Whitelist(userid, identifier, false, true)
+        _whitelist[userid] = Whitelist(userid, identifier, 0, true)
     end
 
     local entry = _whitelist[userid].GetEntry()
     if entry.getFirstconnection() then
         local steamName = GetPlayerName(_source) or ""
-        local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier,
-            discordId, userid)
-        TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook,
-            message)
+        local discordId = ""
         if Config.SaveDiscordNameDB then
             local discordIdentity = GetPlayerIdentifierByType(_source, 'discord')
-            local discordId = discordIdentity and discordIdentity:sub(9) or ""
+            discordId = discordIdentity and discordIdentity:sub(9) or ""
             MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
         end
+        local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier, discordId, userid)
+        TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook, message)
         entry.setFirstconnection(false)
     end
 end)
@@ -240,9 +237,9 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(Config.savePlayersTimer * 60000)             -- this should be above 10 minutes
+        Citizen.Wait(Config.savePlayersTimer * 60000)          
         for k, v in pairs(_users) do
-            if v.usedCharacterId and v.usedCharacterId ~= -1 then -- save only when player has selected char and save only that char
+            if v.usedCharacterId and v.usedCharacterId ~= -1 then 
                 v.SaveUser()
             end
         end
