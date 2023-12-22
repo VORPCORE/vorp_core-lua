@@ -249,7 +249,7 @@ end
 --REVIVEPLAYERS
 function RevivePlayer(data)
     local target = tonumber(data.args[1])
-    TriggerClientEvent('vorp:resurrectPlayer', target)
+    TriggerClientEvent('vorp:resurrectPlayer', target) -- heal target
     SendDiscordLogs(data.config.webhook, data, target, "", "")
     VorpCore.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.revived, target), 4000)
 end
@@ -288,14 +288,18 @@ end
 --BANPLAYERS
 function BanPlayers(data)
     local target = tonumber(data.args[1])
-    if data.source == target then 
+    if data.source == target then -- check if the target is the same as the source
+        return
+    end
+    local user = VorpCore.getUser(target)
+    if not user then
         return
     end
 
-    local banTime = tonumber(data.args[2]:match("%d+")) 
-    if not banTime then return end                   
+    local banTime = tonumber(data.args[2]:match("%d+")) -- get unit from argument
+    if not banTime then return end                      -- check if the ban time is valid
 
-    local unit = tostring(data.args[2]:match("%a+"))   
+    local unit = tostring(data.args[2]:match("%a+"))    -- get character from argument
     if unit == "d" then
         banTime = banTime * 24
     elseif unit == "w" then
@@ -309,7 +313,9 @@ function BanPlayers(data)
     local datetime = os.time() + banTime * 3600
     TriggerEvent("vorpbans:addtodb", true, target, banTime)
 
-    local text = banTime == 0 and Translation[Lang].Notify.banned or (Translation[Lang].Notify.banned2 .. os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600) .. Config.TimeZone)
+    local text = banTime == 0 and Translation[Lang].Notify.banned or
+        (Translation[Lang].Notify.banned2 .. os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600) .. Config.TimeZone)
+
     SendDiscordLogs(data.config.webhook, data, data.source, text, "")
 end
 
@@ -378,11 +384,12 @@ function ModifyCharName(data)
     local firstname = tostring(data.args[2])
     local lastname = tostring(data.args[3])
 
-    local Character = VorpCore.getUser(target).getUsedCharacter
+    local Character = VorpCore.getUser(target).getUsedCharacter -- get old name
     Character.setFirstname(firstname)
     Character.setLastname(lastname)
     SendDiscordLogs(data.config.webhook, data, data.source, firstname, lastname)
-    VorpCore.NotifyRightTip(target, string.format(Translation[Lang].Notify.namechange, firstname, lastname), 4000)
+    VorpCore.NotifyRightTip(target,
+        string.format(Translation[Lang].Notify.namechange, firstname, lastname), 4000)
 end
 
 --MYJOB
@@ -394,7 +401,7 @@ function MyJob(data)
     VorpCore.NotifyRightTip(_source, T.myjob .. job .. T.mygrade .. grade, 4000)
 end
 
---MY HOURS
+--MYHOUR
 function MyHours(data)
     local _source = data.source
     local User    = VorpCore.getUser(_source).getUsedCharacter

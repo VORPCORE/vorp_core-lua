@@ -37,16 +37,35 @@ local function SetUpdateWhitelistPolicy() -- this needs a source to only get the
 end
 
 function GetSteamID(src)
-    local steamId = GetPlayerIdentifier(src, 1)
-    return steamId
+    if not src then
+        return false
+    end
+
+    local sid = GetPlayerIdentifiers(src)[1] or false
+
+    if sid == false or sid:sub(1, 5) ~= "steam" then
+        return false
+    end
+    return sid
 end
+
+local function GetIdentifier(source, id_type)
+    if type(id_type) ~= "string" then return print('Invalid usage') end
+
+    for _, identifier in pairs(GetPlayerIdentifiers(source)) do
+        if string.find(identifier, id_type) then
+            return identifier
+        end
+    end
+    return nil
+end
+
 
 local function GetLicenseID(src)
     local sid = GetPlayerIdentifiers(src)[2] or false
     if (sid == false or sid:sub(1, 5) ~= "license") then
         return false
     end
-    print(sid, " whats this")
     return sid
 end
 
@@ -64,18 +83,22 @@ local function InsertIntoWhitelist(identifier)
         return GetUserId(identifier)
     end
 
-    MySQL.prepare.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)",
-        { identifier, false, true })
-    local entryList = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
-    _whitelist[entryList.id] = Whitelist(entryList.id, identifier, 0, true)
+    MySQL.prepare.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)"
+    , { identifier, false, true }, function(result)
+    end)
 
-    return entryList.id
+    local entryList = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
+    local currentFreeId
+    if entryList then
+        local entry = entryList
+        currentFreeId = entry.id
+    end
+    _whitelist[currentFreeId] = Whitelist(currentFreeId, identifier, false, true)
+
+    return currentFreeId
 end
 
 CreateThread(function()
-    if not Config.Whitelist then
-        return
-    end
     LoadWhitelist()
     SetUpdateWhitelistPolicy()
 end)
@@ -85,7 +108,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     local userEntering = false
     deferrals.defer()
     local playerWlId = nil
-    local steamIdentifier = GetSteamID(_source)
+    local steamIdentifier = GetIdentifier(_source, 'steam')
 
     if not steamIdentifier then
         deferrals.done(T.NoSteam)

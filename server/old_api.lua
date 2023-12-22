@@ -1,4 +1,4 @@
----@deprecated PLEASE UPDATE TO NEW API
+--DEPRECATE PLEASE UPDATE TO NEW API
 exports('vorpAPI', function()
     local self = {}
 
