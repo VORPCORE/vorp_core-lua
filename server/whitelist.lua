@@ -37,7 +37,7 @@ local function SetUpdateWhitelistPolicy() -- this needs a source to only get the
 end
 
 function GetSteamID(src)
-    local steamId = GetPlayerIdentifier(src, 1)
+    local steamId = GetPlayerIdentifierByType(src, 'steam')
     return steamId
 end
 
@@ -46,7 +46,6 @@ local function GetLicenseID(src)
     if (sid == false or sid:sub(1, 5) ~= "license") then
         return false
     end
-    print(sid, " whats this")
     return sid
 end
 
