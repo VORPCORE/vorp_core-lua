@@ -187,6 +187,11 @@ function CoreAction.Player.RespawnPlayer()
             closestDistance = currentDistance
             closestLocation = location.name
             coords = location.pos
+			
+			--Set horizon, map and water type
+			Citizen.InvokeNative(0x74E2261D2A66849A, location.horizonType) --Set world horizon
+			Citizen.InvokeNative(0xA657EC9DBC6CC900, location.minimapZone) --Set Minimap Zone
+			Citizen.InvokeNative(0xE8770EE02AEE45C2, location.waterType) --Set Water type
         end
     end
 

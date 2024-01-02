@@ -99,23 +99,38 @@ Config = {
         Valentine = {
             name = "Valentine",
             pos = vector4(-283.83, 806.4, 119.38, 321.76), -- use vorp admin to get vector4 x y z h
+			horizonType = false, -- Normal world horizon
+			minimapZone = -1868977180, -- Minimap Zone
+			waterType = 0 -- Water type : 0 = World, 1= Guarma
         },
         SaintDenis = {
             name = "Saint Denis",
             pos = vector4(2721.4562, -1446.0975, 46.2303, 321.76),
+			horizonType = false, -- Normal world horizon
+			minimapZone = -1868977180, -- Minimap Zone
+			waterType = 0 -- Water type : 0 = World, 1= Guarma
         },
         Armadillo = {
             name = "Armadillo",
             pos = vector4(-3742.5, -2600.9, -13.23, 321.76),
+			horizonType = false, -- Normal world horizon
+			minimapZone = -1868977180, -- Minimap Zone
+			waterType = 0 -- Water type : 0 = World, 1= Guarma
         },
         Blackwater = {
             name = "Black water",
             pos = vector4(-723.9527, -1242.8358, 44.7341, 321.76),
+			horizonType = false, -- Normal world horizon
+			minimapZone = -1868977180, -- Minimap Zone
+			waterType = 0 -- Water type : 0 = World, 1= Guarma
         },
         Rhodes = {
             name = "Rhodes",
             pos = vector4(1229.0, -1306.1, 76.9, 321.76),
-        },
+			horizonType = false, -- Normal world horizon
+			minimapZone = -1868977180, -- Minimap Zone
+			waterType = 0 -- Water type : 0 = World, 1= Guarma
+        }
     },
     ActiveEagleEye           = true,
     ActiveDeadEye            = false,
