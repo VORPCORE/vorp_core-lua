@@ -64,6 +64,7 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
             if Config.Loadinscreen then
                 Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.forcedrespawn, T.forced, T.Almost)
             end
+            SetEntityCanBeDamaged(PlayerPedId(), true)
             TriggerServerEvent("vorp:PlayerForceRespawn")
             TriggerEvent("vorp:PlayerForceRespawn")
             CoreAction.Player.RespawnPlayer()
@@ -107,6 +108,8 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
             multiplierStamina = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId) -- GetPlayerStaminaRechargeMultiplier
         end
 
+        SetEntityCanBeDamaged(PlayerPedId(), true)
+
         if Config.SavePlayersStatus then
             TriggerServerEvent("vorp:GetValues")
             Wait(10000)
@@ -132,7 +135,6 @@ RegisterNetEvent("vorp:SelectedCharacter", function()
     CoreAction.Utils.setPVP()
     local PlayerPed = PlayerPedId()
     local PlayerId = PlayerId()
-    SetEntityCanBeDamaged(PlayerPed, true)
     Citizen.InvokeNative(0xA63FCAD3A6FEC6D2, PlayerId, Config.ActiveEagleEye)
     Citizen.InvokeNative(0x95EE1DEE1DCD9070, PlayerId, Config.ActiveDeadEye)
     TriggerEvent("vorp:showUi", not Config.HideUi)
