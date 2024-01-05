@@ -112,12 +112,14 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
 
         if Config.SavePlayersStatus then
             TriggerServerEvent("vorp:GetValues")
-            Wait(10000)
-            local player = PlayerPedId()
-            Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner)
-            SetEntityHealth(player, HealthData.hOuter + HealthData.hInner, 0)
-            Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner)
-            Citizen.InvokeNative(0x675680D089BFA21F, player, HealthData.sOuter / 1065353215 * 100)
+            Wait(200)
+            if HealthData then
+                local player = PlayerPedId()
+                Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner or 600)
+                SetEntityHealth(player, (HealthData.hOuter or 600) + (HealthData.hInner or 600), 0)
+                Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner or 600)
+                Citizen.InvokeNative(0x675680D089BFA21F, player, HealthData.sOuter / 1065353215 * 100 or 1065353215 * 100)
+            end
             HealthData = {}
         else
             CoreAction.Admin.HealPlayer()
