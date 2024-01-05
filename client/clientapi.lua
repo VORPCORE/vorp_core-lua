@@ -1,4 +1,5 @@
 local CoreFunctions = {}
+local ScreenResolution = nil
 
 CoreFunctions.RpcCall = function(name, callback, ...)
     ClientRPC.Callback.TriggerAsync(name, callback, ...)
@@ -76,6 +77,18 @@ CoreFunctions.NotifyLeftRank = function(title, subtitle, dict, icon, duration, c
         tonumber(duration), tostring(color or "COLOR_WHITE"))
 end
 
+CoreFunctions.Graphics = {
+    ScreenResolution = function()
+        if ScreenResolution then
+            return ScreenResolution
+        end
+
+        SendNUIMessage({ type = "getRes" })
+        repeat Wait(0) until ScreenResolution ~= nil
+        return ScreenResolution
+    end
+}
+
 CoreFunctions.Callback = {
     Register = function(name, callback)
         ClientRPC.Callback.Register(name, callback)
@@ -88,6 +101,11 @@ CoreFunctions.Callback = {
     end
 }
 
+RegisterNUICallback('getRes', function(args, cb)
+    ScreenResolution = args
+    cb('ok')
+end)
+
 exports('GetCore', function()
     return CoreFunctions
 end)
@@ -95,4 +113,9 @@ end)
 ---@deprecated
 AddEventHandler('getCore', function(cb)
     return cb(CoreFunctions)
+end)
+
+CreateThread(function()
+    Wait(0)
+    SendNUIMessage({ type = "getRes" })
 end)
