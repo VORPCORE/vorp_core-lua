@@ -208,27 +208,22 @@ RegisterNetEvent("vorp:GetValues")
 AddEventHandler("vorp:GetValues", function()
     -- Default values
     local healthData = {
-        hOuter = 0,
-        hInner = 0,
-        sOuter = 0,
-        sInner = 0,
+        hOuter = 10,
+        hInner = 10,
+        sOuter = 10,
+        sInner = 10,
     }
 
     local _source = source
     local identifier = GetSteamID(_source)
-
     local user = _users[identifier] or nil
-
-    -- Only if the player exists in online table...
     if user and user.GetUsedCharacter then
         local used_char = user.GetUsedCharacter() or nil
-
-        -- Only there is an character...
         if used_char then
-            healthData.hOuter = used_char.HealthOuter() or 0
-            healthData.hInner = used_char.HealthInner() or 0
-            healthData.sOuter = used_char.StaminaOuter() or 0
-            healthData.sInner = used_char.StaminaInner() or 0
+            healthData.hOuter = used_char.HealthOuter() or 10
+            healthData.hInner = used_char.HealthInner() or 10
+            healthData.sOuter = used_char.StaminaOuter() or 10
+            healthData.sInner = used_char.StaminaInner() or 10
         end
     end
 
@@ -237,9 +232,9 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(Config.savePlayersTimer * 60000)          
+        Citizen.Wait(Config.savePlayersTimer * 60000)
         for k, v in pairs(_users) do
-            if v.usedCharacterId and v.usedCharacterId ~= -1 then 
+            if v.usedCharacterId and v.usedCharacterId ~= -1 then
                 v.SaveUser()
             end
         end

@@ -116,9 +116,12 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
             if HealthData then
                 local player = PlayerPedId()
                 Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner or 600)
-                SetEntityHealth(player, (HealthData.hOuter or 600) + (HealthData.hInner or 600), 0)
+                SetEntityHealth(player,
+                    (HealthData.hOuter and HealthData.hOuter > 0 and HealthData.hOuter or 600) +
+                    (HealthData.hInner and HealthData.hInner > 0 and HealthData.hInner or 600), 0)
                 Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner or 600)
-                Citizen.InvokeNative(0x675680D089BFA21F, player, HealthData.sOuter / 1065353215 * 100 or 1065353215 * 100)
+                Citizen.InvokeNative(0x675680D089BFA21F, player,
+                    (HealthData.sOuter or (1065353215 * 100)) / 1065353215 * 100)
             end
             HealthData = {}
         else
