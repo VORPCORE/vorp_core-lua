@@ -93,10 +93,15 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         return
     end
 
-    if steamIdentifier and _users[steamIdentifier] and not _usersLoading[steamIdentifier] then --Save and delete
+    if _users[steamIdentifier] then
+        deferrals.done("You have been caught trying to enter with another account")
+        return CancelEvent()
+    end
+
+    --[[  if steamIdentifier and _users[steamIdentifier] and not _usersLoading[steamIdentifier] then --Save and delete
         _users[steamIdentifier].SaveUser()
         _users[steamIdentifier] = nil
-    end
+    end ]]
 
     if Config.Whitelist then
         playerWlId = GetUserId(steamIdentifier)
