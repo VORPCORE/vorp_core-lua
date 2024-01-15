@@ -41,6 +41,12 @@ function GetSteamID(src)
     return steamId
 end
 
+function GetDiscordID(src)
+    local discordIdentifier = GetPlayerIdentifierByType(src, 'discord')
+    local discordId = discordIdentifier and discordIdentifier:sub(9) or ""
+    return discordId
+end
+
 local function GetLicenseID(src)
     local sid = GetPlayerIdentifiers(src)[2] or false
     if (sid == false or sid:sub(1, 5) ~= "license") then
