@@ -34,7 +34,6 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
         end
 
         _users[identifier].LoadCharacters()
-
         deferrals.done()
     else
         --New User
@@ -67,12 +66,11 @@ AddEventHandler('playerDropped', function()
         if Config.PrintPlayerInfoOnLeave then
             print('Player ^2' .. steamName .. ' ^7steam:^3 ' .. identifier .. '^7 saved')
         end
-
         _users[identifier].SaveUser(pCoords, pHeading)
         Player(_source).state:set('Character', {}, true)
-        _users[identifier] = nil
     end
 
+    _users[identifier] = nil
     MySQL.update('UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ', { steamName, identifier })
 
     if Config.SaveDiscordNameDB then
