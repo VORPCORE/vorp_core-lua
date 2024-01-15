@@ -81,50 +81,45 @@ end)
 
 AddEventHandler("playerConnecting", function(playerName, setKickReason, deferrals)
     local _source = source
-    local userEntering = false
     deferrals.defer()
-    local playerWlId = nil
+
     local steamIdentifier = GetSteamID(_source)
 
     if not steamIdentifier then
         deferrals.done(T.NoSteam)
-        userEntering = false
-        CancelEvent()
-        return
-    end
-
-    if _users[steamIdentifier] then
-        deferrals.done("You have been caught trying to enter with another account")
+        setKickReason(T.NoSteam)
         return CancelEvent()
     end
 
-    --[[  if steamIdentifier and _users[steamIdentifier] and not _usersLoading[steamIdentifier] then --Save and delete
-        _users[steamIdentifier].SaveUser()
-        _users[steamIdentifier] = nil
-    end ]]
+    if _users[steamIdentifier] then
+        deferrals.done("You have been detected trying to enter with another account when you are already connected")
+        setKickReason("An account with the same steam identifier is already connected")
+        return CancelEvent()
+    end
+
+    if _usersLoading[steamIdentifier] then
+        deferrals.done("This account is already loading")
+        setKickReason("This account is already loading you cant load it twice")
+        return CancelEvent()
+    end
 
     if Config.Whitelist then
-        playerWlId = GetUserId(steamIdentifier)
+        local playerWlId = GetUserId(steamIdentifier)
         if _whitelist[playerWlId] and _whitelist[playerWlId].GetEntry().getStatus() then
             deferrals.done()
-            userEntering = true
         else
             playerWlId = InsertIntoWhitelist(steamIdentifier)
             deferrals.done(T.NoInWhitelist .. playerWlId)
             setKickReason(T.NoInWhitelist .. playerWlId)
+            return CancelEvent()
         end
-    else
-        userEntering = true
     end
 
-    if userEntering then
-        deferrals.update(T.LoadingUser)
-        LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
-    end
 
-    local getPlayer = GetPlayerName(_source)
-    if getPlayer and Config.PrintPlayerInfoOnEnter then
-        print("Player ^2" .. getPlayer .. " ^7steam: ^3" .. steamIdentifier .. "^7 Loading...")
+    deferrals.update(T.LoadingUser)
+    LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
+
+    if playerName and Config.PrintPlayerInfoOnEnter then
+        print("Player ^2" .. playerName .. " ^7steam: ^3" .. steamIdentifier .. "^7 Loading...")
     end
-    --When player is fully connected then load!!!!
 end)
