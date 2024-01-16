@@ -70,6 +70,10 @@ AddEventHandler('playerDropped', function()
         Player(_source).state:set('Character', {}, true)
     end
 
+    if _usersLoading[identifier] == false or _usersLoading[identifier] then
+        _usersLoading[identifier] = nil
+    end
+
     _users[identifier] = nil
     MySQL.update('UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ', { steamName, identifier })
 
