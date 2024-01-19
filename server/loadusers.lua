@@ -46,6 +46,7 @@ end
 AddEventHandler('playerDropped', function()
     local _source = source
     local identifier = GetSteamID(_source)
+    local discordId = GetDiscordID(_source)
     local steamName = GetPlayerName(_source)
     local pCoords, pHeading
 
@@ -78,8 +79,6 @@ AddEventHandler('playerDropped', function()
     MySQL.update('UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ', { steamName, identifier })
 
     if Config.SaveDiscordNameDB then
-        local discordIdentity = GetPlayerIdentifierByType(_source, 'discord')
-        local discordId = discordIdentity and discordIdentity:sub(9) or ""
         MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
     end
 end)
@@ -90,11 +89,11 @@ AddEventHandler('playerJoining', function()
     local _source = source
     Player(_source).state:set('Character', { IsInSession = false }, true)
     local identifier = GetSteamID(_source)
+    local discordId = GetDiscordID(_source)
     local isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
 
     if not Config.Whitelist and not isWhiteListed then
-        MySQL.insert.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)",
-            { identifier, false, true })
+        MySQL.insert.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)", { identifier, false, true })
         isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     end
 
@@ -106,10 +105,7 @@ AddEventHandler('playerJoining', function()
     local entry = _whitelist[userid].GetEntry()
     if entry.getFirstconnection() then
         local steamName = GetPlayerName(_source) or ""
-        local discordId = ""
         if Config.SaveDiscordNameDB then
-            local discordIdentity = GetPlayerIdentifierByType(_source, 'discord')
-            discordId = discordIdentity and discordIdentity:sub(9) or ""
             MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
         end
         local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier, discordId, userid)
