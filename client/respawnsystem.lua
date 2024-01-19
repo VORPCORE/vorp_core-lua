@@ -193,7 +193,7 @@ function CoreAction.Player.RespawnPlayer()
     TriggerEvent("vorpmetabolism:changeValue", "Thirst", 1000)
     TriggerEvent("vorpmetabolism:changeValue", "Hunger", 1000)
     CoreAction.Player.ResurrectPlayer(coords, closestLocation, false)
-    TriggerServerEvent("vorpcharacter:getPlayerSkin")
+    -- TriggerServerEvent("vorpcharacter:getPlayerSkin")
 end
 
 -- CREATE PROMPT
