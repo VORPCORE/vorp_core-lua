@@ -41,14 +41,13 @@ function GetSteamID(src)
     return steamId
 end
 
-local function GetLicenseID(src)
+function GetLicenseID(src)
     local sid = GetPlayerIdentifiers(src)[2] or false
     if (sid == false or sid:sub(1, 5) ~= "license") then
         return false
     end
     return sid
 end
-
 
 function GetUserId(identifier)
     for k, v in pairs(_whitelist) do
@@ -91,16 +90,18 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         return CancelEvent()
     end
 
-    if _users[steamIdentifier] then
-        deferrals.done("You have been detected trying to enter with another account when you are already connected")
-        setKickReason("An account with the same steam identifier is already connected")
-        return CancelEvent()
-    end
+    if Config.CheckDoubleAccounts then
+        if _users[steamIdentifier] then
+            deferrals.done("You have been detected trying to enter with another account when you are already connected")
+            setKickReason("An account with the same steam identifier is already connected")
+            return CancelEvent()
+        end
 
-    if _usersLoading[steamIdentifier] then
-        deferrals.done("This account is already loading")
-        setKickReason("This account is already loading you cant load it twice")
-        return CancelEvent()
+        if _usersLoading[steamIdentifier] then
+            deferrals.done("This account is already loading")
+            setKickReason("This account is already loading you cant load it twice")
+            return CancelEvent()
+        end
     end
 
     if Config.Whitelist then
@@ -115,10 +116,8 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         end
     end
 
-
     deferrals.update(T.LoadingUser)
     LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
-
     if playerName and Config.PrintPlayerInfoOnEnter then
         print("Player ^2" .. playerName .. " ^7steam: ^3" .. steamIdentifier .. "^7 Loading...")
     end

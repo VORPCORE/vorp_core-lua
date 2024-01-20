@@ -6,7 +6,6 @@ local T = Translation[Lang].MessageOfSystem
 
 function LoadUser(source, setKickReason, deferrals, identifier, license)
     local resultList = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
-    _usersLoading[identifier] = true
 
     if resultList then
         local user = resultList
@@ -27,18 +26,9 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
             end
         end
 
-        if Config.UseCharPermission then
-            _users[identifier] = User(source, identifier, user["group"], user["warnings"], license, user["char"])
-        else
-            _users[identifier] = User(source, identifier, user["group"], user["warnings"], license, false)
-        end
-
-        _users[identifier].LoadCharacters()
         deferrals.done()
     else
         --New User
-        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, "false" })
-        _users[identifier] = User(source, identifier, "user", 0, license, false)
         deferrals.done()
     end
 end
@@ -84,12 +74,42 @@ AddEventHandler('playerDropped', function()
     end
 end)
 
+-- LOAD USER needs to be done here so when they leave it detects they left, playerConnecting there's no way to detect users leaving
+AddEventHandler("playerJoining", function()
+    local _source = source
+    local identifier = GetSteamID(_source)
+    local license = GetLicenseID(_source)
+
+    if not identifier then
+        return print("user cant load no identifier steam found make sure steam web API key is set up")
+    end
+    _usersLoading[identifier] = true
+
+    local resultList = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
+    if resultList then
+        local user = resultList
+        if Config.UseCharPermission then
+            _users[identifier] = User(source, identifier, user.group, user.warnings, license, user.char)
+        else
+            _users[identifier] = User(source, identifier, user.group, user.warnings, license, false)
+        end
+
+        _users[identifier].LoadCharacters()
+    else
+        --New User
+        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, "false" })
+        _users[identifier] = User(source, identifier, "user", 0, license, false)
+    end
+end)
 
 
+--WHITELIST
 AddEventHandler('playerJoining', function()
     local _source = source
+
     Player(_source).state:set('Character', { IsInSession = false }, true)
     local identifier = GetSteamID(_source)
+
     local isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
 
     if not Config.Whitelist and not isWhiteListed then
