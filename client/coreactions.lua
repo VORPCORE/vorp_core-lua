@@ -174,7 +174,7 @@ function CoreAction.Admin.TeleportToWayPoint()
     local found = false
 
     if not waypoint then
-        return VorpNotification:NotifyRightTip("~e~you need to set a waypoint", 3000)
+        return VorpNotification:NotifyRightTip(T.wayPoint, 3000)
     end
 
     DoScreenFadeOut(500)
