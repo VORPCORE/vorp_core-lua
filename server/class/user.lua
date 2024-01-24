@@ -6,7 +6,7 @@
 ---@field Group fun(value:string):string
 ---@field Playerwarnings fun(value:number):number
 ---@field Charperm fun(value:boolean):boolean
----@field GetUser fun():{getCharperm:boolean, source:number, getGroup:string, getUsedCharacter:table, getUserCharacters:table, getIdentifier:fun():string, getPlayerwarnings:fun():number, setPlayerWarnings:fun(warnings:number), setGroup:fun(group:string), setCharperm:fun(char:boolean), getNumOfCharacters:fun():number, addCharacter:fun(firstname:string, lastname:string, skin:table, comps:table), removeCharacter:fun(charid:number), setUsedCharacter:fun(charid:number)}
+---@field GetUser fun():table
 ---@field UsedCharacter fun():table
 ---@field UserCharacters fun():table
 ---@field LoadCharacters fun()
@@ -26,7 +26,6 @@
 ---@return User
 function User(source, identifier, group, playerwarnings, license, char)
     local self = {}
-
     self._identifier = identifier
     self._license = license
     self._group = group
@@ -42,17 +41,25 @@ function User(source, identifier, group, playerwarnings, license, char)
             self.usedCharacterId = value
             self._usercharacters[value].source = self.source
             self._usercharacters[value].updateCharUi()
+            local player = self._usercharacters[self.usedCharacterId].getCharacter()
+
             TriggerClientEvent("vorp:SelectedCharacter", self.source, self.usedCharacterId)
-            TriggerEvent("vorp:SelectedCharacter", self.source, self._usercharacters[self.usedCharacterId].getCharacter())
+            TriggerEvent("vorp:SelectedCharacter", self.source, player)
             Player(self.source).state:set('Character',
                 {
-                    Group = self._usercharacters[self.usedCharacterId].getCharacter().group,
-                    FirstName = self._usercharacters[self.usedCharacterId].getCharacter().firstname,
-                    LastName = self._usercharacters[self.usedCharacterId].getCharacter().lastname,
-                    Job = self._usercharacters[self.usedCharacterId].getCharacter().job,
-                    JobLabel = self._usercharacters[self.usedCharacterId].getCharacter().jobLabel,
-                    Grade = self._usercharacters[self.usedCharacterId].getCharacter().jobGrade,
-                    IsInSession = true
+                    Group = player.group,
+                    FirstName = player.firstname,
+                    LastName = player.lastname,
+                    Job = player.job,
+                    JobLabel = player.jobLabel,
+                    Grade = player.jobGrade,
+                    Gender = player.gender,
+                    Age = player.age,
+                    CharDescription = player.charDescription,
+                    Nickname = player.nickname,
+                    IsInSession = true,
+                    Money = player.money,
+                    Gold = player.gold,
 
                 }, true)
         end
@@ -148,9 +155,9 @@ function User(source, identifier, group, playerwarnings, license, char)
             return self._numofcharacters
         end
 
-        userData.addCharacter = function(firstname, lastname, skin, comps)
+        userData.addCharacter = function(data)
             self._numofcharacters = self._numofcharacters + 1
-            self.addCharacter(firstname, lastname, skin, comps)
+            self.addCharacter(data)
         end
 
         userData.removeCharacter = function(charid)
@@ -215,7 +222,12 @@ function User(source, identifier, group, playerwarnings, license, char)
                                 isdead = character.isdead,
                                 skin = character.skinPlayer,
                                 comps = character.compPlayer,
-                                source = self.source
+                                source = self.source,
+                                compTints = character.compTints,
+                                age = character.age,
+                                gender = character.gender,
+                                charDescription = character.character_desc,
+                                nickname = character.nickname,
                             }
 
                             local newCharacter = Character(data)
@@ -226,16 +238,17 @@ function User(source, identifier, group, playerwarnings, license, char)
             end)
     end
 
-    self.addCharacter = function(firstname, lastname, skin, comps)
-        local data = {
+    self.addCharacter = function(data)
+        print(json.encode(data.compTints))
+        local info = {
             identifier = self._identifier,
             charIdentifier = -1,
             group = Config.initGroup,
             job = Config.initJob,
             jobgrade = Config.initJobGrade,
             joblabel = Config.initJobLabel,
-            firstname = firstname,
-            lastname = lastname,
+            firstname = data.firstname,
+            lastname = data.lastname,
             inventory = "{}",
             status = "{}",
             coords = "{}",
@@ -249,12 +262,18 @@ function User(source, identifier, group, playerwarnings, license, char)
             xp = Config.initXp,
             hours = 0,
             isdead = false,
-            skin = skin,
-            comps = comps,
-            source = self.source
+            skin = data.skin,
+            comps = data.comps,
+            source = self.source,
+            compTints = data.compTints,
+            age = data.age,
+            gender = data.gender,
+            charDescription = data.charDescription,
+            nickname = data.nickname,
         }
 
-        local newChar = Character(data)
+        local newChar = Character(info)
+
         newChar.SaveNewCharacterInDb(function(id)
             newChar.CharIdentifier(id)
             self._usercharacters[id] = newChar

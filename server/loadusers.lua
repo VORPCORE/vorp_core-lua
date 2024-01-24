@@ -74,7 +74,6 @@ AddEventHandler('playerDropped', function()
     end
 end)
 
--- LOAD USER needs to be done here so when they leave it detects they left, playerConnecting there's no way to detect users leaving
 AddEventHandler("playerJoining", function()
     local _source = source
     local identifier = GetSteamID(_source)
@@ -102,14 +101,10 @@ AddEventHandler("playerJoining", function()
     end
 end)
 
-
---WHITELIST
 AddEventHandler('playerJoining', function()
     local _source = source
-
     Player(_source).state:set('Character', { IsInSession = false }, true)
     local identifier = GetSteamID(_source)
-
     local isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
 
     if not Config.Whitelist and not isWhiteListed then
@@ -157,16 +152,16 @@ RegisterNetEvent('vorp:playerSpawn', function()
     else
         if not Config.UseCharPermission then
             if Config.MaxCharacters > 1 then
-                return TriggerEvent("vorp_GoToSelectionMenu", _source)
+                return TriggerEvent("vorp_character:server:GoToSelectionMenu", _source)
             else
-                return TriggerEvent("vorp_SpawnUniqueCharacter", _source)
+                return TriggerEvent("vorp_character:server:SpawnUniqueCharacter", _source)
             end
         end
 
         if tostring(user._charperm) == "true" then
-            TriggerEvent("vorp_GoToSelectionMenu", _source)
+            TriggerEvent("vorp_character:server:GoToSelectionMenu", _source)
         else
-            TriggerEvent("vorp_SpawnUniqueCharacter", _source)
+            TriggerEvent("vorp_character:server:SpawnUniqueCharacter", _source)
         end
     end
 end)
@@ -230,22 +225,27 @@ RegisterNetEvent("vorp:GetValues")
 AddEventHandler("vorp:GetValues", function()
     -- Default values
     local healthData = {
-        hOuter = 10,
-        hInner = 10,
-        sOuter = 10,
-        sInner = 10,
+        hOuter = 0,
+        hInner = 0,
+        sOuter = 0,
+        sInner = 0,
     }
 
     local _source = source
     local identifier = GetSteamID(_source)
+
     local user = _users[identifier] or nil
+
+    -- Only if the player exists in online table...
     if user and user.GetUsedCharacter then
         local used_char = user.GetUsedCharacter() or nil
+
+        -- Only there is an character...
         if used_char then
-            healthData.hOuter = used_char.HealthOuter() or 10
-            healthData.hInner = used_char.HealthInner() or 10
-            healthData.sOuter = used_char.StaminaOuter() or 10
-            healthData.sInner = used_char.StaminaInner() or 10
+            healthData.hOuter = used_char.HealthOuter() or 0
+            healthData.hInner = used_char.HealthInner() or 0
+            healthData.sOuter = used_char.StaminaOuter() or 0
+            healthData.sInner = used_char.StaminaInner() or 0
         end
     end
 

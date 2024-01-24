@@ -60,6 +60,7 @@ CreateThread(function()
     while true do
         Wait(0)
         local event = GetNumberOfEvents(0)
+
         if event > 0 then
             for i = 0, event - 1 do
                 local eventAtIndex = GetEventAtIndex(0, i)
@@ -70,6 +71,7 @@ CreateThread(function()
                 end
             end
         end
+
         if Config.disableAutoAIM then
             Citizen.InvokeNative(0xD66A941F401E7302, 3) -- SET_PLAYER_TARGETING_MODE
             Citizen.InvokeNative(0x19B4F71703902238, 3) -- _SET_PLAYER_IN_VEHICLE_TARGETING_MODE

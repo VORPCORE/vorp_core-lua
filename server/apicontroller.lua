@@ -9,7 +9,6 @@ CoreFunctions.getUser = function(source)
     if source == nil then return nil end
     local sid = GetSteamID(source)
     if not sid or not _users[sid] then return nil end
-
     return _users[sid].GetUser()
 end
 

@@ -1,6 +1,6 @@
 local CoreFunctions = {}
 local ScreenResolution = nil
-
+local MenuData = exports.vorp_menu:GetMenuData()
 CoreFunctions.RpcCall = function(name, callback, ...)
     ClientRPC.Callback.TriggerAsync(name, callback, ...)
 end
@@ -82,7 +82,6 @@ CoreFunctions.Graphics = {
         if ScreenResolution then
             return ScreenResolution
         end
-
         SendNUIMessage({ type = "getRes" })
         repeat Wait(0) until ScreenResolution ~= nil
         return ScreenResolution
@@ -99,6 +98,31 @@ CoreFunctions.Callback = {
     TriggerAwait = function(name, ...)
         return ClientRPC.Callback.TriggerAwait(name, ...)
     end
+}
+
+CoreFunctions.Menu = {
+    CloseAll = function()
+        MenuData.CloseAll()
+    end,
+    Open = function(type, namespace, name, data, submit, cancel, change, close)
+        MenuData.Open(type, namespace, name, data, submit, cancel, change, close)
+    end,
+    Close = function(namespace, name)
+        MenuData.Close(namespace, name)
+    end,
+    IsOpen = function(namespace, name)
+        return MenuData.IsOpen(namespace, name)
+    end,
+    GetOpened = function(namespace, name)
+        return MenuData.GetOpened(namespace, name)
+    end,
+    GetOpenedMenus = function()
+        return MenuData.GetOpenedMenus()
+    end,
+    ReOpen = function(oldMenu)
+        MenuData.ReOpen(oldMenu)
+    end
+
 }
 
 RegisterNUICallback('getRes', function(args, cb)
