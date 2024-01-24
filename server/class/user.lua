@@ -239,7 +239,6 @@ function User(source, identifier, group, playerwarnings, license, char)
     end
 
     self.addCharacter = function(data)
-        print(json.encode(data.compTints))
         local info = {
             identifier = self._identifier,
             charIdentifier = -1,
