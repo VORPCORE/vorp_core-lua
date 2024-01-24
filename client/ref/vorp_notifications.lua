@@ -18,6 +18,9 @@
 ---@field public NotifyUpdate fun(title: string, message: string, duration?: number): nil
 ---@field public NotifyWarning fun(title: string, message: string, audioRef: string, audioName: string, duration?: number): nil
 ---@field public NotifyLeftRank fun(title: string, subtitle: string, dict: string, texture: string, duration?: number, color?: string): nil
+
+local T = Translation[Lang].MessageOfSystem
+
 VorpNotification = setmetatable({}, VorpNotification)
 VorpNotification.__index = VorpNotification
 VorpNotification.__call = function()
@@ -300,7 +303,7 @@ end
 ---Test function to test all notifications
 ---@return nil
 function VorpNotification:Test()
-  local testText = "This is a test notification"
+  local testText = T.testText
   local testDuration = 3000
   local testWaitDuration = 4000
   local testDict = "generic_textures"

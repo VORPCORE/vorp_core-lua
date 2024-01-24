@@ -88,7 +88,7 @@ CreateThread(function()
             for _, playersid in ipairs(GetActivePlayers()) do
                 if playersid ~= PlayerId() then
                     local ped = GetPlayerPed(playersid)
-                    SetPedPromptName(ped, "Player" .. tostring(GetPlayerServerId(playersid)))
+                    SetPedPromptName(ped, T.PlayerWhenFocus .. tostring(GetPlayerServerId(playersid)))
                 end
             end
         end
