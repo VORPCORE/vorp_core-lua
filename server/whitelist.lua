@@ -117,6 +117,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     end
 
     deferrals.update(T.LoadingUser)
+    
     LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
     if playerName and Config.PrintPlayerInfoOnEnter then
         print("Player ^2" .. playerName .. " ^7steam: ^3" .. steamIdentifier .. "^7 Loading...")
