@@ -157,7 +157,7 @@ function AddJob(data)
     local target = tonumber(data.args[1])
     local newjob = tostring(data.args[2])
     local jobgrade = tonumber(data.args[3])
-    local joblabel = tostring(data.args[4]) .. " " .. (tostring(data.args[5]) or "")
+    local joblabel = tostring(data.args[4]) .. " " .. (data.args[5] and tostring(data.args[5]) or "")
     local Character = VorpCore.getUser(target).getUsedCharacter
 
     Character.setJob(newjob)
@@ -288,14 +288,14 @@ end
 --BANPLAYERS
 function BanPlayers(data)
     local target = tonumber(data.args[1])
-    if data.source == target then 
+    if data.source == target then
         return
     end
 
-    local banTime = tonumber(data.args[2]:match("%d+")) 
-    if not banTime then return end                   
+    local banTime = tonumber(data.args[2]:match("%d+"))
+    if not banTime then return end
 
-    local unit = tostring(data.args[2]:match("%a+"))   
+    local unit = tostring(data.args[2]:match("%a+"))
     if unit == "d" then
         banTime = banTime * 24
     elseif unit == "w" then
@@ -309,7 +309,8 @@ function BanPlayers(data)
     local datetime = os.time() + banTime * 3600
     TriggerEvent("vorpbans:addtodb", true, target, banTime)
 
-    local text = banTime == 0 and Translation[Lang].Notify.banned or (Translation[Lang].Notify.banned2 .. os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600) .. Config.TimeZone)
+    local text = banTime == 0 and Translation[Lang].Notify.banned or
+    (Translation[Lang].Notify.banned2 .. os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600) .. Config.TimeZone)
     SendDiscordLogs(data.config.webhook, data, data.source, text, "")
 end
 
