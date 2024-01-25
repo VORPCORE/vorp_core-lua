@@ -11,7 +11,7 @@ local Done = false
 local T = Translation[Lang].MessageOfSystem
 local keepdown
 
-local function CheckLable()
+local function CheckLabel()
     if not carried then
         if not Done then
             local label = CreateVarString(10, 'LITERAL_STRING',
@@ -164,7 +164,8 @@ function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName,
         AnimpostfxPlay("PlayerWakeUpInterrogation")
         Wait(19000)
         keepdown = false
-        VorpNotification:NotifyLeft(currentHospitalName or T.message6, T.message5, "minigames_hud", "five_finger_burnout", 8000, "COLOR_PURE_WHITE")
+        VorpNotification:NotifyLeft(currentHospitalName or T.message6, T.message5, "minigames_hud", "five_finger_burnout",
+            8000, "COLOR_PURE_WHITE")
     else
         DoScreenFadeIn(2000)
     end
@@ -254,7 +255,7 @@ CreateThread(function()
             if not PressKey and setDead then
                 sleep = 0
                 if not IsEntityAttachedToAnyPed(PlayerPedId()) then
-                    PromptSetActiveGroupThisFrame(prompts, CheckLable())
+                    PromptSetActiveGroupThisFrame(prompts, CheckLabel())
 
                     if PromptHasHoldModeCompleted(prompt) then
                         DoScreenFadeOut(3000)
@@ -278,7 +279,7 @@ CreateThread(function()
                     carried = false
                 else
                     if setDead then
-                        PromptSetActiveGroupThisFrame(prompts, CheckLable())
+                        PromptSetActiveGroupThisFrame(prompts, CheckLabel())
                         PromptSetEnabled(prompt, 0)
                         ProcessCamControls()
                         carried = true
