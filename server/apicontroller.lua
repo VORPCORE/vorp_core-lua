@@ -1,9 +1,12 @@
 if GetCurrentResourceName() ~= 'vorp_core' then
-    return error(
-    "^3WARNING ^0This resource is not named correctly, please change it to ^1'vorp_core'^0 to work properly.", 1)
+    for i = 1, 5, 1 do
+        print("^3WARNING ^0 This resource is not named correctly, please change it to ^1'vorp_core'^0 to work properly.")
+    end
 end
 
 local CoreFunctions = {}
+
+CoreFunctions.maxCharacters = Config.MaxCharacters
 
 CoreFunctions.getUser = function(source)
     if source == nil then return nil end
@@ -12,7 +15,15 @@ CoreFunctions.getUser = function(source)
     return _users[sid].GetUser()
 end
 
-CoreFunctions.maxCharacters = Config.MaxCharacters
+CoreFunctions.getUserByCharId = function(charid)
+    if charid == nil then return nil end
+    for k, v in pairs(_users) do
+        if v.usedCharacterId ~= -1 and tonumber(v.usedCharacterId) == tonumber(charid) then
+            return v.GetUser()
+        end
+    end
+    return nil
+end
 
 CoreFunctions.addRpcCallback = function(name, callback)
     ServerRPC.Callback.Register(name, callback)
