@@ -15,7 +15,6 @@
 ---@field GetUsedCharacter fun():table
 ---@field SetUsedCharacter fun(charid:number)
 ---@field SaveUser fun(coords:table, heading:number)
----@field getUserByCharId fun(charid:number):table
 
 
 ---@param source number
@@ -131,13 +130,6 @@ function User(source, identifier, group, playerwarnings, license, char)
         userData.getGroup = self.Group()
         userData.getUsedCharacter = self.UsedCharacter()
         userData.getUserCharacters = self.UserCharacters()
-
-        -- get data only for the used character
-        userData.getUserByCharId = function(charid)
-            if charid and self._usercharacters[charid] and self._usercharacters[charid].getCharacter().source == self.source then
-                return self._usercharacters[charid].getCharacter()
-            end
-        end
 
         userData.getIdentifier = function()
             return self.Identifier()
