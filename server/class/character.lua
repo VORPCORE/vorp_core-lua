@@ -251,7 +251,7 @@ function Character(data)
         if value then
             self.skin = value
             MySQL.update(
-            "UPDATE characters SET `skinPlayer` = @skin WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
+                "UPDATE characters SET `skinPlayer` = @skin WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
                 { skin = value, identifier = self.identifier, charIdentifier = self.charIdentifier })
         end
         return self.skin
@@ -261,7 +261,7 @@ function Character(data)
         if value then
             self.comps = value
             MySQL.update(
-            "UPDATE characters SET `compPlayer` = @comps WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
+                "UPDATE characters SET `compPlayer` = @comps WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
                 { comps = value, identifier = self.identifier, charIdentifier = self.charIdentifier })
         end
         return self.comps
@@ -271,7 +271,7 @@ function Character(data)
         if value then
             self.compTints = value
             MySQL.update(
-            "UPDATE characters SET `compTints` = @tints WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
+                "UPDATE characters SET `compTints` = @tints WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
                 { tints = value, identifier = self.identifier, charIdentifier = self.charIdentifier })
         end
         return self.compTints
@@ -348,12 +348,40 @@ function Character(data)
     self.SaveNewCharacterInDb = function(cb)
         MySQL.query(
             "INSERT INTO characters (`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`,`joblabel`, `age`,`gender`,`character_desc`,`nickname`,`compTints`) VALUES (@identifier,@group, @money, @gold, @rol, @xp, @healthouter, @healthinner, @staminaouter, @staminainner, @hours, @inventory, @job, @status, @firstname, @lastname, @skinPlayer, @compPlayer, @jobgrade, @coords, @isdead, @joblabel, @age, @gender, @charDescription, @nickname,@compTints)",
-            { identifier = self.identifier, group = self.group, money = self.money, gold = self.gold, rol = self.rol, xp =
-            self.xp, healthouter = self.healthOuter, healthinner = self.healthInner, staminaouter = self.staminaOuter, staminainner =
-            self.staminaInner, hours = self.hours, inventory = self.inventory, job = self.job, status = self.status, firstname =
-            self.firstname, lastname = self.lastname, skinPlayer = self.skin, compPlayer = self.comps, jobgrade = self
-            .jobgrade, coords = self.coords, isdead = self.isdead, joblabel = self.joblabel, age = self.age, gender =
-            self.gender, charDescription = self.charDescription, nickname = self.nickname, compTints = self.compTints },
+            {
+                identifier = self.identifier,
+                group = self.group,
+                money = self.money,
+                gold = self.gold,
+                rol = self.rol,
+                xp =
+                    self.xp,
+                healthouter = self.healthOuter,
+                healthinner = self.healthInner,
+                staminaouter = self.staminaOuter,
+                staminainner =
+                    self.staminaInner,
+                hours = self.hours,
+                inventory = self.inventory,
+                job = self.job,
+                status = self.status,
+                firstname =
+                    self.firstname,
+                lastname = self.lastname,
+                skinPlayer = self.skin,
+                compPlayer = self.comps,
+                jobgrade = self
+                    .jobgrade,
+                coords = self.coords,
+                isdead = self.isdead,
+                joblabel = self.joblabel,
+                age = self.age,
+                gender =
+                    self.gender,
+                charDescription = self.charDescription,
+                nickname = self.nickname,
+                compTints = self.compTints
+            },
             function(character)
                 cb(character.insertId)
             end)
@@ -366,19 +394,44 @@ function Character(data)
 
     self.SaveCharacterCoords = function(coords)
         MySQL.update(
-        "UPDATE characters SET `coords` = @coords WHERE `identifier` =  @identifier AND `charidentifier` = @charidentifier",
+            "UPDATE characters SET `coords` = @coords WHERE `identifier` =  @identifier AND `charidentifier` = @charidentifier",
             { coords = coords, identifier = self.identifier, charidentifier = self.charIdentifier })
     end
 
     self.SaveCharacterInDb = function()
         MySQL.update(
             "UPDATE characters SET `group` =@group ,`money` =@money ,`gold` =@gold ,`rol` =@rol ,`xp` =@xp ,`healthouter` =@healthouter ,`healthinner` =@healthinner ,`staminaouter` =@staminaouter ,`staminainner` =@staminainner ,`hours` =@hours ,`job` =@job , `status` =@status ,`firstname` =@firstname , `lastname` =@lastname , `jobgrade` =@jobgrade , `coords` =@coords , `isdead` =@isdead , `joblabel` =@joblabel, `age` =@age, `gender`=@gender, `character_desc`=@charDescription,`nickname`=@nickname WHERE `identifier` =@identifier AND `charidentifier` =@charidentifier",
-            { group = self.group, money = self.money, gold = self.gold, rol = self.rol, xp = self.xp, healthouter = self
-            .healthOuter, healthinner = self.healthInner, staminaouter = self.staminaOuter, staminainner = self
-            .staminaInner, hours = self.hours, job = self.job, status = self.status, firstname = self.firstname, lastname =
-            self.lastname, jobgrade = self.jobgrade, coords = self.coords, isdead = self.isdead, joblabel = self
-            .joblabel, identifier = self.identifier, charidentifier = self.charIdentifier, age = self.age, gender = self
-            .gender, charDescription = self.charDescription, nickname = self.nickname })
+            {
+                group = self.group,
+                money = self.money,
+                gold = self.gold,
+                rol = self.rol,
+                xp = self.xp,
+                healthouter = self
+                    .healthOuter,
+                healthinner = self.healthInner,
+                staminaouter = self.staminaOuter,
+                staminainner = self
+                    .staminaInner,
+                hours = self.hours,
+                job = self.job,
+                status = self.status,
+                firstname = self.firstname,
+                lastname =
+                    self.lastname,
+                jobgrade = self.jobgrade,
+                coords = self.coords,
+                isdead = self.isdead,
+                joblabel = self
+                    .joblabel,
+                identifier = self.identifier,
+                charidentifier = self.charIdentifier,
+                age = self.age,
+                gender = self
+                    .gender,
+                charDescription = self.charDescription,
+                nickname = self.nickname
+            })
     end
 
     -- getters and functions setters
@@ -460,7 +513,7 @@ function Character(data)
             self.Lastname(lastname)
         end
         -------------------
-        userData.setage = function(age)
+        userData.setAge = function(age)
             self.Age = age
         end
 
