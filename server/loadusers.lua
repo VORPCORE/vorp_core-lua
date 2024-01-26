@@ -36,6 +36,7 @@ end
 AddEventHandler('playerDropped', function()
     local _source = source
     local identifier = GetSteamID(_source)
+    local discordId = GetDiscordID(_source)
     local steamName = GetPlayerName(_source)
     local pCoords, pHeading
 
@@ -67,9 +68,7 @@ AddEventHandler('playerDropped', function()
     _users[identifier] = nil
     MySQL.update('UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ', { steamName, identifier })
 
-    if Config.SaveDiscordNameDB then
-        local discordIdentity = GetPlayerIdentifierByType(_source, 'discord')
-        local discordId = discordIdentity and discordIdentity:sub(9) or ""
+    if Config.SaveDiscordId then
         MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
     end
 end)
@@ -95,7 +94,6 @@ AddEventHandler("playerJoining", function()
 
         _users[identifier].LoadCharacters()
     else
-        --New User
         MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, "false" })
         _users[identifier] = User(source, identifier, "user", 0, license, false)
     end
@@ -105,6 +103,7 @@ AddEventHandler('playerJoining', function()
     local _source = source
     Player(_source).state:set('Character', { IsInSession = false }, true)
     local identifier = GetSteamID(_source)
+    local discordId = GetDiscordID(_source)
     local isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
 
     if not Config.Whitelist and not isWhiteListed then
@@ -115,18 +114,16 @@ AddEventHandler('playerJoining', function()
 
     local userid = isWhiteListed and isWhiteListed.id
     if not _whitelist[userid] then
-        _whitelist[userid] = Whitelist(userid, identifier, 0, true)
+        _whitelist[userid] = Whitelist(userid, identifier, false, discordId, true)
     end
 
     local entry = _whitelist[userid].GetEntry()
     if entry.getFirstconnection() then
         local steamName = GetPlayerName(_source) or ""
-        local discordId = ""
-        if Config.SaveDiscordNameDB then
-            local discordIdentity = GetPlayerIdentifierByType(_source, 'discord')
-            discordId = discordIdentity and discordIdentity:sub(9) or ""
+        if Config.SaveDiscordId then
             MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
         end
+
         local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier, discordId, userid)
         TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook, message)
         entry.setFirstconnection(false)

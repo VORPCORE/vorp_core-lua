@@ -36,9 +36,11 @@ Config = {
     showplayerIDwhenfocus    = true,         -- set false will show steam name when focus on another player RMB
     disableAutoAIM           = true,         -- if false players with controllers will have autoaim just like in rdr2
     SavePlayersHours         = false,        -- if you want to save players played hours in DB, tx admin already have this
+    CheckDoubleAccounts      = false,        -- if true, check if player enter with two accounts.
+    DiscordIsRequired        = false,        -- if true, to enter in server needs discord open.
     --========================================
     ---MULTICHAR
-    SaveDiscordNameDB        = false,  -- TRUE if you want save discordid on character/user DB when player join and drop (need to update SQL)
+    SaveDiscordId            = false, -- TRUE if you want save discordid on character/user DB when player join and drop (need to update SQL)
     UseCharPermission        = false, -- | if false it will let players create maxchars bellow
     MaxCharacters            = 5,     -- MAX ALLOWED TO BE CREATED [if UseCharPermission = true, SELECTED players(with command) can create MaxCharacters characters / if UseCharPermission = false, players can create MaxCharacters characters]
     --========================================
