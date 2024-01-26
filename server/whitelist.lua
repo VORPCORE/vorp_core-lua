@@ -128,7 +128,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
 
     if Config.Whitelist then
         local playerWlId = GetUserId(steamIdentifier)
-        if _whitelist[playerWlId] and _whitelist[playerWlId].GetEntry().getStatus() then
+        if _whitelist[playerWlId] and checkStatuWhitelist then
             deferrals.done()
         else
             LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
