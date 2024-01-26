@@ -3,15 +3,17 @@
 
 ---@param id number
 ---@param identifier string
----@param status number
+---@param status boolean
+---@param discordid string
 ---@param firstconnection boolean
 ---@return Whitelist
-function Whitelist(id, identifier, status, firstconnection)
+function Whitelist(id, identifier, status, discordid, firstconnection)
     local self = {}
 
     self._id = id
     self._identifier = identifier
     self._status = status
+    self._discordid = discordid
     self._firstconnection = firstconnection
 
     self.Id = function()
@@ -29,6 +31,15 @@ function Whitelist(id, identifier, status, firstconnection)
                 { ['@status'] = value, ['@id'] = self.Id() }, function(result) end)
         end
         return self._status
+    end
+
+    self.Discord = function(value)
+        if value ~= nil then
+            self._status = value
+            MySQL.query('UPDATE whitelist SET discordid = @discordid where id = @id',
+                { ['@discordid'] = value, ['@id'] = self.Id() }, function(result) end)
+        end
+        return self._discordid
     end
 
     self.Firstconnection = function(value)
@@ -57,6 +68,14 @@ function Whitelist(id, identifier, status, firstconnection)
 
         whitelistData.setStatus = function(value)
             return self.Status(value)
+        end
+
+        whitelistData.getDiscord = function()
+            return self.Discord()
+        end
+
+        whitelistData.setDiscord = function(value)
+            return self.Discord(value)
         end
 
         whitelistData.getFirstconnection = function()
