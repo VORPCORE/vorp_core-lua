@@ -28,7 +28,8 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
 
         deferrals.done()
     else
-        --New User
+        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, "false" })
+        _users[identifier] = User(source, identifier, "user", 0, license, false)
         deferrals.done()
     end
 end

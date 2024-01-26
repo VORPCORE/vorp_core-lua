@@ -23,7 +23,7 @@ end
 
 local function SetUpdateWhitelistPolicy() -- this needs a source to only get these values if player is joining
     while Config.AllowWhitelistAutoUpdate do
-        Wait(2000)                        -- this needs to be changed and saved on players drop
+        Wait(360000)                        -- this needs to be changed and saved on players drop
         _whitelist = {}
         MySQL.query("SELECT * FROM whitelist", {},
             function(result) -- why are we loading all the entries into memmory ? so we are adding to a table even players that are not playing or have been banned or whatever.
@@ -33,6 +33,15 @@ local function SetUpdateWhitelistPolicy() -- this needs a source to only get the
                     end
                 end
             end)
+    end
+end
+
+local function CheckWhitelistStatusOnConnect(identifier)
+    local result = MySQL.single.await('SELECT status FROM whitelist WHERE identifier = ?', { identifier })
+    if result and result.status ~= nil then
+        return result.status
+    else
+        return false
     end
 end
 
@@ -87,6 +96,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
 
     local steamIdentifier = GetSteamID(_source)
     local discordIdentifier = GetDiscordID(_source)
+    local checkStatuWhitelist = CheckWhitelistStatusOnConnect(steamIdentifier)
 
     if not steamIdentifier then
         deferrals.done(T.NoSteam)
@@ -121,6 +131,8 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         if _whitelist[playerWlId] and _whitelist[playerWlId].GetEntry().getStatus() then
             deferrals.done()
         else
+            LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
+            Wait(1000)
             playerWlId = InsertIntoWhitelist(steamIdentifier, discordIdentifier)
             deferrals.done(T.NoInWhitelist .. playerWlId)
             setKickReason(T.NoInWhitelist .. playerWlId)
