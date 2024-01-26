@@ -96,20 +96,12 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
 
     local steamIdentifier = GetSteamID(_source)
     local discordIdentifier = GetDiscordID(_source)
-    local checkStatuWhitelist = CheckWhitelistStatusOnConnect(steamIdentifier)
+    local checkStatusWhitelist = CheckWhitelistStatusOnConnect(steamIdentifier)
 
     if not steamIdentifier then
         deferrals.done(T.NoSteam)
         setKickReason(T.NoSteam)
         return CancelEvent()
-    end
-
-    if Config.DiscordIsRequired then
-        if not discordIdentifier then
-            deferrals.done(T.NoDiscord)
-            setKickReason(T.NoDiscord)
-            return CancelEvent()
-        end
     end
 
     if Config.CheckDoubleAccounts then
@@ -128,11 +120,9 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
 
     if Config.Whitelist then
         local playerWlId = GetUserId(steamIdentifier)
-        if _whitelist[playerWlId] and checkStatuWhitelist then
+        if _whitelist[playerWlId] and checkStatusWhitelist then
             deferrals.done()
         else
-            LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
-            Wait(1000)
             playerWlId = InsertIntoWhitelist(steamIdentifier, discordIdentifier)
             deferrals.done(T.NoInWhitelist .. playerWlId)
             setKickReason(T.NoInWhitelist .. playerWlId)

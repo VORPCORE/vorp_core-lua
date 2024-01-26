@@ -26,7 +26,7 @@ Config = {
     initJobLabel                  = "Unemployed", -- leave it like this
     Whitelist                     = false,        -- true if not use TxAdmin whitelist system.
     AllowWhitelistAutoUpdate      = false,        -- if you want to update all whitelist status in DB.
-    AllowWhitelistAutoUpdateTimer = 60,           -- Minutes to update all users of Whitelist
+    AllowWhitelistAutoUpdateTimer = 30,           -- Minutes to update all users of Whitelist
     SavePlayersStatus             = false,        -- dont use this it will be removed soon, no place for core.
     maxHealth                     = 10,           -- 10 is FULL 0 IS EMPTY define max outer core for players
     maxStamina                    = 10,           -- 10 is FULL 0 IS EMPTY define max outer core for players
@@ -38,7 +38,6 @@ Config = {
     disableAutoAIM                = true,         -- if false players with controllers will have autoaim just like in rdr2
     SavePlayersHours              = false,        -- if you want to save players played hours in DB, tx admin already have this
     CheckDoubleAccounts           = false,        -- if true, check if player enter with two accounts.
-    DiscordIsRequired             = false,        -- if true, to enter in server needs discord open.
     --========================================
     ---MULTICHAR
     SaveDiscordId                 = false, -- TRUE if you want save discordid on character/user DB when player join and drop (need to update SQL)
