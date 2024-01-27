@@ -67,7 +67,6 @@ AddEventHandler('playerDropped', function()
     end
 
     _users[identifier] = nil
-    MySQL.update('UPDATE characters SET `steamname` = ? WHERE `identifier` = ? ', { steamName, identifier })
 
     if Config.SaveDiscordId then
         MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
@@ -107,7 +106,7 @@ AddEventHandler('playerJoining', function()
     local discordId = GetDiscordID(_source)
     local isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
 
-    if not Config.Whitelist and not isWhiteListed then
+    if Config.Whitelist and not isWhiteListed then
         MySQL.insert.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)",
             { identifier, false, true })
         isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
@@ -135,9 +134,11 @@ end)
 RegisterNetEvent('vorp:playerSpawn', function()
     local _source = source
     local identifier = GetSteamID(_source)
+
     if not identifier then
         return print("user cant load no identifier steam found")
     end
+
     _usersLoading[identifier] = false
     local user = _users[identifier]
     if not user then
@@ -145,6 +146,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
     end
     user.Source(_source)
     local numCharacters = user.Numofcharacters()
+
     if numCharacters <= 0 then
         return TriggerEvent("vorp_CreateNewCharacter", _source)
     else
@@ -165,8 +167,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
 end)
 
 
-RegisterNetEvent('vorp:SaveHealth')
-AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
+RegisterNetEvent('vorp:SaveHealth', function(healthOuter, healthInner)
     local _source = source
     local identifier = GetSteamID(_source)
 
@@ -184,8 +185,7 @@ AddEventHandler('vorp:SaveHealth', function(healthOuter, healthInner)
     end
 end)
 
-RegisterNetEvent('vorp:SaveStamina')
-AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
+RegisterNetEvent('vorp:SaveStamina', function(staminaOuter, staminaInner)
     local _source = source
     local identifier = GetSteamID(_source)
     if staminaOuter and staminaInner then
@@ -200,8 +200,7 @@ AddEventHandler('vorp:SaveStamina', function(staminaOuter, staminaInner)
     end
 end)
 
-RegisterNetEvent('vorp:HealthCached')
-AddEventHandler('vorp:HealthCached', function(healthOuter, healthInner, staminaOuter, staminaInner)
+RegisterNetEvent('vorp:HealthCached', function(healthOuter, healthInner, staminaOuter, staminaInner)
     local _source = source
     local identifier = GetSteamID(_source)
 
@@ -219,19 +218,10 @@ AddEventHandler('vorp:HealthCached', function(healthOuter, healthInner, staminaO
     _healthData[identifier].sInner = staminaInner
 end)
 
-RegisterNetEvent("vorp:GetValues")
-AddEventHandler("vorp:GetValues", function()
-    -- Default values
-    local healthData = {
-        hOuter = 0,
-        hInner = 0,
-        sOuter = 0,
-        sInner = 0,
-    }
-
+RegisterNetEvent("vorp:GetValues", function()
     local _source = source
+    local healthData = { hOuter = 10, hInner = 10, sOuter = 10, sInner = 10 }
     local identifier = GetSteamID(_source)
-
     local user = _users[identifier] or nil
 
     -- Only if the player exists in online table...
@@ -240,19 +230,19 @@ AddEventHandler("vorp:GetValues", function()
 
         -- Only there is an character...
         if used_char then
-            healthData.hOuter = used_char.HealthOuter() or 0
-            healthData.hInner = used_char.HealthInner() or 0
-            healthData.sOuter = used_char.StaminaOuter() or 0
-            healthData.sInner = used_char.StaminaInner() or 0
+            healthData.hOuter = used_char.HealthOuter() or 10
+            healthData.hInner = used_char.HealthInner() or 10
+            healthData.sOuter = used_char.StaminaOuter() or 10
+            healthData.sInner = used_char.StaminaInner() or 10
         end
     end
 
     TriggerClientEvent("vorp:GetHealthFromCore", _source, healthData)
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(Config.savePlayersTimer * 60000)
+        Wait(Config.savePlayersTimer * 60000)
         for k, v in pairs(_users) do
             if v.usedCharacterId and v.usedCharacterId ~= -1 then
                 v.SaveUser()
