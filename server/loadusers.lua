@@ -87,15 +87,15 @@ AddEventHandler("playerJoining", function()
     if resultList then
         local user = resultList
         if Config.UseCharPermission then
-            _users[identifier] = User(source, identifier, user.group, user.warnings, license, user.char)
+            _users[identifier] = User(_source, identifier, user.group, user.warnings, license, user.char)
         else
-            _users[identifier] = User(source, identifier, user.group, user.warnings, license, false)
+            _users[identifier] = User(_source, identifier, user.group, user.warnings, license, false)
         end
 
         _users[identifier].LoadCharacters()
     else
         MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, "false" })
-        _users[identifier] = User(source, identifier, "user", 0, license, false)
+        _users[identifier] = User(_source, identifier, "user", 0, license, false)
     end
 end)
 
