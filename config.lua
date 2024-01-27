@@ -2,105 +2,122 @@
 --            VORP SHARED CONFIG             --
 --=============================================
 
--- make sure to read the comments in green
--- if you dont know what they are for ask, or leave it as it is
+-- Ensure you understand each setting.
+-- If unsure, ask or leave the default value.
 
-Lang = "English" -- choose here your language , check translation folder to see if its available in your language
+-- Set the language for your server.
+-- Check the 'translation' folder for available options.
+Lang = "English"
 
 Config = {
-    onesync                       = true,  -- turn to false if you dont use onesync
-    autoUpdateDB                  = true,
-    PrintPlayerInfoOnLeave        = false, -- print in server console information of players leaving
-    PrintPlayerInfoOnEnter        = false, -- print player info on server console when enter server
-    --=======================================
-    ---STARTING POINT
-    -- add here players initial money
-    -- for items go to inventory
-    initGold                      = 0.0,
-    initMoney                     = 200.0,
-    initRol                       = 0.0,
-    initXp                        = 0,
-    initJob                       = "unemployed", -- leave it like this
-    initJobGrade                  = 0,            -- leave it like this
-    initGroup                     = "user",       -- leave it like this
-    initJobLabel                  = "Unemployed", -- leave it like this
-    Whitelist                     = false,        -- true if not use TxAdmin whitelist system.
-    AllowWhitelistAutoUpdate      = false,        -- if you want to update all whitelist status in DB.
-    AllowWhitelistAutoUpdateTimer = 30,           -- Minutes to update all users of Whitelist
-    SavePlayersStatus             = false,        -- dont use this it will be removed soon, no place for core.
-    maxHealth                     = 10,           -- 10 is FULL 0 IS EMPTY define max outer core for players
-    maxStamina                    = 10,           -- 10 is FULL 0 IS EMPTY define max outer core for players
-    PVP                           = true,         -- Can players attack/hurt one another
-    PVPToggle                     = false,        -- If true, players can set their own pvp state
-    CommandOnOffPVP               = 'pvp',        -- [ NEED PVPToggle = true ] TOGGLE or OFF pvp for your character
-    savePlayersTimer              = 10,           -- this will tell the core in how many minutes should all players be saved to the database
-    showplayerIDwhenfocus         = true,         -- set false will show steam name when focus on another player RMB
-    disableAutoAIM                = true,         -- if false players with controllers will have autoaim just like in rdr2
-    SavePlayersHours              = false,        -- if you want to save players played hours in DB, tx admin already have this
-    CheckDoubleAccounts           = false,        -- if true, check if player enter with two accounts.
-    --========================================
-    ---MULTICHAR
-    SaveDiscordId                 = false, -- TRUE if you want save discordid on character/user DB when player join and drop (need to update SQL)
-    UseCharPermission             = false, -- | if false it will let players create maxchars bellow
-    MaxCharacters                 = 5,     -- MAX ALLOWED TO BE CREATED [if UseCharPermission = true, SELECTED players(with command) can create MaxCharacters characters / if UseCharPermission = false, players can create MaxCharacters characters]
-    --========================================
-    --UI CORES
-    HideOnlyDEADEYE               = true,
-    HidePlayersCore               = false,
-    HideHorseCores                = false,
-    --========================================
-    ---WEBHOOKS
-    -- see commands.config
-    webhookColor                  = 16711680,                            --EMBED COLOR
-    name                          = "VORP",                              --NAME OF EMBED
-    logo                          = "https://via.placeholder.com/30x30", --HEAD LOGO
-    footerLogo                    = "https://via.placeholder.com/30x30", --FOOTER LOGO
-    Avatar                        = "https://via.placeholder.com/30x30", -- AVATAR LOGO
-    --=======================================
-    ---UI Configurations
-    HideUi                        = false,      -- Show or Hide the Overall UI
-    HideGold                      = false,      -- disables Gold UI for all
-    HideMoney                     = false,      -- disables Money UI for all
-    HideLevel                     = false,      -- disables Level UI for all
-    HideID                        = false,      -- disables ID UI for all
-    HideTokens                    = false,      -- disables Token UI for all
-    HidePVP                       = false,      -- disables PVP UI for all
-    UIPosition                    = 'TopRight', -- Changes position of UI. Options: BottomRight, MiddleRight, TopRight, TopMiddle, BottomMiddle
-    UILayout                      = 'Column',   -- Changes the layour of the UI. Options: Row, Column
-    HideWithRader                 = true,       -- UI will hide whenever the radar(minimap) is hidden
-    OpenAfterRader                = true,       -- UI will show whenever the radar(minimap) is showing again
-    CloseOnDelay                  = false,      -- UI will automatically close after an amount of time
-    CloseOnDelayMS                = 10000,      -- CloseOnDelays time in miliseconds, 10000 = 10seconds
-    -- Commands of UI
-    CommandHideIU                 = 'hideUi',   -- HIDE all UI's from screen, nice to take screenshots.
-    CommandToogleUI               = 'toggleUi', -- Toggle vorp UI's from screen
-    -- Others
-    CommandClearAnim              = 'stopAnim', -- To use if you are stuck on an animation
-    --=======================================
-    ---MAP Configurations
-    mapTypeOnFoot                 = 3,     -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on foot
-    mapTypeOnMount                = 3,     -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on horse
-    enableTypeRadar               = false, -- if true the above will work, if false players can choose their radar type in the game settings.
-    Loadinscreen                  = true,  -- ENABLE LOADING SCREENS on spawn and while spawn dead
-    LoadinScreenTimer             = 10000, -- miliseconds
-    --=======================================
-    ---RESPAWN
-    HealthOnRespawn               = 500,                                  -- Player's health when respawned in hospital (MAX = 500)
-    HealthOnResurrection          = 100,                                  -- Player's health when resurrected (MAX = 500)
-    RagdollOnResurrection         = true,                                 -- Enable or disable Ragdoll and revive effects when revived
-    HealthRecharge                = { enable = true, multiplier = 0.37 }, -- enable or disable auto recharge of health outer core (real ped health), multiplier 1.0 is default
-    StaminaRecharge               = { enable = true, multiplier = 0.4 },  -- enable or disable auto recharge of stamina outer core, multiplier 1.0 is default
-    RespawnTime                   = 10,                                   -- seconds
-    RespawnKey                    = 0xDFF812F9,                           -- [E] KEY
-    RespawnKeyTime                = 5000,                                 -- Milliseconds it will take to press the button
-    CombatLogDeath                = true,                                 -- people who combat log now spawn in dead rather than force spawned
-    UseControlsCamera             = false,                                -- if youset this to true players while dead  or being carried can move the camera using w a d s controls this is resource intensive leave to false
-    UseDeathHandler               = true,                                 -- levae this to true if you dont know what you doing . this is to disable the death handling incase you have something custom
-    -- places for players to spawn
-    Hospitals                     = {
+    onesync                       = true,  -- Enable this if you are using OneSync. Set to false if not.
+    autoUpdateDB                  = true,  -- Enables automatic database updates.
+    PrintPlayerInfoOnLeave        = false, -- Logs player information in the server console when they leave.
+    PrintPlayerInfoOnEnter        = false, -- Logs player information in the server console upon joining.
+
+    --=============================================
+    --        STARTING CONFIGURATION             --
+    --=============================================
+
+    initGold                      = 0.0,          -- Initial gold amount for new players.
+    initMoney                     = 200.0,        -- Initial money amount for new players.
+    initRol                       = 0.0,          -- Initial role-play currency amount for new players.
+    initXp                        = 0,            -- Initial experience points for new players.
+    initJob                       = "unemployed", -- Default job for new players. Recommended not to change.
+    initJobGrade                  = 0,            -- Default job grade for new players. Recommended not to change.
+    initGroup                     = "user",       -- Default user group for new players. Recommended not to change.
+    initJobLabel                  = "Unemployed", -- Default job label for new players. Recommended not to change.
+    Whitelist                     = false,        -- Enable if not using TxAdmin's whitelist system.
+    AllowWhitelistAutoUpdate      = false,        -- Enable to automatically update whitelist statuses in the database.
+    AllowWhitelistAutoUpdateTimer = 30,           -- Time interval in minutes for updating whitelist statuses.
+    SavePlayersStatus             = false,        -- Future deprecated. Advised not to use, as it will be removed.
+    maxHealth                     = 10,           -- Maximum health for players. 10 is full, 0 is empty.
+    maxStamina                    = 10,           -- Maximum stamina for players. 10 is full, 0 is empty.
+    PVP                           = true,         -- Enables player vs player combat.
+    PVPToggle                     = false,        -- Allows players to toggle their PVP status.
+    CommandOnOffPVP               = 'pvp',        -- Command to toggle PVP status, requires PVPToggle to be true.
+    savePlayersTimer              = 10,           -- Interval in minutes for automatically saving all players to the database.
+    showplayerIDwhenfocus         = true,         -- Shows player Steam name when focusing on them with RMB if set to false.
+    disableAutoAIM                = true,         -- Disables auto-aim for controller players if set to false.
+    SavePlayersHours              = false,        -- Enables saving of players' played hours in the database. TxAdmin might already provide this.
+    CheckDoubleAccounts           = false,        -- Enables, check if player enter with two accounts.
+    --=============================================
+    --          MULTICHARACTER SUPPORT           --
+    --=============================================
+
+    SaveDiscordId                 = false, -- Saves Discord ID in the character/user database upon joining/leaving.
+    UseCharPermission             = false, -- If false, allows all players to create characters up to the MaxCharacters limit.
+    MaxCharacters                 = 5,     -- Maximum number of characters a player can create.
+
+    --=============================================
+    --             UI CORE SETTINGS              --
+    --=============================================
+
+    HideOnlyDEADEYE               = true,  -- Hides only the Dead Eye core in the UI.
+    HidePlayersCore               = false, -- Hides player cores in the UI.
+    HideHorseCores                = false, -- Hides horse cores in the UI.
+
+    --=============================================
+    --          WEBHOOK CONFIGURATIONS           --
+    --     Refer to commands.config for usage.   --
+    --=============================================
+
+    webhookColor                  = 16711680,                            -- Color for embeds in Discord webhooks.
+    name                          = "VORP",                              -- Name displayed in webhook embeds.
+    logo                          = "https://via.placeholder.com/30x30", -- Logo URL for webhook embeds.
+    footerLogo                    = "https://via.placeholder.com/30x30", -- Footer logo URL for webhook embeds.
+    Avatar                        = "https://via.placeholder.com/30x30", -- Avatar URL for webhook embeds.
+
+    --=============================================
+    --            UI CONFIGURATIONS              --
+    --=============================================
+
+    HideUi                        = false,      -- Shows or hides the overall UI.
+    HideGold                      = false,      -- Disables the Gold UI for all players.
+    HideMoney                     = false,      -- Disables the Money UI for all players.
+    HideLevel                     = false,      -- Disables the Level UI for all players.
+    HideID                        = false,      -- Disables the ID UI for all players.
+    HideTokens                    = false,      -- Disables the Token UI for all players.
+    HidePVP                       = false,      -- Disables the PVP UI for all players.
+    UIPosition                    = 'TopRight', -- Sets the UI position on the screen.
+    UILayout                      = 'Column',   -- Sets the UI layout, options are 'Row' or 'Column'.
+    HideWithRader                 = true,       -- UI hides when the radar (minimap) is hidden.
+    OpenAfterRader                = true,       -- UI shows when the radar (minimap) reappears.
+    CloseOnDelay                  = false,      -- UI automatically closes after a set time.
+    CloseOnDelayMS                = 10000,      -- Time in milliseconds before the UI auto-closes, 10000 equals 10 seconds.
+    CommandHideIU                 = 'hideUi',   -- Command to hide all UI elements, useful for screenshots.
+    CommandToogleUI               = 'toggleUi', -- Command to toggle the visibility of VORP UI elements.
+    CommandClearAnim              = 'stopAnim', -- Command to stop animations if a player is stuck.
+
+    --=============================================
+    --            MAP CONFIGURATIONS             --
+    --=============================================
+
+    mapTypeOnFoot                 = 3,     -- Radar type when on foot. 0 = Off, 1 = Regular, 2 = Expanded, 3 = Simple (compass).
+    mapTypeOnMount                = 3,     -- Radar type when on horse. Same options as on foot.
+    enableTypeRadar               = false, -- Enables custom radar types if true, otherwise players use game settings.
+    Loadinscreen                  = true,  -- Enables loading screens during spawn and respawn.
+    LoadinScreenTimer             = 10000, -- Duration of loading screens in milliseconds.
+
+    --=============================================
+    --            RESPAWN SETTINGS               --
+    --=============================================
+
+    HealthOnRespawn               = 500,                                  -- Player health after respawning at a hospital (max is 500).
+    HealthOnResurrection          = 100,                                  -- Player health after being resurrected (max is 500).
+    RagdollOnResurrection         = true,                                 -- Enables ragdoll and revive effects upon resurrection.
+    HealthRecharge                = { enable = true, multiplier = 0.37 }, -- Auto-recharge for health, with a multiplier for speed.
+    StaminaRecharge               = { enable = true, multiplier = 0.4 },  -- Auto-recharge for stamina, with a multiplier for speed.
+    RespawnTime                   = 10,                                   -- Time in seconds before a player can respawn.
+    RespawnKey                    = 0xDFF812F9,                           -- Key code for respawning (default is 'E').
+    RespawnKeyTime                = 5000,                                 -- Time in milliseconds to hold the respawn key.
+    CombatLogDeath                = true,                                 -- Combat loggers respawn in a dead state instead of alive.
+    UseControlsCamera             = false,                                -- Allows dead or carried players to move the camera with WASD (resource intensive).
+    UseDeathHandler               = true,                                 -- Keeps default death handling unless you have a custom system.
+    Hospitals                     = {                                     -- Spawn points for players respawning at hospitals.
         Valentine = {
             name = "Valentine",
-            pos = vector4(-283.83, 806.4, 119.38, 321.76), -- use vorp admin to get vector4 x y z h
+            pos = vector4(-283.83, 806.4, 119.38, 321.76), -- Vector4 coordinates: x, y, z, heading.
         },
         SaintDenis = {
             name = "Saint Denis",
@@ -119,37 +136,49 @@ Config = {
             pos = vector4(1229.0, -1306.1, 76.9, 321.76),
         },
     },
-    ActiveEagleEye                = true,
-    ActiveDeadEye                 = false,
-    --=======================================================
-    -- BAN SYSTEM
-    DateTimeFormat                = "%d/%m/%y %H:%M:%S", -- Set wished DateTimeFormat for output in ban notification
-    TimeZone                      = " CET",              -- Set your timezone
-    TimeZoneDifference            = 1,                   -- Your time zone difference with UTC in winter time this is used for the banning system
-    --=======================================================
-    -- COMMAND PERMISSION
-    NewPlayerWebhook              = "",    -- new user on the server login with static id
-    SetUserDBadmin                = true,  -- should the command addGroup set admins on Users table? for characters table do set false
-    SetBothDBadmin                = false, -- if set true should the command addGroup set admins on both tables in databse!
-    --=======================================================
-    ---BUILT IN RICH PRESENCE DISCORD
-    maxplayers                    = 128,                       -- change to the number of players that can get in to your server
-    appid                         = nil,                       -- Application ID (Replace this with you own)
-    biglogo                       = "LOGOname",                -- image assets name for the "large" icon.
-    biglogodesc                   = " Redm Server Connect: ",  -- text when hover over image
-    smalllogo                     = "smallboy name",           -- image assets name for the "small" icon.(OPTIONAL)
-    smalllogodesc                 = "Join us for a good time", -- text when hover over image
-    richpresencebutton            = "Join Discord",            -- set button text for Rich Presence Button
-    shownameandid                 = true,                      -- show player steam name and id
-    Buttons                       = {                          -- Show Discord Rich Presence Button
+    ActiveEagleEye                = true,  -- Enables or disables Eagle Eye feature.
+    ActiveDeadEye                 = false, -- Enables or disables Dead Eye feature.
+
+    --=============================================
+    --         BAN SYSTEM CONFIGURATIONS         --
+    --=============================================
+
+    DateTimeFormat                = "%d/%m/%y %H:%M:%S", -- Format for displaying date and time in ban notifications.
+    TimeZone                      = " CET",              -- Set your server's timezone.
+    TimeZoneDifference            = 1,                   -- Time difference from UTC, used in the banning system.
+
+    --=============================================
+    --        COMMAND PERMISSION SETTINGS        --
+    --=============================================
+
+    NewPlayerWebhook              = "",    -- Webhook URL for logging new player joins.
+    SetUserDBadmin                = true,  -- If true, 'addGroup' command also sets admin status in the Users table.
+    SetBothDBadmin                = false, -- If true, 'addGroup' sets admin status in both Users and Characters tables.
+
+    --=============================================
+    --    DISCORD RICH PRESENCE INTEGRATION      --
+    --=============================================
+
+    maxplayers                    = 128,                         -- Maximum number of players allowed on the server.
+    appid                         = nil,                         -- Discord Application ID. Replace this with your own application's ID.
+    biglogo                       = "LOGOname",                  -- Name of the image asset to use for the large icon in the rich presence.
+    biglogodesc                   = " Redm Server Connect: ",    -- Description displayed when hovering over the large icon.
+    smalllogo                     = "smallboy name",             -- Name of the image asset for the small icon in the rich presence. This is optional.
+    smalllogodesc                 = " Join us for a good time ", -- Description displayed when hovering over the small icon.
+    richpresencebutton            = "Join Discord",              -- Text displayed on the rich presence button.
+    shownameandid                 = true,                        -- Whether to display the player's Steam name and ID.
+    Buttons                       = {                            -- Configuration for buttons shown in the Discord rich presence.
         {
-            text = 'Join Discord!',
-            url = 'https://discord.gg/vorpcore' -- Example for Rich Presence Button
+            text = 'Join Discord!',                              -- Text displayed on the first button.
+            -- URL the first button directs to. Replace with your Discord invite link.
+            url = 'https://discord.gg/vorpcore'
+
         },
         {
-            text = 'Website',
-            url = 'https://vorpcore.github.io/VORP_Documentation/' -- Example for Rich Presence Button
+            text = 'Website', -- Text displayed on the second button.
+            -- URL the second button directs to. Fill in with your website URL.
+            url = ''          -- Example for Rich Presence Button
         }
     }
-    --======================================================
+    --=============================================
 }
