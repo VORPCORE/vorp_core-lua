@@ -17,6 +17,11 @@ VORP Core is a comprehensive Lua-based framework for RedM, designed to enhance s
    - Move the `vorp_core` folder into your server's resources directory, usually found under `\resources\[VORP]\[vorp_essentials]\vorp_core`.
    - Include `ensure vorp_core` in your server's `resources.cfg` file, placing it at the top of the load order for priority loading.
 
+## Documentation
+
+- [Acess Documentation](https://vorpcore.github.io/VORP_Documentation/)
+- Direct link to the full VORP Core documentation for in-depth details and guides.
+
 ---
 
 ## Features Overview
