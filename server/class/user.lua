@@ -35,6 +35,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     self._numofcharacters = 0
     self.usedCharacterId = -1
     self.source = source
+    self.steamname = GetPlayerName(source) or ""
 
     self.UsedCharacterId = function(value)
         if value ~= nil then
@@ -228,8 +229,8 @@ function User(source, identifier, group, playerwarnings, license, char)
                                 gender = character.gender,
                                 charDescription = character.character_desc,
                                 nickname = character.nickname,
+                                steamname = self.steamname,
                             }
-
                             local newCharacter = Character(data)
                             self._usercharacters[newCharacter.CharIdentifier()] = newCharacter
                         end
@@ -269,6 +270,7 @@ function User(source, identifier, group, playerwarnings, license, char)
             gender = data.gender,
             charDescription = data.charDescription,
             nickname = data.nickname,
+            steamname = self.steamname,
         }
 
         local newChar = Character(info)
