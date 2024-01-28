@@ -75,7 +75,7 @@ local function InsertIntoWhitelist(identifier, discordid)
     local entry = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     WhiteListedUsers[entry.id] = Whitelist(entry.id, identifier, false, discordid, true)
 
-    return entryList.id
+    return entry.id
 end
 
 CreateThread(function()
