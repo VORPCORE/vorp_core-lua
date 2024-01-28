@@ -95,7 +95,7 @@ AddEventHandler("playerJoining", function()
     local user                = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
 
     if user then
-        _users[identifier] = User(source, identifier, user.group, user.warnings, license, user.char)
+        _users[identifier] = User(_source, identifier, user.group, user.warnings, license, user.char)
         _users[identifier].LoadCharacters()
     else
         MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, Config.MaxCharacters })
