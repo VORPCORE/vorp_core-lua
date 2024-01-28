@@ -132,15 +132,15 @@ AddEventHandler('getWhitelistTables', function(cb)
 
         local userid = GetUserId(identifier)
 
-        if _whitelist[userid] then
-            return _whitelist[userid].GetEntry()
+        if WhiteListedUsers[userid] then
+            return WhiteListedUsers[userid].GetEntry()
         else
             return nil
         end
     end
 
     whitelistData.getEntries = function()
-        return _whitelist
+        return WhiteListedUsers
     end
 
     cb(whitelistData)
