@@ -76,7 +76,9 @@ AddEventHandler('playerDropped', function()
     end
     -- remove whitelist
     local userid = GetUserId(identifier)
-    WhiteListedUsers[userid] = nil
+    if WhiteListedUsers[userid] then
+        WhiteListedUsers[userid] = nil
+    end
 
     _users[identifier] = nil
 
