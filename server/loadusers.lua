@@ -98,8 +98,8 @@ AddEventHandler("playerJoining", function()
         _users[identifier] = User(source, identifier, user.group, user.warnings, license, user.char)
         _users[identifier].LoadCharacters()
     else
-        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, "false" })
-        _users[identifier] = User(_source, identifier, "user", 0, license, false)
+        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, Config.MaxCharacters })
+        _users[identifier] = User(_source, identifier, "user", 0, license, Config.MaxCharacters)
     end
 end)
 

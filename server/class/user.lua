@@ -22,7 +22,7 @@
 ---@param group string
 ---@param playerwarnings number
 ---@param license string
----@param char boolean
+---@param char number
 ---@return User
 function User(source, identifier, group, playerwarnings, license, char)
     local self = {}
