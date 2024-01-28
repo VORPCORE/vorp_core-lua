@@ -1,5 +1,5 @@
 local T = Translation[Lang].MessageOfSystem
-
+-- this also needs refactor
 AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
     local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
 
@@ -23,43 +23,21 @@ AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
 end)
 
 
-AddEventHandler("vorpwarns:addtodb", function(status, id)
-    local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
+AddEventHandler("vorpwarns:addtodb", function(status, target, source)
+    local sid = GetSteamID(source)
 
-    local resultList = MySQL.prepare.await("SELECT * FROM users WHERE identifier = ?", { sid })
-
-    local warnings
-
-    if _users[sid] then
+    if sid and _users[sid] then
         local user = _users[sid].GetUser()
-        warnings = user.getPlayerwarnings()
-
-        for _, player in ipairs(GetPlayers()) do
-            if sid == GetPlayerIdentifiers(player)[1] then
-                if status == true then
-                    TriggerClientEvent("vorp:Tip", tonumber(player), T["Warned"], 10000)
-                    warnings = warnings + 1
-                else
-                    TriggerClientEvent("vorp:Tip", tonumber(player), T["Unwarned"], 10000)
-                    warnings = warnings - 1
-                end
-                break
-            end
-        end
-
+        local warnings = user.getPlayerwarnings()
+        warnings = status and warnings + 1 or warnings - 1
+        local notifyMsg = status and T.Warned or T.Unwarned
+        TriggerClientEvent("vorp:Tip", target, notifyMsg, 10000)
         user.setPlayerWarnings(warnings)
-    else
-        local user = resultList
-        warnings = user.warnings
-        if status == true then
-            warnings = warnings + 1
-        else
-            warnings = warnings - 1
-        end
+
+        MySQL.update("UPDATE users SET warnings = @warnings WHERE identifier = @identifier",
+            { ['@warnings'] = warnings, ['@identifier'] = sid })
+        return
     end
 
-
-    MySQL.update("UPDATE users SET warnings = @warnings WHERE identifier = @identifier",
-        { ['@warnings'] = warnings, ['@identifier'] = sid }, function(result)
-        end)
+    TriggerClientEvent("vorp:Tip", source, "User Is not in game to be warned or id is wrong", 10000)
 end)

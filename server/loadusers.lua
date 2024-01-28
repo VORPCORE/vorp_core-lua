@@ -74,6 +74,9 @@ AddEventHandler('playerDropped', function()
     if _usersLoading[identifier] == false or _usersLoading[identifier] then
         _usersLoading[identifier] = nil
     end
+    -- remove whitelist
+    local userid = GetUserId(identifier)
+    WhiteListedUsers[userid] = nil
 
     _users[identifier] = nil
 
@@ -86,6 +89,7 @@ AddEventHandler("playerJoining", function()
     local _source = source
     local identifier = GetSteamID(_source)
     local license = GetLicenseID(_source)
+    Player(_source).state:set('Character', { IsInSession = false }, true)
 
     if not identifier then
         return print("user cant load no identifier steam found make sure steam web API key is set up")
@@ -105,32 +109,32 @@ end)
 
 AddEventHandler('playerJoining', function()
     local _source = source
-    Player(_source).state:set('Character', { IsInSession = false }, true)
+
+    if not Config.Whitelist then
+        return
+    end
+
     local identifier = GetSteamID(_source)
     local discordId = GetDiscordID(_source)
-    local isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
+    local userid = GetUserId(identifier)
 
-    if Config.Whitelist and not isWhiteListed then
-        MySQL.insert.await("INSERT INTO whitelist (identifier, status, firstconnection) VALUES (?,?,?)",
-            { identifier, false, true })
-        isWhiteListed = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
-    end
+    -- if is white listed then exists
+    if WhiteListedUsers[userid] then
+        local entry = WhiteListedUsers[userid].GetEntry()
+        -- is first time joinging
+        if entry.getFirstconnection() then
+            local steamName = GetPlayerName(_source) or ""
+            --todo this can de added as default
+            if Config.SaveDiscordId then
+                MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
+            end
 
-    local userid = isWhiteListed and isWhiteListed.id
-    if not _whitelist[userid] then
-        _whitelist[userid] = Whitelist(userid, identifier, false, discordId, true)
-    end
-
-    local entry = _whitelist[userid].GetEntry()
-    if entry.getFirstconnection() then
-        local steamName = GetPlayerName(_source) or ""
-        if Config.SaveDiscordId then
-            MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
+            local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier, discordId,
+                userid)
+            TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook,
+                message)
+            entry.setFirstconnection(false)
         end
-
-        local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier, discordId, userid)
-        TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook, message)
-        entry.setFirstconnection(false)
     end
 end)
 

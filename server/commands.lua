@@ -337,16 +337,18 @@ end
 
 --UNWARNPLAYERS
 function UnWarnPlayer(data)
+    local source = tonumber(data.source)
     local target = tonumber(data.args[1])
-    TriggerEvent("vorpwarns:addtodb", false, target)
+    TriggerEvent("vorpwarns:addtodb", false, target, source)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --WARN PLAYERS
 function WarnPlayers(data)
+    local source = tonumber(data.source)
     local target = tonumber(data.args[1])
     if data.source ~= target then -- dont warn yourself
-        TriggerEvent("vorpwarns:addtodb", true, target)
+        TriggerEvent("vorpwarns:addtodb", true, target, source)
         SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     end
 end
