@@ -354,30 +354,14 @@ Commands = {
         commandName = "addChar",
         label = T.charCreateAdd.label,
         suggestion = {
-            { name = T.charCreateAdd.name, help = T.charCreateAdd.help },
+            { name = T.charCreateAdd.name,  help = T.charCreateAdd.help },
+            { name = T.charCreateAdd.name1, help = T.charCreateAdd.help1 },
         },
-        userCheck = false,
+        userCheck = true,
         groupAllowed = { "admin" },
         aceAllowed = 'vorpcore.addchar.Command',
         callFunction = function(...)
             AddCharCanCreateMore(...)
-        end
-    },
-    charCreateRemove = {
-        webhook = "",
-        custom = T.charCreateRemove.custom,
-        title = T.charCreateRemove.title,
-        --end webhook
-        commandName = "removeChar",
-        label = T.charCreateRemove.label,
-        suggestion = {
-            { name = T.charCreateRemove.name, help = T.charCreateRemove.help },
-        },
-        userCheck = false,
-        groupAllowed = { "admin" },
-        aceAllowed = 'vorpcore.removechar.Command',
-        callFunction = function(...)
-            RemoveCharCanCreateMore(...)
         end
     },
     myJob = {

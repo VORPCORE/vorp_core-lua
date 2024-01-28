@@ -34,6 +34,15 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
     end
 end
 
+function GetMaxCharactersAllowed(source)
+    local identifier = GetSteamID(source)
+    local user = _users[identifier]
+    if not user then
+        return
+    end
+    return user._charperm
+end
+
 AddEventHandler('playerDropped', function()
     local _source = source
     local identifier = GetSteamID(_source)
@@ -83,15 +92,10 @@ AddEventHandler("playerJoining", function()
     end
     _usersLoading[identifier] = true
 
-    local resultList = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
-    if resultList then
-        local user = resultList
-        if Config.UseCharPermission then
-            _users[identifier] = User(_source, identifier, user.group, user.warnings, license, user.char)
-        else
-            _users[identifier] = User(_source, identifier, user.group, user.warnings, license, false)
-        end
+    local user                = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
 
+    if user then
+        _users[identifier] = User(source, identifier, user.group, user.warnings, license, user.char)
         _users[identifier].LoadCharacters()
     else
         MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, "false" })
@@ -130,7 +134,6 @@ AddEventHandler('playerJoining', function()
     end
 end)
 
---* character selection
 RegisterNetEvent('vorp:playerSpawn', function()
     local _source = source
     local identifier = GetSteamID(_source)
@@ -138,30 +141,24 @@ RegisterNetEvent('vorp:playerSpawn', function()
     if not identifier then
         return print("user cant load no identifier steam found")
     end
-
     _usersLoading[identifier] = false
+
     local user = _users[identifier]
     if not user then
         return
     end
+
     user.Source(_source)
+
     local numCharacters = user.Numofcharacters()
 
     if numCharacters <= 0 then
         return TriggerEvent("vorp_CreateNewCharacter", _source)
     else
-        if not Config.UseCharPermission then
-            if Config.MaxCharacters > 1 then
-                return TriggerEvent("vorp_character:server:GoToSelectionMenu", _source)
-            else
-                return TriggerEvent("vorp_character:server:SpawnUniqueCharacter", _source)
-            end
-        end
-
-        if tostring(user._charperm) == "true" then
-            TriggerEvent("vorp_character:server:GoToSelectionMenu", _source)
+        if tonumber(user._charperm) > 1 then
+            return TriggerEvent("vorp_character:server:GoToSelectionMenu", _source)
         else
-            TriggerEvent("vorp_character:server:SpawnUniqueCharacter", _source)
+            return TriggerEvent("vorp_character:server:SpawnUniqueCharacter", _source)
         end
     end
 end)
@@ -249,25 +246,4 @@ CreateThread(function()
             end
         end
     end
-end)
-
-AddEventHandler("vorpchar:addtodb", function(status, identifier)
-    local resultList = MySQL.prepare.await("SELECT * FROM users WHERE identifier = ?", { identifier })
-    local char
-    if resultList then
-        for _, player in ipairs(GetPlayers()) do
-            if identifier == GetPlayerIdentifiers(player)[1] then
-                if status == true then
-                    TriggerClientEvent("vorp:Tip", tonumber(player), T.AddChar, 10000)
-                    char = "true"
-                else
-                    TriggerClientEvent("vorp:Tip", tonumber(player), T.RemoveChar, 10000)
-                    char = "false"
-                end
-                break
-            end
-        end
-    end
-
-    MySQL.update("UPDATE users SET `char` = ? WHERE `identifier` = ? ", { char, identifier })
 end)

@@ -6,7 +6,9 @@ end
 
 local CoreFunctions = {}
 
-CoreFunctions.maxCharacters = Config.MaxCharacters
+CoreFunctions.maxCharacters = function(source)
+    return GetMaxCharactersAllowed(source)
+end
 
 CoreFunctions.getUser = function(source)
     if source == nil then return nil end

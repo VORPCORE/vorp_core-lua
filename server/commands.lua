@@ -310,7 +310,7 @@ function BanPlayers(data)
     TriggerEvent("vorpbans:addtodb", true, target, banTime)
 
     local text = banTime == 0 and Translation[Lang].Notify.banned or
-    (Translation[Lang].Notify.banned2 .. os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600) .. Config.TimeZone)
+        (Translation[Lang].Notify.banned2 .. os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600) .. Config.TimeZone)
     SendDiscordLogs(data.config.webhook, data, data.source, text, "")
 end
 
@@ -357,20 +357,11 @@ function AddCharCanCreateMore(data)
         return
     end
     local target = data.args[1]
-    TriggerEvent("vorpchar:addtodb", true, target)
+    local number = tonumber(data.args[2])
+    local Character = VorpCore.getUser(target).getUsedCharacter
+    Character.setCharPerm(number)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     VorpCore.NotifyRightTip(data.source, T.AddChar .. target, 4000)
-end
-
---REMOVE ALLOW CHAR CREATION
-function RemoveCharCanCreateMore(data)
-    if not Config.UseCharPermission then
-        return
-    end
-    local target = data.args[1]
-    TriggerEvent("vorpchar:addtodb", false, target)
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
-    VorpCore.NotifyRightTip(data.source, T.RemoveChar .. target, 4000)
 end
 
 --MODIFY CHARACTER NAME

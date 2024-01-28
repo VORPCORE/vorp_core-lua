@@ -199,19 +199,13 @@ Translation = {
             charCreateAdd = {
                 custom = "\n**PlayerID** `%d`\n **Action:** `used charcreateadd`",
                 title = "📋` /addchar command` ",
-                label = "VORPcore command to set player can create more than one character will be allowed to create: " ..
+                label = "VORPcore command to set player can create more than one character default is: " ..
                     Config.MaxCharacters,
-                name = "steamid",
-                help = "steam id example 11000010c8aa16e",
+                name = "playerId",
+                name1 = "amount",
+                help = "server id player must be in game",
+                help1 = "amount of characters to update this is not incremental",
 
-            },
-            charCreateRemove = {
-                custom = "\n**PlayerID** `%d`\n **Action:** `used charcreateremove`",
-                title = "📋` /removechar command` ",
-                label = "VORPcore command to set player can create more than one character will be allowed to create: " ..
-                    Config.MaxCharacters,
-                name = "steamid",
-                help = "steam id example 11000010c8aa16e",
             },
             myJob = {
                 title = "📋` /myjob command` ",
@@ -486,16 +480,10 @@ Translation = {
                 label =
                     "Comando VORPcore para permitir que um jogador crie mais de um personagem (será permitido criar: " ..
                     Config.MaxCharacters .. ")",
-                name = "steamid",
-                help = "exemplo de ID Steam: 11000010c8aa16e",
-            },
-            charCreateRemove = {
-                custom = "\n**ID do Jogador** `%d`\n **Ação:** `usou charcreateremove`",
-                title = "📋`Comando /removechar`",
-                label = "Comando VORPcore para definir se o jogador pode criar mais de um personagem: " ..
-                    Config.MaxCharacters .. " personagens serão permitidos",
-                name = "steamid",
-                help = "exemplo de ID Steam: 11000010c8aa16e",
+                name = "ID",
+                name1 = "quantidade",
+                help = "ID do jogador",
+                help1 = "quantidade de personagens para atualizar, não é incremental",
             },
             myJob = {
                 title = "📋`Comando /myjob`",
@@ -518,7 +506,8 @@ Translation = {
             AccountEarlyLoad2  = "❌ Acesso Negado: Não é Permitido o Carregamento Duplo da Conta.",
             NoSteam            = "❌ Steam Necessário: Por favor, Abra o Steam e Reinicie o RedM.",
             NoDiscord          = "❌ Discord Necessário: Por favor, Abra o Discord e Reinicie o RedM.",
-            NoInWhitelist      = "❌ Acesso Negado: Usuário Não está na Lista Branca. Por favor, Envie seu ID de Usuário no Discord: ",
+            NoInWhitelist      =
+            "❌ Acesso Negado: Usuário Não está na Lista Branca. Por favor, Envie seu ID de Usuário no Discord: ",
             NoPermissions      = "Você não tem permissões suficientes",
             CheckingIdentifier = "Verificando Identificadores",
             LoadingUser        = "Carregando Usuário",
@@ -769,17 +758,12 @@ Translation = {
                 title = "📋` Comando /addchar` ",
                 label = "Comando VORPcore para permitir que o jogador crie mais de um personagem (quantidade permitida: " ..
                     Config.MaxCharacters .. ")",
-                name = "steamid",
-                help = "exemplo de ID da Steam: 11000010c8aa16e",
+                name = "ID",
+                name1 = "quantidade",
+                help = "ID do jogador",
+                help1 = "quantidade de personagens para atualizar, não é incremental",
             },
-            charCreateRemove = {
-                custom = "\n**ID do Jogador** `%d`\n **Ação:** `usou o comando charcreateremove`",
-                title = "📋` Comando /removechar`",
-                label = "Comando VORPcore para permitir que o jogador crie mais de um personagem. Será permitido criar: " ..
-                    Config.MaxCharacters,
-                name = "steamid",
-                help = "exemplo de ID Steam: 11000010c8aa16e",
-            },
+
             myJob = {
                 title = "📋` Comando /myjob`",
                 label = "Comando VORPcore para verificar o seu emprego",
@@ -801,7 +785,8 @@ Translation = {
             AccountEarlyLoad2  = "❌ Acesso Negado: Não é Permitido Carregamento Duplo da Conta.",
             NoSteam            = "❌ Steam Necessário: Por favor, Abra o Steam e Reinicie o RedM.",
             NoDiscord          = "❌ Discord Necessário: Por favor, Abra o Discord e Reinicie o RedM.",
-            NoInWhitelist      = "❌ Acesso Negado: Usuário Não Está na Lista Branca. Por favor, Envie seu ID de Usuário no Discord: ",
+            NoInWhitelist      =
+            "❌ Acesso Negado: Usuário Não Está na Lista Branca. Por favor, Envie seu ID de Usuário no Discord: ",
             NoPermissions      = "Você não tem permissões suficientes",
             CheckingIdentifier = "Verificando Identificadores",
             LoadingUser        = "Carregando Usuário",
@@ -1051,17 +1036,12 @@ Translation = {
                 custom = "\n**IDPlayer** `%d`\n **Azione:** `ha usato charcreateadd`",
                 title = "📋` /addchar` ",
                 label = "Comando VORPcore per aggiungere un personaggio ad un giocatore ",
-                name = "steamid",
-                help = "steam id esempio 11000010c8aa16e",
+                name = "ID",
+                name1 = "quantità",
+                help = "ID Player",
+                help1 = "quantità di personaggi da aggiungere, non è incrementale",
+            },
 
-            },
-            charCreateRemove = {
-                custom = "\n**IDPlayer** `%d`\n **Azione:** `ha usato charcreateremove`",
-                title = "📋` /removechar` ",
-                label = "Comando VORPcore per rimuovere un personaggio ad un giocatore ",
-                name = "steamid",
-                help = "steam id esempio 11000010c8aa16e",
-            },
             myJob = {
                 title = "📋` /myjob` ",
                 label = "Comando VORPcore per vedere il proprio lavoro",
@@ -1083,7 +1063,8 @@ Translation = {
             AccountEarlyLoad2  = "❌ Accesso Negato: Non è Permesso il Doppio Caricamento dell'Account.",
             NoSteam            = "❌ Steam Richiesto: Si Prega di Aprire Steam e Riavviare RedM.",
             NoDiscord          = "❌ Discord Richiesto: Si Prega di Aprire Discord e Riavviare RedM.",
-            NoInWhitelist      = "❌ Accesso Negato: Utente Non in Whitelist. Si Prega di Inviare il Tuo ID Utente in Discord: ",
+            NoInWhitelist      =
+            "❌ Accesso Negato: Utente Non in Whitelist. Si Prega di Inviare il Tuo ID Utente in Discord: ",
             NoPermissions      = "Non hai abbastanza permessi",
             CheckingIdentifier = "Controllo degli identificatori in corso",
             LoadingUser        = "Caricamento utente",
@@ -1334,17 +1315,12 @@ Translation = {
                 title = "📋` Comando /addchar` ",
                 label = "Comando VORPcore para permitir que un jugador cree más de un personaje. Se permitirá crear: " ..
                     Config.MaxCharacters,
-                name = "steamid",
-                help = "ejemplo de ID de Steam: 11000010c8aa16e",
+                name = "ID",
+                name1 = "cantidad",
+                help = "ID del jugador",
+                help1 = "cantidad de personajes a añadir, no es incremental",
             },
-            charCreateRemove = {
-                custom = "\n**PlayerID** `%d`\n **Acción:** `usó charcreateremove`",
-                title = "📋` Comando /removechar` ",
-                label = "Comando VORPcore para permitir que los jugadores creen más de un personaje: " ..
-                    Config.MaxCharacters,
-                name = "steamid",
-                help = "ejemplo de ID de Steam: 11000010c8aa16e",
-            },
+
             myJob = {
                 title = "📋` Comando /myjob` ",
                 label = "Comando VORPcore para verificar tu trabajo",
@@ -1366,7 +1342,8 @@ Translation = {
             AccountEarlyLoad2  = "❌ Acceso Denegado: No Se Permite la Carga Doble de la Cuenta.",
             NoSteam            = "❌ Steam Necesario: Por Favor, Abre Steam y Reinicia RedM.",
             NoDiscord          = "❌ Discord Necesario: Por Favor, Abre Discord y Reinicia RedM.",
-            NoInWhitelist      = "❌ Acceso Denegado: Usuario No en la Lista Blanca. Por Favor, Envía Tu ID de Usuario en Discord: ",
+            NoInWhitelist      =
+            "❌ Acceso Denegado: Usuario No en la Lista Blanca. Por Favor, Envía Tu ID de Usuario en Discord: ",
             NoPermissions      = "No tienes suficientes permisos",
             CheckingIdentifier = "Verificando identificadores",
             LoadingUser        = "Cargando usuario",
@@ -1620,17 +1597,12 @@ Translation = {
                 title = "📋` Commande /addchar`",
                 label = "Commande VORPcore pour autoriser un joueur à créer plusieurs personnages (maximum : " ..
                     Config.MaxCharacters .. ")",
-                name = "steamid",
-                help = "exemple d'ID Steam : 11000010c8aa16e",
+                name = "ID",
+                name1 = "quantité",
+                help = "ID du joueur",
+                help1 = "quantité de personnages à ajouter, non incrémental",
             },
-            charCreateRemove = {
-                custom = "\n**ID du joueur** `%d`\n **Action :** `used charcreateremove`",
-                title = "📋`Commande /removechar` ",
-                label = "Commande VORPcore pour autoriser les joueurs à créer plus d'un personnage : " ..
-                    Config.MaxCharacters,
-                name = "steamid",
-                help = "exemple d'ID Steam : 11000010c8aa16e",
-            },
+
             myJob = {
                 title = "📋`Commande /myjob` ",
                 label = "Commande VORPcore pour vérifier votre emploi",
@@ -1652,7 +1624,8 @@ Translation = {
             AccountEarlyLoad2  = "❌ Accès Refusé: Chargement Double du Compte Non Autorisé.",
             NoSteam            = "❌ Steam Requis: Veuillez Ouvrir Steam et Redémarrer RedM.",
             NoDiscord          = "❌ Discord Requis: Veuillez Ouvrir Discord et Redémarrer RedM.",
-            NoInWhitelist      = "❌ Accès Refusé: Utilisateur Non sur la Liste Blanche. Veuillez Envoyer Votre ID d'Utilisateur sur Discord: ",
+            NoInWhitelist      =
+            "❌ Accès Refusé: Utilisateur Non sur la Liste Blanche. Veuillez Envoyer Votre ID d'Utilisateur sur Discord: ",
             NoPermissions      = "Vous n'avez pas suffisamment de permissions",
             CheckingIdentifier = "Vérification des identifiants",
             LoadingUser        = "Chargement de l'utilisateur",
@@ -1905,18 +1878,13 @@ Translation = {
                 title = "📋` /addchar Befehl` ",
                 label = "VORPcore-Befehl, um festzulegen, ob ein Spieler mehr als einen Charakter erstellen darf: " ..
                     Config.MaxCharacters,
-                name = "steamid",
-                help = "Steam-ID Beispiel 11000010c8aa16e",
+                name = "ID",
+                name1 = "Menge",
+                help = "Spieler-ID",
+                help1 = "Anzahl der hinzuzufügenden Charaktere, nicht inkrementell",
 
             },
-            charCreateRemove = {
-                custom = "\n**PlayerID** `%d`\n **Aktion:** `charcreateremove verwendet`",
-                title = "📋` /removechar Befehl` ",
-                label = "VORPcore-Befehl, um festzulegen, ob ein Spieler mehr als einen Charakter erstellen darf: " ..
-                    Config.MaxCharacters,
-                name = "steamid",
-                help = "Steam-ID Beispiel 11000010c8aa16e",
-            },
+
             myJob = {
                 title = "📋` /myjob Befehl` ",
                 label = "VORPcore-Befehl, um deinen Job zu überprüfen",
@@ -1939,7 +1907,8 @@ Translation = {
             AccountEarlyLoad2  = "❌ Zugriff Verweigert: Doppeltes Laden des Kontos Nicht Gestattet.",
             NoSteam            = "❌ Steam Erforderlich: Bitte Öffnen Sie Steam und Starten Sie RedM Neu.",
             NoDiscord          = "❌ Discord Erforderlich: Bitte Öffnen Sie Discord und Starten Sie RedM Neu.",
-            NoInWhitelist      = "❌ Zugriff Verweigert: Benutzer Nicht auf der Whitelist. Bitte Senden Sie Ihre Benutzer-ID in Discord: ",
+            NoInWhitelist      =
+            "❌ Zugriff Verweigert: Benutzer Nicht auf der Whitelist. Bitte Senden Sie Ihre Benutzer-ID in Discord: ",
             NoPermissions      = "Du hast nicht genügend Berechtigungen",
             CheckingIdentifier = "Überprüfe Identifikatoren",
             LoadingUser        = "Benutzer wird geladen",
@@ -1958,7 +1927,7 @@ Translation = {
             prompt             = "Wiederbeleben",
             wayPoint           = "~e~Du musst zuerst einen Wegpunkt setzen!",
             mustBeSeated       = "~e~Du musst auf dem Fahrersitz sitzen!",
-            wagonInFront       ="~e~Du musst im Wagen sitzen oder dich in der Nähe eines Wagens befinden, um ihn zu löschen!",
+            wagonInFront       = "~e~Du musst im Wagen sitzen oder dich in der Nähe eines Wagens befinden, um ihn zu löschen!",
             cantCarry          = "~e~Kann keine weiteren Waffen tragen!",
             Hold               = "HALTEN!!",
             Load               = "Du wachst auf",
@@ -1990,7 +1959,8 @@ Translation = {
             PlayerWhenFocus    = "Spieler",
         },
         SuggestChat     = {
-            hideUi = "VORPcore-Befehl, um ALLE Benutzeroberflächen auf dem Bildschirm AUSZUBLICKEN, nützlich für Screenshots.",
+            hideUi =
+            "VORPcore-Befehl, um ALLE Benutzeroberflächen auf dem Bildschirm AUSZUBLICKEN, nützlich für Screenshots.",
             toogleUi = "VORPcore-Befehl zum Ein- und Ausschalten der VORP-Benutzeroberflächen auf dem Bildschirm",
             stopAnim = "VORPcore-Befehl, wenn Sie in einer Animation feststecken.",
             tooglePVP = "VORPcore-Befehl zum Ein- und Ausschalten des PvP für deinen Charakter.",
