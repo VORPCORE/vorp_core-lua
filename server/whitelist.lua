@@ -21,9 +21,9 @@ local function LoadWhitelist()
     end)
 end
 
-local function SetUpdateWhitelistPolicy() -- this needs a source to only get these values if player is joining
+local function SetUpdateWhitelistPolicy()                  -- this needs a source to only get these values if player is joining
     while Config.AllowWhitelistAutoUpdate do
-        Wait(Config.AllowWhitelistAutoUpdateTimer * 60000)                        -- this needs to be changed and saved on players drop
+        Wait(Config.AllowWhitelistAutoUpdateTimer * 60000) -- this needs to be changed and saved on players drop
         _whitelist = {}
         MySQL.query("SELECT * FROM whitelist", {},
             function(result) -- why are we loading all the entries into memmory ? so we are adding to a table even players that are not playing or have been banned or whatever.
@@ -77,7 +77,8 @@ local function InsertIntoWhitelist(identifier, discordid)
         return GetUserId(identifier)
     end
 
-    MySQL.prepare.await("INSERT INTO whitelist (identifier, status, discordid, firstconnection) VALUES (?,?,?,?)", { identifier, false, discordid, true })
+    MySQL.prepare.await("INSERT INTO whitelist (identifier, status, discordid, firstconnection) VALUES (?,?,?,?)",
+        { identifier, false, discordid, true })
     local entryList = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
     _whitelist[entryList.id] = Whitelist(entryList.id, identifier, false, discordid, true)
 
