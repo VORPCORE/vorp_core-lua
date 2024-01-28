@@ -73,7 +73,7 @@ local function InsertIntoWhitelist(identifier, discordid)
     MySQL.prepare.await("INSERT INTO whitelist (identifier, status, discordid, firstconnection) VALUES (?,?,?,?)",
         { identifier, false, discordid, true })
     local entry = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
-    WhiteListedUsers[entry.id] = Whitelist(entryList.id, identifier, false, discordid, true)
+    WhiteListedUsers[entry.id] = Whitelist(entry.id, identifier, false, discordid, true)
 
     return entryList.id
 end
