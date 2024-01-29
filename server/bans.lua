@@ -1,65 +1,38 @@
 local T = Translation[Lang].MessageOfSystem
 
-AddEventHandler("vorpbans:addtodb", function(status, id, datetime)
-    local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
+AddEventHandler("vorpbans:addtodb", function(status, steamid, datetime)
+    local user = _users[steamid]
 
-    if status == true then
-        for _, player in ipairs(GetPlayers()) do
-            if sid == GetPlayerIdentifiers(player)[1] then
-                if datetime == 0 then
-                    DropPlayer(player, Translation[Lang].Notify.banned3)
-                else
-                    local bannedUntil = os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600)
-                    DropPlayer(player, T.DropReasonBanned .. bannedUntil .. Config.TimeZone)
-                end
-                break
+    if user then
+        local source = user.GetUser().source
+        if status == true then
+            if datetime == 0 then
+                DropPlayer(source, Translation[Lang].Notify.banned3)
+            else
+                local bannedUntil = os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600)
+                DropPlayer(source, T.DropReasonBanned .. bannedUntil .. Config.TimeZone)
             end
         end
     end
 
-    MySQL.update("UPDATE users SET banned = @banned, banneduntil=@time WHERE identifier = @identifier",
-        { ['@banned'] = status, ['@time'] = datetime, ['@identifier'] = sid }, function(result)
-        end)
+    MySQL.update("UPDATE users SET banned = @banned, banneduntil=@time WHERE identifier = @identifier", { ['@banned'] = status, ['@time'] = datetime, ['@identifier'] = steamid })
 end)
 
 
-AddEventHandler("vorpwarns:addtodb", function(status, id)
-    local sid = _whitelist[id].GetEntry().getIdentifier() --IdsToIdentifiers[id]
+AddEventHandler("vorpwarns:addtodb", function(status, target, source)
+    local sid = GetSteamID(target)
 
-    local resultList = MySQL.prepare.await("SELECT * FROM users WHERE identifier = ?", { sid })
-
-    local warnings
-
-    if _users[sid] then
+    if sid and _users[sid] then
         local user = _users[sid].GetUser()
-        warnings = user.getPlayerwarnings()
-
-        for _, player in ipairs(GetPlayers()) do
-            if sid == GetPlayerIdentifiers(player)[1] then
-                if status == true then
-                    TriggerClientEvent("vorp:Tip", tonumber(player), T["Warned"], 10000)
-                    warnings = warnings + 1
-                else
-                    TriggerClientEvent("vorp:Tip", tonumber(player), T["Unwarned"], 10000)
-                    warnings = warnings - 1
-                end
-                break
-            end
-        end
-
+        local warnings = user.getPlayerwarnings()
+        warnings = status and warnings + 1 or warnings - 1
+        local notifyMsg = status and T.Warned or T.Unwarned
+        TriggerClientEvent("vorp:Tip", target, notifyMsg, 10000)
         user.setPlayerWarnings(warnings)
-    else
-        local user = resultList
-        warnings = user.warnings
-        if status == true then
-            warnings = warnings + 1
-        else
-            warnings = warnings - 1
-        end
+
+        MySQL.update("UPDATE users SET warnings = @warnings WHERE identifier = @identifier", { ['@warnings'] = warnings, ['@identifier'] = sid })
+        return
     end
 
-
-    MySQL.update("UPDATE users SET warnings = @warnings WHERE identifier = @identifier",
-        { ['@warnings'] = warnings, ['@identifier'] = sid }, function(result)
-        end)
+    TriggerClientEvent("vorp:Tip", source, "User Is not in game to be warned or id is wrong", 10000)
 end)

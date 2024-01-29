@@ -305,30 +305,29 @@ function User(source, identifier, group, playerwarnings, license, char)
 
     self.SaveUser = function(coords, heading)
         if self.usedCharacterId and self._usercharacters[self.usedCharacterId] then
-            if Config.onesync then
-                if coords then
-                    local characterCoords = json.encode({
-                        x = coords.x,
-                        y = coords.y,
-                        z = coords.z,
-                        heading = heading
-                    })
-                    self._usercharacters[self.usedCharacterId].Coords(characterCoords)
-                else
-                    local player = self.source
-                    local ped = GetPlayerPed(player)
-                    local Pcoords = GetEntityCoords(ped)
-                    local Pheading = GetEntityHeading(ped)
+            if coords then
+                local characterCoords = json.encode({
+                    x = coords.x,
+                    y = coords.y,
+                    z = coords.z,
+                    heading = heading
+                })
+                self._usercharacters[self.usedCharacterId].Coords(characterCoords)
+            else
+                local player = self.source
+                local ped = GetPlayerPed(player)
+                local Pcoords = GetEntityCoords(ped)
+                local Pheading = GetEntityHeading(ped)
 
-                    local characterCoords = json.encode({
-                        x = Pcoords.x,
-                        y = Pcoords.y,
-                        z = Pcoords.z,
-                        heading = Pheading
-                    })
-                    self._usercharacters[self.usedCharacterId].Coords(characterCoords)
-                end
+                local characterCoords = json.encode({
+                    x = Pcoords.x,
+                    y = Pcoords.y,
+                    z = Pcoords.z,
+                    heading = Pheading
+                })
+                self._usercharacters[self.usedCharacterId].Coords(characterCoords)
             end
+
             self._usercharacters[self.usedCharacterId].SaveCharacterInDb()
         end
     end

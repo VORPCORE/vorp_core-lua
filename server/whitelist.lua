@@ -1,48 +1,12 @@
-_whitelist = {}
-
 local T = Translation[Lang].MessageOfSystem
-
-function AddUserToWhitelistById(id)
-    _whitelist[id].GetEntry().setStatus(true)
-end
-
-function RemoveUserFromWhitelistById(id)
-    _whitelist[id].GetEntry().setStatus(false)
-end
-
-local function LoadWhitelist()
-    Wait(5000)
-    MySQL.query('SELECT * FROM whitelist', {}, function(result)
-        if #result > 0 then
-            for _, v in ipairs(result) do
-                _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.discordid, v.firstconnection)
-            end
-        end
-    end)
-end
-
-local function SetUpdateWhitelistPolicy() -- this needs a source to only get these values if player is joining
-    while Config.AllowWhitelistAutoUpdate do
-        Wait(Config.AllowWhitelistAutoUpdateTimer * 60000)                        -- this needs to be changed and saved on players drop
-        _whitelist = {}
-        MySQL.query("SELECT * FROM whitelist", {},
-            function(result) -- why are we loading all the entries into memmory ? so we are adding to a table even players that are not playing or have been banned or whatever.
-                if #result > 0 then
-                    for _, v in ipairs(result) do
-                        _whitelist[v.id] = Whitelist(v.id, v.identifier, v.status, v.discordid, v.firstconnection)
-                    end
-                end
-            end)
-    end
-end
+WhiteListedUsers = {}
 
 local function CheckWhitelistStatusOnConnect(identifier)
     local result = MySQL.single.await('SELECT status FROM whitelist WHERE identifier = ?', { identifier })
     if result and result.status ~= nil then
-        return result.status
-    else
-        return false
+        return result.status and true or false
     end
+    return false
 end
 
 function GetSteamID(src)
@@ -64,39 +28,10 @@ function GetLicenseID(src)
     return sid
 end
 
-function GetUserId(identifier)
-    for k, v in pairs(_whitelist) do
-        if v.GetEntry().getIdentifier() == identifier then
-            return v.GetEntry().getId()
-        end
-    end
-end
-
-local function InsertIntoWhitelist(identifier, discordid)
-    if GetUserId(identifier) then
-        return GetUserId(identifier)
-    end
-
-    MySQL.prepare.await("INSERT INTO whitelist (identifier, status, discordid, firstconnection) VALUES (?,?,?,?)", { identifier, false, discordid, true })
-    local entryList = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
-    _whitelist[entryList.id] = Whitelist(entryList.id, identifier, false, discordid, true)
-
-    return entryList.id
-end
-
-CreateThread(function()
-    if not Config.Whitelist then return end
-    LoadWhitelist()
-    SetUpdateWhitelistPolicy()
-end)
-
 AddEventHandler("playerConnecting", function(playerName, setKickReason, deferrals)
     local _source = source
     deferrals.defer()
-
     local steamIdentifier = GetSteamID(_source)
-    local discordIdentifier = GetDiscordID(_source)
-    local checkStatusWhitelist = CheckWhitelistStatusOnConnect(steamIdentifier)
 
     if not steamIdentifier then
         deferrals.done(T.NoSteam)
@@ -119,14 +54,16 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     end
 
     if Config.Whitelist then
-        local playerWlId = GetUserId(steamIdentifier)
-        if _whitelist[playerWlId] and checkStatusWhitelist then
-            deferrals.done()
-        else
-            playerWlId = InsertIntoWhitelist(steamIdentifier, discordIdentifier)
-            deferrals.done(T.NoInWhitelist .. playerWlId)
-            setKickReason(T.NoInWhitelist .. playerWlId)
+        local discordIdentifier = GetDiscordID(_source)
+        local isPlayerWhiteListed = CheckWhitelistStatusOnConnect(steamIdentifier)
+
+        if not isPlayerWhiteListed then
+            Whitelist.Functions.InsertWhitelistedUser({ identifier = steamIdentifier, discordid = discordIdentifier, status = false })
+            deferrals.done(T.NoInWhitelist .. " steam id: " .. steamIdentifier)
+            setKickReason(T.NoInWhitelist .. " steam id: " .. steamIdentifier)
             return CancelEvent()
+        else
+            Whitelist.Functions.InsertWhitelistedUser({ identifier = steamIdentifier, discordid = discordIdentifier, status = false })
         end
     end
 
@@ -135,5 +72,30 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
     if playerName and Config.PrintPlayerInfoOnEnter then
         print("Player ^2" .. playerName .. " ^7steam: ^3" .. steamIdentifier .. "^7 Loading...")
+    end
+end)
+
+AddEventHandler('playerJoining', function()
+    local _source = source
+
+    if not Config.Whitelist then
+        return
+    end
+
+    local identifier = GetSteamID(_source)
+    local discordId = GetDiscordID(_source)
+    local userid = Whitelist.Functions.GetUserId(identifier)
+
+    if WhiteListedUsers[userid] then
+        if not Whitelist.Functions.GetFirstConnection(userid) then
+            local steamName = GetPlayerName(_source) or ""
+            local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier, discordId, userid)
+            TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook, message)
+            Whitelist.Functions.SetFirstConnection(userid, false)
+        end
+        --TODO  this can de added as default in class characters
+        if Config.SaveDiscordId then
+            MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
+        end
     end
 end)

@@ -313,7 +313,6 @@ local function runSQLList(list, type)
                     local out = ''
                     if type == 'table' then
                         out = 'Created Table: '
-                        tableupdated = true
                     else
                         out = 'Updated Column: '
                     end
@@ -365,7 +364,7 @@ Citizen.CreateThread(function()
     end
 
     if updated then
-        SaveResourceFile(GetCurrentResourceName(), "./server/services/dbupdater/status.json", json.encode(status))
+        SaveResourceFile(GetCurrentResourceName(), "./server/services/dbupdater/status.json", json.encode(status), -1)
     else
         print('^4Database Auto Updater ^3(' .. dbversion .. ')^2✅ Database is up to date^0')
     end

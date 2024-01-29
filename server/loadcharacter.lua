@@ -1,9 +1,3 @@
-VorpCore = {}
-
-TriggerEvent("getCore", function(core)
-    VorpCore = core
-end)
-
 --TX ADMIN HEAL EVENT
 AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
     if GetInvokingResource() ~= "monitor" or type(eventData) ~= "table" or type(eventData.id) ~= "number" then
@@ -39,6 +33,5 @@ AddEventHandler('vorp:SaveDate', function()
     local identifier = GetSteamID(_source)
     local Character = _users[identifier].GetUsedCharacter()
     local charid = Character.charIdentifier
-    MySQL.update("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier",
-        { charidentifier = charid })
+    MySQL.update("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier", { charidentifier = charid })
 end)
