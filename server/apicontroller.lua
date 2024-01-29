@@ -132,7 +132,7 @@ CoreFunctions.Whitelist = {
     whitelistUser = function(steam)
         if not steam then return end
         -- insert or add whitelist
-        return Whitelist.Functions.InsertWhitelistedUser({ identifier = steam })
+        return Whitelist.Functions.InsertWhitelistedUser({ identifier = steam, status = true })
     end,
 
     unWhitelistUser = function(steam)

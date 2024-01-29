@@ -324,7 +324,7 @@ end
 --WHITELISTPLAYERS
 function AddPlayerToWhitelist(data)
     local target = tostring(data.args[1])
-    Whitelist.Functions.InsertWhitelistedUser({ identifier = target })
+    Whitelist.Functions.InsertWhitelistedUser({ identifier = target, status = true })
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 

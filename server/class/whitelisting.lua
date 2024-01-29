@@ -140,7 +140,7 @@ function Whitelist.Functions.InsertWhitelistedUser(data)
     end
 
 
-    MySQL.update('UPDATE whitelist SET status = @status WHERE identifier = @identifier', { ['@status'] = true, ['@identifier'] = data.identifier })
-    WhiteListedUsers[entry.id] = Whitelist:New({ id = entry.id, identifier = entry.identifier, status = true, discordid = entry.discordid, firstconnection = entry.firstconnection })
+    MySQL.update('UPDATE whitelist SET status = @status WHERE identifier = @identifier', { ['@status'] = data.status, ['@identifier'] = data.identifier })
+    WhiteListedUsers[entry.id] = Whitelist:New({ id = entry.id, identifier = entry.identifier, status = data.status, discordid = entry.discordid, firstconnection = entry.firstconnection })
     return true
 end
