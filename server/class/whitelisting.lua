@@ -127,7 +127,7 @@ function Whitelist.Functions.InsertWhitelistedUser(data)
 
 
     if not entry then
-        MySQL.prepare.await('INSERT INTO whitelist (identifier, status, discordid, firstconnection) VALUES (@identifier, @status, @discordid, @firstconnection)', { ['@identifier'] = data.identifier, ['@status'] = false, ['@discordid'] = data.discordid, ['@firstconnection'] = true })
+        MySQL.prepare.await("INSERT INTO whitelist (identifier, status, discordid, firstconnection) VALUES (?,?,?,?)", { data.identifier, false, data.discordid, true })
         entry = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { data.identifier })
         WhiteListedUsers[entry.id] = Whitelist:New({ id = entry.id, identifier = entry.identifier, status = false, discordid = entry.discordid, firstconnection = true })
         return true
@@ -135,8 +135,7 @@ function Whitelist.Functions.InsertWhitelistedUser(data)
 
 
     if entry.status then
-        print("user is already whitelisted to unwhitelist use different function")
-        return false
+        return true
     end
 
 
