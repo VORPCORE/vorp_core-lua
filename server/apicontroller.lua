@@ -128,20 +128,28 @@ CoreFunctions.Whitelist = {
         end
         return nil
     end,
+
+    whitelistUser = function(steam)
+        if not steam then return end
+        -- insert or add whitelist
+        return Whitelist.Functions.InsertWhitelistedUser({ identifier = steam })
+    end,
+
+    unWhitelistUser = function(steam)
+        if not steam then return end
+        local id = Whitelist.Functions.GetUserId(steam)
+        if id then
+            Whitelist.Functions.WhitelistUser(id, false)
+        end
+    end,
+
 }
 
 exports('GetCore', function()
     return CoreFunctions
 end)
 
--- not sure if this is being used from other scripts
-AddEventHandler('vorp:whitelistPlayer', function(id)
-    Whitelist.Functions.WhitelistUser(id, true)
-end)
 
-AddEventHandler('vorp:unwhitelistPlayer', function(id)
-    Whitelist.Functions.WhitelistUser(id, false)
-end)
 
 -----------------------------------------------------------------------------
 --- use exports

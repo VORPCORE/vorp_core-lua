@@ -28,15 +28,6 @@ function GetLicenseID(src)
     return sid
 end
 
-local function InsertIntoWhitelist(identifier, discordid)
-    local doesUserExist = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
-    if not doesUserExist then
-        MySQL.prepare.await("INSERT INTO whitelist (identifier, status, discordid, firstconnection) VALUES (?,?,?,?)", { identifier, false, discordid, true })
-        local entry = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { identifier })
-        WhiteListedUsers[entry.id] = Whitelist:New({ id = entry.id, identifier = entry.identifier, status = entry.status, discordid = entry.discordid, firstconnection = entry.firstconnection })
-    end
-end
-
 AddEventHandler("playerConnecting", function(playerName, setKickReason, deferrals)
     local _source = source
     deferrals.defer()
@@ -67,7 +58,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         local isPlayerWhiteListed = CheckWhitelistStatusOnConnect(steamIdentifier)
 
         if not isPlayerWhiteListed then
-            InsertIntoWhitelist(steamIdentifier, discordIdentifier)
+            Whitelist.Functions.InsertWhitelistedUser({ identifier = steamIdentifier, discordid = discordIdentifier })
             deferrals.done(T.NoInWhitelist .. " steam id: " .. steamIdentifier)
             setKickReason(T.NoInWhitelist .. " steam id: " .. steamIdentifier)
             return CancelEvent()

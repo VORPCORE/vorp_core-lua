@@ -118,3 +118,29 @@ function Whitelist.Functions.GetUserId(identifier)
     end
     return nil
 end
+
+--- insert a new whitelisted user
+---@param data {identifier: string, status: boolean, discordid: string}
+---@return boolean success
+function Whitelist.Functions.InsertWhitelistedUser(data)
+    local entry = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { data.identifier })
+
+
+    if not entry then
+        MySQL.prepare.await('INSERT INTO whitelist (identifier, status, discordid, firstconnection) VALUES (@identifier, @status, @discordid, @firstconnection)', { ['@identifier'] = data.identifier, ['@status'] = false, ['@discordid'] = data.discordid, ['@firstconnection'] = true })
+        entry = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { data.identifier })
+        WhiteListedUsers[entry.id] = Whitelist:New({ id = entry.id, identifier = entry.identifier, status = false, discordid = entry.discordid, firstconnection = true })
+        return true
+    end
+
+
+    if entry.status then
+        print("user is already whitelisted to unwhitelist use different function")
+        return false
+    end
+
+
+    MySQL.update('UPDATE whitelist SET status = @status WHERE identifier = @identifier', { ['@status'] = true, ['@identifier'] = data.identifier })
+    WhiteListedUsers[entry.id] = Whitelist:New({ id = entry.id, identifier = entry.identifier, status = true, discordid = entry.discordid, firstconnection = entry.firstconnection })
+    return true
+end
