@@ -7,6 +7,7 @@
 ---@alias whitelistFunctions {id : number, identifier : string, status : boolean, discordid : string, firstconnection : boolean}
 Whitelist = {}
 Whitelist.Functions = {}
+Whitelist.__index = Whitelist
 Whitelist.__call = function(_, ...)
     return 'Whitelist'
 end
@@ -125,21 +126,16 @@ end
 function Whitelist.Functions.InsertWhitelistedUser(data)
     local entry = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { data.identifier })
 
-
     if not entry then
         MySQL.prepare.await("INSERT INTO whitelist (identifier, status, discordid, firstconnection) VALUES (?,?,?,?)", { data.identifier, false, data.discordid, true })
-        entry = MySQL.single.await('SELECT * FROM whitelist WHERE identifier = ?', { data.identifier })
-        WhiteListedUsers[entry.id] = Whitelist:New({ id = entry.id, identifier = entry.identifier, status = false, discordid = entry.discordid, firstconnection = true })
         return true
     end
 
-
-    if entry.status then
+    if entry.status and not entry.firstconnection then
         return true
     end
 
-
-    MySQL.update('UPDATE whitelist SET status = @status WHERE identifier = @identifier', { ['@status'] = data.status, ['@identifier'] = data.identifier })
-    WhiteListedUsers[entry.id] = Whitelist:New({ id = entry.id, identifier = entry.identifier, status = data.status, discordid = entry.discordid, firstconnection = entry.firstconnection })
+    MySQL.update('UPDATE whitelist SET status = @status, discordid = @discordid, firstconnection = @firstconnection where id = @id', { ['@status'] = data.status and 1 or 0, ['@discordid'] = entry.discordid, ['@firstconnection'] = false, ['@id'] = entry.id })
+    WhiteListedUsers[entry.id] = Whitelist:New({ id = entry.id, identifier = entry.identifier, status = data.status, discordid = entry.discordid, firstconnection = false })
     return true
 end

@@ -58,10 +58,12 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         local isPlayerWhiteListed = CheckWhitelistStatusOnConnect(steamIdentifier)
 
         if not isPlayerWhiteListed then
-            Whitelist.Functions.InsertWhitelistedUser({ identifier = steamIdentifier, discordid = discordIdentifier,status = false})
+            Whitelist.Functions.InsertWhitelistedUser({ identifier = steamIdentifier, discordid = discordIdentifier, status = false })
             deferrals.done(T.NoInWhitelist .. " steam id: " .. steamIdentifier)
             setKickReason(T.NoInWhitelist .. " steam id: " .. steamIdentifier)
             return CancelEvent()
+        else
+            Whitelist.Functions.InsertWhitelistedUser({ identifier = steamIdentifier, discordid = discordIdentifier, status = false })
         end
     end
 
@@ -85,7 +87,7 @@ AddEventHandler('playerJoining', function()
     local userid = Whitelist.Functions.GetUserId(identifier)
 
     if WhiteListedUsers[userid] then
-        if Whitelist.Functions.GetFirstConnection(userid) then
+        if not Whitelist.Functions.GetFirstConnection(userid) then
             local steamName = GetPlayerName(_source) or ""
             local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier, discordId, userid)
             TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook, message)
