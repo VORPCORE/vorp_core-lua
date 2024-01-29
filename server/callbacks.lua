@@ -11,7 +11,7 @@ end
 
 
 function ServerRPC:New(name, callback)
-    local self = setmetatable({}, ServerRPC)
+    self = setmetatable({}, ServerRPC)
     self.name = name
     self._callback = callback
     self.uniqueId = ""

@@ -21,15 +21,14 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
                 deferrals.done(T.BannedUser .. bannedUntil .. Config.TimeZone)
                 setKickReason(T.BannedUser .. bannedUntil .. Config.TimeZone)
             else
-                local getuser = GetUserId(identifier)
-                TriggerEvent("vorpbans:addtodb", false, getuser, 0)
+                TriggerEvent("vorpbans:addtodb", false, identifier, 0)
             end
         end
 
         deferrals.done()
     else
-        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, "false" })
-        _users[identifier] = User(source, identifier, "user", 0, license, false)
+        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, Config.MaxCharacters })
+        _users[identifier] = User(source, identifier, "user", 0, license, Config.MaxCharacters)
         deferrals.done()
     end
 end
@@ -48,13 +47,10 @@ AddEventHandler('playerDropped', function()
     local identifier = GetSteamID(_source)
     local discordId = GetDiscordID(_source)
     local steamName = GetPlayerName(_source)
-    local pCoords, pHeading
+    local ped = GetPlayerPed(_source)
+    local pCoords = GetEntityCoords(ped)
+    local pHeading = GetEntityHeading(ped) or 0
 
-    if Config.onesync then
-        local ped = GetPlayerPed(_source)
-        pCoords = GetEntityCoords(ped)
-        pHeading = GetEntityHeading(ped) or 0
-    end
 
     if _users[identifier] and _users[identifier].GetUsedCharacter() then
         if Config.SavePlayersStatus then
@@ -68,21 +64,23 @@ AddEventHandler('playerDropped', function()
             print('Player ^2' .. steamName .. ' ^7steam:^3 ' .. identifier .. '^7 saved')
         end
         _users[identifier].SaveUser(pCoords, pHeading)
-        Player(_source).state:set('Character', {}, true)
+        Player(_source).state:set('Character', nil, true)
     end
 
     if _usersLoading[identifier] == false or _usersLoading[identifier] then
         _usersLoading[identifier] = nil
     end
-    -- remove whitelist
-    local userid = GetUserId(identifier)
-    if WhiteListedUsers[userid] then
+
+    local userid = Whitelist.Functions.GetUserId(identifier)
+    if userid and WhiteListedUsers[userid] then
         WhiteListedUsers[userid] = nil
     end
 
-    _users[identifier] = nil
+    if _users[identifier] then
+        _users[identifier] = nil
+    end
 
-    if Config.SaveDiscordId then
+    if Config.SaveDiscordId then --TODO this can de added as default
         MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
     end
 end)
@@ -98,8 +96,7 @@ AddEventHandler("playerJoining", function()
     end
     _usersLoading[identifier] = true
 
-    local user                = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
-
+    local user = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
     if user then
         _users[identifier] = User(_source, identifier, user.group, user.warnings, license, user.char)
         _users[identifier].LoadCharacters()
@@ -109,36 +106,6 @@ AddEventHandler("playerJoining", function()
     end
 end)
 
-AddEventHandler('playerJoining', function()
-    local _source = source
-
-    if not Config.Whitelist then
-        return
-    end
-
-    local identifier = GetSteamID(_source)
-    local discordId = GetDiscordID(_source)
-    local userid = GetUserId(identifier)
-
-    -- if is white listed then exists
-    if WhiteListedUsers[userid] then
-        local entry = WhiteListedUsers[userid].GetEntry()
-        -- is first time joinging
-        if entry.getFirstconnection() then
-            local steamName = GetPlayerName(_source) or ""
-            --todo this can de added as default
-            if Config.SaveDiscordId then
-                MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
-            end
-
-            local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier, discordId,
-                userid)
-            TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook,
-                message)
-            entry.setFirstconnection(false)
-        end
-    end
-end)
 
 RegisterNetEvent('vorp:playerSpawn', function()
     local _source = source

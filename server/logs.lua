@@ -27,11 +27,3 @@ AddEventHandler('vorp_core:addWebhook', function(title, webhook, description, co
         ['Content-Type'] = 'application/json'
     })
 end)
-
------------------------------------------------------------------------------------------------------------------------
------------------------------------------------- RICH PRESENCE --------------------------------------------------------
-RegisterServerEvent("vorprich:getplayers")
-AddEventHandler("vorprich:getplayers", function()
-    local playerCount = #GetPlayers()
-    TriggerClientEvent("vorprich:update", source, playerCount)
-end)

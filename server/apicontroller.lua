@@ -4,14 +4,14 @@ if GetCurrentResourceName() ~= 'vorp_core' then
     end
 end
 
-local CoreFunctions = {}
+CoreFunctions = {}
 
 CoreFunctions.maxCharacters = function(source)
     return GetMaxCharactersAllowed(source)
 end
 
 CoreFunctions.getUser = function(source)
-    if source == nil then return nil end
+    if not source then return nil end
     local sid = GetSteamID(source)
     if not sid or not _users[sid] then return nil end
     return _users[sid].GetUser()
@@ -60,8 +60,7 @@ CoreFunctions.NotifySimpleTop = function(source, text, subtitle, duration)
 end
 
 CoreFunctions.NotifyAvanced = function(source, text, dict, icon, text_color, duration, quality, showquality)
-    TriggerClientEvent('vorp:ShowAdvancedRightNotification', source, text, dict, icon, text_color, duration, quality,
-        showquality)
+    TriggerClientEvent('vorp:ShowAdvancedRightNotification', source, text, dict, icon, text_color, duration, quality, showquality)
 end
 
 CoreFunctions.NotifyCenter = function(source, text, duration, color)
@@ -119,43 +118,40 @@ CoreFunctions.Callback = {
     end
 }
 
+CoreFunctions.Whitelist = {
+
+    getEntry = function(identifier)
+        if not identifier then return nil end
+        local userid = Whitelist.Functions.GetUserId(identifier)
+        if userid then
+            return Whitelist.Functions.GetUsersData(userid)
+        end
+        return nil
+    end,
+}
+
 exports('GetCore', function()
     return CoreFunctions
 end)
 
---WHITE LIST
-AddEventHandler('getWhitelistTables', function(cb)
-    local whitelistData = {}
-
-    whitelistData.getEntry = function(identifier)
-        if identifier == nil then return nil end
-
-        local userid = GetUserId(identifier)
-
-        if WhiteListedUsers[userid] then
-            return WhiteListedUsers[userid].GetEntry()
-        else
-            return nil
-        end
-    end
-
-    whitelistData.getEntries = function()
-        return WhiteListedUsers
-    end
-
-    cb(whitelistData)
-end)
-
+-- not sure if this is being used from other scripts
 AddEventHandler('vorp:whitelistPlayer', function(id)
-    AddUserToWhitelistById(id)
+    Whitelist.Functions.WhitelistUser(id, true)
 end)
 
 AddEventHandler('vorp:unwhitelistPlayer', function(id)
-    RemoveUserFromWhitelistById(id)
+    Whitelist.Functions.WhitelistUser(id, false)
 end)
 
+-----------------------------------------------------------------------------
 --- use exports
 ---@deprecated
 AddEventHandler('getCore', function(cb)
     cb(CoreFunctions)
+end)
+
+--- use exports
+---@deprecated
+AddEventHandler('getWhitelistTables', function(cb)
+    cb(CoreFunctions.Whitelist)
 end)
