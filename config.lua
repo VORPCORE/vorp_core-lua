@@ -41,6 +41,7 @@ Config = {
     disableAutoAIM                = true,         -- Disables auto-aim for controller players if set to false.
     SavePlayersHours              = false,        -- Enables saving of players' played hours in the database. TxAdmin might already provide this.
     CheckDoubleAccounts           = false,        -- Enables, check if player enter with two accounts.
+
     --=============================================
     --          MULTICHARACTER SUPPORT           --
     --=============================================
