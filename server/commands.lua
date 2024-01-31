@@ -356,9 +356,6 @@ end
 
 --ALLOW CHAR CREATION
 function AddCharCanCreateMore(data)
-    if not Config.UseCharPermission then
-        return
-    end
     local target = data.args[1]
     local number = tonumber(data.args[2])
     local Character = CoreFunctions.getUser(target).getUsedCharacter
