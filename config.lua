@@ -10,7 +10,6 @@
 Lang = "English"
 
 Config = {
-    onesync                       = true,  -- Enable this if you are using OneSync. Set to false if not.
     autoUpdateDB                  = true,  -- Enables automatic database updates.
     PrintPlayerInfoOnLeave        = false, -- Logs player information in the server console when they leave.
     PrintPlayerInfoOnEnter        = false, -- Logs player information in the server console upon joining.
