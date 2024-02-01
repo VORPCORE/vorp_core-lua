@@ -358,7 +358,7 @@ end
 function AddCharCanCreateMore(data)
     local target = data.args[1]
     local number = tonumber(data.args[2])
-    local Character = CoreFunctions.getUser(target).getUsedCharacter
+    local Character = CoreFunctions.getUser(target)
     Character.setCharPerm(number)
     SendDiscordLogs(data.config.webhook, data, data.source, "", "")
     CoreFunctions.NotifyRightTip(data.source, T.AddChar .. target, 4000)
