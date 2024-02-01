@@ -148,7 +148,7 @@ function User(source, identifier, group, playerwarnings, license, char)
             self.Group(group)
         end
 
-        userData.setCharPerm = function(char)
+        userData.setCharperm = function(char)
             self.Charperm(char)
         end
 
