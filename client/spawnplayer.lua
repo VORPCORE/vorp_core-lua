@@ -33,6 +33,20 @@ function CoreAction.Player.TeleportToCoords(coords, heading)
     repeat Wait(0) until HasCollisionLoadedAroundEntity(PlayerPedId())
 end
 
+function CoreAction.Player.MapCheck()
+    while Config.enableTypeRadar do
+        Wait(3000)
+        local player = PlayerPedId()
+        local playerOnMout = IsPedOnMount(player)
+        local playerOnVeh = IsPedInAnyVehicle(player, false)
+        if not playerOnMout and not playerOnVeh then
+            SetMinimapType(Config.mapTypeOnFoot)
+        elseif playerOnMout or playerOnVeh then
+            SetMinimapType(Config.mapTypeOnMount)
+        end
+    end
+end
+
 -- PLAYERSPAWN
 AddEventHandler('playerSpawned', function()
     DoScreenFadeOut(0)
@@ -131,6 +145,7 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
     end)
 end)
 
+
 -- PLAYER SPAWN AFTER SELECT CHARACTER
 RegisterNetEvent("vorp:SelectedCharacter", function()
     Spawned = true
@@ -155,6 +170,8 @@ RegisterNetEvent("vorp:SelectedCharacter", function()
         Citizen.InvokeNative(0xE8770EE02AEE45C2, 1)
         Citizen.InvokeNative(0x74E2261D2A66849A, true)
     end
+
+    CreateThread(CoreAction.Player.MapCheck)
 end)
 
 RegisterNetEvent("vorp:GetHealthFromCore")
@@ -194,6 +211,7 @@ CreateThread(function()
 end)
 
 
+
 CreateThread(function()
     while true do
         Wait(0)
@@ -204,28 +222,6 @@ CreateThread(function()
     end
 end)
 
-
-local function MapCheck()
-    if Config.enableTypeRadar then
-        local player = PlayerPedId()
-        local playerOnMout = IsPedOnMount(player)
-        local playerOnVeh = IsPedInAnyVehicle(player, false)
-        if not playerOnMout and not playerOnVeh then
-            SetMinimapType(Config.mapTypeOnFoot)
-        elseif playerOnMout or playerOnVeh then
-            SetMinimapType(Config.mapTypeOnMount)
-        end
-    end
-end
-
-CreateThread(function()
-    while true do
-        Wait(3000)
-        if LocalPlayer.state.Character.IsInSession then
-            MapCheck()
-        end
-    end
-end)
 
 CreateThread(function()
     while Config.SavePlayersStatus do

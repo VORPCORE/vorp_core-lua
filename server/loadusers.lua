@@ -63,7 +63,7 @@ AddEventHandler('playerDropped', function()
         if Config.PrintPlayerInfoOnLeave then
             print('Player ^2' .. steamName .. ' ^7steam:^3 ' .. identifier .. '^7 saved')
         end
-        
+
         _users[identifier].SaveUser(pCoords, pHeading)
         Player(_source).state:set('Character', nil, true)
     end
