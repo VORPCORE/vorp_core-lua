@@ -261,7 +261,7 @@ end)
 CreateThread(function()
     while true do
         local sleep = 1000
-        if LocalPlayer.state.Character.IsInSession then
+        if LocalPlayer.state.Character and LocalPlayer.state.Character.IsInSession then
             if not IsPlayerDead(PlayerId()) then
                 sleep = 500
                 local PlayerId = PlayerId()

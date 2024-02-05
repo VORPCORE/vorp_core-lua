@@ -1,6 +1,7 @@
 local CoreFunctions = {}
 local ScreenResolution = nil
 local MenuData = exports.vorp_menu:GetMenuData()
+
 CoreFunctions.RpcCall = function(name, callback, ...)
     ClientRPC.Callback.TriggerAsync(name, callback, ...)
 end
@@ -122,7 +123,6 @@ CoreFunctions.Menu = {
     ReOpen = function(oldMenu)
         MenuData.ReOpen(oldMenu)
     end
-
 }
 
 RegisterNUICallback('getRes', function(args, cb)

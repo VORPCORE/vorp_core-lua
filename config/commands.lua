@@ -21,7 +21,7 @@ local T = Translation[Lang].Commands
         userCheck = true, -- does this command need to check if user is playing ?
         groupAllowed = { "admin" }, -- from users table in the database this group will be allowed to use this command
         aceAllowed = 'vorpcore.setGroup.Command', -- dont touch,
-        --jobsAllow = {}, -- jobs allowed ? remove or leave empty if not needed
+        jobsAllow = {}, -- jobs allowed ? remove or leave empty if not needed
         callFunction = function(...) -- dont touch
             -- this is a function
             -- you can run code here trigger client events or server events , exports etc,
@@ -388,6 +388,8 @@ Commands = {
             MyHours(...)
         end
     },
+
     -- create your commands here just copy from above , see first line on how to do it
+
 
 }
