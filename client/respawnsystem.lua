@@ -193,7 +193,6 @@ function CoreAction.Player.RespawnPlayer()
     TriggerEvent("vorpmetabolism:changeValue", "Thirst", 1000)
     TriggerEvent("vorpmetabolism:changeValue", "Hunger", 1000)
     CoreAction.Player.ResurrectPlayer(coords, closestLocation, false)
-    -- TriggerServerEvent("vorpcharacter:getPlayerSkin")
 end
 
 -- CREATE PROMPT
@@ -233,6 +232,7 @@ AddEventHandler("vorp_core:Client:AddTimeToRespawn", function(time)
     end
 end)
 
+
 --DEATH HANDLER
 CreateThread(function()
     while Config.UseDeathHandler do
@@ -242,7 +242,7 @@ CreateThread(function()
             if not setDead then
                 setDead = true
                 PressKey = false
-                PromptSetEnabled(prompt, 1)
+                PromptSetEnabled(prompt, true)
                 NetworkSetInSpectatorMode(false, PlayerPedId())
                 exports.spawnmanager.setAutoSpawn(false)
                 TriggerServerEvent("vorp:ImDead", true)
@@ -270,17 +270,17 @@ CreateThread(function()
                     if TimeToRespawn >= 1 and setDead then
                         ProcessCamControls()
                         Done = false
-                        PromptSetEnabled(prompt, 0)
+                        PromptSetEnabled(prompt, false)
                     else
                         ProcessCamControls()
                         Done = true
-                        PromptSetEnabled(prompt, 1)
+                        PromptSetEnabled(prompt, true)
                     end
                     carried = false
                 else
                     if setDead then
                         PromptSetActiveGroupThisFrame(prompts, CheckLabel())
-                        PromptSetEnabled(prompt, 0)
+                        PromptSetEnabled(prompt, false)
                         ProcessCamControls()
                         carried = true
                     end

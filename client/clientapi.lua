@@ -1,6 +1,7 @@
-local CoreFunctions = {}
 local ScreenResolution = nil
 local MenuData = exports.vorp_menu:GetMenuData()
+
+local CoreFunctions = {}
 
 CoreFunctions.RpcCall = function(name, callback, ...)
     ClientRPC.Callback.TriggerAsync(name, callback, ...)
@@ -79,6 +80,7 @@ CoreFunctions.NotifyLeftRank = function(title, subtitle, dict, icon, duration, c
 end
 
 CoreFunctions.Graphics = {
+
     ScreenResolution = function()
         if ScreenResolution then
             return ScreenResolution
@@ -90,6 +92,7 @@ CoreFunctions.Graphics = {
 }
 
 CoreFunctions.Callback = {
+
     Register = function(name, callback)
         ClientRPC.Callback.Register(name, callback)
     end,
@@ -101,7 +104,9 @@ CoreFunctions.Callback = {
     end
 }
 
+
 CoreFunctions.Menu = {
+
     CloseAll = function()
         MenuData.CloseAll()
     end,
@@ -125,21 +130,22 @@ CoreFunctions.Menu = {
     end
 }
 
-RegisterNUICallback('getRes', function(args, cb)
-    ScreenResolution = args
-    cb('ok')
-end)
-
 exports('GetCore', function()
     return CoreFunctions
-end)
-
----@deprecated
-AddEventHandler('getCore', function(cb)
-    return cb(CoreFunctions)
 end)
 
 CreateThread(function()
     Wait(0)
     SendNUIMessage({ type = "getRes" })
+end)
+
+RegisterNUICallback('getRes', function(args, cb)
+    ScreenResolution = args
+    cb('ok')
+end)
+
+--- use exports
+---@deprecated
+AddEventHandler('getCore', function(cb)
+    return cb(CoreFunctions)
 end)

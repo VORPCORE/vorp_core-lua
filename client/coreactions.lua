@@ -1,11 +1,7 @@
 ---@class CoreAction CoreAction
----@field Admin CoreAction.Admin admin actions
----@field Utils CoreAction.Utils utils
----@field Player CoreAction.Player player actions
 CoreAction = {}
 CoreAction.Admin = {}
 CoreAction.Utils = {}
----@class CoreAction.Player
 CoreAction.Player = {}
 
 local T = Translation[Lang].MessageOfSystem
