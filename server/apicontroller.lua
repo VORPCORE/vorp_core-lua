@@ -10,6 +10,10 @@ CoreFunctions.maxCharacters = function(source)
     return GetMaxCharactersAllowed(source)
 end
 
+CoreFunctions.getUsers = function()
+    return _users
+end
+
 CoreFunctions.getUser = function(source)
     if not source then return nil end
     local sid = GetSteamID(source)
@@ -25,14 +29,6 @@ CoreFunctions.getUserByCharId = function(charid)
         end
     end
     return nil
-end
-
-CoreFunctions.addRpcCallback = function(name, callback)
-    ServerRPC.Callback.Register(name, callback)
-end
-
-CoreFunctions.getUsers = function()
-    return _users
 end
 
 CoreFunctions.NotifyTip = function(source, text, duration)
@@ -107,6 +103,7 @@ CoreFunctions.AddWebhook = function(title, webhook, description, color, name, lo
 end
 
 CoreFunctions.Callback = {
+
     Register = function(name, callback)
         ServerRPC.Callback.Register(name, callback)
     end,
@@ -131,7 +128,6 @@ CoreFunctions.Whitelist = {
 
     whitelistUser = function(steam)
         if not steam then return end
-        -- insert or add whitelist
         return Whitelist.Functions.InsertWhitelistedUser({ identifier = steam, status = true })
     end,
 
@@ -142,14 +138,27 @@ CoreFunctions.Whitelist = {
             Whitelist.Functions.WhitelistUser(id, false)
         end
     end,
-
 }
+
+CoreFunctions.Player = {
+    Heal = function(source)
+        if not source then return end
+        TriggerClientEvent('vorp:Heal', source)
+    end,
+    Revive = function(source, param)
+        if not source then return end
+        TriggerClientEvent('vorp:ResurrectPlayer', source, param)
+    end,
+    Respawn = function(source)
+        if not source then return end
+        TriggerClientEvent('vorp_core:respawnPlayer', source)
+    end,
+}
+
 
 exports('GetCore', function()
     return CoreFunctions
 end)
-
-
 
 -----------------------------------------------------------------------------
 --- use exports
@@ -163,3 +172,9 @@ end)
 AddEventHandler('getWhitelistTables', function(cb)
     cb(CoreFunctions.Whitelist)
 end)
+
+--- use Core object
+---@deprecated
+CoreFunctions.addRpcCallback = function(name, callback)
+    ServerRPC.Callback.Register(name, callback)
+end
