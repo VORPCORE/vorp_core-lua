@@ -32,7 +32,7 @@ files {
 
 ui_page 'ui/index.html'
 
-version '2.4'
+version '2.5'
 vorp_checker 'yes'
 vorp_name '^4Resource version Check^3'
 vorp_github 'https://github.com/VORPCORE/vorp-core-lua'
