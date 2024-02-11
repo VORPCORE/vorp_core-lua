@@ -22,7 +22,7 @@ AddEventHandler('vorp_core:addWebhook', function(title, webhook, description, co
             },
 
         },
-        avatar_url = avatar or Config.Avatar
+        avatar_url = (not avatar or avatar=="") or Config.Avatar
     }), {
         ['Content-Type'] = 'application/json'
     })
