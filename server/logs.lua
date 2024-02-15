@@ -4,7 +4,6 @@
 RegisterServerEvent('vorp_core:addWebhook')
 AddEventHandler('vorp_core:addWebhook', function(title, webhook, description, color, name, logo, footerlogo, avatar)
     if not webhook or webhook == "" then
-        print("^1[ERROR] ^7No webhook provided")
         return
     end
     local webhookColor = (not color or color == "") and Config.webhookColor or color
