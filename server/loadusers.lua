@@ -77,9 +77,11 @@ AddEventHandler('playerDropped', function()
         WhiteListedUsers[userid] = nil
     end
 
-    if _users[identifier] then
-        _users[identifier] = nil
-    end
+    SetTimeout(2000, function()
+        if _users[identifier] then
+            _users[identifier] = nil
+        end
+    end)
 
     if Config.SaveDiscordId then --TODO this can de added as default
         MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
