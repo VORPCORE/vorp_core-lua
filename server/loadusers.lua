@@ -45,9 +45,6 @@ end
 local function savePlayer(_source, reason, identifier)
     local discordId = GetDiscordID(_source)
     local steamName = GetPlayerName(_source)
-    local ped = GetPlayerPed(_source)
-    local pCoords = GetEntityCoords(ped)
-    local pHeading = GetEntityHeading(ped) or 0
 
     if _users[identifier] and _users[identifier].GetUsedCharacter() then
         if Config.SavePlayersStatus then
@@ -56,7 +53,7 @@ local function savePlayer(_source, reason, identifier)
             _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
             _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
         end
-        _users[identifier].SaveUser(pCoords, pHeading)
+        _users[identifier].SaveUser()
         Player(_source).state:set('Character', nil, true)
         Player(_source).state:set('IsInSession', nil, true)
     end
@@ -84,7 +81,7 @@ local function removePlayer(identifier)
         WhiteListedUsers[userid] = nil
     end
 
-    SetTimeout(2000, function()
+    SetTimeout(3000, function()
         if _users[identifier] then
             _users[identifier] = nil
         end

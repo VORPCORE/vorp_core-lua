@@ -303,21 +303,15 @@ function User(source, identifier, group, playerwarnings, license, char)
         end
     end
 
-    self.SaveUser = function(coords, heading)
+    self.SaveUser = function()
         if self.usedCharacterId and self._usercharacters[self.usedCharacterId] then
-            if not Player(self.source).state.PlayerIsInCharacterShops then -- dont allow to save position if player is in shops
-                if coords then
-                    local characterCoords = json.encode({ x = coords.x, y = coords.y, z = coords.z, heading = heading })
-                    self._usercharacters[self.usedCharacterId].Coords(characterCoords)
-                else
-                    local player = self.source
-                    local ped = GetPlayerPed(player)
-                    local Pcoords = GetEntityCoords(ped)
-                    local Pheading = GetEntityHeading(ped)
-                    local characterCoords = json.encode({ x = Pcoords.x, y = Pcoords.y, z = Pcoords.z, heading = Pheading })
-
-                    self._usercharacters[self.usedCharacterId].Coords(characterCoords)
-                end
+            if not Player(self.source).state.PlayerIsInCharacterShops then -- dont allow to save position if player is in character shops
+                local player = self.source
+                local ped = GetPlayerPed(player)
+                local Pcoords = GetEntityCoords(ped)
+                local Pheading = GetEntityHeading(ped)
+                local characterCoords = json.encode({ x = Pcoords.x, y = Pcoords.y, z = Pcoords.z, heading = Pheading })
+                self._usercharacters[self.usedCharacterId].Coords(characterCoords)
             end
 
             self._usercharacters[self.usedCharacterId].SaveCharacterInDb()
