@@ -43,26 +43,26 @@ function User(source, identifier, group, playerwarnings, license, char)
             self._usercharacters[value].source = self.source
             self._usercharacters[value].updateCharUi()
             local player = self._usercharacters[self.usedCharacterId].getCharacter()
-
             TriggerClientEvent("vorp:SelectedCharacter", self.source, self.usedCharacterId)
             TriggerEvent("vorp:SelectedCharacter", self.source, player)
-            Player(self.source).state:set('Character',
-                {
-                    Group = player.group,
-                    FirstName = player.firstname,
-                    LastName = player.lastname,
-                    Job = player.job,
-                    JobLabel = player.jobLabel,
-                    Grade = player.jobGrade,
-                    Gender = player.gender,
-                    Age = player.age,
-                    CharDescription = player.charDescription,
-                    Nickname = player.nickname,
-                    IsInSession = true,
-                    Money = player.money,
-                    Gold = player.gold,
+            Player(self.source).state:set('IsInSession', true, true)
+            Player(self.source).state:set('Character', {
+                Group = player.group,
+                FirstName = player.firstname,
+                LastName = player.lastname,
+                Job = player.job,
+                JobLabel = player.jobLabel,
+                Grade = player.jobGrade,
+                Gender = player.gender,
+                Age = player.age,
+                CharDescription = player.charDescription,
+                Nickname = player.nickname,
+                ---@deprecated
+                IsInSession = true,
+                Money = player.money,
+                Gold = player.gold,
 
-                }, true)
+            }, true)
         end
 
         return self.usedCharacterId
@@ -305,27 +305,19 @@ function User(source, identifier, group, playerwarnings, license, char)
 
     self.SaveUser = function(coords, heading)
         if self.usedCharacterId and self._usercharacters[self.usedCharacterId] then
-            if coords then
-                local characterCoords = json.encode({
-                    x = coords.x,
-                    y = coords.y,
-                    z = coords.z,
-                    heading = heading
-                })
-                self._usercharacters[self.usedCharacterId].Coords(characterCoords)
-            else
-                local player = self.source
-                local ped = GetPlayerPed(player)
-                local Pcoords = GetEntityCoords(ped)
-                local Pheading = GetEntityHeading(ped)
+            if not Player(self.source).state.PlayerIsInCharacterShops then -- dont allow to save position if player is in shops
+                if coords then
+                    local characterCoords = json.encode({ x = coords.x, y = coords.y, z = coords.z, heading = heading })
+                    self._usercharacters[self.usedCharacterId].Coords(characterCoords)
+                else
+                    local player = self.source
+                    local ped = GetPlayerPed(player)
+                    local Pcoords = GetEntityCoords(ped)
+                    local Pheading = GetEntityHeading(ped)
+                    local characterCoords = json.encode({ x = Pcoords.x, y = Pcoords.y, z = Pcoords.z, heading = Pheading })
 
-                local characterCoords = json.encode({
-                    x = Pcoords.x,
-                    y = Pcoords.y,
-                    z = Pcoords.z,
-                    heading = Pheading
-                })
-                self._usercharacters[self.usedCharacterId].Coords(characterCoords)
+                    self._usercharacters[self.usedCharacterId].Coords(characterCoords)
+                end
             end
 
             self._usercharacters[self.usedCharacterId].SaveCharacterInDb()
