@@ -42,15 +42,12 @@ function GetMaxCharactersAllowed(source)
     return user._charperm
 end
 
-AddEventHandler('playerDropped', function()
-    local _source = source
-    local identifier = GetSteamID(_source)
+local function savePlayer(_source, reason, identifier)
     local discordId = GetDiscordID(_source)
     local steamName = GetPlayerName(_source)
     local ped = GetPlayerPed(_source)
     local pCoords = GetEntityCoords(ped)
     local pHeading = GetEntityHeading(ped) or 0
-
 
     if _users[identifier] and _users[identifier].GetUsedCharacter() then
         if Config.SavePlayersStatus then
@@ -59,13 +56,23 @@ AddEventHandler('playerDropped', function()
             _users[identifier].GetUsedCharacter().StaminaOuter(_healthData[identifier].sOuter)
             _users[identifier].GetUsedCharacter().StaminaInner(_healthData[identifier].sInner)
         end
-
-        if Config.PrintPlayerInfoOnLeave then
-            print('Player ^2' .. steamName .. ' ^7steam:^3 ' .. identifier .. '^7 saved')
-        end
-
         _users[identifier].SaveUser(pCoords, pHeading)
         Player(_source).state:set('Character', nil, true)
+        Player(_source).state:set('IsInSession', nil, true)
+    end
+
+    if Config.PrintPlayerInfoOnLeave then
+        print('Player ^2' .. steamName .. ' ^7steam:^3 ' .. identifier .. '^7 saved ' .. reason and " reason: " .. reason or "")
+    end
+
+    if Config.SaveDiscordId then --TODO this can de added as default
+        MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
+    end
+end
+
+local function removePlayer(identifier)
+    if not identifier then
+        return
     end
 
     if _usersLoading[identifier] == false or _usersLoading[identifier] then
@@ -82,11 +89,27 @@ AddEventHandler('playerDropped', function()
             _users[identifier] = nil
         end
     end)
+end
 
-    if Config.SaveDiscordId then --TODO this can de added as default
-        MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
-    end
+AddEventHandler('playerDropped', function(reason)
+    local _source = source
+    local identifier = GetSteamID(_source)
+    savePlayer(_source, reason, identifier)
+    removePlayer(identifier)
 end)
+
+--TODO allow to save player when they are still in the server  example of usage is  not have to relog to select another character
+--[[ AddEventHandler("vorp_core:playerRemove", function(source)
+    local _source = source
+    local identifier = GetSteamID(_source)
+    savePlayer(_source, nil, identifier)
+end)
+
+AddEventHandler("vorp:Server:playerLeave", function(source)     -- trigger this event when you have logic to remove player
+    local _source = source
+    TriggerEvent("vorp_core:playerRemove", _source)             -- save player
+    TriggerClientEvent("vorp_core:Client:playerLeave", _source) -- let client know character left
+end) ]]
 
 AddEventHandler("playerJoining", function()
     local _source = source
@@ -211,15 +234,4 @@ RegisterNetEvent("vorp:GetValues", function()
     end
 
     TriggerClientEvent("vorp:GetHealthFromCore", _source, healthData)
-end)
-
-CreateThread(function()
-    while true do
-        Wait(Config.savePlayersTimer * 60000)
-        for k, v in pairs(_users) do
-            if v.usedCharacterId and v.usedCharacterId ~= -1 then
-                v.SaveUser()
-            end
-        end
-    end
 end)
