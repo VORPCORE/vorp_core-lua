@@ -507,19 +507,19 @@ function Character(data)
         end
         -------------------
         userData.setAge = function(age)
-            self.Age = age
+            self.Age(age)
         end
 
         userData.setGender = function(gender)
-            self.Gender = gender
+            self.Gender(gender)
         end
 
         userData.setCharDescription = function(charDescription)
-            self.CharDescription = charDescription
+            self.CharDescription(charDescription)
         end
 
         userData.setNickName = function(nickname)
-            self.NickName = nickname
+            self.NickName(nickname)
         end
         --------------
         userData.updateSkin = function(skin)
