@@ -2,272 +2,37 @@
 local dbversion = nil
 
 local Tables = {
-    {
-        name = "whitelist",
-        script = "vorp_core",
-        sql = [[
-            CREATE TABLE IF NOT EXISTS `whitelist`  (
-            `id` int(11) NOT NULL AUTO_INCREMENT,
-            `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-            `status` boolean,
-            `firstconnection` boolean DEFAULT TRUE,
-            PRIMARY KEY (`id`) USING BTREE,
-            UNIQUE INDEX `identifier`(`identifier`) USING BTREE
-            ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-        ]]
-    },
-    {
-        name = "users",
-        script = "vorp_core",
-        sql = [[
-            CREATE TABLE IF NOT EXISTS `users` (
-            `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-            `group` varchar(50) DEFAULT 'user',
-            `warnings` int(11) DEFAULT 0,
-            `banned` boolean,
-            `banneduntil` int(10) DEFAULT 0,
-            PRIMARY KEY (`identifier`),
-            UNIQUE KEY `identifier` (`identifier`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-        ]]
-    },
-    {
-        name = "characters",
-        script = "vorp_core",
-        sql = [[
-            CREATE TABLE IF NOT EXISTS `characters`  (
-            `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-            `charidentifier` int(11) NOT NULL AUTO_INCREMENT,
-            `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-            `discordid` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '0',
-            `group` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT 'user',
-            `money` double(11, 2) NULL DEFAULT 0,
-            `gold` double(11, 2) NULL DEFAULT 0,
-            `rol` double(11, 2) NOT NULL DEFAULT 0,
-            `xp` int(11) NULL DEFAULT 0,
-            `inventory` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
-            `job` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT 'unemployed',
-            `status` varchar(140) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '{}',
-            `firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT ' ',
-            `lastname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT ' ',
-            `skinPlayer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
-            `compPlayer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
-            `jobgrade` int(11) NULL DEFAULT 0,
-            `coords` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '{}',
-            `isdead` tinyint(1) NULL DEFAULT 0,
-            `ammo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '{}',
-            UNIQUE INDEX `identifier_charidentifier`(`identifier`, `charidentifier`) USING BTREE,
-            INDEX `charidentifier`(`charidentifier`) USING BTREE,
-            INDEX `ammo` (`ammo`) USING BTREE,
-            CONSTRAINT `FK_characters_users` FOREIGN KEY (`identifier`) REFERENCES `users` (`identifier`) ON DELETE CASCADE ON UPDATE CASCADE
-            ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
-        ]]
-    }
+    --   {
+    --      name = "whitelist",
+    --    script = "vorp_core",
+    --  sql = [[
+    --    CREATE TABLE IF NOT EXISTS `whitelist`  (
+    --  `id` int(11) NOT NULL AUTO_INCREMENT,
+    --       `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    --       `status` boolean,
+    --       `firstconnection` boolean DEFAULT TRUE,
+    --       PRIMARY KEY (`id`) USING BTREE,
+    --       UNIQUE INDEX `identifier`(`identifier`) USING BTREE
+    --        ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+    --    ]]
+    -- },
+
 }
 
 local Updates = {
+
     {
-        name = "banned",
+        name = "users",
         script = "vorp_core",
         find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'users'
-            AND  Column_Name = 'banned';
+            SELECT * FROM Information_Schema.Columns
+            WHERE Table_Name = 'users' AND COLUMN_NAME = 'char' AND DATA_TYPE = 'int'
         ]],
         sql = [[
-            ALTER TABLE `users` MODIFY COLUMN  `banned` boolean;
-        ]]
-    },
-    {
-        name = "banneduntil",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'users'
-            AND  Column_Name = 'banneduntil';
-        ]],
-        sql = [[
-            ALTER TABLE `users` ADD `banneduntil` int(10) DEFAULT 0
-        ]]
-    },
-    {
-        name = "status",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'whitelist'
-            AND  Column_Name = 'status';
-        ]],
-        sql = [[
-            ALTER TABLE `whitelist` ADD `status` boolean;
-        ]]
-    },
-    {
-        name = "firstconnection",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'whitelist'
-            AND  Column_Name = 'firstconnection';
-        ]],
-        sql = [[
-            ALTER TABLE `whitelist` ADD `firstconnection` boolean;
-        ]]
-    },
-    {
-        name = "steamname",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'characters'
-            AND  Column_Name = 'steamname';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` ADD `steamname` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-        ]]
-    },
-    {
-        name = "char",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'users'
-            AND  Column_Name = 'char';
-        ]],
-        sql = [[
-            ALTER TABLE `users` ADD `char` varchar(50) NOT NULL DEFAULT 'false';
-        ]]
-    },
-    {
-        name = "ammo",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'characters'
-            AND  Column_Name = 'ammo';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` ADD COLUMN `ammo` varchar(255) DEFAULT '{}';
-        ]]
-    },
-    {
-        name = "ammoindex",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'characters'
-            AND  Column_Name = 'ammo';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` ADD INDEX `ammo` (`ammo`);
-        ]]
-    },
-    {
-        name = "healthouter",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'characters'
-            AND  Column_Name = 'healthouter';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` ADD COLUMN `healthouter` int(4) DEFAULT 500 AFTER `xp`;
-        ]]
-    },
-    {
-        name = "healthinner",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'characters'
-            AND  Column_Name = 'healthinner';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` ADD COLUMN `healthinner` int(4) DEFAULT 100 AFTER `healthouter`;
-        ]]
-    },
-    {
-        name = "staminaouter",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'characters'
-            AND  Column_Name = 'staminaouter';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` ADD COLUMN `staminaouter` int(4) DEFAULT 100 AFTER `healthinner`;
-        ]]
-    },
-    {
-        name = "stamininner",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'characters'
-            AND  Column_Name = 'staminainner';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` ADD COLUMN `staminainner` int(4) DEFAULT 100 AFTER `staminaouter`;
-        ]]
-    },
-    {
-        name = "hours",
-        script = "vorp_core",
-        find = [[
-            select *
-            from Information_Schema.Columns
-            where Table_Name = 'characters'
-            AND  Column_Name = 'hours';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` ADD COLUMN `hours` float NOT NULL DEFAULT 0 AFTER `staminainner`;
-        ]]
-    },
-    {
-        name = "lastlogin",
-        script = "vorp_core",
-        find = [[select *  from Information_Schema.Columns
-        where Table_Name = 'characters'
-        AND  Column_Name = 'LastLogin';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` ADD COLUMN `LastLogin` date DEFAULT NULL;
-        ]]
-    },
-    {
-        name = "coords",
-        script = "vorp_core",
-        find = [[select *  from Information_Schema.Columns
-        where Table_Name = 'characters'
-        AND  Column_Name = 'coords';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` MODIFY `coords`LONGTEXT;
-        ]]
-    },
-    {
-        name = "Characters - discordid",
-        script = "vorp_core",
-        find = [[select *  from Information_Schema.Columns
-        where Table_Name = 'characters'
-        AND  Column_Name = 'discordid';
-        ]],
-        sql = [[
-            ALTER TABLE `characters` ADD COLUMN `discordid` varchar(250) COLLATE utf8mb4_bin NOT NULL DEFAULT '0' AFTER `steamname`;
+            ALTER TABLE `users` MODIFY COLUMN `char` INT DEFAULT 5;
         ]]
     }
+
 }
 
 dbupdaterAPI = {}
