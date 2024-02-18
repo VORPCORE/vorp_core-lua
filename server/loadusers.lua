@@ -59,7 +59,7 @@ local function savePlayer(_source, reason, identifier)
     end
 
     if Config.PrintPlayerInfoOnLeave then
-        print('Player ^2' .. steamName .. ' ^7steam:^3 ' .. identifier .. '^7 saved ' .. reason and " reason: " .. reason or "")
+        print('Player ^2' .. steamName .. ' ^7steam:^3 ' .. identifier .. '^7 saved ' .. (reason and " reason: " .. reason or ""))
     end
 
     if Config.SaveDiscordId then --TODO this can de added as default
