@@ -294,8 +294,10 @@ function Character(data)
     self.addCurrency = function(currency, quantity) --add check for security
         if currency == 0 then
             self.money = self.money + quantity
+            SetState(self.source, "Character", "Money", self.money)
         elseif currency == 1 then
             self.gold = self.gold + quantity
+            SetState(self.source, "Character", "Gold", self.gold)
         elseif currency == 2 then
             self.rol = self.rol + quantity
         end
@@ -305,11 +307,14 @@ function Character(data)
     self.removeCurrency = function(currency, quantity)
         if currency == 0 then
             self.money = self.money - quantity
+            SetState(self.source, "Character", "Money", self.money)
         elseif currency == 1 then
             self.gold = self.gold - quantity
+            SetState(self.source, "Character", "Gold", self.gold)
         elseif currency == 2 then
             self.rol = self.rol - quantity
         end
+
         self.updateCharUi()
     end
 
@@ -347,8 +352,7 @@ function Character(data)
     end
 
     self.SaveNewCharacterInDb = function(cb)
-        MySQL.query(
-            "INSERT INTO characters (`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`,`joblabel`, `age`,`gender`,`character_desc`,`nickname`,`compTints`,`steamname`) VALUES (@identifier,@group, @money, @gold, @rol, @xp, @healthouter, @healthinner, @staminaouter, @staminainner, @hours, @inventory, @job, @status, @firstname, @lastname, @skinPlayer, @compPlayer, @jobgrade, @coords, @isdead, @joblabel, @age, @gender, @charDescription, @nickname,@compTints,@steamname)",
+        MySQL.query("INSERT INTO characters (`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`,`joblabel`, `age`,`gender`,`character_desc`,`nickname`,`compTints`,`steamname`) VALUES (@identifier,@group, @money, @gold, @rol, @xp, @healthouter, @healthinner, @staminaouter, @staminainner, @hours, @inventory, @job, @status, @firstname, @lastname, @skinPlayer, @compPlayer, @jobgrade, @coords, @isdead, @joblabel, @age, @gender, @charDescription, @nickname,@compTints,@steamname)",
             {
                 identifier = self.identifier,
                 group = self.group,
@@ -385,14 +389,11 @@ function Character(data)
     end
 
     self.DeleteCharacter = function()
-        MySQL.query("DELETE FROM characters WHERE `identifier` = @identifier AND `charidentifier` = @charidentifier ",
-            { identifier = self.identifier, charidentifier = self.charIdentifier })
+        MySQL.query("DELETE FROM characters WHERE `identifier` = @identifier AND `charidentifier` = @charidentifier ", { identifier = self.identifier, charidentifier = self.charIdentifier })
     end
 
     self.SaveCharacterCoords = function(coords)
-        MySQL.update(
-            "UPDATE characters SET `coords` = @coords WHERE `identifier` =  @identifier AND `charidentifier` = @charidentifier",
-            { coords = coords, identifier = self.identifier, charidentifier = self.charIdentifier })
+        MySQL.update("UPDATE characters SET `coords` = @coords WHERE `identifier` =  @identifier AND `charidentifier` = @charidentifier", { coords = coords, identifier = self.identifier, charidentifier = self.charIdentifier })
     end
 
     self.SaveCharacterInDb = function()
