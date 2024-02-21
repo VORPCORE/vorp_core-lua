@@ -3,7 +3,6 @@ local pvp = Config.PVP
 local multiplierHealth, multiplierStamina
 local T = Translation[Lang].MessageOfSystem
 local active = false
-local Spawned = false
 -- FUNCTIONS
 function CoreAction.Utils.TogglePVP()
     pvp = not pvp
@@ -61,7 +60,7 @@ AddEventHandler('playerSpawned', function()
     end)
     SetEntityCanBeDamaged(PlayerPedId(), false)
     CreateThread(function()
-        while not LocalPlayer.state.Character and not LocalPlayer.state.Character.IsInSession do
+        while not LocalPlayer.state.IsInSession do
             Wait(0)
             DisableControlAction(0, `INPUT_MP_TEXT_CHAT_ALL`, true)
             DisableControlAction(0, `INPUT_QUICK_USE_ITEM`, true)
@@ -149,7 +148,6 @@ end)
 
 -- PLAYER SPAWN AFTER SELECT CHARACTER
 RegisterNetEvent("vorp:SelectedCharacter", function()
-    Spawned = true
     CoreAction.Utils.setPVP()
     local PlayerPed = PlayerPedId()
     local PlayerId = PlayerId()
@@ -182,31 +180,32 @@ end)
 
 -- THREADS
 CreateThread(function()
+    repeat Wait(1000) until LocalPlayer.state.IsInSession
     while true do
         local sleep = 1000
         local pped = PlayerPedId()
-        if Spawned then
-            sleep = 0
-            if IsControlPressed(0, 0xCEFD9220) then
-                active = true
-                CoreAction.Utils.setPVP()
-                Wait(4000)
-            end
 
-            if not IsPedOnMount(pped) and not IsPedInAnyVehicle(pped, false) and active then
+        sleep = 0
+        if IsControlPressed(0, 0xCEFD9220) then
+            active = true
+            CoreAction.Utils.setPVP()
+            Wait(4000)
+        end
+
+        if not IsPedOnMount(pped) and not IsPedInAnyVehicle(pped, false) and active then
+            active = false
+            CoreAction.Utils.setPVP()
+        elseif active and IsPedOnMount(pped) or IsPedInAnyVehicle(pped, false) then
+            if IsPedInAnyVehicle(pped, false) then
+
+            elseif GetPedInVehicleSeat(GetMount(pped), -1) == pped then
                 active = false
                 CoreAction.Utils.setPVP()
-            elseif active and IsPedOnMount(pped) or IsPedInAnyVehicle(pped, false) then
-                if IsPedInAnyVehicle(pped, false) then
-
-                elseif GetPedInVehicleSeat(GetMount(pped), -1) == pped then
-                    active = false
-                    CoreAction.Utils.setPVP()
-                end
-            else
-                CoreAction.Utils.setPVP()
             end
+        else
+            CoreAction.Utils.setPVP()
         end
+
         Wait(sleep)
     end
 end)
@@ -225,6 +224,7 @@ end)
 
 
 CreateThread(function()
+    repeat Wait(1000) until LocalPlayer.state.IsInSession
     while Config.SavePlayersStatus do
         Wait(1000)
         local player = PlayerPedId()
@@ -237,6 +237,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
+    repeat Wait(1000) until LocalPlayer.state.IsInSession
     while Config.SavePlayersStatus do
         local player = PlayerPedId()
         Wait(300000) -- wont be accurate as it waits for too long
@@ -252,6 +253,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
+    repeat Wait(0) until LocalPlayer.state.IsInSession
     while Config.SavePlayersHours do
         Wait(6000 * 5)
         TriggerServerEvent("vorp:SaveHours")
@@ -260,33 +262,34 @@ end)
 
 -- APPLY HEALTHRECHARGE WHEN CHARACTER RC
 CreateThread(function()
+    repeat Wait(1000) until LocalPlayer.state.IsInSession
     while true do
         local sleep = 1000
-        if LocalPlayer.state.Character and LocalPlayer.state.Character.IsInSession then
-            if not IsPlayerDead(PlayerId()) then
-                sleep = 500
-                local PlayerId = PlayerId()
-                local multiplierH = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId) -- GetPlayerHealthRechargeMultiplier
 
-                if multiplierHealth and multiplierHealth ~= multiplierH then
-                    Wait(500)
-                    Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId, Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
-                elseif not multiplierHealth and multiplierH then
-                    Wait(500)
-                    Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId, 0.0) -- SetPlayerHealthRechargeMultiplier
-                end
+        if not IsPlayerDead(PlayerId()) then
+            sleep = 500
+            local PlayerId = PlayerId()
+            local multiplierH = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId) -- GetPlayerHealthRechargeMultiplier
 
-                local multiplierS = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId) -- GetPlayerStaminaRechargeMultiplier
+            if multiplierHealth and multiplierHealth ~= multiplierH then
+                Wait(500)
+                Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId, Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
+            elseif not multiplierHealth and multiplierH then
+                Wait(500)
+                Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId, 0.0) -- SetPlayerHealthRechargeMultiplier
+            end
 
-                if multiplierStamina and multiplierStamina ~= multiplierS then
-                    Wait(500)
-                    Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId, Config.StaminaRecharge.multiplier) -- SetPlayerStaminaRechargeMultiplier
-                elseif not multiplierStamina and multiplierS then
-                    Wait(500)
-                    Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId, 0.0) -- SetPlayerStaminaRechargeMultiplier
-                end
+            local multiplierS = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId) -- GetPlayerStaminaRechargeMultiplier
+
+            if multiplierStamina and multiplierStamina ~= multiplierS then
+                Wait(500)
+                Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId, Config.StaminaRecharge.multiplier) -- SetPlayerStaminaRechargeMultiplier
+            elseif not multiplierStamina and multiplierS then
+                Wait(500)
+                Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId, 0.0) -- SetPlayerStaminaRechargeMultiplier
             end
         end
+
         Wait(sleep)
     end
 end)
