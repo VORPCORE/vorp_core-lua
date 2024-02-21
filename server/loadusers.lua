@@ -112,7 +112,7 @@ AddEventHandler("playerJoining", function()
     local _source = source
     local identifier = GetSteamID(_source)
     local license = GetLicenseID(_source)
-    Player(_source).state:set('Character', { IsInSession = false }, true)
+    Player(_source).state:set('IsInSession', false, true)
 
     if not identifier then
         return print("user cant load no identifier steam found make sure steam web API key is set up")

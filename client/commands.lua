@@ -43,6 +43,7 @@ PlayerCommands = {
 }
 
 CreateThread(function()
+    repeat Wait(0) until LocalPlayer.state.IsInSession
     for _, value in pairs(PlayerCommands) do
         if not value.restricted then
             RegisterCommand(value.command, function()

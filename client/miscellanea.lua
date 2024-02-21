@@ -81,6 +81,7 @@ end)
 
 -- show players id when focus on other players
 CreateThread(function()
+    repeat Wait(1000) until LocalPlayer.state.IsInSession
     while Config.showplayerIDwhenfocus do
         local sleep = 1000
         if #GetActivePlayers() > 1 then -- we also count ourselfs

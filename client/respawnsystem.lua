@@ -235,6 +235,7 @@ end)
 
 --DEATH HANDLER
 CreateThread(function()
+    repeat Wait(1000) until LocalPlayer.state.IsInSession
     while Config.UseDeathHandler do
         local sleep = 1000
 

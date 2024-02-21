@@ -415,9 +415,9 @@ RegisterServerEvent("vorp:chatSuggestion", function()
 
     for key, value in pairs(Commands) do
         if CheckAce(value.aceAllowed, _source) or CheckGroupAllowed(value.groupAllowed, group) then
-            TriggerClientEvent("chat:addSuggestion", _source, "/" .. value.commandName, value.label, value.suggestion)   -- add chat suggestions
+            TriggerClientEvent("chat:addSuggestion", _source, "/" .. value.commandName, value.label, value.suggestion) -- add chat suggestions
         else
-            TriggerClientEvent("chat:removeSuggestion", _source, "/" .. value.commandName)                               -- remove chat suggestions
+            TriggerClientEvent("chat:removeSuggestion", _source, "/" .. value.commandName)                             -- remove chat suggestions
         end
     end
     -- client commands
