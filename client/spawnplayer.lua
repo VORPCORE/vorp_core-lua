@@ -253,7 +253,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    repeat Wait(0) until LocalPlayer.state.IsInSession
+    repeat Wait(1000) until LocalPlayer.state.IsInSession
     while Config.SavePlayersHours do
         Wait(6000 * 5)
         TriggerServerEvent("vorp:SaveHours")
