@@ -43,7 +43,7 @@ Config = {
     --=============================================
 
     SaveDiscordId          = true, -- Saves Discord ID in the character/user database upon joining/leaving.
-    MaxCharacters          = 5,    -- Maximum number of characters a player can create.
+    MaxCharacters          = 5,    -- Maximum number of characters a player can create. when first join, for old users go to users table and change the number of characters there
 
     --=============================================
     --             UI CORE SETTINGS              --
@@ -155,17 +155,17 @@ Config = {
     --    DISCORD RICH PRESENCE INTEGRATION      --
     --=============================================
 
-    maxplayers             = 128,                         -- Maximum number of players allowed on the server.
-    appid                  = nil,                         -- Discord Application ID. Replace this with your own application's ID.
-    biglogo                = "LOGOname",                  -- Name of the image asset to use for the large icon in the rich presence.
-    biglogodesc            = " Redm Server Connect: ",    -- Description displayed when hovering over the large icon.
-    smalllogo              = "smallboy name",             -- Name of the image asset for the small icon in the rich presence. This is optional.
-    smalllogodesc          = " Join us for a good time ", -- Description displayed when hovering over the small icon.
-    richpresencebutton     = "Join Discord",              -- Text displayed on the rich presence button.
-    shownameandid          = true,                        -- Whether to display the player's Steam name and ID.
-    Buttons                = {                            -- Configuration for buttons shown in the Discord rich presence.
+    maxplayers             = 42,                         -- Maximum number of players allowed on the server.
+    appid                  = nil,                        -- Discord Application ID. Replace this with your own application's ID.
+    biglogo                = "LOGOname",                 -- Name of the image asset to use for the large icon in the rich presence.
+    biglogodesc            = " Redm Server Connect: ",   -- Description displayed when hovering over the large icon.
+    smalllogo              = "smallboy name",            -- Name of the image asset for the small icon in the rich presence. This is optional.
+    smalllogodesc          = "Join us for a good time ", -- Description displayed when hovering over the small icon.
+    richpresencebutton     = "Join Discord",             -- Text displayed on the rich presence button.
+    shownameandid          = true,                       -- Whether to display the player's Steam name and ID.
+    Buttons                = {                           -- Configuration for buttons shown in the Discord rich presence.
         {
-            text = 'Join Discord!',                       -- Text displayed on the first button.
+            text = 'Join Discord!',                      -- Text displayed on the first button.
             -- URL the first button directs to. Replace with your Discord invite link.
             url = 'https://discord.gg/vorpcore'
 
