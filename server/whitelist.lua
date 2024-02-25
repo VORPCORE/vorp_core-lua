@@ -73,6 +73,11 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     if playerName and Config.PrintPlayerInfoOnEnter then
         print("Player ^2" .. playerName .. " ^7steam: ^3" .. steamIdentifier .. "^7 Loading...")
     end
+
+    --TODO  this can de added as default in class characters
+    if Config.SaveDiscordId then
+        MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { GetDiscordID(_source), steamIdentifier })
+    end
 end)
 
 AddEventHandler('playerJoining', function()
@@ -86,16 +91,12 @@ AddEventHandler('playerJoining', function()
     local discordId = GetDiscordID(_source)
     local userid = Whitelist.Functions.GetUserId(identifier)
 
-    if WhiteListedUsers[userid] then
+    if userid and WhiteListedUsers[userid] then
         if not Whitelist.Functions.GetFirstConnection(userid) then
             local steamName = GetPlayerName(_source) or ""
             local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier, discordId, userid)
             TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook, message)
             Whitelist.Functions.SetFirstConnection(userid, false)
-        end
-        --TODO  this can de added as default in class characters
-        if Config.SaveDiscordId then
-            MySQL.update('UPDATE characters SET `discordid` = ? WHERE `identifier` = ? ', { discordId, identifier })
         end
     end
 end)
