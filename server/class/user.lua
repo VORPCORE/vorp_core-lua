@@ -57,11 +57,11 @@ function User(source, identifier, group, playerwarnings, license, char)
                 Age = player.age,
                 CharDescription = player.charDescription,
                 Nickname = player.nickname,
-                ---@deprecated
-                IsInSession = true,
                 Money = player.money,
                 Gold = player.gold,
-
+                Rol = player.rol,
+                ---@deprecated
+                IsInSession = true,
             }, true)
         end
 

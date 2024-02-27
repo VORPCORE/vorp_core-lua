@@ -300,6 +300,7 @@ function Character(data)
             SetState(self.source, "Character", "Gold", self.gold)
         elseif currency == 2 then
             self.rol = self.rol + quantity
+            SetState(self.source, "Character", "Rol", self.rol)
         end
         self.updateCharUi()
     end
@@ -313,6 +314,7 @@ function Character(data)
             SetState(self.source, "Character", "Gold", self.gold)
         elseif currency == 2 then
             self.rol = self.rol - quantity
+            SetState(self.source, "Character", "Rol", self.rol)
         end
 
         self.updateCharUi()
