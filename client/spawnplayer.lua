@@ -50,7 +50,7 @@ end
 AddEventHandler('playerSpawned', function()
     DoScreenFadeOut(0)
     TriggerServerEvent('vorp_core:instanceplayers', tonumber(GetPlayerServerId(PlayerId())) + 45557)
-    Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost) --_DISPLAY_LOADING_SCREENS
+    DisplayLoadingScreens(0, 0, 0, T.Hold, T.Load, T.Almost) --_DISPLAY_LOADING_SCREENS
     DisplayRadar(false)
     SetMinimapHideFow(false)
     Wait(2000)
@@ -76,7 +76,7 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
     if isdead then
         if not Config.CombatLogDeath then
             if Config.Loadinscreen then
-                Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.forcedrespawn, T.forced, T.Almost)
+                DisplayLoadingScreens(0, 0, 0, T.forcedrespawn, T.forced, T.Almost)
             end
             SetEntityCanBeDamaged(PlayerPedId(), true)
             TriggerServerEvent("vorp:PlayerForceRespawn")
@@ -89,20 +89,20 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
             CoreAction.Admin.HealPlayer()
         else
             if Config.Loadinscreen then
-                Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Holddead, T.Loaddead, T.Almost)
+                DisplayLoadingScreens(0, 0, 0, T.Holddead, T.Loaddead, T.Almost)
             end
             Wait(10000)
             TriggerEvent("vorp_inventory:CloseInv")
             Wait(4000)
             SetEntityCanBeDamaged(PlayerPedId(), true)
             SetEntityHealth(PlayerPedId(), 0, 0)
-            Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 0, -1)
+            SetAttributeCoreValue(PlayerPedId(), 0, -1)
             ShutdownLoadingScreen()
         end
     else
         local PlayerId = PlayerId()
         if Config.Loadinscreen then
-            Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost)
+            DisplayLoadingScreens(0, 0, 0, T.Hold, T.Load, T.Almost)
             Wait(Config.LoadinScreenTimer)
             Wait(1000)
             ShutdownLoadingScreen()
@@ -129,9 +129,9 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
             Wait(200)
             if HealthData then
                 local player = PlayerPedId()
-                Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner or 600)
+                SetAttributeCoreValue(player, 0, HealthData.hInner or 600)
                 SetEntityHealth(player, (HealthData.hOuter and HealthData.hOuter > 0 and HealthData.hOuter or 600) + (HealthData.hInner and HealthData.hInner > 0 and HealthData.hInner or 600), 0)
-                Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner or 600)
+                SetAttributeCoreValue(player, 1, HealthData.sInner or 600)
                 Citizen.InvokeNative(0x675680D089BFA21F, player, (HealthData.sOuter or (1065353215 * 100)) / 1065353215 * 100)
             end
             HealthData = {}
@@ -152,8 +152,8 @@ RegisterNetEvent("vorp:SelectedCharacter", function()
     local PlayerPed = PlayerPedId()
     local PlayerId = PlayerId()
     SetEntityCanBeDamaged(PlayerPed, true)
-    Citizen.InvokeNative(0xA63FCAD3A6FEC6D2, PlayerId, Config.ActiveEagleEye)
-    Citizen.InvokeNative(0x95EE1DEE1DCD9070, PlayerId, Config.ActiveDeadEye)
+    EnableEagleeye(PlayerPedId(), Config.ActiveEagleEye)
+    EnableCustomDeadeyeAbility(PlayerPedId(), Config.ActiveDeadEye)
     TriggerEvent("vorp:showUi", not Config.HideUi)
     DisplayRadar(true)
     SetMinimapHideFow(true)

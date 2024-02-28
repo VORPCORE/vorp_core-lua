@@ -23,7 +23,7 @@ Changelogs = 0
 
 VorpInitialized = false
 --
-Citizen.CreateThread(function()
+CreateThread(function()
     local Resources = GetNumResources()
 
     for i = 0, Resources, 1 do
@@ -46,7 +46,7 @@ function UpdateChecker(resource)
             local Name = GetResourceMetadata(resource, 'vorp_name', 0)
             local Github = GetResourceMetadata(resource, 'vorp_github', 0)
             local Version = GetResourceMetadata(resource, 'vorp_version', 0)
-            local  GithubL, NewestVersion
+            local GithubL, NewestVersion
 
             Script = {}
 
@@ -76,7 +76,7 @@ function UpdateChecker(resource)
                 NewestVersion = V
             end)
             repeat
-                Citizen.Wait(10)
+                Wait(10)
             until NewestVersion ~= nil
 
             StripVersion = NewestVersion:match("<%d?%d.%d?%d.?%d?%d?>")

@@ -21,17 +21,17 @@ local function HidePlayerCores()
     }
 
     if Config.HideOnlyDEADEYE then
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 2, 2)
-        Citizen.InvokeNative(0xC116E6DF68DCE667, 3, 2)
+        UitutorialSetRpgIconVisibility(2, 2)
+        UitutorialSetRpgIconVisibility(3, 2)
     end
     if Config.HidePlayersCore then
         for key, value in pairs(playerCores) do
-            Citizen.InvokeNative(0xC116E6DF68DCE667, value, 2)
+            UitutorialSetRpgIconVisibility(value, 2)
         end
     end
     if Config.HideHorseCores then
         for key, value in pairs(horsecores) do
-            Citizen.InvokeNative(0xC116E6DF68DCE667, value, 2)
+            UitutorialSetRpgIconVisibility(value, 2)
         end
     end
 end
@@ -39,12 +39,10 @@ end
 local function FillUpCores()
     local a2 = DataView.ArrayBuffer(12 * 8)
     local a3 = DataView.ArrayBuffer(12 * 8)
-    Citizen.InvokeNative("0xCB5D11F9508A928D", 1, a2:Buffer(), a3:Buffer(), GetHashKey("UPGRADE_HEALTH_TANK_1"),
-        1084182731, Config.maxHealth, 752097756)
+    InventoryAddItemWithGuid(1, a2:Buffer(), a3:Buffer(), GetHashKey("UPGRADE_HEALTH_TANK_1"), 1084182731, Config.maxHealth, 752097756)
     local a2 = DataView.ArrayBuffer(12 * 8)
     local a3 = DataView.ArrayBuffer(12 * 8)
-    Citizen.InvokeNative("0xCB5D11F9508A928D", 1, a2:Buffer(), a3:Buffer(), GetHashKey("UPGRADE_STAMINA_TANK_1"),
-        1084182731, Config.maxStamina, 752097756)
+    InventoryAddItemWithGuid(1, a2:Buffer(), a3:Buffer(), GetHashKey("UPGRADE_STAMINA_TANK_1"), 1084182731, Config.maxStamina, 752097756)
 end
 
 -- remove event notifications
@@ -66,15 +64,15 @@ CreateThread(function()
                 local eventAtIndex = GetEventAtIndex(0, i)
                 for _, value in pairs(Events) do
                     if eventAtIndex == value then
-                        Citizen.InvokeNative(0x6035E8FBCA32AC5E) -- _UI_FEED_CLEAR_ALL_CHANNELS
+                        UiFeedClearAllChannels()
                     end
                 end
             end
         end
 
         if Config.disableAutoAIM then
-            Citizen.InvokeNative(0xD66A941F401E7302, 3) -- SET_PLAYER_TARGETING_MODE
-            Citizen.InvokeNative(0x19B4F71703902238, 3) -- _SET_PLAYER_IN_VEHICLE_TARGETING_MODE
+            SetPlayerTargetingMode(3)
+            SetPlayerInVehicleTargetingMode(3)
         end
     end
 end)
