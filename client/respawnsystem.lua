@@ -131,7 +131,7 @@ end
 
 function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName, justrevive)
     local player = PlayerPedId()
-    SetCinematicModeActive(false)
+    Citizen.InvokeNative(0xCE7A90B160F75046, false) --SET_CINEMATIC_MODE_ACTIVE
     TriggerEvent("vorp:showUi", not Config.HideUi)
     ResurrectPed(player)
     Wait(200)
@@ -144,7 +144,7 @@ function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName,
     TriggerEvent("vorpcharacter:reloadafterdeath")
     Wait(500)
     if currentHospital and currentHospital then
-        SetEntityCoordsAndHeading(player, currentHospital.x, currentHospital.y, currentHospital.z, currentHospital.w, false, false, false)
+        Citizen.InvokeNative(0x203BEFFDBE12E96A, player, currentHospital, false, false, false) -- _SET_ENTITY_COORDS_AND_HEADING
     end
     Wait(2000)
     CoreAction.Admin.HealPlayer()
@@ -164,7 +164,8 @@ function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName,
         AnimpostfxPlay("PlayerWakeUpInterrogation")
         Wait(19000)
         keepdown = false
-        VorpNotification:NotifyLeft(currentHospitalName or T.message6, T.message5, "minigames_hud", "five_finger_burnout", 8000, "COLOR_PURE_WHITE")
+        VorpNotification:NotifyLeft(currentHospitalName or T.message6, T.message5, "minigames_hud", "five_finger_burnout",
+            8000, "COLOR_PURE_WHITE")
     else
         DoScreenFadeIn(2000)
     end
@@ -199,15 +200,16 @@ CreateThread(function()
     Wait(1000)
     local str = T.prompt
     local keyPress = Config.RespawnKey
-    prompt = UiPromptRegisterBegin()
-    UiPromptSetControlAction(prompt, keyPress)
+    prompt = PromptRegisterBegin()
+    PromptSetControlAction(prompt, keyPress)
     str = CreateVarString(10, 'LITERAL_STRING', str)
-    UiPromptSetText(prompt, str)
-    UiPromptSetEnabled(prompt, true)
-    UiPromptSetVisible(prompt, true)
-    UiPromptSetHoldMode(prompt, Config.RespawnKeyTime)
-    UiPromptSetGroup(prompt, prompts, 0)
-    UiPromptRegisterEnd(prompt)
+    PromptSetText(prompt, str)
+    PromptSetEnabled(prompt, 1)
+    PromptSetVisible(prompt, 1)
+    PromptSetHoldMode(prompt, Config.RespawnKeyTime)
+    PromptSetGroup(prompt, prompts)
+    Citizen.InvokeNative(0xC5F428EE08FA7F2C, prompt, true)
+    PromptRegisterEnd(prompt)
 end)
 
 -- EVENTS
@@ -241,7 +243,7 @@ CreateThread(function()
             if not setDead then
                 setDead = true
                 PressKey = false
-                UiPromptSetEnabled(prompt, true)
+                PromptSetEnabled(prompt, true)
                 NetworkSetInSpectatorMode(false, PlayerPedId())
                 exports.spawnmanager.setAutoSpawn(false)
                 TriggerServerEvent("vorp:ImDead", true)
@@ -254,9 +256,9 @@ CreateThread(function()
             if not PressKey and setDead then
                 sleep = 0
                 if not IsEntityAttachedToAnyPed(PlayerPedId()) then
-                    UiPromptSetActiveGroupThisFrame(prompts, CheckLabel(), 0, 0, 0)
+                    PromptSetActiveGroupThisFrame(prompts, CheckLabel())
 
-                    if UiPromptHasHoldModeCompleted(prompt) then
+                    if PromptHasHoldModeCompleted(prompt) then
                         DoScreenFadeOut(3000)
                         Wait(3000)
                         CoreAction.Player.RespawnPlayer()
@@ -269,17 +271,17 @@ CreateThread(function()
                     if TimeToRespawn >= 1 and setDead then
                         ProcessCamControls()
                         Done = false
-                        UiPromptSetEnabled(prompt, false)
+                        PromptSetEnabled(prompt, false)
                     else
                         ProcessCamControls()
                         Done = true
-                        UiPromptSetEnabled(prompt, true)
+                        PromptSetEnabled(prompt, true)
                     end
                     carried = false
                 else
                     if setDead then
-                        UiPromptSetActiveGroupThisFrame(prompts, CheckLabel(), 0, 0, 0)
-                        UiPromptSetEnabled(prompt, false)
+                        PromptSetActiveGroupThisFrame(prompts, CheckLabel())
+                        PromptSetEnabled(prompt, false)
                         ProcessCamControls()
                         carried = true
                     end

@@ -99,7 +99,7 @@ function RunDBCheck()
     end
 end
 
-CreateThread(function()
+Citizen.CreateThread(function()
     if not Config.autoUpdateDB then
         return
     end

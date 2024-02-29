@@ -31,7 +31,7 @@ RegisterNetEvent('vorp:setPVPUi', function(active)
 end)
 
 RegisterNetEvent('vorp:SelectedCharacter', function()
-    Wait(10000)
+    Citizen.Wait(10000)
     SendNUIMessage({
         type = "ui",
         action = "initiate",
@@ -51,7 +51,7 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
     if Config.HideWithRader then
         local cantoggle = not Config.HideUi
 
-        CreateThread(function()
+        Citizen.CreateThread(function()
             while true do
                 if IsRadarHidden() then
                     cantoggle = true
@@ -63,7 +63,7 @@ RegisterNetEvent('vorp:SelectedCharacter', function()
                     vorpShowUI = true
                 end
 
-                Wait(1000)
+                Citizen.Wait(1000)
             end
         end)
     end
