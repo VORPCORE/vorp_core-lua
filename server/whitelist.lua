@@ -63,7 +63,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
             setKickReason(T.NoInWhitelist .. " steam id: " .. steamIdentifier)
             return CancelEvent()
         else
-            Whitelist.Functions.InsertWhitelistedUser({ identifier = steamIdentifier, discordid = discordIdentifier, status = false })
+            Whitelist.Functions.InsertWhitelistedUser({ identifier = steamIdentifier, discordid = discordIdentifier, status = true })
         end
     end
 

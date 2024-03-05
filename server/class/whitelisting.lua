@@ -8,7 +8,7 @@
 Whitelist = {}
 Whitelist.Functions = {}
 Whitelist.__index = Whitelist
-Whitelist.__call = function(_, ...)
+Whitelist.__call = function()
     return 'Whitelist'
 end
 
@@ -132,6 +132,7 @@ function Whitelist.Functions.InsertWhitelistedUser(data)
     end
 
     if entry.status and not entry.firstconnection then
+        WhiteListedUsers[entry.id] = Whitelist:New({ id = entry.id, identifier = entry.identifier, status = data.status, discordid = entry.discordid, firstconnection = false })
         return true
     end
 
