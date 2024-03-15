@@ -5,7 +5,7 @@ _healthData = {}
 local T = Translation[Lang].MessageOfSystem
 
 function LoadUser(source, setKickReason, deferrals, identifier, license)
-    local resultList = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
+    local resultList = MySQL.single.await('SELECT banned, banneduntil FROM users WHERE identifier = ?', { identifier })
 
     if resultList then
         local user = resultList
@@ -119,7 +119,7 @@ AddEventHandler("playerJoining", function()
     end
     _usersLoading[identifier] = true
 
-    local user = MySQL.single.await('SELECT * FROM users WHERE identifier = ?', { identifier })
+    local user = MySQL.single.await('SELECT group, warnings, char FROM users WHERE identifier = ?', { identifier })
     if user then
         _users[identifier] = User(_source, identifier, user.group, user.warnings, license, user.char)
         _users[identifier].LoadCharacters()
