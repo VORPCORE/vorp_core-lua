@@ -9,6 +9,11 @@ local T = Translation[Lang].MessageOfSystem
 
 function CoreAction.Admin.HealPlayer()
     local player = PlayerPedId()
+    local isPlayerDead = IsEntityDead(player)
+    if isPlayerDead then
+        print("cannot heal a dead player, revive player first")
+        return
+    end
     Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, 100) -- _SET_ATTRIBUTE_CORE_VALUE HEALTH
     SetEntityHealth(player, 600, 1)
     Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, 100) --_SET_ATTRIBUTE_CORE_VALUE STAMINA
