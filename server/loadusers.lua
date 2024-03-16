@@ -119,7 +119,7 @@ AddEventHandler("playerJoining", function()
     end
     _usersLoading[identifier] = true
 
-    local user = MySQL.single.await('SELECT group, warnings, char FROM users WHERE identifier = ?', { identifier })
+    local user = MySQL.single.await('SELECT `group`, `warnings`, `char` FROM users WHERE identifier = ?', { identifier })
     if user then
         _users[identifier] = User(_source, identifier, user.group, user.warnings, license, user.char)
         _users[identifier].LoadCharacters()
