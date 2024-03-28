@@ -1,4 +1,4 @@
----@class ServerRPC @Callback class
+---@class ServerRPC
 ---@field name string callback name
 ---@field _callback fun(source: number, cb: fun(data: any), ...) callback function
 ---@field uniqueId string callback unique id
@@ -8,7 +8,6 @@ ServerRPC.__index = ServerRPC
 ServerRPC.__call = function()
     return 'ServerRPC'
 end
-
 
 function ServerRPC:New(name, callback)
     self = setmetatable({}, ServerRPC)
@@ -40,28 +39,39 @@ RegisterNetEvent("vorp:TriggerServerCallback", function(name, uniqueId, isSync, 
     RegisteredCalls[name]:Trigger(_source, uniqueId, isSync, ...)
 end)
 
-
-
 --- Register a new Rpc callback
 ---@param name string callback name
 ---@param callback fun(source: number, cb: fun(data: any), ...) callback function
 function ServerRPC.Callback.Register(name, callback)
-    -- error handling
-
     if name == nil or type(name) ~= "string" then
         return error("Parameter \"name\" must be a string!", 1)
     end
-
     RegisteredCalls[name] = ServerRPC:New(name, callback)
 end
 
--- Events backwars compatibility
-RegisterNetEvent("vorp:addNewCallBack", ServerRPC.Callback.Register)
+--- * Trigger a callback Asynchronously
+---@param source number player source
+---@param name string callback name
+---@param callback fun(any) callback function
+---@param ... any callback parameters tables strings numbers etc
+function ServerRPC.Callback.TriggerAsync(name, source, callback, ...)
+    local trigger = ServerRPC:New(name, callback)
+    trigger:TriggerRpcAsync(source, ...)
+end
 
--- * TRIGGER CLIENT CALLBACKS
+--- * Trigger a callback Synchronously
+---@param source number player source
+---@param name string callback name
+---@param ... any callback parameters tables strings numbers etc
+---@return any callback return
+function ServerRPC.Callback.TriggerAwait(name, source, ...)
+    local trigger = ServerRPC:New(name, nil)
+    return trigger:TriggerRpcAwait(source, ...)
+end
+
+-- * TRIGGER CLIENT CALLBACKS HANDLER
 local callBackId = 0
 local TriggeredCalls = {}
-
 
 function ServerRPC:TriggerRpcAsync(source, ...)
     if not self.name and type(self.name) ~= "string" then
@@ -122,29 +132,10 @@ end
 RegisterNetEvent('vorp:ServerCallback', ServerRPC.ExecuteRpc)
 
 
---- * Trigger a callback Asynchronously
----@param source number player source
----@param name string callback name
----@param callback fun(any) callback function
----@param ... any callback parameters tables strings numbers etc
-function ServerRPC.Callback.TriggerAsync(name, source, callback, ...)
-    local trigger = ServerRPC:New(name, callback)
-    trigger:TriggerRpcAsync(source, ...)
-end
-
---- * Trigger a callback Synchronously
----@param source number player source
----@param name string callback name
----@param ... any callback parameters tables strings numbers etc
----@return any callback return
-function ServerRPC.Callback.TriggerAwait(name, source, ...)
-    local trigger = ServerRPC:New(name, nil)
-    return trigger:TriggerRpcAwait(source, ...)
-end
-
 -- Export
 exports("ServerRpcCall", function()
     return ServerRPC
 end)
 
-return ServerRPC
+-- Events backwars compatibility
+RegisterNetEvent("vorp:addNewCallBack", ServerRPC.Callback.Register)
