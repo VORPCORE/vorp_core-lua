@@ -103,6 +103,7 @@ end)
 
 -- zoom in when in interiors for better navigation
 CreateThread(function()
+    repeat Wait(1000) until LocalPlayer.state.IsInSession
     while true do
         Wait(500)
         local playerPed = PlayerPedId()
