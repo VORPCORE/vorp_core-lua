@@ -81,7 +81,7 @@ local function removePlayer(identifier)
         WhiteListedUsers[userid] = nil
     end
 
-    SetTimeout(3000, function()
+    SetTimeout(5000, function()
         if _users[identifier] then
             _users[identifier] = nil
         end
@@ -95,7 +95,7 @@ AddEventHandler('playerDropped', function(reason)
     removePlayer(identifier)
 end)
 
---TODO allow to save player when they are still in the server  example of usage is  not have to relog to select another character
+---@todo allow to save player when they are still in the server  example of usage is  not have to relog to select another character
 --[[ AddEventHandler("vorp_core:playerRemove", function(source)
     local _source = source
     local identifier = GetSteamID(_source)
