@@ -171,9 +171,11 @@ function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName,
     end
 end
 
-function CoreAction.Player.RespawnPlayer()
+function CoreAction.Player.RespawnPlayer(allow)
     local player = PlayerPedId()
-    TriggerServerEvent("vorp:PlayerForceRespawn")
+    if allow then
+        TriggerServerEvent("vorp:PlayerForceRespawn")
+    end
     TriggerEvent("vorp:PlayerForceRespawn")
     local closestDistance = math.huge
     local closestLocation = ""
@@ -261,7 +263,7 @@ CreateThread(function()
                     if PromptHasHoldModeCompleted(prompt) then
                         DoScreenFadeOut(3000)
                         Wait(3000)
-                        CoreAction.Player.RespawnPlayer()
+                        CoreAction.Player.RespawnPlayer(true)
                         PressKey      = true
                         carried       = false
                         Done          = false
