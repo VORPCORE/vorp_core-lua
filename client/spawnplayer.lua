@@ -74,7 +74,7 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
     CoreAction.Player.TeleportToCoords(coords, heading)
 
     if isdead then
-        if Config.CombatLogDeath then
+        if not Config.CombatLogDeath then
             if Config.Loadinscreen then
                 Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.forcedrespawn, T.forced, T.Almost)
             end
