@@ -79,7 +79,6 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
                 Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.forcedrespawn, T.forced, T.Almost)
             end
             SetEntityCanBeDamaged(PlayerPedId(), true)
-            TriggerServerEvent("vorp:PlayerForceRespawn")
             TriggerEvent("vorp:PlayerForceRespawn")
             CoreAction.Player.RespawnPlayer()
             Wait(Config.LoadinScreenTimer)
