@@ -230,6 +230,7 @@ function User(source, identifier, group, playerwarnings, license, char)
                                 charDescription = character.character_desc,
                                 nickname = character.nickname,
                                 steamname = self.steamname,
+                                slots = character.slots or 200,
                             }
                             local newCharacter = Character(data)
                             self._usercharacters[newCharacter.CharIdentifier()] = newCharacter
@@ -271,6 +272,7 @@ function User(source, identifier, group, playerwarnings, license, char)
             charDescription = data.charDescription,
             nickname = data.nickname,
             steamname = self.steamname,
+            slots = Config.initInvCapacity or 200,
         }
 
         local newChar = Character(info)

@@ -41,6 +41,7 @@
 ---@field DeleteCharacter fun()
 ---@field SaveCharacterCoords fun(coords:vector)
 ---@field SaveCharacterInDb fun()
+---@field setSlots fun(slots:number)
 
 
 --- update state bags
@@ -86,6 +87,7 @@ function Character(data)
     self.charDescription = data.charDescription
     self.nickname = data.nickname
     self.steamname = data.steamname
+    self.slots = data.slots
 
     self.Identifier = function()
         return self.identifier
@@ -353,8 +355,15 @@ function Character(data)
         self.hours = self.hours + hours
     end
 
+    self.setSlots = function(slots)
+        if slots then
+            self.slots = self.slots + slots
+        end
+        return self.slots
+    end
+
     self.SaveNewCharacterInDb = function(cb)
-        MySQL.query("INSERT INTO characters (`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`,`joblabel`, `age`,`gender`,`character_desc`,`nickname`,`compTints`,`steamname`) VALUES (@identifier,@group, @money, @gold, @rol, @xp, @healthouter, @healthinner, @staminaouter, @staminainner, @hours, @inventory, @job, @status, @firstname, @lastname, @skinPlayer, @compPlayer, @jobgrade, @coords, @isdead, @joblabel, @age, @gender, @charDescription, @nickname,@compTints,@steamname)",
+        MySQL.query("INSERT INTO characters (`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`,`joblabel`, `age`,`gender`,`character_desc`,`nickname`,`compTints`,`steamname`,`slots`) VALUES (@identifier,@group, @money, @gold, @rol, @xp, @healthouter, @healthinner, @staminaouter, @staminainner, @hours, @inventory, @job, @status, @firstname, @lastname, @skinPlayer, @compPlayer, @jobgrade, @coords, @isdead, @joblabel, @age, @gender, @charDescription, @nickname,@compTints,@steamname,@slots)",
             {
                 identifier = self.identifier,
                 group = self.group,
@@ -383,7 +392,8 @@ function Character(data)
                 charDescription = self.charDescription,
                 nickname = self.nickname,
                 compTints = self.compTints,
-                steamname = self.steamname
+                steamname = self.steamname,
+                slots = self.slots
             },
             function(character)
                 cb(character.insertId)
@@ -400,7 +410,7 @@ function Character(data)
 
     self.SaveCharacterInDb = function()
         MySQL.update(
-            "UPDATE characters SET `group` =@group ,`money` =@money ,`gold` =@gold ,`rol` =@rol ,`xp` =@xp ,`healthouter` =@healthouter ,`healthinner` =@healthinner ,`staminaouter` =@staminaouter ,`staminainner` =@staminainner ,`hours` =@hours ,`job` =@job , `status` =@status ,`firstname` =@firstname , `lastname` =@lastname , `jobgrade` =@jobgrade , `coords` =@coords , `isdead` =@isdead , `joblabel` =@joblabel, `age` =@age, `gender`=@gender, `character_desc`=@charDescription,`nickname`=@nickname,`steamname`=@steamname WHERE `identifier` =@identifier AND `charidentifier` =@charidentifier",
+            "UPDATE characters SET `group` =@group ,`money` =@money ,`gold` =@gold ,`rol` =@rol ,`xp` =@xp ,`healthouter` =@healthouter ,`healthinner` =@healthinner ,`staminaouter` =@staminaouter ,`staminainner` =@staminainner ,`hours` =@hours ,`job` =@job , `status` =@status ,`firstname` =@firstname , `lastname` =@lastname , `jobgrade` =@jobgrade , `coords` =@coords , `isdead` =@isdead , `joblabel` =@joblabel, `age` =@age, `gender`=@gender, `character_desc`=@charDescription,`nickname`=@nickname,`steamname`=@steamname, `slots` =@slots WHERE `identifier` =@identifier AND `charidentifier` =@charidentifier",
             {
                 group = self.group,
                 money = self.money,
@@ -426,7 +436,8 @@ function Character(data)
                 gender = self.gender,
                 charDescription = self.charDescription,
                 nickname = self.nickname,
-                steamname = self.steamname
+                steamname = self.steamname,
+                slots = self.slots
             })
     end
 
@@ -462,7 +473,11 @@ function Character(data)
         userData.gender = self.gender
         userData.charDescription = self.charDescription
         userData.nickname = self.nickname
+        userData.invCapacity = self.slots
 
+        userData.updateInvCapacity = function(slots)
+            self.setSlots(slots)
+        end
         userData.setStatus = function(status)
             self.Status(status)
         end
