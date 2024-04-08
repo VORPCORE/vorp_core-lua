@@ -137,6 +137,10 @@ function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName,
     Wait(200)
     EndDeathCam()
     TriggerServerEvent("vorp:ImDead", false)
+
+    TriggerServerEvent("vorp_core:Server:OnPlayerRevive")
+    TriggerEvent("vorp_core:Client:OnPlayerRevive")
+
     setDead = false
     DisplayHud(true)
     DisplayRadar(true)
@@ -248,7 +252,11 @@ CreateThread(function()
                 PromptSetEnabled(prompt, true)
                 NetworkSetInSpectatorMode(false, PlayerPedId())
                 exports.spawnmanager.setAutoSpawn(false)
-                TriggerServerEvent("vorp:ImDead", true)
+                TriggerServerEvent("vorp:ImDead", true) -- internal event
+
+                TriggerServerEvent("vorp_core:Server:OnPlayerDeath")
+                TriggerEvent("vorp_core:Client:OnPlayerDeath")
+                
                 DisplayRadar(false)
                 CreateThread(function()
                     RespawnTimer()
