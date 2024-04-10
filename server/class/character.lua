@@ -473,7 +473,7 @@ function Character(data)
         userData.gender = self.gender
         userData.charDescription = self.charDescription
         userData.nickname = self.nickname
-        userData.invCapacity = self.slots
+        userData.invCapacity = tonumber(self.slots)
 
         userData.updateInvCapacity = function(slots)
             self.setSlots(slots)
