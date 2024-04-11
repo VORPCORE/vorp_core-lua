@@ -159,15 +159,17 @@ RegisterNetEvent("vorp:SelectedCharacter", function()
     TriggerServerEvent("vorp:chatSuggestion")
     TriggerServerEvent('vorp_core:instanceplayers', 0) -- remove instanced players
     TriggerServerEvent("vorp:SaveDate")
-    Wait(10000)
-    -- GUARMA SPAWN
-    local pedCoords = GetEntityCoords(PlayerPed)
-    local area = Citizen.InvokeNative(0x43AD8FC02B429D33, pedCoords, 10)
-    if area == -512529193 then
-        Citizen.InvokeNative(0xA657EC9DBC6CC900, 1935063277)
-        Citizen.InvokeNative(0xE8770EE02AEE45C2, 1)
-        Citizen.InvokeNative(0x74E2261D2A66849A, true)
-    end
+
+    SetTimeout(10000, function()
+        -- GUARMA SPAWN
+        local pedCoords = GetEntityCoords(PlayerPedId())
+        local area = Citizen.InvokeNative(0x43AD8FC02B429D33, pedCoords, 10)
+        if area == -512529193 then
+            Citizen.InvokeNative(0xA657EC9DBC6CC900, 1935063277)
+            Citizen.InvokeNative(0xE8770EE02AEE45C2, 1)
+            Citizen.InvokeNative(0x74E2261D2A66849A, true)
+        end
+    end)
 
     CreateThread(CoreAction.Player.MapCheck)
 end)
