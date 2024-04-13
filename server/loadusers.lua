@@ -232,3 +232,10 @@ RegisterNetEvent("vorp:GetValues", function()
 
     TriggerClientEvent("vorp:GetHealthFromCore", _source, healthData)
 end)
+
+if Config.DeleteFromUsersTable and not Config.Whitelist then
+    MySQL.ready(function()
+        local query = "DELETE FROM users WHERE NOT EXISTS (SELECT 1 FROM characters WHERE characters.identifier = users.identifier);"
+        MySQL.query(query, {})
+    end)
+end
