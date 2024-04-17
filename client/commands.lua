@@ -22,7 +22,11 @@ PlayerCommands = {
         command = Config.CommandClearAnim,
         suggestion = S.stopAnim,
         run = function()
-            ClearPedTasksImmediately(PlayerPedId())
+            local ped = PlayerPedId()
+            if IsPedHogtied(ped) or IsPedCuffed(ped) or IsPedBeingHogtied(ped) or GetPedIsBeingGrappled(ped) then
+                return -- cant use command if any of the above is true
+            end
+            ClearPedTasksImmediately(ped)
         end,
         restricted = false
     },
