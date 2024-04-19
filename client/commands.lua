@@ -23,8 +23,11 @@ PlayerCommands = {
         suggestion = S.stopAnim,
         run = function()
             local ped = PlayerPedId()
-            if IsPedHogtied(ped) or IsPedCuffed(ped) or IsPedBeingHogtied(ped) or GetPedIsBeingGrappled(ped) then
-                return -- cant use command if any of the above is true
+            local hogtied = IsPedHogtied(ped) == 1 or IsPedHogtied(ped) == true
+            local IsBeingHogtied = IsPedBeingHogtied(ped) == 1 or IsPedBeingHogtied(ped) == true
+            local beingGrapple = Citizen.InvokeNative(0x3BDFCF25B58B0415, ped)
+            if hogtied or IsPedCuffed(ped) or IsBeingHogtied or beingGrapple then
+                return
             end
             ClearPedTasksImmediately(ped)
         end,
