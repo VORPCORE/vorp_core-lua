@@ -256,7 +256,7 @@ CreateThread(function()
 
                 TriggerServerEvent("vorp_core:Server:OnPlayerDeath")
                 TriggerEvent("vorp_core:Client:OnPlayerDeath")
-                
+
                 DisplayRadar(false)
                 CreateThread(function()
                     RespawnTimer()
@@ -269,13 +269,15 @@ CreateThread(function()
                     PromptSetActiveGroupThisFrame(prompts, CheckLabel())
 
                     if PromptHasHoldModeCompleted(prompt) then
-                        DoScreenFadeOut(3000)
-                        Wait(3000)
-                        CoreAction.Player.RespawnPlayer(true)
-                        PressKey      = true
-                        carried       = false
-                        Done          = false
-                        TimeToRespawn = Config.RespawnTime
+                        if Config.CanRespawn() then
+                            DoScreenFadeOut(3000)
+                            Wait(3000)
+                            CoreAction.Player.RespawnPlayer(true)
+                            PressKey      = true
+                            carried       = false
+                            Done          = false
+                            TimeToRespawn = Config.RespawnTime
+                        end
                     end
 
                     if TimeToRespawn >= 1 and setDead then

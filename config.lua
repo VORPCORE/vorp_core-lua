@@ -13,11 +13,14 @@ Config = {
     autoUpdateDB           = true, -- Enables automatic database updates.
 
     -- (IF YOU HAVE WHITELIST ENABLED DONT ENABLE THIS)--
-    DeleteFromUsersTable   = true,  -- this will delete from users table if character does not exist "optimising the queries"
+    DeleteFromUsersTable   = true,      -- this will delete from users table if character does not exist "optimising the queries"
     -----------------------------------------------------
-    PrintPlayerInfoOnLeave = false, -- Logs player information in the server console when they leave.
-    PrintPlayerInfoOnEnter = false, -- Logs player information in the server console upon joining.
-
+    PrintPlayerInfoOnLeave = false,     -- Logs player information in the server console when they leave.
+    PrintPlayerInfoOnEnter = false,     -- Logs player information in the server console upon joining.
+    CanRespawn             = function() -- use this function to add your own logic if player can respawn or not
+        -- add your logic here
+        return true                     -- dont touch
+    end,
     --=============================================
     --        STARTING CONFIGURATION             --
     --=============================================
