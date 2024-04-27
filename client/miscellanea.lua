@@ -54,7 +54,6 @@ local Events = {
 
 CreateThread(function()
     HidePlayerCores()
-    FillUpCores()
     while true do
         Wait(0)
         local event = GetNumberOfEvents(0)
@@ -80,6 +79,7 @@ end)
 -- show players id when focus on other players
 CreateThread(function()
     repeat Wait(1000) until LocalPlayer.state.IsInSession
+    FillUpCores()
     while Config.showplayerIDwhenfocus do
         local sleep = 1000
         if #GetActivePlayers() > 1 then -- we also count ourselfs
