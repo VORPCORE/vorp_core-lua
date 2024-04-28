@@ -2,21 +2,20 @@
 --            VORP SHARED CONFIG             --
 --=============================================
 
--- Ensure you understand each setting.
--- If unsure, ask or leave the default value.
-
--- Set the language for your server.
--- Check the 'translation' folder for available options.
 Lang = "English"
 
 Config = {
     autoUpdateDB           = true, -- Enables automatic database updates.
+
+    ReportCrashes          = true, -- Reports crashes to https://monitor.gtp-dev.com login in here to create your API KEY , by doing this you will help the community to improve the server stability and fix crashes faster
+    API_KEY                = "",   -- API key for crash reporting. Get your API key at https://monitor.gtp-dev.com to allow more requests make a donation in the website
 
     -- (IF YOU HAVE WHITELIST ENABLED DONT ENABLE THIS)--
     DeleteFromUsersTable   = true,      -- this will delete from users table if character does not exist "optimising the queries"
     -----------------------------------------------------
     PrintPlayerInfoOnLeave = false,     -- Logs player information in the server console when they leave.
     PrintPlayerInfoOnEnter = false,     -- Logs player information in the server console upon joining.
+
     CanRespawn             = function() -- use this function to add your own logic if player can respawn or not
         -- add your logic here
         return true                     -- dont touch

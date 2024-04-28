@@ -88,11 +88,41 @@ local function removePlayer(identifier)
     end)
 end
 
+local function ReportCrash(reason, _source)
+    local _, _, errorMessage = reason:find("RAGE error:%s(.+)")
+    if not errorMessage then
+        _, _, errorMessage = reason:find("Game crashed:%s(.+)")
+    end
+
+    if errorMessage then
+        local ped = GetPlayerPed(_source)
+        local pcoords = GetEntityCoords(ped)
+        local coords = {
+            x = pcoords.x,
+            y = pcoords.y,
+            z = pcoords.z
+        }
+        local crash_id = string.lower(errorMessage:gsub("%b()", ""))
+        PerformHttpRequest("http://api.gtp-dev.com:8080/api/crashes", function()
+        end, "POST", json.encode({
+            apiKey = Config.API_KEY,
+            crash_id = crash_id,
+            server = GetConvar("sv_projectName", "Unknown"),
+            coords = json.encode(coords)
+        }), {
+            ["Content-Type"] = "application/json"
+        })
+    end
+end
+
 AddEventHandler('playerDropped', function(reason)
     local _source = source
     local identifier = GetSteamID(_source)
     savePlayer(_source, reason, identifier)
     removePlayer(identifier)
+    if Config.ReportCrashes and Config.API_KEY ~= "" then
+        ReportCrash(reason, _source)
+    end
 end)
 
 ---@todo allow to save player when they are still in the server  example of usage is  not have to relog to select another character
