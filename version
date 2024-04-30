@@ -1,3 +1,19 @@
+<2.6>
+- new class for characters inv capacity (need to run sqlcode)
+- added character slots creation to user tables (need to run sqlcode)
+- added new event listeners check the documentation for more info
+- fixed combat log system
+- added support to report crashes to a website read the condig.lua for more info
+- added new API to to set character inv capacity
+- some minor optimisations
+- added to config function to allow respawn or not if you need to add some checks instead of modifying the code
+- improoved stopAnim command making checks to avoid player to stop animations like being cuffed
+- fix for reloging in guarma
+- fix for css ui to position it better bellow the ammo ui
+- added zoom in minimap when you are in interiors
+- fix for whitelist system 
+- added statebag for currency rol and fix not updating currency for statebags
+- make sure to update fxmanifest and remove old to back up and put new in
 <2.5>
 - added new API to server Heal Revive Respawn 
 - added new API to server getUserByCharId 

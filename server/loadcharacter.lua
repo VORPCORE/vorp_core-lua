@@ -22,7 +22,7 @@ end)
 RegisterNetEvent('vorp:ImDead', function(isDead)
     local source = source
     local identifier = GetSteamID(source)
-    if _users[identifier] then
+    if identifier and _users[identifier] then
         _users[identifier].GetUsedCharacter().setDead(isDead)
     end
 end)
