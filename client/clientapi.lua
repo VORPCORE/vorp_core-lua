@@ -27,7 +27,8 @@ CoreFunctions.NotifyRightTip = function(text, duration)
 end
 
 CoreFunctions.NotifyObjective = function(text, duration)
-    VorpNotification:NotifyObjective(tostring(text), tonumber(duration))
+    TriggerEvent('vorp:TipBottom', text, duration) -- listner
+    -- VorpNotification:NotifyObjective(tostring(text), tonumber(duration))
 end
 
 CoreFunctions.NotifyTop = function(text, location, duration)
