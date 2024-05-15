@@ -137,5 +137,5 @@ exports("ServerRpcCall", function()
     return ServerRPC
 end)
 
--- Events backwars compatibility
+-- Events backwards compatibility
 RegisterNetEvent("vorp:addNewCallBack", ServerRPC.Callback.Register)

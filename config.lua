@@ -160,9 +160,7 @@ Config = {
 
     --=============================================
     --    DISCORD RICH PRESENCE INTEGRATION      --
-    --=============================================
-
-    maxplayers             = 42,                         -- Maximum number of players allowed on the server.
+    --===========================================
     appid                  = nil,                        -- Discord Application ID. Replace this with your own application's ID.
     biglogo                = "LOGOname",                 -- Name of the image asset to use for the large icon in the rich presence.
     biglogodesc            = " Redm Server Connect: ",   -- Description displayed when hovering over the large icon.
