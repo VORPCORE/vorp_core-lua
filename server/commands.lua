@@ -148,8 +148,8 @@ function SetGroup(data)
     end
 
     SendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
-    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
-    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)
+    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
+    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)
 end
 
 --ADDJOBS
