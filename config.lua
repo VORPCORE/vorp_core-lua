@@ -75,49 +75,51 @@ Config = {
     --            UI CONFIGURATIONS              --
     --=============================================
 
-    HideUi                 = false,      -- Shows or hides the overall UI.
-    HideGold               = false,      -- Disables the Gold UI for all players.
-    HideMoney              = false,      -- Disables the Money UI for all players.
-    HideLevel              = false,      -- Disables the Level UI for all players.
-    HideID                 = false,      -- Disables the ID UI for all players.
-    HideTokens             = false,      -- Disables the Token UI for all players.
-    HidePVP                = false,      -- Disables the PVP UI for all players.
-    UIPosition             = 'TopRight', -- Sets the UI position on the screen.
-    UILayout               = 'Column',   -- Sets the UI layout, options are 'Row' or 'Column'.
-    HideWithRader          = true,       -- UI hides when the radar (minimap) is hidden.
-    OpenAfterRader         = true,       -- UI shows when the radar (minimap) reappears.
-    CloseOnDelay           = false,      -- UI automatically closes after a set time.
-    CloseOnDelayMS         = 10000,      -- Time in milliseconds before the UI auto-closes, 10000 equals 10 seconds.
-    CommandHideIU          = 'hideUi',   -- Command to hide all UI elements, useful for screenshots.
-    CommandToogleUI        = 'toggleUi', -- Command to toggle the visibility of VORP UI elements.
-    CommandClearAnim       = 'stopAnim', -- Command to stop animations if a player is stuck.
+
+    HideUi                = false,       -- Shows or hides the overall UI.
+    HideGold              = false,       -- Disables the Gold UI for all players.
+    HideMoney             = false,       -- Disables the Money UI for all players.
+    HideLevel             = false,       -- Disables the Level UI for all players.
+    HideID                = false,       -- Disables the ID UI for all players.
+    HideTokens            = false,       -- Disables the Token UI for all players.
+    HidePVP               = false,       -- Disables the PVP UI for all players.
+    UIPosition            = 'TopRight',  -- Sets the UI position on the screen. Options are 'TopRight', 'TopLeft', 'BottomRight', 'BottomLeft', 'MiddleRight', 'TopMiddle', 'BottomMiddle'.
+
+    UILayout              = 'Column',    -- Sets the UI layout, options are 'Row' or 'Column'.
+    HideWithRader         = true,        -- UI hides when the radar (minimap) is hidden.
+    OpenAfterRader        = true,        -- UI shows when the radar (minimap) reappears.
+    CloseOnDelay          = false,       -- UI automatically closes after a set time.
+    CloseOnDelayMS        = 10000,       -- Time in milliseconds before the UI auto-closes, 10000 equals 10 seconds.
+    CommandHideIU         = 'hideUi',    -- Command to hide all UI elements, useful for screenshots.
+    CommandToogleUI       = 'toggleUi',  -- Command to toggle the visibility of VORP UI elements.
+    CommandClearAnim      = 'stopAnim',  -- Command to stop animations if a player is stuck.
 
     --=============================================
     --            MAP CONFIGURATIONS             --
     --=============================================
 
-    mapTypeOnFoot          = 3,     -- Radar type when on foot. 0 = Off, 1 = Regular, 2 = Expanded, 3 = Simple (compass).
-    mapTypeOnMount         = 3,     -- Radar type when on horse. Same options as on foot.
-    enableTypeRadar        = false, -- Enables custom radar types if true, otherwise players use game settings.
-    Loadinscreen           = true,  -- Enables loading screens during spawn and respawn.
-    LoadinScreenTimer      = 10000, -- Duration of loading screens in milliseconds.
+    mapTypeOnFoot         = 3,      -- Radar type when on foot. 0 = Off, 1 = Regular, 2 = Expanded, 3 = Simple (compass).
+    mapTypeOnMount        = 3,      -- Radar type when on horse. Same options as on foot.
+    enableTypeRadar       = false,  -- Enables custom radar types if true, otherwise players use game settings.
+    Loadinscreen          = true,   -- Enables loading screens during spawn and respawn.
+    LoadinScreenTimer     = 10000,  -- Duration of loading screens in milliseconds.
 
     --=============================================
     --            RESPAWN SETTINGS               --
     --=============================================
 
-    HealthOnRespawn        = 500,                                  -- Player health after respawning at a hospital (max is 500).
-    HealthOnResurrection   = 100,                                  -- Player health after being resurrected (max is 500).
-    RagdollOnResurrection  = true,                                 -- Enables ragdoll and revive effects upon resurrection.
-    HealthRecharge         = { enable = true, multiplier = 0.37 }, -- Auto-recharge for health, with a multiplier for speed.
-    StaminaRecharge        = { enable = true, multiplier = 0.4 },  -- Auto-recharge for stamina, with a multiplier for speed.
-    RespawnTime            = 10,                                   -- Time in seconds before a player can respawn.
-    RespawnKey             = 0xDFF812F9,                           -- Key code for respawning (default is 'E').
-    RespawnKeyTime         = 5000,                                 -- Time in milliseconds to hold the respawn key.
-    CombatLogDeath         = true,                                 -- Combat loggers respawn in a dead state instead of alive.
-    UseControlsCamera      = false,                                -- Allows dead or carried players to move the camera with WASD (resource intensive).
-    UseDeathHandler        = true,                                 -- Keeps default death handling unless you have a custom system.
-    Hospitals              = {                                     -- Spawn points for players respawning at hospitals.
+    HealthOnRespawn       = 500,                                   -- Player health after respawning at a hospital (max is 500).
+    HealthOnResurrection  = 100,                                   -- Player health after being resurrected (max is 500).
+    RagdollOnResurrection = true,                                  -- Enables ragdoll and revive effects upon resurrection.
+    HealthRecharge        = { enable = true, multiplier = 0.37 },  -- Auto-recharge for health, with a multiplier for speed.
+    StaminaRecharge       = { enable = true, multiplier = 0.4 },   -- Auto-recharge for stamina, with a multiplier for speed.
+    RespawnTime           = 10,                                    -- Time in seconds before a player can respawn.
+    RespawnKey            = 0xDFF812F9,                            -- Key code for respawning (default is 'E').
+    RespawnKeyTime        = 5000,                                  -- Time in milliseconds to hold the respawn key.
+    CombatLogDeath        = true,                                  -- Combat loggers respawn in a dead state instead of alive.
+    UseControlsCamera     = false,                                 -- Allows dead or carried players to move the camera with WASD (resource intensive).
+    UseDeathHandler       = true,                                  -- Keeps default death handling unless you have a custom system.
+    Hospitals             = {                                      -- Spawn points for players respawning at hospitals.
         Valentine = {
             name = "Valentine",
             pos = vector4(-283.83, 806.4, 119.38, 321.76), -- Vector4 coordinates: x, y, z, heading.
@@ -139,36 +141,36 @@ Config = {
             pos = vector4(1229.0, -1306.1, 76.9, 321.76),
         },
     },
-    ActiveEagleEye         = true,  -- Enables or disables Eagle Eye feature.
-    ActiveDeadEye          = false, -- Enables or disables Dead Eye feature.
+    ActiveEagleEye        = true,   -- Enables or disables Eagle Eye feature.
+    ActiveDeadEye         = false,  -- Enables or disables Dead Eye feature.
 
     --=============================================
     --         BAN SYSTEM CONFIGURATIONS         --
     --=============================================
 
-    DateTimeFormat         = "%d/%m/%y %H:%M:%S", -- Format for displaying date and time in ban notifications.
-    TimeZone               = " CET",              -- Set your server's timezone.
-    TimeZoneDifference     = 1,                   -- Time difference from UTC, used in the banning system.
+    DateTimeFormat        = "%d/%m/%y %H:%M:%S",  -- Format for displaying date and time in ban notifications.
+    TimeZone              = " CET",               -- Set your server's timezone.
+    TimeZoneDifference    = 1,                    -- Time difference from UTC, used in the banning system.
 
     --=============================================
     --        COMMAND PERMISSION SETTINGS        --
     --=============================================
 
-    NewPlayerWebhook       = "",    -- Webhook URL for logging new player joins.
-    SetUserDBadmin         = true,  -- If true, 'addGroup' command also sets admin status in the Users table.
-    SetBothDBadmin         = false, -- If true, 'addGroup' sets admin status in both Users and Characters tables.
+    NewPlayerWebhook      = "",     -- Webhook URL for logging new player joins.
+    SetUserDBadmin        = true,   -- If true, 'addGroup' command also sets admin status in the Users table.
+    SetBothDBadmin        = false,  -- If true, 'addGroup' sets admin status in both Users and Characters tables.
 
     --=============================================
     --    DISCORD RICH PRESENCE INTEGRATION      --
     --===========================================
-    appid                  = nil,                        -- Discord Application ID. Replace this with your own application's ID.
-    biglogo                = "LOGOname",                 -- Name of the image asset to use for the large icon in the rich presence.
-    biglogodesc            = " Redm Server Connect: ",   -- Description displayed when hovering over the large icon.
-    smalllogo              = "smallboy name",            -- Name of the image asset for the small icon in the rich presence. This is optional.
-    smalllogodesc          = "Join us for a good time ", -- Description displayed when hovering over the small icon.
-    richpresencebutton     = "Join Discord",             -- Text displayed on the rich presence button.
-    shownameandid          = true,                       -- Whether to display the player's Steam name and ID.
-    Buttons                = {                           -- Configuration for buttons shown in the Discord rich presence.
+    appid                 = nil,                         -- Discord Application ID. Replace this with your own application's ID.
+    biglogo               = "LOGOname",                  -- Name of the image asset to use for the large icon in the rich presence.
+    biglogodesc           = " Redm Server Connect: ",    -- Description displayed when hovering over the large icon.
+    smalllogo             = "smallboy name",             -- Name of the image asset for the small icon in the rich presence. This is optional.
+    smalllogodesc         = "Join us for a good time ",  -- Description displayed when hovering over the small icon.
+    richpresencebutton    = "Join Discord",              -- Text displayed on the rich presence button.
+    shownameandid         = true,                        -- Whether to display the player's Steam name and ID.
+    Buttons               = {                            -- Configuration for buttons shown in the Discord rich presence.
         {
             text = 'Join Discord!',                      -- Text displayed on the first button.
             -- URL the first button directs to. Replace with your Discord invite link.
