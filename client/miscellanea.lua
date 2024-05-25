@@ -52,7 +52,14 @@ local Events = {
     `EVENT_DAILY_CHALLENGE_STREAK_COMPLETED`
 }
 
+--f6 photo mode doesnt work so just hide the prompt
+local function disablePhotoMode()
+    DatabindingAddDataBoolFromPath('', 'bPauseMenuPhotoModeVisible', false)
+    DatabindingAddDataBoolFromPath('', 'bEnablePauseMenuPhotoMode', false)
+end
+
 CreateThread(function()
+    disablePhotoMode()
     HidePlayerCores()
     while true do
         Wait(0)
