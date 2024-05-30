@@ -1,49 +1,3 @@
----@class Character
----@field identifier fun():string
----@field charIdentifier fun(value:string):string
----@field group fun(value:string):string
----@field job fun(value:string):string
----@field jobgrade fun(value:number):number
----@field joblabel fun(value:string):string
----@field firstname fun(value:string):string
----@field lastname fun(value:string):string
----@field age fun(value:string):string
----@field gender fun(value:string):string
----@field charDescription fun(value:string):string
----@field nickname fun(value:string):string
----@field inventory fun(value:string):string
----@field status fun(value:string):string
----@field coords fun(value:vector):vector
----@field money fun(value:number):number
----@field gold fun(value:number):number
----@field rol fun(value:number):number
----@field healthOuter fun(value:number):number
----@field healthInner fun(value:number):number
----@field staminaOuter fun(value:number):number
----@field staminaInner fun(value:number):number
----@field xp fun(value:number):number
----@field hours fun(value:number):number
----@field isdead fun(value:boolean):boolean
----@field skin fun(value:table):table
----@field comps fun(value:table):table
----@field getCharacter fun():table
----@field updateCharUi fun()
----@field addCurrency fun(currency:number, quantity:number)
----@field removeCurrency fun(currency:number, quantity:number)
----@field addXp fun(quantity:number)
----@field removeXp fun(quantity:number)
----@field saveHealthAndStamina fun(healthOuter:number, healthInner:number, staminaOuter:number, staminaInner:number)
----@field setJob fun(newjob:string)
----@field setGroup fun(newgroup:string)
----@field setDead fun(dead:boolean)
----@field UpdateHours fun(hours:number)
----@field SaveNewCharacterInDb fun(cb:function)
----@field DeleteCharacter fun()
----@field SaveCharacterCoords fun(coords:vector)
----@field SaveCharacterInDb fun()
----@field setSlots fun(slots:number)
-
-
 --- update state bags
 local function SetState(source, key, field, newValue)
     local state = Player(source).state[key]
@@ -53,8 +7,6 @@ local function SetState(source, key, field, newValue)
     end
 end
 
---- Character class
----@return Character @Character class
 function Character(data)
     local self = {}
     self.identifier = data.identifier
