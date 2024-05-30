@@ -1,0 +1,68 @@
+---@meta
+
+---@class Character
+---@field public identifier string
+---@field public charIdentifier string
+---@field public group string
+---@field public job string
+---@field public jobLabel string
+---@field public jobGrade number
+---@field public money number
+---@field public gold number
+---@field public rol number
+---@field public xp number
+---@field public healthOuter number
+---@field public healthInner number
+---@field public staminaOuter number
+---@field public staminaInner number
+---@field public hours number
+---@field public firstname string
+---@field public lastname string
+---@field public inventory string
+---@field public status string
+---@field public coords vector
+---@field public isdead boolean
+---@field public skin table
+---@field public comps table
+---@field public compTints table
+---@field public age number
+---@field public updateInvCapacity fun(slots:number)
+---@field public setStatus fun(status:string)
+---@field public setJobGrade fun(jobgrade:number)
+---@field public setJobLabel fun(joblabel:string)
+---@field public setGroup fun(group:string)
+---@field public setJob fun(job:string)
+---@field public setMoney fun(money:number)
+---@field public setGold fun(gold:number)
+---@field public setRol fun(rol:number)
+---@field public setXp fun(xp:number)
+---@field public setFirstname fun(firstname:string)
+---@field public setLastname fun(lastname:string)
+---@field public setAge fun(age:number)
+---@field public setGender fun(gender:string)
+---@field public setCharDescription fun(charDescription:string)
+---@field public setNickName fun(nickname:string)
+---@field public updateSkin fun(skin:table)
+---@field public updateComps fun(comps:table)
+---@field public updateCompTints fun(tints:table)
+---@field public addCurrency fun(currency:number, quantity:number)
+---@field public removeCurrency fun(currency:number, quantity:number)
+---@field public addXp fun(xp:number)
+---@field public removeXp fun(xp:number)
+---@field public updateCharUi fun()
+
+---@class User
+---@field public getCharperm integer
+---@field public source integer
+---@field public getGroup string
+---@field public getUsedCharacter Character
+---@field public getUserCharacters table
+---@field public getIdentifier fun():string
+---@field public getPlayerwarnings fun():number
+---@field public setPlayerWarnings fun(warnings:number)
+---@field public setGroup fun(group:string)
+---@field public setCharperm fun(char:string)
+---@field public getNumOfCharacters fun():number
+---@field public addCharacter fun(data:table)
+---@field public removeCharacter fun(charid:number)
+---@field public setUsedCharacter fun(charid:number)
