@@ -50,20 +50,24 @@ function Character(data)
         return self.charIdentifier
     end
 
-    self.Group = function(value)
+    self.Group = function(value, flag)
         if value then
             self.group = value
-            TriggerEvent("vorp:playerGroupChange", self.source, self.group) -- listener for group change
+            if flag or flag == nil then -- alow true or nil, only false will not trigger the event
+                TriggerEvent("vorp:playerGroupChange", self.source, self.group)
+            end
             SetState(self.source, "Character", "Group", self.group)
         end
 
         return self.group
     end
 
-    self.Job = function(value)
+    self.Job = function(value, flag)
         if value then
             self.job = value
-            TriggerEvent("vorp:playerJobChange", self.source, self.job) -- listener for job change
+            if flag or flag == nil then -- alow true or nil, only false will not trigger the event
+                TriggerEvent("vorp:playerJobChange", self.source, self.job)
+            end
             SetState(self.source, "Character", "Job", self.job)
         end
         return self.job
@@ -78,10 +82,12 @@ function Character(data)
         return self.joblabel
     end
 
-    self.Jobgrade = function(value)
+    self.Jobgrade = function(value, flag)
         if value then
             self.jobgrade = value
-            TriggerEvent("vorp:playerJobGradeChange", self.source, self.jobgrade) -- listener for job grade change
+            if flag or flag == nil then -- alow true or nil, only false will not trigger the event
+                TriggerEvent("vorp:playerJobGradeChange", self.source, self.jobgrade)
+            end
             SetState(self.source, "Character", "Grade", self.jobgrade)
         end
 
@@ -434,18 +440,18 @@ function Character(data)
             self.Status(status)
         end
 
-        userData.setJobGrade = function(jobgrade)
-            self.Jobgrade(jobgrade)
+        userData.setJobGrade = function(jobgrade, flag)
+            self.Jobgrade(jobgrade, flag)
         end
         userData.setJobLabel = function(joblabel)
             self.Joblabel(joblabel)
         end
-        userData.setGroup = function(group)
-            self.Group(group)
+        userData.setGroup = function(group, flag)
+            self.Group(group, flag)
         end
 
-        userData.setJob = function(job)
-            self.Job(job)
+        userData.setJob = function(job, flag)
+            self.Job(job, flag)
         end
 
         userData.setMoney = function(money)
