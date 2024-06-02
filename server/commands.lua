@@ -19,30 +19,29 @@ local function CheckArgs(args, requiered)
 end
 
 local function CheckAce(ace, source)
-    if ace then
-        local all = 'vorpcore.showAllCommands'
-
-        local aceAllowed = IsPlayerAceAllowed(source, all)
-        if aceAllowed then
-            return true
-        end
-
-        aceAllowed = IsPlayerAceAllowed(source, ace)
-
-        if aceAllowed then
-            return true
-        end
-
-        return false
-    else
+    if not ace then
         return true
     end
+    local all = 'vorpcore.showAllCommands'
+    local aceAllowed = IsPlayerAceAllowed(source, all)
+
+    if aceAllowed then
+        return true
+    end
+
+    aceAllowed = IsPlayerAceAllowed(source, ace)
+
+    if aceAllowed then
+        return true
+    end
+
+    return false
 end
 
 local function LogMessage(_source)
     local Identifier = GetPlayerIdentifier(_source, 1) -- steam id
     local getDiscord = GetPlayerIdentifierByType(_source, 'discord')
-    local discordId = string.sub(getDiscord, 9)
+    local discordId = getDiscord and string.sub(getDiscord, 9) or "No discord found"
     local ip = GetPlayerEndpoint(_source)    -- ip
     local steamName = GetPlayerName(_source) -- steam name
     local message = Translation[Lang].Commands.webHookMessage
@@ -78,42 +77,43 @@ local function CheckJobAllowed(Table, Job)
     return false
 end
 
---========================================== THREAD =====================================================--
+function RegisterCommands(value, key)
+    RegisterCommand(value.commandName, function(source, args, rawCommand)
+        local _source = source
 
+        if _source == 0 then
+            return print("you must be in game to use this command")
+        end
+
+        local group = CoreFunctions.getUser(_source).getGroup -- admin group
+
+        if not CheckAce(value.aceAllowed, _source) and not CheckGroupAllowed(value.groupAllowed, group) then
+            return CoreFunctions.NotifyObjective(_source, T.NoPermissions, 4000)
+        end
+
+        if value.userCheck then
+            if not CheckUser(args[1]) then
+                return CoreFunctions.NotifyObjective(_source, Translation[Lang].Notify.userNonExistent, 4000)
+            end
+        end
+
+        if value.jobAllow and not CheckJobAllowed(value.jobAllow, _source) then
+            return CoreFunctions.NotifyObjective(_source, T.NoPermissions, 4000)
+        end
+
+        if not CheckArgs(args, (key == "addJob" and #args == 5) and #value.suggestion + 1 or #value.suggestion) then
+            return CoreFunctions.NotifyObjective(_source, Translation[Lang].Notify.ReadSuggestion, 4000)
+        end
+
+        local arguments = { source = _source, args = args, rawCommand = rawCommand, config = value }
+        value.callFunction(arguments)
+    end, false)
+end
+
+-- cor main commands
 CreateThread(function()
     for key, value in pairs(Commands) do
-        RegisterCommand(value.commandName, function(source, args, rawCommand)
-            local _source = source
-
-            if _source == 0 then
-                return print("you must be in game to use this command")
-            end
-
-            local group = CoreFunctions.getUser(_source).getGroup
-            local group2 = CoreFunctions.getUser(_source).getUsedCharacter.group
-
-            if not CheckAce(value.aceAllowed, _source) and not CheckGroupAllowed(value.groupAllowed, group) and not CheckGroupAllowed(value.groupAllowed, group2) then
-                return CoreFunctions.NotifyObjective(_source, T.NoPermissions, 4000)
-            end
-
-            if value.userCheck then
-                if not CheckUser(args[1]) then
-                    return CoreFunctions.NotifyObjective(_source, Translation[Lang].Notify.userNonExistent, 4000)
-                end
-            end
-
-            if not CheckJobAllowed(value.jobAllow, _source) then
-                return CoreFunctions.NotifyObjective(_source, T.NoPermissions, 4000)
-            end
-
-            if not CheckArgs(args, (key == "addJob" and #args == 5) and #value.suggestion + 1 or #value.suggestion) then
-                return CoreFunctions.NotifyObjective(_source, Translation[Lang].Notify.ReadSuggestion, 4000)
-            end
-
-
-            local arguments = { source = _source, args = args, rawCommand = rawCommand, config = value }
-            value.callFunction(arguments)
-        end, false)
+        RegisterCommands(value, key)
     end
 end)
 
@@ -218,16 +218,17 @@ end
 function AddWeapons(data)
     local target = tonumber(data.args[1])
     local weaponHash = tostring(data.args[2])
-    exports.vorp_inventory:canCarryWeapons(target, 1, function(result) --can carry weapons
-        local canCarry = result
-        if not canCarry then
-            return CoreFunctions.NotifyObjective(data.source, T.cantCarry, 4000)
-        end
+    local canCarry = exports.vorp_inventory:canCarryWeapons(target, 1, nil, weaponHash)
+    if not canCarry then
+        return CoreFunctions.NotifyObjective(data.source, T.cantCarry, 4000)
+    end
 
-        exports.vorp_inventory:createWeapon(target, weaponHash, {})
-        SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
-        CoreFunctions.NotifyRightTip(target, Translation[Lang].Notify.AddWeapons, 4000)
-    end, weaponHash)
+    local result = exports.vorp_inventory:createWeapon(target, weaponHash, {})
+    if not result then
+        return CoreFunctions.NotifyRightTip(target, "weapon does not exist or is wrong name", 4000)
+    end
+    SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
+    CoreFunctions.NotifyRightTip(target, Translation[Lang].Notify.AddWeapons, 4000)
 end
 
 --DELCURRENCY
@@ -409,17 +410,29 @@ end
 
 --============================================ CHAT ADD SUGGESTION ========================================================--
 
+function AddCommandSuggestions(_source, group, value)
+    if CheckAce(value.aceAllowed, _source) or CheckGroupAllowed(value.groupAllowed, group) then
+        return TriggerClientEvent("chat:addSuggestion", _source, "/" .. value.commandName, value.label, value.suggestion)
+    end
+
+    if value.jobAllow and CheckJobAllowed(value.jobAllow, _source) then
+        return TriggerClientEvent("chat:addSuggestion", _source, "/" .. value.commandName, value.label, value.suggestion)
+    end
+
+    TriggerClientEvent("chat:removeSuggestion", _source, "/" .. value.commandName)
+end
+
 RegisterServerEvent("vorp:chatSuggestion", function()
     local _source = source
-    local group   = CoreFunctions.getUser(_source).getGroup
+    local user    = CoreFunctions.getUser(_source)
 
+    if not user then return end
+
+    local group = user.getGroup
     for key, value in pairs(Commands) do
-        if CheckAce(value.aceAllowed, _source) or CheckGroupAllowed(value.groupAllowed, group) then
-            TriggerClientEvent("chat:addSuggestion", _source, "/" .. value.commandName, value.label, value.suggestion) -- add chat suggestions
-        else
-            TriggerClientEvent("chat:removeSuggestion", _source, "/" .. value.commandName)                             -- remove chat suggestions
-        end
+        AddCommandSuggestions(_source, group, value)
     end
+
     -- client commands
     TriggerClientEvent("chat:addSuggestion", _source, "/" .. Commands.myHours.commandName, Commands.myHours.label, {})
     TriggerClientEvent("chat:addSuggestion", _source, "/" .. Commands.myJob.commandName, Commands.myJob.label, {})
