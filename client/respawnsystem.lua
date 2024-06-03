@@ -10,6 +10,42 @@ local carried = false
 local Done = false
 local T = Translation[Lang].MessageOfSystem
 local keepdown
+local UseControlsCamera = Config.UseControlsCamera 
+
+RegisterNetEvent('vorp:SelectedCharacter', function() 
+    DeathCam2()
+    DeathCam1()
+end)
+
+function DeathCam1()
+    Citizen.CreateThread(function()
+        while true do
+            Citizen.Wait(1)
+            
+            if UseControlsCamera and (deadcam and Dead) then 
+                ProcessCamControls()
+            end
+        end
+    end)
+end
+
+function DeathCam2()
+    Citizen.CreateThread(function()
+        while true do
+            local ped = PlayerPedId()
+            Citizen.Wait(500)
+            if not Dead and IsPedDeadOrDying(ped) then
+                Dead = true
+                if UseControlsCamera then -- Check UseControlsCamera flag
+                    StartDeathCam()
+                end
+            elseif Dead and not IsPedDeadOrDying(ped) then
+                Dead = false
+                EndDeathCam()
+            end
+        end
+    end)
+end
 
 local function CheckLabel()
     if not carried then
@@ -46,42 +82,49 @@ local function RespawnTimer()
     end)
 end
 
-local function ProcessNewPosition()
+function ProcessNewPosition()
     local mouseX = 0.0
     local mouseY = 0.0
-    if (IsInputDisabled(0)) then -- THIS DOESNT EXIST ?
-        mouseX = GetDisabledControlNormal(1, 0x4D8FB4C1) * 1.5
-        mouseY = GetDisabledControlNormal(1, 0xFDA83190) * 1.5
+    
+    -- keyboard
+    if (IsInputDisabled(0)) then
+        -- rotation
+        mouseX = GetDisabledControlNormal(1, 0x6BC904FC) * 8.0
+        mouseY = GetDisabledControlNormal(1, 0x84574AE8) * 8.0
+        
+    -- controller
     else
-        mouseX = GetDisabledControlNormal(1, 0x4D8FB4C1) * 0.5
-        mouseY = GetDisabledControlNormal(1, 0xFDA83190) * 0.5
+        -- rotation
+        mouseX = GetDisabledControlNormal(1, 0x6BC904FC) * 0.5
+        mouseY = GetDisabledControlNormal(1, 0x84574AE8) * 0.5
     end
-    angleZ = angleZ - mouseX
-    angleY = angleY + mouseY
 
+    angleZ = angleZ - mouseX -- around Z axis (left / right)
+    angleY = angleY + mouseY -- up / down
+    -- limit up / down angle to 90°
     if (angleY > 89.0) then angleY = 89.0 elseif (angleY < -89.0) then angleY = -89.0 end
+    
     local pCoords = GetEntityCoords(PlayerPedId())
+    
     local behindCam = {
-        x = pCoords.x + ((Cos(angleZ) * Cos(angleY)) + (Cos(angleY) * Cos(angleZ))) / 2 * (3.0 + 0.5),
-        y = pCoords.y + ((Sin(angleZ) * Cos(angleY)) + (Cos(angleY) * Sin(angleZ))) / 2 * (3.0 + 0.5),
-        z = pCoords.z + ((Sin(angleY))) * (3.0 + 0.5)
+        x = pCoords.x + ((Cos(angleZ) * Cos(angleY)) + (Cos(angleY) * Cos(angleZ))) / 2 * (0.5 + 0.5),
+        y = pCoords.y + ((Sin(angleZ) * Cos(angleY)) + (Cos(angleY) * Sin(angleZ))) / 2 * (0.5 + 0.5),
+        z = pCoords.z + ((Sin(angleY))) * (0.5 + 0.5)
     }
-    local rayHandle = StartShapeTestRay(pCoords.x, pCoords.y, pCoords.z + 0.5, behindCam.x, behindCam.y, behindCam.z, -1,
-        PlayerPedId(), 0)
-
-    local hitBool, hitCoords = GetShapeTestResult(rayHandle)
-
-    local maxRadius = 3.0
-    if (hitBool and Vdist(pCoords.x, pCoords.y, pCoords.z + 0.5, hitCoords, 0, 0) < 3.0 + 0.5) then
-        maxRadius = Vdist(pCoords.x, pCoords.y, pCoords.z + 0.5, hitCoords, 0, 0)
+    local rayHandle = StartShapeTestRay(pCoords.x, pCoords.y, pCoords.z + 0.5, behindCam.x, behindCam.y, behindCam.z, -1, PlayerPedId(), 0)
+    local a, hitBool, hitCoords, surfaceNormal, entityHit = GetShapeTestResult(rayHandle)
+    
+    local maxRadius = 3.5
+    if (hitBool and Vdist(pCoords.x, pCoords.y, pCoords.z + 0.0, hitCoords) < 0.5 + 0.5) then
+        maxRadius = Vdist(pCoords.x, pCoords.y, pCoords.z + 0.0, hitCoords)
     end
-
+    
     local offset = {
         x = ((Cos(angleZ) * Cos(angleY)) + (Cos(angleY) * Cos(angleZ))) / 2 * maxRadius,
         y = ((Sin(angleZ) * Cos(angleY)) + (Cos(angleY) * Sin(angleZ))) / 2 * maxRadius,
         z = ((Sin(angleY))) * maxRadius
     }
-
+    
     local pos = {
         x = pCoords.x + offset.x,
         y = pCoords.y + offset.y,
@@ -91,42 +134,35 @@ local function ProcessNewPosition()
     return pos
 end
 
-local function StartDeathCam()
+function StartDeathCam()
     ClearFocus()
+
     local playerPed = PlayerPedId()
-    local pos = GetEntityCoords(playerPed)
-    cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", pos.x, pos.y, pos.z, 0, 0, 0, GetGameplayCamFov(), false, 0)
-    SetCamActive(cam, true)
-    RenderScriptCams(true, true, 1000, true, false, 0)
+    deadcam = Citizen.InvokeNative(0x40C23491CE83708E,"DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(PlayerPedId()), 0, 0, 0, GetGameplayCamFov())
+
+    SetCamActive(deadcam, true)
+    RenderScriptCams(true, true, 1000, true, false)
 end
 
-local function ProcessCamControls()
-    local playerCoords
-    if Config.UseControlsCamera then
-        playerCoords = ProcessNewPosition()
-    else
-        playerCoords = GetEntityCoords(PlayerPedId())
-    end
-
-    local newPos = playerCoords
-    if IsEntityAttachedToAnyPed(PlayerPedId()) then
-        SetCamCoord(cam, newPos.x, newPos.y + -2, newPos.z + 0.50)
-        SetCamRot(cam, -20.0, 0.0, 0.0, 1)
-        SetCamFov(cam, 50.0)
-    else
-        SetCamCoord(cam, newPos.x, newPos.y, newPos.z + 1.0)
-        SetCamRot(cam, -80.0, 0.0, 0.0, 1)
-        SetCamFov(cam, 50.0)
-    end
-end
-
-local function EndDeathCam()
-    NetworkSetInSpectatorMode(false, PlayerPedId())
+function EndDeathCam()
     ClearFocus()
-    RenderScriptCams(false, false, 0, true, false, 0)
-    DestroyCam(cam, false)
-    cam = nil
-    DestroyAllCams(true)
+
+    RenderScriptCams(false, false, 0, true, false)
+    DestroyCam(deadcam, false)
+    
+    deadcam = nil
+end
+
+function ProcessCamControls()
+    local playerPed = PlayerPedId()
+    local playerCoords = GetEntityCoords(PlayerPedId())
+    Citizen.InvokeNative(0x05AB44D906738426)
+    
+    local newPos = ProcessNewPosition()
+
+    Citizen.InvokeNative(0xF9EE7D419EE49DE6,deadcam, newPos.x, newPos.y, newPos.z)
+    
+    Citizen.InvokeNative(0x948B39341C3A40C2,deadcam, playerCoords.x, playerCoords.y, playerCoords.z)
 end
 
 function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName, justrevive)
@@ -168,13 +204,15 @@ function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName,
         AnimpostfxPlay("PlayerWakeUpInterrogation")
         Wait(19000)
         keepdown = false
-        VorpNotification:NotifyLeft(currentHospitalName or T.message6, T.message5, "minigames_hud", "five_finger_burnout", 8000, "COLOR_PURE_WHITE")
+        VorpNotification:NotifyLeft(currentHospitalName or T.message6, T.message5, "minigames_hud", "five_finger_burnout",
+            8000, "COLOR_PURE_WHITE")
     else
         DoScreenFadeIn(2000)
     end
 end
 
 function CoreAction.Player.RespawnPlayer(allow)
+    local player = PlayerPedId()
     if allow then
         TriggerServerEvent("vorp:PlayerForceRespawn")
     end
@@ -182,12 +220,13 @@ function CoreAction.Player.RespawnPlayer(allow)
     local closestDistance = math.huge
     local closestLocation = ""
     local coords = nil
-    local pedCoords = GetEntityCoords(PlayerPedId())
-    for key, location in pairs(Config.Hospitals) do
+    local pedCoords = GetEntityCoords(player)
+    for _, location in pairs(Config.Hospitals) do
         local locationCoords = vector3(location.pos.x, location.pos.y, location.pos.z)
         local currentDistance = #(pedCoords - locationCoords)
 
         if currentDistance < closestDistance then
+            closestDistance = currentDistance
             closestLocation = location.name
             coords = location.pos
         end
@@ -198,27 +237,11 @@ function CoreAction.Player.RespawnPlayer(allow)
     CoreAction.Player.ResurrectPlayer(coords, closestLocation, false)
 end
 
--- CREATE PROMPT
-CreateThread(function()
-    repeat Wait(1000) until LocalPlayer.state.IsInSession
-    local str = T.prompt
-    local keyPress = Config.RespawnKey
-    prompt = UiPromptRegisterBegin()
-    UiPromptSetControlAction(prompt, keyPress)
-    str = CreateVarString(10, 'LITERAL_STRING', str)
-    UiPromptSetText(prompt, str)
-    UiPromptSetEnabled(prompt, true)
-    UiPromptSetVisible(prompt, true)
-    UiPromptSetHoldMode(prompt, Config.RespawnKeyTime)
-    UiPromptSetGroup(prompt, prompts, 0)
-    UiPromptSetPriority(prompt, 3)
-    UiPromptRegisterEnd(prompt)
-end)
-
 -- EVENTS
 RegisterNetEvent('vorp:resurrectPlayer', function(just)
     local dont = false
     local justrevive = just or true
+    AnimpostfxStop("PauseMenuIn") -- Stop the animpostfx effect when the player is resurrected
     CoreAction.Player.ResurrectPlayer(dont, nil, justrevive)
 end)
 
@@ -235,8 +258,7 @@ AddEventHandler("vorp_core:Client:AddTimeToRespawn", function(time)
     end
 end)
 
-
---DEATH HANDLER
+-- DEATH HANDLER
 CreateThread(function()
     repeat Wait(1000) until LocalPlayer.state.IsInSession
     while Config.UseDeathHandler do
@@ -246,51 +268,58 @@ CreateThread(function()
             if not setDead then
                 setDead = true
                 PressKey = false
-                UiPromptSetEnabled(prompt, true)
                 NetworkSetInSpectatorMode(false, PlayerPedId())
                 exports.spawnmanager.setAutoSpawn(false)
                 TriggerServerEvent("vorp:ImDead", true) -- internal event
 
                 TriggerServerEvent("vorp_core:Server:OnPlayerDeath")
                 TriggerEvent("vorp_core:Client:OnPlayerDeath")
-
+                
                 DisplayRadar(false)
+                AnimpostfxPlay("PauseMenuIn") -- Play the animpostfx effect when the player dies
                 CreateThread(function()
                     RespawnTimer()
-                    StartDeathCam()
+                    if UseControlsCamera then -- Check UseControlsCamera flag
+                        StartDeathCam()
+                    end
                 end)
             end
             if not PressKey and setDead then
                 sleep = 0
                 if not IsEntityAttachedToAnyPed(PlayerPedId()) then
-                    UiPromptSetActiveGroupThisFrame(prompts, CheckLabel())
+                    -- Draw the 3D text above the player's head
+                    local playerPed = PlayerPedId()
+                    local playerCoords = GetEntityCoords(playerPed)
+                    
+                    if TimeToRespawn > 0 then
+                        DrawText3D(playerCoords.x, playerCoords.y, playerCoords.z - 0.5, "Estado crítico em: " .. TimeToRespawn .. " Segundos", {255, 255, 0, 255}, {34, 20, 20, 200})
+                        DrawText3D(playerCoords.x, playerCoords.y, playerCoords.z - 0.3, "Alerta os médicos com /alertamedico", {34, 139, 34, 255}, {34, 20, 20, 200})
+                    else
+                        DrawText3D(playerCoords.x, playerCoords.y, playerCoords.z - 0.3, "Estado Crítico, podes ir para Hospital!", {153, 0, 0, 255}, {34, 20, 20, 200})
+                        DrawText3D(playerCoords.x, playerCoords.y, playerCoords.z - 0.5, "Pressiona [E]", {153, 0, 0, 255}, {34, 20, 20, 200})
+                    end
 
-                    if UiPromptHasHoldModeCompleted(prompt) then
-                        if Config.CanRespawn() then
-                            DoScreenFadeOut(3000)
-                            Wait(3000)
-                            CoreAction.Player.RespawnPlayer(true)
-                            PressKey      = true
-                            carried       = false
-                            Done          = false
-                            TimeToRespawn = Config.RespawnTime
-                        end
+                    if IsControlJustReleased(0, Config.RespawnKey) and TimeToRespawn <= 0 then
+                        DoScreenFadeOut(3000)
+                        Wait(3000)
+                        AnimpostfxStop("PauseMenuIn") -- Stop the animpostfx effect when the player respawns
+                        CoreAction.Player.RespawnPlayer(true)
+                        PressKey      = true
+                        carried       = false
+                        Done          = false
+                        TimeToRespawn = Config.RespawnTime
                     end
 
                     if TimeToRespawn >= 1 and setDead then
                         ProcessCamControls()
                         Done = false
-                        UiPromptSetEnabled(prompt, false)
                     else
                         ProcessCamControls()
                         Done = true
-                        UiPromptSetEnabled(prompt, true)
                     end
                     carried = false
                 else
                     if setDead then
-                        UiPromptSetActiveGroupThisFrame(prompts, CheckLabel())
-                        UiPromptSetEnabled(prompt, false)
                         ProcessCamControls()
                         carried = true
                     end
@@ -299,5 +328,33 @@ CreateThread(function()
         end
 
         Wait(sleep)
+    end
+end)
+
+function DrawText3D(x, y, z, text, textColor, spriteColor)
+    local onScreen, _x, _y = GetScreenCoordFromWorldCoord(x, y, z)
+    local px, py, pz = table.unpack(GetGameplayCamCoord())
+    local dist = GetDistanceBetweenCoords(px, py, pz, x, y, z, 1)
+    local str = CreateVarString(10, "LITERAL_STRING", text, Citizen.ResultAsLong())
+    if onScreen then
+        SetTextScale(0.30, 0.30)
+        SetTextFontForCurrentCommand(1)
+        SetTextColor(textColor[1], textColor[2], textColor[3], textColor[4])
+        SetTextCentre(1)
+        DisplayText(str, _x, _y)
+        local factor = (string.len(text)) / 225
+        DrawSprite("feeds", "help_text_bg", _x, _y + 0.0125, 0.015 + factor, 0.03, 0.1, spriteColor[1], spriteColor[2], spriteColor[3], spriteColor[4], 0)
+    end
+end
+
+-- Ensure TimeToRespawn is correctly initialized and decremented
+TimeToRespawn = Config.RespawnTime
+
+CreateThread(function()
+    while setDead do
+        if TimeToRespawn > 0 then
+            Wait(1000)
+            TimeToRespawn = TimeToRespawn - 1
+        end
     end
 end)
