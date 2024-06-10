@@ -186,7 +186,6 @@ function CoreAction.Player.RespawnPlayer(allow)
     for key, location in pairs(Config.Hospitals) do
         local locationCoords = vector3(location.pos.x, location.pos.y, location.pos.z)
         local currentDistance = #(pedCoords - locationCoords)
-
         if currentDistance < closestDistance then
             closestLocation = location.name
             coords = location.pos

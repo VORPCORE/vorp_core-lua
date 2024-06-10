@@ -253,14 +253,6 @@ CreateThread(function()
     end
 end)
 
-CreateThread(function()
-    repeat Wait(1000) until LocalPlayer.state.IsInSession
-    while Config.SavePlayersHours do
-        Wait(6000 * 5)
-        TriggerServerEvent("vorp:SaveHours")
-    end
-end)
-
 -- APPLY HEALTHRECHARGE WHEN CHARACTER RC
 CreateThread(function()
     repeat Wait(1000) until LocalPlayer.state.IsInSession
