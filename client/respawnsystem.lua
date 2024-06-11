@@ -187,6 +187,7 @@ function CoreAction.Player.RespawnPlayer(allow)
         local locationCoords = vector3(location.pos.x, location.pos.y, location.pos.z)
         local currentDistance = #(pedCoords - locationCoords)
         if currentDistance < closestDistance then
+            closestDistance = currentDistance
             closestLocation = location.name
             coords = location.pos
         end
