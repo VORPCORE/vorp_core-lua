@@ -41,8 +41,7 @@ function User(source, identifier, group, playerwarnings, license, char)
                 Money = player.money,
                 Gold = player.gold,
                 Rol = player.rol,
-                ---@deprecated
-                IsInSession = true,
+                CharId = self.usedCharacterId,
             }, true)
         end
 
