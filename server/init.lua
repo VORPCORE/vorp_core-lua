@@ -23,15 +23,13 @@ Changelogs = 0
 
 VorpInitialized = false
 --
-Citizen.CreateThread(function()
+CreateThread(function()
     local Resources = GetNumResources()
 
     for i = 0, Resources, 1 do
         local resource = GetResourceByFindIndex(i)
         UpdateChecker(resource)
     end
-
-
 
     if next(ScriptList) ~= nil then
         VorpInitialized = true
@@ -76,7 +74,7 @@ function UpdateChecker(resource)
                 NewestVersion = V
             end)
             repeat
-                Citizen.Wait(10)
+                Wait(10)
             until NewestVersion ~= nil
 
             StripVersion = NewestVersion:match("<%d?%d.%d?%d.?%d?%d?>")
@@ -132,29 +130,16 @@ function Checker()
         if string.find(v.NewestVersion, v.Version) then
             table.insert(upToDate,
                 {
-                    message = '^4' .. v.Name .. ' (' .. v.Resource .. ') ^2✅ ' ..
-                        'Up to date - Version ' .. v.Version .. '\n'
+                    message = '^4' .. v.Name .. ' (' .. v.Resource .. ') ^2✅ ' ..  'Up to date - Version ' .. v.Version .. '\n'
                 })
         elseif v.Version > v.NewestVersion then
             table.insert(outdated, {
-                message = '^4' ..
-                    v.Name ..
-                    ' (' ..
-                    v.Resource ..
-                    ') ⚠️ ' ..
-                    'Mismatch (v' ..
-                    v.Version .. ') ^5- Official Version: ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')\n'
+                message = '^4' ..    v.Name .. ' (' ..  v.Resource ..  ') ⚠️ ' .. 'Mismatch (v' ..  v.Version .. ') ^5- Official Version: ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')\n'
             })
         else
             table.insert(outdated, {
-                message = '^4' ..
-                    v.Name ..
-                    ' (' ..
-                    v.Resource ..
-                    ') ^1❌ ' ..
-                    'Outdated (v' ..
-                    v.Version .. ') ^5- Update found: Version ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')\n'
-            })
+                message = '^4' ..  v.Name ..  ' (' ..      v.Resource ..  ') ^1❌ ' .. 'Outdated (v' ..  v.Version .. ') ^5- Update found: Version ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')\n'
+              })
         end
 
         if v.CL then

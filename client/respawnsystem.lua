@@ -263,7 +263,7 @@ CreateThread(function()
             if not PressKey and setDead then
                 sleep = 0
                 if not IsEntityAttachedToAnyPed(PlayerPedId()) then
-                    UiPromptSetActiveGroupThisFrame(prompts, CheckLabel())
+                    UiPromptSetActiveGroupThisFrame(prompts, CheckLabel(), 0, 0, 0, 0)
 
                     if UiPromptHasHoldModeCompleted(prompt) then
                         if Config.CanRespawn() then
@@ -289,7 +289,7 @@ CreateThread(function()
                     carried = false
                 else
                     if setDead then
-                        UiPromptSetActiveGroupThisFrame(prompts, CheckLabel())
+                        UiPromptSetActiveGroupThisFrame(prompts, CheckLabel(), 0, 0, 0, 0)
                         UiPromptSetEnabled(prompt, false)
                         ProcessCamControls()
                         carried = true
