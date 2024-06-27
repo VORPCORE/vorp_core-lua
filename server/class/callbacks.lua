@@ -41,7 +41,7 @@ end)
 
 --- Register a new Rpc callback
 ---@param name string callback name
----@param callback fun(source: number, cb: fun(data: any), ...) callback function
+---@param callback fun(source: number, cb: fun(...), ...) callback function
 function ServerRPC.Callback.Register(name, callback)
     if name == nil or type(name) ~= "string" then
         return error("Parameter \"name\" must be a string!", 1)
@@ -52,7 +52,7 @@ end
 --- * Trigger a callback Asynchronously
 ---@param source number player source
 ---@param name string callback name
----@param callback fun(any) callback function
+---@param callback fun(...) callback function
 ---@param ... any callback parameters tables strings numbers etc
 function ServerRPC.Callback.TriggerAsync(name, source, callback, ...)
     local trigger = ServerRPC:New(name, callback)
