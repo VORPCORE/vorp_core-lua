@@ -1,3 +1,14 @@
+<2.7>
+- added CharId to the statebage Character
+- fix random respawn hospital location
+- fix setGroup command not notifying order was incorrect
+- refactor logic to save users hours in Database if enabled 
+- added ability to flag events to be fired or not  by character functions setJob setGroup and setGrade
+- added hide prompt photomode from pause menu since it doesnt work.
+- added priority for respawn prompt and added native declarations
+- refactor + optimisation of discord rich presence
+- added listener for notify TipBottom 
+- update all files including fxmanifest.lua
 <2.6>
 - new class for characters inv capacity (need to run sqlcode)
 - added character slots creation to user tables (need to run sqlcode)
