@@ -248,15 +248,20 @@ CreateThread(function()
                 NetworkSetInSpectatorMode(false, PlayerPedId())
                 exports.spawnmanager.setAutoSpawn(false)
                 TriggerServerEvent("vorp:ImDead", true) -- internal event
+                local getKillerPed = GetPedSourceOfDeath(PlayerPedId())
+                local killerServerId = 0
+                if IsPedAPlayer(getKillerPed) then
+                    local killer = NetworkGetPlayerIndexFromPed(getKillerPed)
+                    if killer then
+                        killerServerId = GetPlayerServerId(killer)
+                    end
+                end
 
-                TriggerServerEvent("vorp_core:Server:OnPlayerDeath")
-                TriggerEvent("vorp_core:Client:OnPlayerDeath")
-
+                TriggerServerEvent("vorp_core:Server:OnPlayerDeath", killerServerId)
+                TriggerEvent("vorp_core:Client:OnPlayerDeath", killerServerId)
                 DisplayRadar(false)
-                CreateThread(function()
-                    RespawnTimer()
-                    StartDeathCam()
-                end)
+                CreateThread(RespawnTimer)
+                CreateThread(StartDeathCam)
             end
             if not PressKey and setDead then
                 sleep = 0
