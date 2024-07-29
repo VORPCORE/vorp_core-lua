@@ -37,7 +37,7 @@ function User(source, identifier, group, playerwarnings, license, char)
                 Gender = player.gender,
                 Age = player.age,
                 CharDescription = player.charDescription,
-                Nickname = player.nickname,
+                NickName = player.nickname,
                 Money = player.money,
                 Gold = player.gold,
                 Rol = player.rol,
