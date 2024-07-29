@@ -256,9 +256,9 @@ CreateThread(function()
                         killerServerId = GetPlayerServerId(killer)
                     end
                 end
-
-                TriggerServerEvent("vorp_core:Server:OnPlayerDeath", killerServerId)
-                TriggerEvent("vorp_core:Client:OnPlayerDeath", killerServerId)
+                local deathCause = GetPedCauseOfDeath(PlayerPedId())
+                TriggerServerEvent("vorp_core:Server:OnPlayerDeath", killerServerId, deathCause)
+                TriggerEvent("vorp_core:Client:OnPlayerDeath", killerServerId, deathCause)
                 DisplayRadar(false)
                 CreateThread(RespawnTimer)
                 CreateThread(StartDeathCam)
