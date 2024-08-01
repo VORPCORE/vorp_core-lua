@@ -138,7 +138,7 @@ function Character(data)
     self.NickName = function(value)
         if value then
             self.nickname = value
-            SetState(self.source, "Character", "Nickname", self.nickname)
+            SetState(self.source, "Character", "NickName", self.nickname)
         end
         return self.nickname
     end
