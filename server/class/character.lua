@@ -52,10 +52,10 @@ function Character(data)
 
     self.Group = function(value, flag)
         if value then
-            self.group = value
             if flag or flag == nil then -- alow true or nil, only false will not trigger the event
-                TriggerEvent("vorp:playerGroupChange", self.source, self.group)
+                TriggerEvent("vorp:playerGroupChange", self.source, value, self.group)
             end
+            self.group = value
             SetState(self.source, "Character", "Group", self.group)
         end
 
@@ -64,10 +64,10 @@ function Character(data)
 
     self.Job = function(value, flag)
         if value then
-            self.job = value
             if flag or flag == nil then -- alow true or nil, only false will not trigger the event
-                TriggerEvent("vorp:playerJobChange", self.source, self.job)
+                TriggerEvent("vorp:playerJobChange", self.source, value, self.job)
             end
+            self.job = value
             SetState(self.source, "Character", "Job", self.job)
         end
         return self.job
@@ -84,10 +84,10 @@ function Character(data)
 
     self.Jobgrade = function(value, flag)
         if value then
-            self.jobgrade = value
             if flag or flag == nil then -- alow true or nil, only false will not trigger the event
-                TriggerEvent("vorp:playerJobGradeChange", self.source, self.jobgrade)
+                TriggerEvent("vorp:playerJobGradeChange", self.source, value, self.jobgrade)
             end
+            self.jobgrade = value
             SetState(self.source, "Character", "Grade", self.jobgrade)
         end
 
@@ -211,8 +211,7 @@ function Character(data)
     self.Skin = function(value)
         if value then
             self.skin = value
-            MySQL.update(
-                "UPDATE characters SET `skinPlayer` = @skin WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
+            MySQL.update("UPDATE characters SET `skinPlayer` = @skin WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
                 { skin = value, identifier = self.identifier, charIdentifier = self.charIdentifier })
         end
         return self.skin
@@ -221,8 +220,7 @@ function Character(data)
     self.Comps = function(value)
         if value then
             self.comps = value
-            MySQL.update(
-                "UPDATE characters SET `compPlayer` = @comps WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
+            MySQL.update("UPDATE characters SET `compPlayer` = @comps WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
                 { comps = value, identifier = self.identifier, charIdentifier = self.charIdentifier })
         end
         return self.comps
@@ -231,8 +229,7 @@ function Character(data)
     self.CompTints = function(value)
         if value then
             self.compTints = value
-            MySQL.update(
-                "UPDATE characters SET `compTints` = @tints WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
+            MySQL.update("UPDATE characters SET `compTints` = @tints WHERE `identifier` = @identifier AND `charidentifier` = @charIdentifier",
                 { tints = value, identifier = self.identifier, charIdentifier = self.charIdentifier })
         end
         return self.compTints

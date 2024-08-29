@@ -88,8 +88,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     self.Playerwarnings = function(value)
         if value then
             self._playerwarnings = value
-            MySQL.update("UPDATE users SET `warnings` = ? WHERE `identifier` = ?",
-                { self._playerwarnings, self.Identifier() })
+            MySQL.update("UPDATE users SET `warnings` = ? WHERE `identifier` = ?", { self._playerwarnings, self.Identifier() })
         end
 
         return self._playerwarnings
