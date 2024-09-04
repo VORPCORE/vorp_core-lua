@@ -171,52 +171,51 @@ function User(source, identifier, group, playerwarnings, license, char)
     end
 
     self.LoadCharacters = function()
-        MySQL.query("SELECT * FROM characters WHERE identifier =?", { self._identifier },
-            function(usercharacters)
-                self.Numofcharacters(#usercharacters)
-
-                if #usercharacters then
-                    for _, character in ipairs(usercharacters) do
-                        if character.identifier then
-                            local data = {
-                                identifier = character.identifier,
-                                charIdentifier = character.charidentifier,
-                                group = character.group,
-                                job = character.job,
-                                jobgrade = character.jobgrade,
-                                joblabel = character.joblabel,
-                                firstname = character.firstname,
-                                lastname = character.lastname,
-                                inventory = character.inventory,
-                                status = character.status,
-                                coords = character.coords,
-                                money = character.money,
-                                gold = character.gold,
-                                rol = character.rol,
-                                healthOuter = character.healthouter,
-                                healthInner = character.healthinner,
-                                staminaOuter = character.staminaouter,
-                                staminaInner = character.staminainner,
-                                xp = character.xp,
-                                hours = character.hours,
-                                isdead = character.isdead,
-                                skin = character.skinPlayer,
-                                comps = character.compPlayer,
-                                source = self.source,
-                                compTints = character.compTints,
-                                age = character.age,
-                                gender = character.gender,
-                                charDescription = character.character_desc,
-                                nickname = character.nickname,
-                                steamname = self.steamname,
-                                slots = character.slots or 200,
-                            }
-                            local newCharacter = Character(data)
-                            self._usercharacters[newCharacter.CharIdentifier()] = newCharacter
-                        end
+        MySQL.query("SELECT identifier, charidentifier, `group`, job, jobgrade, joblabel, firstname, lastname, inventory, status, coords, money, gold, rol, healthouter, healthinner, staminaouter, staminainner, xp, hours, isdead, skinPlayer, compPlayer, compTints, age,gender, character_desc, nickname, slots,skills FROM characters WHERE identifier = @identifier", { identifier = self._identifier }, function(usercharacters)
+            self.Numofcharacters(#usercharacters)
+            if #usercharacters > 0 then
+                for _, character in ipairs(usercharacters) do
+                    if character.identifier then
+                        local data = {
+                            identifier = character.identifier,
+                            charIdentifier = character.charidentifier,
+                            group = character.group,
+                            job = character.job,
+                            jobgrade = character.jobgrade,
+                            joblabel = character.joblabel,
+                            firstname = character.firstname,
+                            lastname = character.lastname,
+                            inventory = character.inventory,
+                            status = character.status,
+                            coords = character.coords,
+                            money = character.money,
+                            gold = character.gold,
+                            rol = character.rol,
+                            healthOuter = character.healthouter,
+                            healthInner = character.healthinner,
+                            staminaOuter = character.staminaouter,
+                            staminaInner = character.staminainner,
+                            xp = character.xp,
+                            hours = character.hours,
+                            isdead = character.isdead,
+                            skin = character.skinPlayer,
+                            comps = character.compPlayer,
+                            source = self.source,
+                            compTints = character.compTints,
+                            age = character.age,
+                            gender = character.gender,
+                            charDescription = character.character_desc,
+                            nickname = character.nickname,
+                            steamname = self.steamname,
+                            slots = character.slots or 200,
+                            skills = character.skills and json.decode(character.skills) or {},
+                        }
+                        local newCharacter = Character(data)
+                        self._usercharacters[newCharacter.CharIdentifier()] = newCharacter
                     end
                 end
-            end)
+            end
+        end)
     end
 
     self.addCharacter = function(data)
@@ -252,6 +251,7 @@ function User(source, identifier, group, playerwarnings, license, char)
             nickname = data.nickname,
             steamname = self.steamname,
             slots = Config.initInvCapacity or 200,
+            skills = {},
         }
 
         local newChar = Character(info)

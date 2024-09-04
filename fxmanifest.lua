@@ -9,7 +9,8 @@ author 'VORP' -- converted from the original C# vorp core by goncalobsccosta#904
 repository 'https://github.com/VORPCORE/vorp-core-lua'
 
 shared_scripts {
-    'config.lua',
+    'config/config.lua',
+    'config/skills.lua',
     'translation/language.lua'
 }
 

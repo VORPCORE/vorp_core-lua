@@ -35,6 +35,41 @@ local T = Translation[Lang].Commands
 
 --==============================
 Commands = {
+    giveExp = {
+        webhook = "",
+        custom = "",
+        title = "",
+        ---#end webhook
+        commandName = "addExp",
+        label = "add experince to players, this will auto level too",
+        suggestion = {
+            { name = "id",    help = "player id" },
+            { name = "skill", help = "skill category like Crafting" },
+            { name = "Exp",   help = "amount of experience you wish to give to player" },
+        },
+        userCheck = true,
+        groupAllowed = { "admin" },
+        aceAllowed = 'vorpcore.setExp.Command',
+        callFunction = function(...)
+            SetExp(...)
+        end
+    },
+    myExp = {
+        webhook = "",
+        custom = "",
+        title = "",
+        commandName = "myExp",
+        label = "check your skill experience",
+        suggestion = {
+            { name = "skill", help = "skill category like Crafting" },
+        },
+        userCheck = false,
+        groupAllowed = {},
+        aceAllowed = nil,
+        callFunction = function(...)
+            MyExp(...)
+        end
+    },
     addgroup = {
         webhook = "",
         custom = T.addGroup.custom,

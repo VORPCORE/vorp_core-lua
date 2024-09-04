@@ -6,40 +6,66 @@ local function SetState(source, key, field, newValue)
         Player(source).state:set(key, state, true)
     end
 end
+if not Config.Skills then
+    print("Update the config Skills config missing")
+    return
+end
+
+local function setSkills(data)
+    for skillName, skillData in pairs(data.skills) do
+        if not Config.Skills[skillName] then
+            print(("Skill %s not found in config of Skills"):format(skillName))
+            return
+        end
+        local currentLevel = skillData.Level
+        local currentExp = skillData.Exp
+        local info = Config.Skills[skillName].Levels
+        local maxLevel = #info
+        local label = info[currentLevel].Label
+        local nextLevel = info[currentLevel].NextLevel
+        data.skills[skillName] = {
+            Exp = currentExp,
+            Level = currentLevel,
+            Label = label,
+            MaxLevel = maxLevel,
+            NextLevel = nextLevel
+
+        }
+    end
+
+    if next(data.skills) then
+        return data.skills
+    end
+
+    for skillName, skillData in pairs(Config.Skills) do
+        if not data.skills[skillName] then
+            data.skills[skillName] = {
+                Exp = 0,
+                Level = 1,
+                Label = skillData.Levels[1].Label,
+                MaxLevel = #skillData.Levels,
+                NextLevel = skillData.Levels[1].NextLevel
+            }
+        end
+    end
+
+    return data.skills
+end
 
 function Character(data)
     local self = {}
-    self.identifier = data.identifier
-    self.charIdentifier = data.charIdentifier
-    self.group = data.group
-    self.job = data.job
-    self.joblabel = data.joblabel
-    self.jobgrade = data.jobgrade
-    self.firstname = data.firstname
-    self.lastname = data.lastname
-    self.inventory = data.inventory
-    self.status = data.status
-    self.coords = data.coords
-    self.skin = data.skin
-    self.comps = data.comps
-    self.money = data.money
-    self.gold = data.gold
-    self.rol = data.rol
-    self.healthOuter = data.healthOuter
-    self.healthInner = data.healthInner
-    self.staminaOuter = data.staminaOuter
-    self.staminaInner = data.staminaInner
-    self.xp = data.xp
-    self.hours = data.hours
-    self.isdead = data.isdead
-    self.source = data.source
-    self.compTints = data.compTints
-    self.age = data.age
-    self.gender = data.gender
-    self.charDescription = data.charDescription
-    self.nickname = data.nickname
-    self.steamname = data.steamname
-    self.slots = data.slots
+    local properties = {
+        "identifier", "charIdentifier", "group", "job", "joblabel", "jobgrade",
+        "firstname", "lastname", "inventory", "status", "coords", "skin",
+        "comps", "money", "gold", "rol", "healthOuter", "healthInner",
+        "staminaOuter", "staminaInner", "xp", "hours", "isdead", "source",
+        "compTints", "age", "gender", "charDescription", "nickname", "steamname", "slots"
+    }
+
+    for _, prop in ipairs(properties) do
+        self[prop] = data[prop]
+    end
+    self.skills = setSkills(data)
 
     self.Identifier = function()
         return self.identifier
@@ -198,6 +224,54 @@ function Character(data)
         return self.xp
     end
 
+    self.SkillsSetter = function(index, value)
+        if not self.skills[index] then
+            print("Skill not found")
+            return
+        end
+        if not Config.Skills[index] then
+            print("Skill not found in config")
+            return
+        end
+
+        self.skills[index].Exp = self.skills[index].Exp + value
+        local currentExp = self.skills[index].Exp
+        local currentLevel = self.skills[index].Level
+        local MaxLevel = self.skills[index].MaxLevel
+
+        if MaxLevel == currentLevel then return end
+
+        local nextLevelExp = self.skills[index].NextLevel
+
+        if not nextLevelExp then
+            print(("Levels are not set up in config for %s"):format(index))
+            return
+        end
+
+        if currentExp >= nextLevelExp then
+            self.skills[index].Level = currentLevel + 1
+            self.skills[index].Exp = 0
+            Config.Skills[index].Levels[currentLevel].Exectue(self.source)
+            TriggerClientEvent("vorp_core:Client:SkillsLevelUp", self.source, index, self.skills[index].Level)
+            TriggerEvent("vorp_core:Server:SkillsLevelUp", self.source, index, self.skills[index].Level)
+        end
+        -- this logic is for the case where the player has more exp than the next level enabling level up twice etc, which in my opinion is unlikely to happen unless you use pvp servers
+        --[[ while currentExp >= nextLevelExp and currentLevel < MaxLevel do
+            currentLevel = currentLevel + 1
+            self.skills[index].Level = currentLevel
+
+            currentExp = currentExp - nextLevelExp
+            self.skills[index].Exp = currentExp
+
+            if currentLevel == MaxLevel then
+                self.skills[index].Exp = 0
+                return
+            end
+
+            nextLevelExp = Config.Skills[index].Levels[currentLevel].NextLevel
+        end ]]
+    end
+
     self.Hours = function(value)
         if value then self.hours = value end
         return self.hours
@@ -318,7 +392,7 @@ function Character(data)
     end
 
     self.SaveNewCharacterInDb = function(cb)
-        MySQL.query("INSERT INTO characters (`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`,`joblabel`, `age`,`gender`,`character_desc`,`nickname`,`compTints`,`steamname`,`slots`) VALUES (@identifier,@group, @money, @gold, @rol, @xp, @healthouter, @healthinner, @staminaouter, @staminainner, @hours, @inventory, @job, @status, @firstname, @lastname, @skinPlayer, @compPlayer, @jobgrade, @coords, @isdead, @joblabel, @age, @gender, @charDescription, @nickname,@compTints,@steamname,@slots)",
+        MySQL.query("INSERT INTO characters (`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`,`joblabel`, `age`,`gender`,`character_desc`,`nickname`,`compTints`,`steamname`,`slots`,`skills`) VALUES (@identifier,@group, @money, @gold, @rol, @xp, @healthouter, @healthinner, @staminaouter, @staminainner, @hours, @inventory, @job, @status, @firstname, @lastname, @skinPlayer, @compPlayer, @jobgrade, @coords, @isdead, @joblabel, @age, @gender, @charDescription, @nickname,@compTints,@steamname,@slots,@skills)",
             {
                 identifier = self.identifier,
                 group = self.group,
@@ -348,7 +422,9 @@ function Character(data)
                 nickname = self.nickname,
                 compTints = self.compTints,
                 steamname = self.steamname,
-                slots = self.slots
+                slots = self.slots,
+                skills = self.skills
+
             },
             function(character)
                 cb(character.insertId)
@@ -364,8 +440,7 @@ function Character(data)
     end
 
     self.SaveCharacterInDb = function()
-        MySQL.update(
-            "UPDATE characters SET `group` =@group ,`money` =@money ,`gold` =@gold ,`rol` =@rol ,`xp` =@xp ,`healthouter` =@healthouter ,`healthinner` =@healthinner ,`staminaouter` =@staminaouter ,`staminainner` =@staminainner ,`hours` =@hours ,`job` =@job , `status` =@status ,`firstname` =@firstname , `lastname` =@lastname , `jobgrade` =@jobgrade , `coords` =@coords , `isdead` =@isdead , `joblabel` =@joblabel, `age` =@age, `gender`=@gender, `character_desc`=@charDescription,`nickname`=@nickname,`steamname`=@steamname, `slots` =@slots WHERE `identifier` =@identifier AND `charidentifier` =@charidentifier",
+        MySQL.update("UPDATE characters SET `group` =@group ,`money` =@money ,`gold` =@gold ,`rol` =@rol ,`xp` =@xp ,`healthouter` =@healthouter ,`healthinner` =@healthinner ,`staminaouter` =@staminaouter ,`staminainner` =@staminainner ,`hours` =@hours ,`job` =@job , `status` =@status ,`firstname` =@firstname , `lastname` =@lastname , `jobgrade` =@jobgrade , `coords` =@coords , `isdead` =@isdead , `joblabel` =@joblabel, `age` =@age, `gender`=@gender, `character_desc`=@charDescription,`nickname`=@nickname,`steamname`=@steamname, `slots` =@slots, `skills`=@skills  WHERE `identifier` =@identifier AND `charidentifier` =@charidentifier",
             {
                 group = self.group,
                 money = self.money,
@@ -392,7 +467,8 @@ function Character(data)
                 charDescription = self.charDescription,
                 nickname = self.nickname,
                 steamname = self.steamname,
-                slots = self.slots
+                slots = self.slots,
+                skills = json.encode(self.skills)
             })
     end
 
@@ -400,34 +476,17 @@ function Character(data)
     self.getCharacter = function()
         local userData = {}
 
-        userData.identifier = self.identifier
-        userData.charIdentifier = self.charIdentifier
-        userData.group = self.group
-        userData.job = self.job
-        userData.jobLabel = self.joblabel
-        userData.jobGrade = self.jobgrade
-        userData.money = self.money
-        userData.gold = self.gold
-        userData.rol = self.rol
-        userData.xp = self.xp
-        userData.healthOuter = self.healthOuter
-        userData.healthInner = self.healthInner
-        userData.staminaOuter = self.staminaOuter
-        userData.staminaInner = self.staminaInner
-        userData.hours = self.hours
-        userData.firstname = self.firstname
-        userData.lastname = self.lastname
-        userData.inventory = self.inventory
-        userData.status = self.status
-        userData.coords = self.coords
-        userData.isdead = self.isdead
-        userData.skin = self.skin
-        userData.comps = self.comps
-        userData.compTints = self.compTints
-        userData.age = self.age
-        userData.gender = self.gender
-        userData.charDescription = self.charDescription
-        userData.nickname = self.nickname
+        local properties = {
+            "identifier", "charIdentifier", "group", "job", "jobLabel", "jobGrade",
+            "money", "gold", "rol", "xp", "healthOuter", "healthInner",
+            "staminaOuter", "staminaInner", "hours", "firstname", "lastname",
+            "inventory", "status", "coords", "isdead", "skin", "comps",
+            "compTints", "age", "gender", "charDescription", "nickname", "skills"
+        }
+
+        for _, prop in ipairs(properties) do
+            userData[prop] = self[prop]
+        end
         userData.invCapacity = tonumber(self.slots)
 
         userData.updateInvCapacity = function(slots)
@@ -497,6 +556,10 @@ function Character(data)
         --------------
         userData.updateSkin = function(skin)
             self.Skin(skin)
+        end
+
+        userData.setSkills = function(index, exp)
+            self.SkillsSetter(index, exp)
         end
 
         userData.updateComps = function(comps)
