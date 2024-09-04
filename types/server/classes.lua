@@ -26,6 +26,7 @@
 ---@field public comps table
 ---@field public compTints table
 ---@field public age number
+---@field public skills { [string]: { Level: number, Exp: number,MaxExp:number, MaxLevel: number ,Label:string,NextLevel:number} }
 ---@field public updateInvCapacity fun(slots:number)
 ---@field public setStatus fun(status:string)
 ---@field public setJobGrade fun(jobgrade:number)
@@ -50,6 +51,8 @@
 ---@field public addXp fun(xp:number)
 ---@field public removeXp fun(xp:number)
 ---@field public updateCharUi fun()
+---@field public setSkills fun(skillName:string,exp:number)
+
 
 ---@class User
 ---@field public getCharperm integer
