@@ -408,6 +408,29 @@ function MyHours(data)
     end
 end
 
+function SetExp(data)
+    local target = tonumber(data.args[1])
+    local skillName = tostring(data.args[2])
+    local exp = tonumber(data.args[3])
+    local Character = CoreFunctions.getUser(target).getUsedCharacter
+    Character.setSkills(skillName, exp)
+    SendDiscordLogs(data.config.webhook, data, data.source, exp, skillName)
+    CoreFunctions.NotifyRightTip(data.source, "exp given to player ", 4000)
+    CoreFunctions.NotifyRightTip(target, string.format("you have received %s exp in %s", exp, skillName), 4000)
+end
+
+--my exp
+function MyExp(data)
+    local _source = data.source
+    local User = CoreFunctions.getUser(_source).getUsedCharacter
+    local skills = User.skills
+    local exp = skills[data.args[1]].Exp
+    local lvl = skills[data.args[1]].Level
+    local label = skills[data.args[1]].Label
+    local text = "You are %s level %s with %s exp in %s"
+    CoreFunctions.NotifyRightTip(_source, text:format(label, lvl, exp, data.args[1]), 4000)
+end
+
 --============================================ CHAT ADD SUGGESTION ========================================================--
 
 function AddCommandSuggestions(_source, group, value)
