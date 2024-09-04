@@ -1,11 +1,6 @@
 local ScreenResolution = nil
 local CoreFunctions = {}
 
-Citizen.CreateThreadNow(function()
-    Wait(0)
-    SendNUIMessage({ type = "getRes" })
-end)
-
 CoreFunctions.RpcCall = function(name, callback, ...)
     ClientRPC.Callback.TriggerAsync(name, callback, ...)
 end
@@ -88,8 +83,8 @@ CoreFunctions.Graphics = {
             return ScreenResolution
         end
         SendNUIMessage({ type = "getRes" })
-        local result = Citizen.Await(promise)
-        return result
+        ScreenResolution = Citizen.Await(promise)
+        return ScreenResolution
     end
 }
 
@@ -112,10 +107,8 @@ end)
 
 RegisterNUICallback('getRes', function(args, cb)
     promise:resolve(args)
-    ScreenResolution = args
     cb('ok')
 end)
-
 
 --- use exports
 ---@deprecated
