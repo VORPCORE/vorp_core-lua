@@ -8,7 +8,6 @@ end
 
 function CoreAction.Utils.ToggleAllUI()
     ShowUI = not ShowUI
-    ExecuteCommand("togglechat")
     DisplayRadar(ShowUI)
     TriggerEvent("syn_displayrange", ShowUI)
     TriggerEvent("vorp:showUi", ShowUI)
