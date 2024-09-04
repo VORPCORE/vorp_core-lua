@@ -44,7 +44,7 @@ function UpdateChecker(resource)
             local Name = GetResourceMetadata(resource, 'vorp_name', 0)
             local Github = GetResourceMetadata(resource, 'vorp_github', 0)
             local Version = GetResourceMetadata(resource, 'vorp_version', 0)
-            local  GithubL, NewestVersion
+            local GithubL, NewestVersion
 
             Script = {}
 
@@ -130,16 +130,16 @@ function Checker()
         if string.find(v.NewestVersion, v.Version) then
             table.insert(upToDate,
                 {
-                    message = '^4' .. v.Name .. ' (' .. v.Resource .. ') ^2✅ ' ..  'Up to date - Version ' .. v.Version .. '\n'
+                    message = '^4' .. v.Name .. ' (' .. v.Resource .. ') ^2✅ ' .. 'Up to date - Version ' .. v.Version .. '\n'
                 })
         elseif v.Version > v.NewestVersion then
             table.insert(outdated, {
-                message = '^4' ..    v.Name .. ' (' ..  v.Resource ..  ') ⚠️ ' .. 'Mismatch (v' ..  v.Version .. ') ^5- Official Version: ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')\n'
+                message = '^4' .. v.Name .. ' (' .. v.Resource .. ') ⚠️ ' .. 'Mismatch (v' .. v.Version .. ') ^5- Official Version: ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')\n'
             })
         else
             table.insert(outdated, {
-                message = '^4' ..  v.Name ..  ' (' ..      v.Resource ..  ') ^1❌ ' .. 'Outdated (v' ..  v.Version .. ') ^5- Update found: Version ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')\n'
-              })
+                message = '^4' .. v.Name .. ' (' .. v.Resource .. ') ^1❌ ' .. 'Outdated (v' .. v.Version .. ') ^5- Update found: Version ' .. v.NewestVersion .. ' ^0(' .. v.Github .. ')\n'
+            })
         end
 
         if v.CL then
@@ -176,4 +176,9 @@ function Changelog()
         end
     end
     print('^0###############################################################################')
+end
+
+local oneSyncConvar = GetConvar('onesync', 'off')
+if oneSyncConvar == 'off' then
+    print('^1WARNING: onesync is off, you must enable it in txAdmin settings | onesync infinity')
 end

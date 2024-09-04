@@ -39,9 +39,3 @@ version '2.7'
 vorp_checker 'yes'
 vorp_name '^4Resource version Check^3'
 vorp_github 'https://github.com/VORPCORE/vorp-core-lua'
-
-
-dependencies {
-    '/onesync',
-    '/server:6231', -- there are new natives that only work on newer builds of redm
-}
