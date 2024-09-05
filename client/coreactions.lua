@@ -24,8 +24,6 @@ function CoreAction.Admin.HealPlayer()
     SetPlayerInvincible(PlayerId(), false)
     SetEntityCanBeDamaged(player, true)
     SetGameplayCamRelativeHeading(0.0, 1.0)
-    TriggerEvent("vorp_core:Client:OnPlayerHeal")
-    TriggerServerEvent("vorp_core:Server:OnPlayerHeal")
 end
 
 function CoreAction.Admin.DeleteHorse()

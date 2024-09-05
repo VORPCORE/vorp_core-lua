@@ -143,7 +143,10 @@ CoreFunctions.Whitelist = {
 CoreFunctions.Player = {
     Heal = function(source)
         if not source then return end
-        TriggerClientEvent('vorp:Heal', source)
+        -- might need to check if player is dead cant heal dead players
+        TriggerClientEvent('vorp:Heal', source) -- internal
+        TriggerEvent("vorp_core:Server:OnPlayerHeal", source)
+        TriggerClientEvent("vorp_core:Client:OnPlayerHeal", source)
     end,
     Revive = function(source, param)
         if not source then return end
