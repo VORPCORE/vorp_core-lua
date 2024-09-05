@@ -135,10 +135,9 @@ function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName,
     Wait(200)
     EndDeathCam()
     TriggerServerEvent("vorp:ImDead", false)
-
-    TriggerServerEvent("vorp_core:Server:OnPlayerRevive")
-    TriggerEvent("vorp_core:Client:OnPlayerRevive")
-
+    -- this cant be here cause its triggering on revive and on respawn functions also these are client sided and people can exploit them, this has been move to server side
+    --TriggerServerEvent("vorp_core:Server:OnPlayerRevive")
+    -- TriggerEvent("vorp_core:Client:OnPlayerRevive")
     setDead = false
     DisplayHud(true)
     DisplayRadar(true)
@@ -172,11 +171,11 @@ function CoreAction.Player.ResurrectPlayer(currentHospital, currentHospitalName,
     end
 end
 
-function CoreAction.Player.RespawnPlayer(allow)
-    if allow then
-        TriggerServerEvent("vorp:PlayerForceRespawn")
+function CoreAction.Player.RespawnPlayer(allowCleanItems)
+    if allowCleanItems then
+        TriggerServerEvent("vorp:PlayerForceRespawn") -- inventory clean items
     end
-    TriggerEvent("vorp:PlayerForceRespawn")
+    TriggerEvent("vorp:PlayerForceRespawn")           -- inventory dead handler and metabolism , this need to be changed to the new events
     local closestDistance = math.huge
     local closestLocation = ""
     local coords = nil
@@ -193,7 +192,7 @@ function CoreAction.Player.RespawnPlayer(allow)
 
     TriggerEvent("vorpmetabolism:changeValue", "Thirst", 1000)
     TriggerEvent("vorpmetabolism:changeValue", "Hunger", 1000)
-    CoreAction.Player.ResurrectPlayer(coords, closestLocation, false)
+    CoreAction.Player.ResurrectPlayer(coords, closestLocation, false) -- no need  to trigger events repawns even already triggered
 end
 
 -- CREATE PROMPT
@@ -211,17 +210,6 @@ CreateThread(function()
     UiPromptSetGroup(prompt, prompts, 0)
     UiPromptSetPriority(prompt, 3)
     UiPromptRegisterEnd(prompt)
-end)
-
--- EVENTS
-RegisterNetEvent('vorp:resurrectPlayer', function(just)
-    local dont = false
-    local justrevive = just or true
-    CoreAction.Player.ResurrectPlayer(dont, nil, justrevive)
-end)
-
-RegisterNetEvent('vorp_core:respawnPlayer', function()
-    CoreAction.Player.RespawnPlayer()
 end)
 
 RegisterNetEvent("vorp_core:Client:AddTimeToRespawn")
@@ -272,7 +260,8 @@ CreateThread(function()
                         if Config.CanRespawn() then
                             DoScreenFadeOut(3000)
                             Wait(3000)
-                            CoreAction.Player.RespawnPlayer(true)
+                            TriggerServerEvent("vorp_core:PlayerRespawnInternal", true) -- needs to go to server so that the respawn event listeners are triggered
+                            Wait(1000)
                             PressKey      = true
                             carried       = false
                             Done          = false

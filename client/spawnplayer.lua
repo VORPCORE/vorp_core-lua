@@ -82,8 +82,7 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
             Wait(Config.LoadinScreenTimer)
             Wait(1000)
             ShutdownLoadingScreen()
-            Wait(7000)
-            CoreAction.Admin.HealPlayer()
+            Wait(5000)
         else
             if Config.Loadinscreen then
                 Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Holddead, T.Loaddead, T.Almost)
