@@ -250,7 +250,7 @@ end
 --REVIVEPLAYERS
 function RevivePlayer(data)
     local target = tonumber(data.args[1])
-    TriggerClientEvent('vorp:resurrectPlayer', target)
+    CoreFunctions.Player.Revive(target)
     SendDiscordLogs(data.config.webhook, data, target, "", "")
     CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.revived, target), 4000)
 end
@@ -281,7 +281,7 @@ end
 --HEALPLAYERS
 function HealPlayers(data)
     local target = tonumber(data.args[1])
-    TriggerClientEvent('vorp:heal', target)
+    CoreFunctions.Player.Heal(target)
     SendDiscordLogs(data.config.webhook, data, target, "", "")
     CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.healedPlayer, target), 4000)
 end
