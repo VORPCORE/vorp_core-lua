@@ -55,7 +55,7 @@ AddEventHandler('playerSpawned', function()
     SetMinimapHideFow(false)
     Wait(2000)
     TriggerServerEvent("vorp:playerSpawn")
-    SetTimeout(9000, function()
+    SetTimeout(7000, function()
         ShutdownLoadingScreen()
     end)
     SetEntityCanBeDamaged(PlayerPedId(), false)
@@ -72,15 +72,13 @@ end)
 RegisterNetEvent('vorp:initCharacter')
 AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
     CoreAction.Player.TeleportToCoords(coords, heading)
-
     if isdead then
         if not Config.CombatLogDeath then
             if Config.Loadinscreen then
                 Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.forcedrespawn, T.forced, T.Almost)
             end
             SetEntityCanBeDamaged(PlayerPedId(), true)
-            TriggerEvent("vorp:PlayerForceRespawn")
-            CoreAction.Player.RespawnPlayer()
+            CoreAction.Player.RespawnPlayer() -- this one doesnt need to trigger events, its for player combat log
             Wait(Config.LoadinScreenTimer)
             Wait(1000)
             ShutdownLoadingScreen()
@@ -181,7 +179,7 @@ end)
 
 -- THREADS
 CreateThread(function()
-    repeat Wait(1000) until LocalPlayer.state.IsInSession
+    repeat Wait(5000) until LocalPlayer.state.IsInSession
     while true do
         local sleep = 1000
         local pped = PlayerPedId()
@@ -225,7 +223,7 @@ end)
 
 
 CreateThread(function()
-    repeat Wait(1000) until LocalPlayer.state.IsInSession
+    repeat Wait(5000) until LocalPlayer.state.IsInSession
     while Config.SavePlayersStatus do
         Wait(1000)
         local player = PlayerPedId()
@@ -238,7 +236,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    repeat Wait(1000) until LocalPlayer.state.IsInSession
+    repeat Wait(5000) until LocalPlayer.state.IsInSession
     while Config.SavePlayersStatus do
         local player = PlayerPedId()
         Wait(300000) -- wont be accurate as it waits for too long
@@ -255,7 +253,8 @@ end)
 
 -- APPLY HEALTHRECHARGE WHEN CHARACTER RC
 CreateThread(function()
-    repeat Wait(1000) until LocalPlayer.state.IsInSession
+    repeat Wait(5000) until LocalPlayer.state.IsInSession
+
     while true do
         local sleep = 1000
 
