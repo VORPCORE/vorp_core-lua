@@ -252,8 +252,8 @@ function Character(data)
             self.skills[index].Level = currentLevel + 1
             self.skills[index].Exp = 0
             Config.Skills[index].Levels[currentLevel].Exectue(self.source)
-            TriggerClientEvent("vorp_core:Client:SkillsLevelUp", self.source, index, self.skills[index].Level)
-            TriggerEvent("vorp_core:Server:SkillsLevelUp", self.source, index, self.skills[index].Level)
+            TriggerClientEvent("vorp_core:Client:OnPlayerLevelUp", self.source, index, self.skills[index].Level)
+            TriggerEvent("vorp_core:Server:OnPlayerLevelUp", self.source, index, self.skills[index].Level)
         end
         -- this logic is for the case where the player has more exp than the next level enabling level up twice etc, which in my opinion is unlikely to happen unless you use pvp servers
         --[[ while currentExp >= nextLevelExp and currentLevel < MaxLevel do
