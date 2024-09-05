@@ -425,6 +425,9 @@ function MyExp(data)
     local _source = data.source
     local User = CoreFunctions.getUser(_source).getUsedCharacter
     local skills = User.skills
+    if not skills[data.args[1]] then
+        return CoreFunctions.NotifyRightTip(_source, "skill not found", 4000)
+    end
     local exp = skills[data.args[1]].Exp
     local lvl = skills[data.args[1]].Level
     local label = skills[data.args[1]].Label
