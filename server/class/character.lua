@@ -54,17 +54,37 @@ end
 
 function Character(data)
     local self = {}
-    local properties = {
-        "identifier", "charIdentifier", "group", "job", "joblabel", "jobgrade",
-        "firstname", "lastname", "inventory", "status", "coords", "skin",
-        "comps", "money", "gold", "rol", "healthOuter", "healthInner",
-        "staminaOuter", "staminaInner", "xp", "hours", "isdead", "source",
-        "compTints", "age", "gender", "charDescription", "nickname", "steamname", "slots"
-    }
-
-    for _, prop in ipairs(properties) do
-        self[prop] = data[prop]
-    end
+    self.identifier = data.identifier
+    self.charIdentifier = data.charIdentifier
+    self.group = data.group
+    self.job = data.job
+    self.joblabel = data.joblabel
+    self.jobgrade = data.jobgrade
+    self.firstname = data.firstname
+    self.lastname = data.lastname
+    self.inventory = data.inventory
+    self.status = data.status
+    self.coords = data.coords
+    self.skin = data.skin
+    self.comps = data.comps
+    self.money = data.money
+    self.gold = data.gold
+    self.rol = data.rol
+    self.healthOuter = data.healthOuter
+    self.healthInner = data.healthInner
+    self.staminaOuter = data.staminaOuter
+    self.staminaInner = data.staminaInner
+    self.xp = data.xp
+    self.hours = data.hours
+    self.isdead = data.isdead
+    self.source = data.source
+    self.compTints = data.compTints
+    self.age = data.age
+    self.gender = data.gender
+    self.charDescription = data.charDescription
+    self.nickname = data.nickname
+    self.steamname = data.steamname
+    self.slots = data.slots
     self.skills = setSkills(data)
 
     self.Identifier = function()
@@ -474,19 +494,36 @@ function Character(data)
     -- getters and functions setters
     self.getCharacter = function()
         local userData = {}
-
-        local properties = {
-            "identifier", "charIdentifier", "group", "job", "jobLabel", "jobGrade",
-            "money", "gold", "rol", "xp", "healthOuter", "healthInner",
-            "staminaOuter", "staminaInner", "hours", "firstname", "lastname",
-            "inventory", "status", "coords", "isdead", "skin", "comps",
-            "compTints", "age", "gender", "charDescription", "nickname", "skills"
-        }
-
-        for _, prop in ipairs(properties) do
-            userData[prop] = self[prop]
-        end
+        userData.identifier = self.identifier
+        userData.charIdentifier = self.charIdentifier
+        userData.group = self.group
+        userData.job = self.job
+        userData.jobLabel = self.joblabel
+        userData.jobGrade = self.jobgrade
+        userData.money = self.money
+        userData.gold = self.gold
+        userData.rol = self.rol
+        userData.xp = self.xp
+        userData.healthOuter = self.healthOuter
+        userData.healthInner = self.healthInner
+        userData.staminaOuter = self.staminaOuter
+        userData.staminaInner = self.staminaInner
+        userData.hours = self.hours
+        userData.firstname = self.firstname
+        userData.lastname = self.lastname
+        userData.inventory = self.inventory
+        userData.status = self.status
+        userData.coords = self.coords
+        userData.isdead = self.isdead
+        userData.skin = self.skin
+        userData.comps = self.comps
+        userData.compTints = self.compTints
+        userData.age = self.age
+        userData.gender = self.gender
+        userData.charDescription = self.charDescription
+        userData.nickname = self.nickname
         userData.invCapacity = tonumber(self.slots)
+        userData.skills = self.skills
 
         userData.updateInvCapacity = function(slots)
             self.setSlots(slots)
