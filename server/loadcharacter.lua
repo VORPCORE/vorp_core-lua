@@ -8,14 +8,12 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
         local identifier = GetSteamID(Player)
         local Character = _users[identifier].GetUsedCharacter()
         if Character and Character.isdead then
-            TriggerClientEvent("vorp:TipRight", Player, Translation[Lang].Notify.healself, 4000)
-            TriggerClientEvent('vorp:resurrectPlayer', Player)
-            TriggerClientEvent('vorp:heal', Player)
+            CoreFunctions.NotifyRightTip(Player, Translation[Lang].Notify.healself, 4000)
+            CoreFunctions.Player.Revive(Player)
         end
     else
-        TriggerClientEvent("vorp:TipRight", -1, Translation[Lang].Notify.healall, 4000)
-        TriggerClientEvent('vorp:resurrectPlayer', -1)
-        TriggerClientEvent('vorp:heal', -1)
+        CoreFunctions.NotifyRightTip(-1, Translation[Lang].Notify.healall, 4000)
+        CoreFunctions.Player.Revive(-1)
     end
 end)
 
@@ -34,4 +32,10 @@ AddEventHandler('vorp:SaveDate', function()
     local Character = _users[identifier].GetUsedCharacter()
     local charid = Character.charIdentifier
     MySQL.update("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier", { charidentifier = charid })
+end)
+
+
+RegisterNetEvent("vorp_core:PlayerRespawnInternal", function(param)
+    local _source = source
+    CoreFunctions.Player.Respawn(_source, param)
 end)
