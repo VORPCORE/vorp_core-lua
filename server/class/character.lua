@@ -251,7 +251,7 @@ function Character(data)
         if currentExp >= nextLevelExp then
             self.skills[index].Level = currentLevel + 1
             self.skills[index].Exp = 0
-            Config.Skills[index].Levels[currentLevel].Exectue(self.source)
+            Config.Skills[index].Levels[currentLevel].Execute(self.source)
             TriggerClientEvent("vorp_core:Client:OnPlayerLevelUp", self.source, index, self.skills[index].Level)
             TriggerEvent("vorp_core:Server:OnPlayerLevelUp", self.source, index, self.skills[index].Level)
         end
