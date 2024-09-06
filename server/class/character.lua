@@ -442,7 +442,7 @@ function Character(data)
                 compTints = self.compTints,
                 steamname = self.steamname,
                 slots = self.slots,
-                skills = self.skills
+                skills = json.encode(self.skills)
 
             },
             function(character)
