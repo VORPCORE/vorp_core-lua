@@ -1,8 +1,4 @@
-if GetCurrentResourceName() ~= 'vorp_core' then
-    for i = 1, 5, 1 do
-        print("^3WARNING ^0 This resource is not named correctly, please change it to ^1'vorp_core'^0 to work properly.")
-    end
-end
+
 
 CoreFunctions = {}
 

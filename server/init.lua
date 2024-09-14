@@ -18,6 +18,22 @@ local function init_core()
     end
 end
 
+local resourcename = GetCurrentResourceName()
+if resourcename ~= 'vorp_core' then
+    return print("^3WARNING ^0 This resource is not named correctly, please change it to ^1'vorp_core'^0.")
+end
+
+local steamwebapikey = GetConvar("steam_webApiKey", "") == ""
+if steamwebapikey then
+    return print("Steam Web API Key is not set, please set it in your server.cfg")
+end
+
+local oneSyncConvar = GetConvar('onesync', 'off')
+if oneSyncConvar == 'off' then
+    return print('^1WARNING: onesync is off, you must enable it in txAdmin settings | onesync infinity')
+end
+
+
 ScriptList = {}
 Changelogs = 0
 
@@ -179,9 +195,4 @@ function Changelog()
         end
     end
     print('^0###############################################################################')
-end
-
-local oneSyncConvar = GetConvar('onesync', 'off')
-if oneSyncConvar == 'off' then
-    print('^1WARNING: onesync is off, you must enable it in txAdmin settings | onesync infinity')
 end
