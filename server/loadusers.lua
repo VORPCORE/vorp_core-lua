@@ -81,7 +81,7 @@ local function removePlayer(identifier)
         WhiteListedUsers[userid] = nil
     end
 
-    SetTimeout(5000, function()
+    SetTimeout(6000, function()
         if _users[identifier] then
             _users[identifier] = nil
         end
