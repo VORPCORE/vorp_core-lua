@@ -44,7 +44,6 @@ Config = {
     savePlayersTimer       = 10,           -- Interval in minutes for automatically saving all players to the database.
     showplayerIDwhenfocus  = true,         -- Shows player Steam name when focusing on them with RMB if set to false.
     disableAutoAIM         = true,         -- Disables auto-aim for controller players if set to false.
-    SavePlayersHours       = false,        -- Enables saving of players' played hours in the database. TxAdmin might already provide this.
     CheckDoubleAccounts    = false,        -- Enables, check if player enter with two accounts if false players can enter with same character and dupe.
     --=============================================
     --          MULTICHARACTER SUPPORT           --

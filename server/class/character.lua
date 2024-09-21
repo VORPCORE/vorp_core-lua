@@ -75,7 +75,6 @@ function Character(data)
     self.staminaOuter = data.staminaOuter
     self.staminaInner = data.staminaInner
     self.xp = data.xp
-    self.hours = data.hours
     self.isdead = data.isdead
     self.source = data.source
     self.compTints = data.compTints
@@ -291,11 +290,6 @@ function Character(data)
         end ]]
     end
 
-    self.Hours = function(value)
-        if value then self.hours = value end
-        return self.hours
-    end
-
     self.IsDead = function(value)
         if value ~= nil then self.isdead = value end
         return self.isdead
@@ -399,10 +393,6 @@ function Character(data)
         self.IsDead(dead)
     end
 
-    self.UpdateHours = function(hours)
-        self.hours = self.hours + hours
-    end
-
     self.setSlots = function(slots)
         if slots then
             self.slots = self.slots + slots
@@ -411,7 +401,7 @@ function Character(data)
     end
 
     self.SaveNewCharacterInDb = function(cb)
-        MySQL.query("INSERT INTO characters (`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`hours`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`,`joblabel`, `age`,`gender`,`character_desc`,`nickname`,`compTints`,`steamname`,`slots`,`skills`) VALUES (@identifier,@group, @money, @gold, @rol, @xp, @healthouter, @healthinner, @staminaouter, @staminainner, @hours, @inventory, @job, @status, @firstname, @lastname, @skinPlayer, @compPlayer, @jobgrade, @coords, @isdead, @joblabel, @age, @gender, @charDescription, @nickname,@compTints,@steamname,@slots,@skills)",
+        MySQL.query("INSERT INTO characters (`identifier`,`group`,`money`,`gold`,`rol`,`xp`,`healthouter`,`healthinner`,`staminaouter`,`staminainner`,`inventory`,`job`,`status`,`firstname`,`lastname`,`skinPlayer`,`compPlayer`,`jobgrade`,`coords`,`isdead`,`joblabel`, `age`,`gender`,`character_desc`,`nickname`,`compTints`,`steamname`,`slots`,`skills`) VALUES (@identifier,@group, @money, @gold, @rol, @xp, @healthouter, @healthinner, @staminaouter, @staminainner, @inventory, @job, @status, @firstname, @lastname, @skinPlayer, @compPlayer, @jobgrade, @coords, @isdead, @joblabel, @age, @gender, @charDescription, @nickname,@compTints,@steamname,@slots,@skills)",
             {
                 identifier = self.identifier,
                 group = self.group,
@@ -423,7 +413,6 @@ function Character(data)
                 healthinner = self.healthInner,
                 staminaouter = self.staminaOuter,
                 staminainner = self.staminaInner,
-                hours = self.hours,
                 inventory = self.inventory,
                 job = self.job,
                 status = self.status,
@@ -459,7 +448,7 @@ function Character(data)
     end
 
     self.SaveCharacterInDb = function()
-        MySQL.update("UPDATE characters SET `group` =@group ,`money` =@money ,`gold` =@gold ,`rol` =@rol ,`xp` =@xp ,`healthouter` =@healthouter ,`healthinner` =@healthinner ,`staminaouter` =@staminaouter ,`staminainner` =@staminainner ,`hours` =@hours ,`job` =@job , `status` =@status ,`firstname` =@firstname , `lastname` =@lastname , `jobgrade` =@jobgrade , `coords` =@coords , `isdead` =@isdead , `joblabel` =@joblabel, `age` =@age, `gender`=@gender, `character_desc`=@charDescription,`nickname`=@nickname,`steamname`=@steamname, `slots` =@slots, `skills`=@skills  WHERE `identifier` =@identifier AND `charidentifier` =@charidentifier",
+        MySQL.update("UPDATE characters SET `group` =@group ,`money` =@money ,`gold` =@gold ,`rol` =@rol ,`xp` =@xp ,`healthouter` =@healthouter ,`healthinner` =@healthinner ,`staminaouter` =@staminaouter ,`staminainner` =@staminainner ,`job` =@job , `status` =@status ,`firstname` =@firstname , `lastname` =@lastname , `jobgrade` =@jobgrade , `coords` =@coords , `isdead` =@isdead , `joblabel` =@joblabel, `age` =@age, `gender`=@gender, `character_desc`=@charDescription,`nickname`=@nickname,`steamname`=@steamname, `slots` =@slots, `skills`=@skills  WHERE `identifier` =@identifier AND `charidentifier` =@charidentifier",
             {
                 group = self.group,
                 money = self.money,
@@ -470,7 +459,6 @@ function Character(data)
                 healthinner = self.healthInner,
                 staminaouter = self.staminaOuter,
                 staminainner = self.staminaInner,
-                hours = self.hours,
                 job = self.job,
                 status = self.status,
                 firstname = self.firstname,
@@ -508,7 +496,6 @@ function Character(data)
         userData.healthInner = self.healthInner
         userData.staminaOuter = self.staminaOuter
         userData.staminaInner = self.staminaInner
-        userData.hours = self.hours
         userData.firstname = self.firstname
         userData.lastname = self.lastname
         userData.inventory = self.inventory

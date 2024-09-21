@@ -171,7 +171,7 @@ function User(source, identifier, group, playerwarnings, license, char)
     end
 
     self.LoadCharacters = function()
-        MySQL.query("SELECT identifier, charidentifier, `group`, job, jobgrade, joblabel, firstname, lastname, inventory, status, coords, money, gold, rol, healthouter, healthinner, staminaouter, staminainner, xp, hours, isdead, skinPlayer, compPlayer, compTints, age,gender, character_desc, nickname, slots,skills FROM characters WHERE identifier = @identifier", { identifier = self._identifier }, function(usercharacters)
+        MySQL.query("SELECT identifier, charidentifier, `group`, job, jobgrade, joblabel, firstname, lastname, inventory, status, coords, money, gold, rol, healthouter, healthinner, staminaouter, staminainner, xp, isdead, skinPlayer, compPlayer, compTints, age,gender, character_desc, nickname, slots,skills FROM characters WHERE identifier = @identifier", { identifier = self._identifier }, function(usercharacters)
             self.Numofcharacters(#usercharacters)
             if #usercharacters > 0 then
                 for _, character in ipairs(usercharacters) do
@@ -196,7 +196,6 @@ function User(source, identifier, group, playerwarnings, license, char)
                             staminaOuter = character.staminaouter,
                             staminaInner = character.staminainner,
                             xp = character.xp,
-                            hours = character.hours,
                             isdead = character.isdead,
                             skin = character.skinPlayer,
                             comps = character.compPlayer,
@@ -239,7 +238,6 @@ function User(source, identifier, group, playerwarnings, license, char)
             staminaOuter = 500,
             staminaInner = 100,
             xp = Config.initXp,
-            hours = 0,
             isdead = false,
             skin = data.skin,
             comps = data.comps,

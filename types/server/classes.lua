@@ -15,7 +15,6 @@
 ---@field public healthInner number
 ---@field public staminaOuter number
 ---@field public staminaInner number
----@field public hours number
 ---@field public firstname string
 ---@field public lastname string
 ---@field public inventory string
