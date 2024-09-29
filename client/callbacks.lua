@@ -122,7 +122,7 @@ end)
 
 --- * Register a callback
 ---@param name string callback name
----@param callback fun(any) callback function
+---@param callback fun( func:fun(any),any) callback function
 function ClientRPC.Callback.Register(name, callback)
     if not name and type(name) ~= "string" then
         return error("Callback name must be a string!", 1)
