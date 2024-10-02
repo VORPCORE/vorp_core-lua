@@ -12,11 +12,24 @@ if not Config.Skills then
 end
 
 local function setSkills(data)
+    for skillName, skillData in pairs(Config.Skills) do
+        if not data.skills[skillName] then
+            data.skills[skillName] = {
+                Exp = 0,
+                Level = 1,
+                Label = skillData.Levels[1].Label,
+                MaxLevel = #skillData.Levels,
+                NextLevel = skillData.Levels[1].NextLevel
+            }
+        end
+    end
+
     for skillName, skillData in pairs(data.skills) do
         if not Config.Skills[skillName] then
             print(("Skill %s not found in config of Skills"):format(skillName))
             return
         end
+
         local currentLevel = skillData.Level
         local currentExp = skillData.Exp
         local info = Config.Skills[skillName].Levels
@@ -31,22 +44,6 @@ local function setSkills(data)
             NextLevel = nextLevel
 
         }
-    end
-
-    if next(data.skills) then
-        return data.skills
-    end
-
-    for skillName, skillData in pairs(Config.Skills) do
-        if not data.skills[skillName] then
-            data.skills[skillName] = {
-                Exp = 0,
-                Level = 1,
-                Label = skillData.Levels[1].Label,
-                MaxLevel = #skillData.Levels,
-                NextLevel = skillData.Levels[1].NextLevel
-            }
-        end
     end
 
     return data.skills
