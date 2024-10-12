@@ -93,6 +93,7 @@ Config = {
     CommandHideIU         = 'hideUi',   -- Command to hide all UI elements, useful for screenshots.
     CommandToogleUI       = 'toggleUi', -- Command to toggle the visibility of VORP UI elements.
     CommandClearAnim      = 'stopAnim', -- Command to stop animations if a player is stuck.
+    StopAnimCooldown      = 5,          -- Cooldown time to reuse the command to stop animations. (Second)
 
     --=============================================
     --            MAP CONFIGURATIONS             --
