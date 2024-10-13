@@ -1,5 +1,7 @@
 Namedinstances = {}
+math.randomseed(os.time())
 
+-- credits to MrDankKetchup
 RegisterServerEvent("vorp_core:instanceplayers")
 AddEventHandler("vorp_core:instanceplayers", function(setRoom)
     local src = source
@@ -27,10 +29,10 @@ AddEventHandler("vorp_core:instanceplayers", function(setRoom)
 
         if instanceSource == nil then
             instanceSource = math.random(1, 63)
- 
+
             while Namedinstances[instanceSource] and #Namedinstances[instanceSource] >= 1 do
                 instanceSource = math.random(1, 63)
-                Citizen.Wait(1)
+                Wait(1)
             end
         end
     end
@@ -50,8 +52,11 @@ AddEventHandler("vorp_core:instanceplayers", function(setRoom)
         src,
         instanceSource
     )
-    
+
     TriggerClientEvent('vorp_core:instanceChanged', src, instanceSource)
 end)
 
--- credits to MrDankKetchup
+RegisterServerEvent('vorp_core:server:SetPlayerRoutingBucket', function(bucket)
+    local _source = source
+    SetPlayerRoutingBucket(_source, bucket)
+end)
