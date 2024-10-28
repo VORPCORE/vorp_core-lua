@@ -109,12 +109,13 @@ end)
 CreateThread(function()
     repeat Wait(2000) until LocalPlayer.state.IsInSession
 
-    SetPedConfigFlag(PlayerPedId(), 560, true) -- enable horse ducking
+
     while true do
         Wait(500)
         local playerPed = PlayerPedId()
         local interiorId = GetInteriorFromEntity(playerPed)
         local hash = interiorId ~= 0 and 0xDF5DB58C or 0x25B517BF
         SetRadarConfigType(hash, 0)
+        SetPedConfigFlag(playerPed, 560, true) -- enable horse ducking, needs to be here incase player ped id changes
     end
 end)
