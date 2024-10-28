@@ -85,32 +85,31 @@ end)
 
 -- show players id when focus on other players
 CreateThread(function()
-    repeat Wait(1000) until LocalPlayer.state.IsInSession
+    repeat Wait(2000) until LocalPlayer.state.IsInSession
     FillUpCores()
-    while Config.showplayerIDwhenfocus do
+    local name = LocalPlayer.state.FirstName .. " " .. LocalPlayer.state.LastName
+
+    while true do
         local sleep = 1000
         if #GetActivePlayers() > 1 then -- we also count ourselfs
             sleep = 400
             for _, playersid in ipairs(GetActivePlayers()) do
                 if playersid ~= PlayerId() then
                     local ped = GetPlayerPed(playersid)
-                    SetPedPromptName(ped, T.PlayerWhenFocus .. tostring(GetPlayerServerId(playersid)))
+                    local promptName = Config.showplayerIDwhenfocus and GetPlayerServerId(playersid) or name
+                    SetPedPromptName(ped, T.PlayerWhenFocus .. promptName)
                 end
             end
         end
-
-        local playerPed = PlayerPedId()
-        local interiorId = GetInteriorFromEntity(playerPed)
-        local hash = interiorId ~= 0 and 0xDF5DB58C or 0x25B517BF
-        SetRadarConfigType(hash, 0)
-
         Wait(sleep)
     end
 end)
 
 -- zoom in when in interiors for better navigation
 CreateThread(function()
-    repeat Wait(1000) until LocalPlayer.state.IsInSession
+    repeat Wait(2000) until LocalPlayer.state.IsInSession
+
+    SetPedConfigFlag(PlayerPedId(), 560, true) -- enable horse ducking
     while true do
         Wait(500)
         local playerPed = PlayerPedId()
