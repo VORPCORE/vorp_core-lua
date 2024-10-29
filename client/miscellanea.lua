@@ -87,7 +87,7 @@ end)
 CreateThread(function()
     repeat Wait(2000) until LocalPlayer.state.IsInSession
     FillUpCores()
-    local name = LocalPlayer.state.FirstName .. " " .. LocalPlayer.state.LastName
+    local name = LocalPlayer.state.Character.FirstName .. " " .. LocalPlayer.state.Character.LastName
 
     while true do
         local sleep = 1000
@@ -108,7 +108,6 @@ end)
 -- zoom in when in interiors for better navigation
 CreateThread(function()
     repeat Wait(2000) until LocalPlayer.state.IsInSession
-
 
     while true do
         Wait(500)
