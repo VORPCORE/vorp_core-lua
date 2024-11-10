@@ -123,6 +123,7 @@ AddEventHandler('playerDropped', function(reason)
     if Config.ReportCrashes and Config.API_KEY ~= "" then
         ReportCrash(reason, _source)
     end
+    GlobalState.PlayersInSession = GlobalState.PlayersInSession - 1  
 end)
 
 ---@todo allow to save player when they are still in the server  example of usage is  not have to relog to select another character
