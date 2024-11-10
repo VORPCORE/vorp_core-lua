@@ -1,3 +1,4 @@
+GlobalState.PlayersInSession = 0
 ---@param source number
 ---@param identifier string
 ---@param group string
@@ -24,6 +25,7 @@ function User(source, identifier, group, playerwarnings, license, char)
             self._usercharacters[value].source = self.source
             self._usercharacters[value].updateCharUi()
             local player = self._usercharacters[self.usedCharacterId].getCharacter()
+            GlobalState.PlayersInSession = GlobalState.PlayersInSession + 1
             TriggerClientEvent("vorp:SelectedCharacter", self.source, self.usedCharacterId)
             TriggerEvent("vorp:SelectedCharacter", self.source, player)
             Player(self.source).state:set('IsInSession', true, true)
