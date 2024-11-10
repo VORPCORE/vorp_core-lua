@@ -410,18 +410,6 @@ Commands = {
             MyJob(...)
         end
     },
-    myHours = {
-        webhook = "",
-        commandName = "myHours",
-        label = T.myHours.label,
-        suggestion = {},
-        userCheck = false,
-        groupAllowed = {}, -- leave empty anyone can use
-        aceAllowed = nil,  -- leave nil anyone can use
-        callFunction = function(...)
-            MyHours(...)
-        end
-    },
 
     -- create your commands here just copy from above , see first line on how to do it
 
