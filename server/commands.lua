@@ -388,27 +388,6 @@ function MyJob(data)
     CoreFunctions.NotifyRightTip(_source, T.myjob .. job .. T.mygrade .. grade, 4000)
 end
 
---MY HOURS
---function MyHours(data)
---    local _source = data.source
---    local User    = CoreFunctions.getUser(_source).getUsedCharacter
---    local hours   = User.hours
-
---    local function isInteger(num)
---       if math.floor(num) == num then
---            return true
---        end
---        return false
---    end
-
---    if isInteger(hours) then
---        CoreFunctions.NotifyRightTip(_source, string.format(T.charhours, hours), 4000)
---    else
---        local newhour = math.floor(hours - 0.5)
---        CoreFunctions.NotifyRightTip(_source, string.format(T.playhours, newhour, 30), 4000)
---    end
---end
-
 function SetExp(data)
     local target = tonumber(data.args[1])
     local skillName = tostring(data.args[2])
