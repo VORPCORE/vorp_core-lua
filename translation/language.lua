@@ -211,10 +211,6 @@ Translation = {
                 title = "📋` /myjob command` ",
                 label = "VORPcore command check your job",
             },
-            myHours = {
-                title = "📋` /myhours command` ",
-                label = "VORPcore command check your played hours",
-            },
         },
         addWebhook      = {
             whitelistid = "**Steam name: **`%s`**\nIdentifier:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",

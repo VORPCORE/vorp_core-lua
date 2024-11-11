@@ -96,7 +96,6 @@ VORP Core is a comprehensive Lua-based framework for RedM, designed to enhance s
 - **charCreateAdd:** Allow a player to create additional characters.
 - **charCreateRemove:** Remove a player's ability to create additional characters.
 - **myJob:** Display the player's current job and details.
-- **myHours:** Show the player's total played hours.
 
 These commands and configurations offer extensive control over the server's gameplay, administration, and player management, ensuring a tailored and smooth experience for all participants.
 
