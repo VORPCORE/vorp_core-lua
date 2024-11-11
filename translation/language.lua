@@ -486,10 +486,6 @@ Translation = {
                 title = "📋`Comando /myjob`",
                 label = "Comando VORPcore para verificar o seu emprego",
             },
-            myHours = {
-                title = "📋`Comando /myhours`",
-                label = "Comando VORPcore para verificar as suas horas jogadas",
-            },
         },
         addWebhook = {
             whitelistid = "**Nome Steam: **`%s`**\nIdentificador:** `%s`\n**Discord:** <@%s>\n**User-ID:** `%s`",
@@ -766,10 +762,6 @@ Translation = {
                 title = "📋` Comando /myjob`",
                 label = "Comando VORPcore para verificar o seu emprego",
             },
-            myHours = {
-                title = "📋` Comando /myhours`",
-                label = "Comando VORPcore para verificar suas horas jogadas",
-            },
         },
         addWebhook      = {
             whitelistid = "**Nome Steam: **`%s`**\nIdentificador:** `%s`\n**Discord:** <@%s>\n**User-ID:** `%s`",
@@ -1044,10 +1036,6 @@ Translation = {
             myJob = {
                 title = "📋` /myjob` ",
                 label = "Comando VORPcore per vedere il proprio lavoro",
-            },
-            myHours = {
-                title = "📋` /myhours` ",
-                label = "Comando VORPcore per vedere le tue ore di gioco",
             },
         },
         addWebhook      = {
@@ -1324,10 +1312,6 @@ Translation = {
             myJob = {
                 title = "📋` Comando /myjob` ",
                 label = "Comando VORPcore para verificar tu trabajo",
-            },
-            myHours = {
-                title = "📋` Comando /myhours` ",
-                label = "Comando VORPcore para verificar tus horas jugadas",
             },
         },
         addWebhook      = {
@@ -1608,10 +1592,6 @@ Translation = {
                 title = "📋`Commande /myjob` ",
                 label = "Commande VORPcore pour vérifier votre emploi",
             },
-            myHours = {
-                title = "📋`Commande /myhours` ",
-                label = "Commande VORPcore pour vérifier vos heures de jeu",
-            },
         },
         addWebhook      = {
             whitelistid = "**Nom Steam: **`%s`**\nIdentifiant:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",
@@ -1891,11 +1871,6 @@ Translation = {
                 title = "📋` /myjob Befehl` ",
                 label = "VORPcore-Befehl, um deinen Job zu überprüfen",
             },
-            myHours = {
-                title = "📋` /myhours Befehl` ",
-                label = "VORPcore-Befehl, um deine Spielstunden zu überprüfen",
-            },
-
         },
         addWebhook      = {
             whitelistid = "**Steam-Name: **`%s`**\nIdentifier:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",
@@ -2180,10 +2155,6 @@ Translation = {
             myJob = {
                 title = "📋` Comanda /myjob` ",
                 label = "Comanda VORPcore pentru a-ti verifica job-ul",
-            },
-            myHours = {
-                title = "📋` Comanda /myhours` ",
-                label = "Comanda VORPcore pentru a-ti verifica orele jucate",
             },
         },
         addWebhook      = {
