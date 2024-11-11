@@ -439,8 +439,7 @@ RegisterServerEvent("vorp:chatSuggestion", function()
         AddCommandSuggestions(_source, group, value)
     end
 
-    -- client commands
-    TriggerClientEvent("chat:addSuggestion", _source, "/" .. Commands.myHours.commandName, Commands.myHours.label, {})
+    -- Client Commands
     TriggerClientEvent("chat:addSuggestion", _source, "/" .. Commands.myJob.commandName, Commands.myJob.label, {})
 end)
 --============================================================================================================================--
