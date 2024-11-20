@@ -385,7 +385,8 @@ function MyJob(data)
     local Character = CoreFunctions.getUser(_source).getUsedCharacter
     local job       = Character.job
     local grade     = Character.jobGrade
-    CoreFunctions.NotifyRightTip(_source, T.myjob .. job .. T.mygrade .. grade, 4000)
+    local label     = Character.jobLabel
+    CoreFunctions.NotifyRightTip(_source, T.myjob .. label .. " (" .. job .. ") " .. T.mygrade .. grade, 5000)
 end
 
 function SetExp(data)
