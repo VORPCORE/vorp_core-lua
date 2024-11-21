@@ -49,7 +49,8 @@ end
 -- PLAYERSPAWN
 AddEventHandler('playerSpawned', function()
     DoScreenFadeOut(0)
-    TriggerServerEvent('vorp_core:server:SetPlayerRoutingBucket', GetRandomIntInRange(0, 0xFFFFFFFF))
+    local random = GetRandomIntInRange(0, 10000) + PlayerId()
+    TriggerServerEvent('vorp_core:server:SetPlayerRoutingBucket', random)
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost) --_DISPLAY_LOADING_SCREENS
     DisplayRadar(false)
     SetMinimapHideFow(false)
