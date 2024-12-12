@@ -14,8 +14,6 @@ Config = {
     -- (IF YOU HAVE WHITELIST ENABLED DONT ENABLE THIS)--
     DeleteFromUsersTable   = true,      -- this will delete from users table if character does not exist "optimising the queries"
     -----------------------------------------------------
-    PrintPlayerInfoOnLeave = false,     -- Logs player information in the server console when they leave.
-    PrintPlayerInfoOnEnter = false,     -- Logs player information in the server console upon joining.
 
     CanRespawn             = function() -- use this function to add your own logic if player can respawn or not
         -- add your logic here
@@ -70,7 +68,8 @@ Config = {
     logo                   = "https://via.placeholder.com/30x30", -- Logo URL for webhook embeds.
     footerLogo             = "https://via.placeholder.com/30x30", -- Footer logo URL for webhook embeds.
     Avatar                 = "https://via.placeholder.com/30x30", -- Avatar URL for webhook embeds.
-
+    EnableWebhookJoinleave = true,                                -- Enable webhooks for player join and leave
+    JoinleaveWebhookURL    = "",                                  -- Replace with your webhook URL
     --=============================================
     --            UI CONFIGURATIONS              --
     --=============================================

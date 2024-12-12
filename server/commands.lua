@@ -225,7 +225,7 @@ function AddWeapons(data)
 
     local result = exports.vorp_inventory:createWeapon(target, weaponHash, {})
     if not result then
-        return CoreFunctions.NotifyRightTip(target, "weapon does not exist or is wrong name", 4000)
+        return CoreFunctions.NotifyRightTip(target, T.Wepnotexist, 4000)
     end
     SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
     CoreFunctions.NotifyRightTip(target, Translation[Lang].Notify.AddWeapons, 4000)
@@ -291,7 +291,7 @@ function BanPlayers(data)
     local targetsteam = tonumber(data.args[1])
     local steamid = GetSteamID(data.source)
     if steamid and steamid == targetsteam then
-        return CoreFunctions.NotifyRightTip(data.source, "Cant ban your self", 4000)
+        return CoreFunctions.NotifyRightTip(data.source, T.CantBanSelf, 4000)
     end
 
     local banTime = tonumber(data.args[2]:match("%d+"))
@@ -395,9 +395,9 @@ function SetExp(data)
     local exp = tonumber(data.args[3])
     local Character = CoreFunctions.getUser(target).getUsedCharacter
     Character.setSkills(skillName, exp)
-    SendDiscordLogs(data.config.webhook, data, data.source, exp, skillName)
-    CoreFunctions.NotifyRightTip(data.source, "exp given to player ", 4000)
-    CoreFunctions.NotifyRightTip(target, string.format("you have received %s exp in %s", exp, skillName), 4000)
+    SendDiscordLogs(data.config.webhook, data, data.source, skillName,  exp)
+    CoreFunctions.NotifyRightTip(data.source, Translation[Lang].Notify.Exp , 4000)
+    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.GivenExp, exp, skillName), 4000)
 end
 
 --my exp
@@ -406,12 +406,12 @@ function MyExp(data)
     local User = CoreFunctions.getUser(_source).getUsedCharacter
     local skills = User.skills
     if not skills[data.args[1]] then
-        return CoreFunctions.NotifyRightTip(_source, "skill not found", 4000)
+        return CoreFunctions.NotifyRightTip(_source, Translation[Lang].Notify.NotFound, 4000)
     end
     local exp = skills[data.args[1]].Exp
     local lvl = skills[data.args[1]].Level
     local label = skills[data.args[1]].Label
-    local text = "You are %s level %s with %s exp in %s"
+    local text =  Translation[Lang].Notify.Level
     CoreFunctions.NotifyRightTip(_source, text:format(label, lvl, exp, data.args[1]), 4000)
 end
 

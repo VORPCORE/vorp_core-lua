@@ -70,8 +70,10 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     deferrals.update(T.LoadingUser)
 
     LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
-    if playerName and Config.PrintPlayerInfoOnEnter then
-        print("Player ^2" .. playerName .. " ^7steam: ^3" .. steamIdentifier .. "^7 Loading...")
+
+    if Config.EnableWebhookJoinleave then
+        local finaltext = string.format(T.PlayerJoinLeave.Join, playerName, steamIdentifier)
+        TriggerEvent("vorp_core:addWebhook",T.JoinTitle, Config.JoinleaveWebhookURL, finaltext)
     end
 
     --TODO  this can de added as default in class characters

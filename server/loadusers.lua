@@ -58,8 +58,9 @@ local function savePlayer(_source, reason, identifier)
         Player(_source).state:set('IsInSession', nil, true)
     end
 
-    if Config.PrintPlayerInfoOnLeave then
-        print('Player ^2' .. steamName .. ' ^7steam:^3 ' .. identifier .. '^7 saved ' .. (reason and " reason: " .. reason or ""))
+    if Config.EnableWebhookJoinleave then
+        local finaltext = string.format(T.PlayerJoinLeave.Leave, steamName, identifier, reason and (T.PlayerJoinLeave.Reason .. reason) or "")
+        TriggerEvent("vorp_core:addWebhook",T.PlayerJoinLeave.Leavetitle, Config.JoinleaveWebhookURL, finaltext)
     end
 
     if Config.SaveDiscordId then --TODO this can de added as default
