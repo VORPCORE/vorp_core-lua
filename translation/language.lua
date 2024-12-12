@@ -25,6 +25,10 @@ Translation = {
             healedPlayer = "player with server id %d has been healed",
             AddItems = "Item  %s with quantity %d added to your inventory",
             AddWeapons = "Weapon added to your inventory",
+            Exp = "exp given to player ",
+            GivenExp = "you have received %s exp in %s",
+            NotFound = "skill not found",
+            Level = "You are %s level %s with %s exp in %s",
             left = {
                 title = "~e~IMPORTANT!",
                 subtitle = "you must set your char height to 1.0 there will bugs if you dont.",
@@ -211,6 +215,25 @@ Translation = {
                 title = "📋` /myjob command` ",
                 label = "VORPcore command check your job",
             },
+            giveExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill:** `%s`\n**Experience Added:** `%d`",
+                title = "📋 `/addExp command`",
+                label = "VORPcore command to add experience to a player",
+                help = "player ID",
+                help1 = "skill category like Crafting",
+                help2 = "amount of experience to give",
+                name = "Id",
+                name1 = "Skill",
+                name2 = "Exp",
+            },
+            myExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill Checked:** `%s`",
+                title = "📋 `/myExp command`",
+                label = "VORPcore command to check your skill experience",
+                help = "skill category like Crafting",
+                name = "Skill",
+            },
+
         },
         addWebhook      = {
             whitelistid = "**Steam name: **`%s`**\nIdentifier:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",
@@ -252,7 +275,7 @@ Translation = {
             sit                = "you need to be steated",
             PVPNotifyOn        = "PVP On ",
             PVPNotifyOff       = "PVP Off",
-			StopAnimCooldown   = "Do not spam",
+            StopAnimCooldown   = "Do not spam",
             AddChar            = "Added Multicharacter ",
             RemoveChar         = "Removed Multicharacter ",
             WrongHex           = "Hex not in DB or Wrong Hex",
@@ -269,6 +292,15 @@ Translation = {
             message6           = "Respawn!!!",
             permanentlyBan     = "You are banned permanently!",
             PlayerWhenFocus    = "Player",
+            CantBanSelf        = "You can't ban yourself",
+            Wepnotexist        = "weapon does not exist or is wrong name",
+            PlayerJoinLeave    = {
+                Leave      = "Player **%s** (Steam: `%s`) has left the server. %s",
+                Reason     = "Reason: ",
+                Leavetitle = "Player Leave",
+                Join       = "Player **%s** (Steam: `%s`) is connecting to the server.",
+                Jointitle  = "Player Join",
+            },
         },
         SuggestChat     = {
             hideUi = "VORPcore command to HIDE all UI's from screen, nice to take screenshots.",
@@ -276,9 +308,10 @@ Translation = {
             stopAnim = "VORPcore command to use if you are stuck on an animation.",
             tooglePVP = "VORPcore command to TOGGLE pvp for your character.",
         },
+
     },
     Portugues_PT = {
-        Notify = {
+        Notify          = {
             testText = "Esta é uma notificação de teste",
             userNonExistent = "ID está errado ou o utilizador não existe.",
             ReadSuggestion = "Por favor, leia as sugestões no chat sobre como usar o comando.",
@@ -303,6 +336,10 @@ Translation = {
             healedPlayer = "player with server id %d has been healed",
             AddItems = "Item  %s com quantidade %d adicionado ao seu inventário",
             AddWeapons = "Arma adicionada ao seu inventário",
+            Exp = "exp given to player ",
+            GivenExp = "you have received %s exp in %s",
+            NotFound = "skill not found",
+            Level = "You are %s level %s with %s exp in %s",
             left = {
                 title = "~e~IMPORTANTE!",
                 subtitle = "deve definir a altura do seu personagem como 1.0, haverá bugs se não o fizer.",
@@ -318,7 +355,7 @@ Translation = {
                 color = "COLOR_RED",
             },
         },
-        Commands = {
+        Commands        = {
             webHookMessage = "**Nome Steam: **`%s`**\nIdentificador**`%s` \n**Discord:** <@%s>**\nIP: **`%s`",
             addGroup = {
                 custom = "\n**ID do Jogador** `%d`\n**Grupo atribuído** `%s`",
@@ -486,8 +523,26 @@ Translation = {
                 title = "📋`Comando /myjob`",
                 label = "Comando VORPcore para verificar o seu emprego",
             },
+            giveExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill:** `%s`\n**Experience Added:** `%d`",
+                title = "📋 `/addExp command`",
+                label = "VORPcore command to add experience to a player",
+                help = "player ID",
+                help1 = "skill category like Crafting",
+                help2 = "amount of experience to give",
+                name = "Id",
+                name1 = "Skill",
+                name2 = "Exp",
+            },
+            myExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill Checked:** `%s`",
+                title = "📋 `/myExp command`",
+                label = "VORPcore command to check your skill experience",
+                help = "skill category like Crafting",
+                name = "Skill",
+            },
         },
-        addWebhook = {
+        addWebhook      = {
             whitelistid = "**Nome Steam: **`%s`**\nIdentificador:** `%s`\n**Discord:** <@%s>\n**User-ID:** `%s`",
             whitelistid1 = "📋` Novo jogador entrou no servidor` ",
         },
@@ -528,7 +583,7 @@ Translation = {
             sit                = "precisa estar sentado",
             PVPNotifyOn        = "PVP Ligado ",
             PVPNotifyOff       = "PVP Desligado",
-			StopAnimCooldown   = "Não enviar spam",
+            StopAnimCooldown   = "Não enviar spam",
             AddChar            = "Personagem Multijogador Adicionado ",
             RemoveChar         = "Personagem Multijogador Removido ",
             WrongHex           = "Hex não encontrado no banco de dados ou Hex incorreto",
@@ -545,13 +600,23 @@ Translation = {
             message6           = "Renascer!!!",
             permanentlyBan     = "Você está banido permanentemente!",
             PlayerWhenFocus    = "Jogador",
+            CantBanSelf        = "You can't ban yourself",
+            Wepnotexist        = "weapon does not exist or is wrong name",
+            PlayerJoinLeave    = {
+                Leave      = "Player **%s** (Steam: `%s`) has left the server. %s",
+                Reason     = "Reason: ",
+                Leavetitle = "Player Leave",
+                Join       = "Player **%s** (Steam: `%s`) is connecting to the server.",
+                Jointitle  = "Player Join",
+            },
         },
-        SuggestChat = {
+        SuggestChat     = {
             hideUi = "Comando VORPcore para ESCONDER todas as UIs da tela, útil para tirar capturas de tela.",
             toogleUi = "Comando VORPcore para alternar as UIs do VORP na tela",
             stopAnim = "Comando VORPcore para usar se você estiver preso em uma animação.",
             tooglePVP = "Comando VORPcore para ATIVAR/DESATIVAR o PvP para o seu personagem.",
         },
+
     },
     Portugues_BR = {
         Notify          = {
@@ -579,6 +644,10 @@ Translation = {
             healedPlayer = "player with server id %d has been healed",
             AddItems = "Item  %s com quantidade %d adicionado ao seu inventário",
             AddWeapons = "Arma adicionada ao seu inventário",
+            Exp = "exp given to player ",
+            GivenExp = "you have received %s exp in %s",
+            NotFound = "skill not found",
+            Level = "You are %s level %s with %s exp in %s",
             left = {
                 title = "~e~IMPORTANTE!",
                 subtitle = "você deve definir a altura do seu personagem como 1.0, haverá bugs se você não fizer isso.",
@@ -762,6 +831,24 @@ Translation = {
                 title = "📋` Comando /myjob`",
                 label = "Comando VORPcore para verificar o seu emprego",
             },
+            giveExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill:** `%s`\n**Experience Added:** `%d`",
+                title = "📋 `/addExp command`",
+                label = "VORPcore command to add experience to a player",
+                help = "player ID",
+                help1 = "skill category like Crafting",
+                help2 = "amount of experience to give",
+                name = "Id",
+                name1 = "Skill",
+                name2 = "Exp",
+            },
+            myExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill Checked:** `%s`",
+                title = "📋 `/myExp command`",
+                label = "VORPcore command to check your skill experience",
+                help = "skill category like Crafting",
+                name = "Skill",
+            },
         },
         addWebhook      = {
             whitelistid = "**Nome Steam: **`%s`**\nIdentificador:** `%s`\n**Discord:** <@%s>\n**User-ID:** `%s`",
@@ -804,7 +891,7 @@ Translation = {
             sit                = "você precisa estar sentado",
             PVPNotifyOn        = "PVP Ativado",
             PVPNotifyOff       = "PVP Desativado",
-			StopAnimCooldown   = "Não enviar spam",
+            StopAnimCooldown   = "Não enviar spam",
             AddChar            = "Personagem adicional adicionado ",
             RemoveChar         = "Personagem adicional removido ",
             WrongHex           = "Hex não encontrado no banco de dados ou Hex incorreto",
@@ -821,6 +908,15 @@ Translation = {
             message6           = "Renascer!!!",
             permanentlyBan     = "Você está banido permanentemente!",
             PlayerWhenFocus    = "Jogador",
+            CantBanSelf        = "You can't ban yourself",
+            Wepnotexist        = "weapon does not exist or is wrong name",
+            PlayerJoinLeave    = {
+                Leave      = "Player **%s** (Steam: `%s`) has left the server. %s",
+                Reason     = "Reason: ",
+                Leavetitle = "Player Leave",
+                Join       = "Player **%s** (Steam: `%s`) is connecting to the server.",
+                Jointitle  = "Player Join",
+            },
         },
         SuggestChat     = {
             hideUi = "Comando VORPcore para ESCONDER todas as interfaces da tela, útil para fazer capturas de tela.",
@@ -828,6 +924,7 @@ Translation = {
             stopAnim = "Comando VORPcore para usar caso você esteja preso em uma animação.",
             tooglePVP = "Comando VORPcore para ATIVAR/DESATIVAR o PvP para o seu personagem.",
         },
+
     },
     Italian      = {
         Notify          = {
@@ -855,6 +952,10 @@ Translation = {
             healedPlayer = "player with server id %d has been healed",
             AddItems = "Item  %s con quantità %d aggiunto al tuo inventario",
             AddWeapons = "Arma aggiunta al tuo inventario",
+            Exp = "exp given to player ",
+            GivenExp = "you have received %s exp in %s",
+            NotFound = "skill not found",
+            Level = "You are %s level %s with %s exp in %s",
             left = {
                 title = "~e~IMPORTANTE!",
                 subtitle = "Devi impostare l'altezza del tuo personaggio a 1.0, ci saranno molti bug se non lo fai.",
@@ -1037,6 +1138,25 @@ Translation = {
                 title = "📋` /myjob` ",
                 label = "Comando VORPcore per vedere il proprio lavoro",
             },
+            
+            giveExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill:** `%s`\n**Experience Added:** `%d`",
+                title = "📋 `/addExp command`",
+                label = "VORPcore command to add experience to a player",
+                help = "player ID",
+                help1 = "skill category like Crafting",
+                help2 = "amount of experience to give",
+                name = "Id",
+                name1 = "Skill",
+                name2 = "Exp",
+            },
+            myExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill Checked:** `%s`",
+                title = "📋 `/myExp command`",
+                label = "VORPcore command to check your skill experience",
+                help = "skill category like Crafting",
+                name = "Skill",
+            },
         },
         addWebhook      = {
             whitelistid = "**Nome Steam: **`%s`**\nIdentificatore:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",
@@ -1079,7 +1199,7 @@ Translation = {
             sit                = "devi essere seduto",
             PVPNotifyOn        = "PVP Attivato ",
             PVPNotifyOff       = "PVP Disattivato",
-			StopAnimCooldown   = "Non spammare",
+            StopAnimCooldown   = "Non spammare",
             AddChar            = "Aggiunto personaggio multigiocatore ",
             RemoveChar         = "Rimosso personaggio multigiocatore ",
             WrongHex           = "Hex non presente nel database o Hex errato",
@@ -1096,6 +1216,15 @@ Translation = {
             message6           = "Respawn!!!",
             permanentlyBan     = "Sei bannato definitivamente!",
             PlayerWhenFocus    = "Giocatore",
+            CantBanSelf        = "Non puoi bannare te stesso",
+            Wepnotexist        = "l'arma non esiste o il nome è sbagliato",
+            PlayerJoinLeave    = {
+                Leave      = "Il giocatore **%s** (Steam: `%s`) ha lasciato il server. %s",
+                Reason     = "Motivo: ",
+                Leavetitle = "Player Leave",
+                Join       = "Il giocatore **%s** (Steam: `%s`) si sta connettendo al server.",
+                Jointitle  = "Player Join",
+            },
         },
         SuggestChat     = {
             hideUi = "Comando VORPcore per NASCONDERE tutte le UI dallo schermo, utile per fare screenshot.",
@@ -1103,6 +1232,7 @@ Translation = {
             stopAnim = "Comando VORPcore da utilizzare se sei bloccato in un'animazione.",
             tooglePVP = "Comando VORPcore per ATTIVARE/DISATTIVARE il PvP per il tuo personaggio.",
         },
+
     },
     Spanish      = {
         Notify          = {
@@ -1130,6 +1260,10 @@ Translation = {
             healedPlayer = "jogador con id %d ha sido curado",
             AddItems = "Item  %s con cantidad %d añadido a tu inventario",
             AddWeapons = "Arma añadida a tu inventario",
+            Exp = "exp given to player ",
+            GivenExp = "you have received %s exp in %s",
+            NotFound = "skill not found",
+            Level = "You are %s level %s with %s exp in %s",
             left = {
                 title = "~e~IMPORTANTE!",
                 subtitle = "debes establecer la altura de tu personaje en 1.0 para evitar errores.",
@@ -1313,6 +1447,25 @@ Translation = {
                 title = "📋` Comando /myjob` ",
                 label = "Comando VORPcore para verificar tu trabajo",
             },
+
+            giveExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill:** `%s`\n**Experience Added:** `%d`",
+                title = "📋 `/addExp command`",
+                label = "VORPcore command to add experience to a player",
+                help = "player ID",
+                help1 = "skill category like Crafting",
+                help2 = "amount of experience to give",
+                name = "Id",
+                name1 = "Skill",
+                name2 = "Exp",
+            },
+            myExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill Checked:** `%s`",
+                title = "📋 `/myExp command`",
+                label = "VORPcore command to check your skill experience",
+                help = "skill category like Crafting",
+                name = "Skill",
+            },
         },
         addWebhook      = {
             whitelistid = "**Nombre Steam: **`%s`**\nIdentificador:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",
@@ -1355,7 +1508,7 @@ Translation = {
             sit                = "necesitas estar sentado",
             PVPNotifyOn        = "PVP activado ",
             PVPNotifyOff       = "PVP desactivado",
-			StopAnimCooldown   = "No enviar spam",
+            StopAnimCooldown   = "No enviar spam",
             AddChar            = "Agregado Multicharacter ",
             RemoveChar         = "Eliminado Multicharacter ",
             WrongHex           = "Hex no está en la base de datos o es incorrecto",
@@ -1372,6 +1525,15 @@ Translation = {
             message6           = "¡Reaparecer!",
             permanentlyBan     = "Estás baneado permanentemente!",
             PlayerWhenFocus    = "Jugador",
+            CantBanSelf        = "No puedes banearte a ti mismo",
+            Wepnotexist        = "el arma no existe o el nombre es incorrecto",
+            PlayerJoinLeave    = {
+                Leave      = "Player **%s** (Steam: `%s`) has left the server. %s",
+                Reason     = "Reason: ",
+                Leavetitle = "Player Leave",
+                Join       = "Player **%s** (Steam: `%s`) is connecting to the server.",
+                Jointitle  = "Player Join",
+            },
         },
         SuggestChat     = {
             hideUi =
@@ -1380,6 +1542,7 @@ Translation = {
             stopAnim = "Comando VORPcore para usar si estás atascado en una animación.",
             tooglePVP = "Comando VORPcore para ACTIVAR/DESACTIVAR el PvP para tu personaje.",
         },
+
     },
     Francais     = {
         Notify          = {
@@ -1407,6 +1570,10 @@ Translation = {
             healedPlayer = "player with server id %d has been healed",
             AddItems = "Item  %s avec quantité %d ajouté à votre inventaire",
             AddWeapons = "Arme ajoutée à votre inventaire",
+            Exp = "exp given to player ",
+            GivenExp = "you have received %s exp in %s",
+            NotFound = "skill not found",
+            Level = "You are %s level %s with %s exp in %s",
             left = {
                 title = "~e~IMPORTANT !",
                 subtitle =
@@ -1592,6 +1759,25 @@ Translation = {
                 title = "📋`Commande /myjob` ",
                 label = "Commande VORPcore pour vérifier votre emploi",
             },
+
+            giveExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill:** `%s`\n**Experience Added:** `%d`",
+                title = "📋 `/addExp command`",
+                label = "VORPcore command to add experience to a player",
+                help = "player ID",
+                help1 = "skill category like Crafting",
+                help2 = "amount of experience to give",
+                name = "Id",
+                name1 = "Skill",
+                name2 = "Exp",
+            },
+            myExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill Checked:** `%s`",
+                title = "📋 `/myExp command`",
+                label = "VORPcore command to check your skill experience",
+                help = "skill category like Crafting",
+                name = "Skill",
+            },
         },
         addWebhook      = {
             whitelistid = "**Nom Steam: **`%s`**\nIdentifiant:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",
@@ -1634,7 +1820,7 @@ Translation = {
             sit                = "vous devez être assis",
             PVPNotifyOn        = "PVP activé",
             PVPNotifyOff       = "PVP désactivé",
-			StopAnimCooldown   = "Ne pas spammer",
+            StopAnimCooldown   = "Ne pas spammer",
             AddChar            = "Personnage multiple ajouté",
             RemoveChar         = "Personnage multiple supprimé",
             WrongHex           = "Hex non présent dans la base de données ou hex incorrect",
@@ -1651,6 +1837,15 @@ Translation = {
             message6           = "Réapparition !!!",
             permanentlyBan     = "Vous êtes banni de manière permanente!",
             PlayerWhenFocus    = "Joueur",
+            CantBanSelf        = "You can't ban yourself",
+            Wepnotexist        = "weapon does not exist or is wrong name",
+            PlayerJoinLeave    = {
+                Leave      = "Player **%s** (Steam: `%s`) has left the server. %s",
+                Reason     = "Reason: ",
+                Leavetitle = "Player Leave",
+                Join       = "Player **%s** (Steam: `%s`) is connecting to the server.",
+                Jointitle  = "Player Join",
+            },
         },
         SuggestChat     = {
             hideUi =
@@ -1659,6 +1854,7 @@ Translation = {
             stopAnim = "Commande VORPcore à utiliser si vous êtes coincé dans une animation.",
             tooglePVP = "Commande VORPcore pour ACTIVER/DÉSACTIVER le PvP pour votre personnage.",
         },
+
     },
     German       = {
         Notify          = {
@@ -1686,6 +1882,10 @@ Translation = {
             healedPlayer = "Spieler mit Server-ID %d wurde geheilt",
             AddItems = "Item  %s mit Menge %d zu Ihrem Inventar hinzugefügt",
             AddWeapons = "Waffe zu Ihrem Inventar hinzugefügt",
+            Exp = "exp given to player ",
+            GivenExp = "you have received %s exp in %s",
+            NotFound = "skill not found",
+            Level = "You are %s level %s with %s exp in %s",
             left = {
                 title = "~e~WICHTIG!",
                 subtitle =
@@ -1871,6 +2071,25 @@ Translation = {
                 title = "📋` /myjob Befehl` ",
                 label = "VORPcore-Befehl, um deinen Job zu überprüfen",
             },
+
+            giveExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill:** `%s`\n**Experience Added:** `%d`",
+                title = "📋 `/addExp command`",
+                label = "VORPcore command to add experience to a player",
+                help = "player ID",
+                help1 = "skill category like Crafting",
+                help2 = "amount of experience to give",
+                name = "Id",
+                name1 = "Skill",
+                name2 = "Exp",
+            },
+            myExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill Checked:** `%s`",
+                title = "📋 `/myExp command`",
+                label = "VORPcore command to check your skill experience",
+                help = "skill category like Crafting",
+                name = "Skill",
+            },
         },
         addWebhook      = {
             whitelistid = "**Steam-Name: **`%s`**\nIdentifier:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",
@@ -1918,7 +2137,7 @@ Translation = {
             NotifyCharSelect   = "Sobald Sie einen Charakter gelöscht haben, gibt es kein Zurück mehr!",
             PVPNotifyOn        = "PVP an",
             PVPNotifyOff       = "PVP aus",
-			StopAnimCooldown   = "Kein Spam",
+            StopAnimCooldown   = "Kein Spam",
             AddChar            = "Mehrere Charaktere hinzugefügt",
             RemoveChar         = "Mehrere Charaktere entfernt",
             WrongHex           = "Hexadezimalwert nicht in der Datenbank oder falscher Hexadezimalwert",
@@ -1935,6 +2154,15 @@ Translation = {
             message6           = "Wiederbeleben!!!",
             permanentlyBan     = "Du bist permanent gebannt!",
             PlayerWhenFocus    = "Spieler",
+            CantBanSelf        = "You can't ban yourself",
+            Wepnotexist        = "weapon does not exist or is wrong name",
+            PlayerJoinLeave    = {
+                Leave      = "Player **%s** (Steam: `%s`) has left the server. %s",
+                Reason     = "Reason: ",
+                Leavetitle = "Player Leave",
+                Join       = "Player **%s** (Steam: `%s`) is connecting to the server.",
+                Jointitle  = "Player Join",
+            },
         },
         SuggestChat     = {
             hideUi =
@@ -1943,6 +2171,7 @@ Translation = {
             stopAnim = "VORPcore-Befehl, wenn Sie in einer Animation feststecken.",
             tooglePVP = "VORPcore-Befehl zum Ein- und Ausschalten des PvP für deinen Charakter.",
         },
+
     },
     Romanian = {
 		Notify = {
@@ -1970,6 +2199,10 @@ Translation = {
 			healedPlayer = "Jucatorul cu ID-ul %d a fost vindecat",
 			AddItems = "Obiectul %s cu cantitatea %d a fost adaugat in inventarul tau",
 			AddWeapons = "Arma a fost adaugata in inventarul tau",
+            Exp = "exp given to player ",
+            GivenExp = "you have received %s exp in %s",
+            NotFound = "skill not found",
+            Level = "You are %s level %s with %s exp in %s",
 			left = {
 				title = "~e~IMPORTANT!",
 				subtitle = "Trebuie sa setezi inaltimea caracterului tau la 1.0, vor aparea erori daca nu o faci.",
@@ -1987,7 +2220,7 @@ Translation = {
 		},
         Commands        = {
             webHookMessage = "**Nume Steam: **`%s`**\nIdentificator**`%s` \n**Discord:** <@%s>**\nIP: **`%s`", -- only translate
-             addGroup = {
+            addGroup = {
                 custom = "\n**ID jucator** `%d`\n**Grup acordat** `%s`",
                 tittle = "📋 `/Grup comanda`",
                 label = "Comanda VORPcore pentru a seta grupul unui jucator",
@@ -2156,36 +2389,54 @@ Translation = {
                 title = "📋` Comanda /myjob` ",
                 label = "Comanda VORPcore pentru a-ti verifica job-ul",
             },
+            giveExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill:** `%s`\n**Experience Added:** `%d`",
+                title = "📋 `/addExp command`",
+                label = "VORPcore command to add experience to a player",
+                help = "player ID",
+                help1 = "skill category like Crafting",
+                help2 = "amount of experience to give",
+                name = "Id",
+                name1 = "Skill",
+                name2 = "Exp",
+            },
+            myExp = {
+                custom = "\n**PlayerID:** `%d`\n**Skill Checked:** `%s`",
+                title = "📋 `/myExp command`",
+                label = "VORPcore command to check your skill experience",
+                help = "skill category like Crafting",
+                name = "Skill",
+            },
         },
         addWebhook      = {
             whitelistid = "**Nume Steam: **`%s`**\nIdentificator:** `%s`\n**Discord:** <@%s>\n**User-Id:** `%s`",
             whitelistid1 = "📋` Un nou jucator s-a alaturat serverului` ",
         },
         MessageOfSystem = {
-			IsConnected        = "❌ Acces interzis: Detectata duplicarea contului (Steam | Rockstar)",
-			TwoAccounts        = "❌ Acces interzis: Tentativa de autentificare cu alt cont.",
-			TwoAccounts2       = "❌ Acces interzis: ID Steam deja inregistrat pe server.",
-			AccountEarlyLoad   = "❌ Acces interzis: Incarcarea contului in curs.",
-			AccountEarlyLoad2  = "❌ Acces interzis: Dubla incarcare a contului nu este permisa.",
-			NoSteam            = "❌ Steam necesar: Te rog deschide Steam-ul si reporneste RedM-ul.",
-			NoDiscord          = "❌ Discord necesar: Te rog deschide Discord-ul si reporneste RedM-ul.",
-			NoInWhitelist      = "❌ Acces interzis: Utilizatorul nu se afla pe lista alba. Te rog trimite-ti ID-ul de la Steam in Discord: ",
-			NoPermissions      = "Nu ai suficiente permisiuni",
-			CheckingIdentifier = "Se verifica identificatorii",
-			LoadingUser        = "Se incarca utilizatorul",
-			BannedUser         = "Esti suspendat pana la ",
-			DropReasonBanned   = "Ai fost suspendat de pe server pana la ",
-			Warned             = "Ai fost avertizat",
-			Unwarned           = "Avertismentul ti-a fost retras",
-			TitleOnDead        = "Scrie /calldoctor in chat pentru a solicita ajutorul medicului", -- Ai nevoie de un script pentru aceasta, este doar un exemplu
+            IsConnected        = "❌ Acces interzis: Detectata duplicarea contului (Steam | Rockstar)",
+            TwoAccounts        = "❌ Acces interzis: Tentativa de autentificare cu alt cont.",
+            TwoAccounts2       = "❌ Acces interzis: ID Steam deja inregistrat pe server.",
+            AccountEarlyLoad   = "❌ Acces interzis: Incarcarea contului in curs.",
+            AccountEarlyLoad2  = "❌ Acces interzis: Dubla incarcare a contului nu este permisa.",
+            NoSteam            = "❌ Steam necesar: Te rog deschide Steam-ul si reporneste RedM-ul.",
+            NoDiscord          = "❌ Discord necesar: Te rog deschide Discord-ul si reporneste RedM-ul.",
+            NoInWhitelist      = "❌ Acces interzis: Utilizatorul nu se afla pe lista alba. Te rog trimite-ti ID-ul de la Steam in Discord: ",
+            NoPermissions      = "Nu ai suficiente permisiuni",
+            CheckingIdentifier = "Se verifica identificatorii",
+            LoadingUser        = "Se incarca utilizatorul",
+            BannedUser         = "Esti suspendat pana la ",
+            DropReasonBanned   = "Ai fost suspendat de pe server pana la ",
+            Warned             = "Ai fost avertizat",
+            Unwarned           = "Avertismentul ti-a fost retras",
+            TitleOnDead        = "Scrie /calldoctor in chat pentru a solicita ajutorul medicului", -- Ai nevoie de un script pentru aceasta, este doar un exemplu
             SubTitleOnDead     = "Poti fi readus la viata in  %s seconds",
             SecondsMove        = " secunde",
             YouAreCarried      = "Esti carat de o persoana",
             promptLabel        = "Respawn",
             prompt             = "Respawn",
             wayPoint           = "~e~Trebuie sa iti setezi un punct pe harta!",
-			mustBeSeated       = "~e~Trebuie sa fii in scaunul conducatorului!",
-			wagonInFront       = "~e~Trebuie sa fii asezat sau in apropierea unei trasuri pentru a o sterge!",
+            mustBeSeated       = "~e~Trebuie sa fii in scaunul conducatorului!",
+            wagonInFront       = "~e~Trebuie sa fii asezat sau in apropierea unei trasuri pentru a o sterge!",
             cantCarry          = "~e~Nu mai poti cara arme!",
             Hold               = "Asteapta!!",
             Load               = "Te trezesti",
@@ -2197,10 +2448,10 @@ Translation = {
             sit                = "trebuie sa fii asezat",
             PVPNotifyOn        = "PVP Activat ",
             PVPNotifyOff       = "PVP Dezactivat",
-			StopAnimCooldown   = "Nu trimite spam",
-			AddChar            = "Caraterele multiple s-au fost adaugat ",
-			RemoveChar         = "Caraterele multiple a fost inlaturat ",
-			WrongHex           = "Hex-ul nu este in baza de date sau este incorect",
+            StopAnimCooldown   = "Nu trimite spam",
+            AddChar            = "Caraterele multiple s-au fost adaugat ",
+            RemoveChar         = "Caraterele multiple a fost inlaturat ",
+            WrongHex           = "Hex-ul nu este in baza de date sau este incorect",
             myjob              = "Meseria ta este: ~o~",
             mygrade            = " ~q~grade: ~o~",
             charhours          = "orele caracterului tau sunt: ~o~ %d",
@@ -2214,12 +2465,22 @@ Translation = {
             message6           = "Readus la viata!!!",
 			permanentlyBan     = "Esti banat permanent!",
 			PlayerWhenFocus    = "Jucator",
+            CantBanSelf        = "You can't ban yourself",
+            Wepnotexist        = "weapon does not exist or is wrong name",
+            PlayerJoinLeave    = {
+                Leave      = "Player **%s** (Steam: `%s`) has left the server. %s",
+                Reason     = "Reason: ",
+                Leavetitle = "Player Leave",
+                Join       = "Player **%s** (Steam: `%s`) is connecting to the server.",
+                Jointitle  = "Player Join",
+            },
         },
         SuggestChat     = {
-			hideUi = "Comanda VORPcore pentru A ASCUNDE toate interfetele de pe ecran, utila pentru a face capturi de ecran.",
-			toogleUi = "Comanda VORPcore pentru a comuta interfetele VORP de pe ecran",
-			stopAnim = "Comanda VORPcore pentru a folosi daca esti blocat intr-o animatie.",
-			tooglePVP = "Comanda VORPcore pentru a COMUTA pvp-ul pentru caracterul tau.",
-        }
+            hideUi = "Comanda VORPcore pentru A ASCUNDE toate interfetele de pe ecran, utila pentru a face capturi de ecran.",
+            toogleUi = "Comanda VORPcore pentru a comuta interfetele VORP de pe ecran",
+            stopAnim = "Comanda VORPcore pentru a folosi daca esti blocat intr-o animatie.",
+            tooglePVP = "Comanda VORPcore pentru a COMUTA pvp-ul pentru caracterul tau.",
+        },
+
     }
 }

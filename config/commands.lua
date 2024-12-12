@@ -36,16 +36,15 @@ local T = Translation[Lang].Commands
 --==============================
 Commands = {
     giveExp = {
-        webhook = "",
-        custom = "",
-        title = "",
-        ---#end webhook
+        webhook = "", 
+        custom = T.giveExp.custom,
+        title = T.giveExp.title, 
         commandName = "addExp",
-        label = "add experince to players, this will auto level too",
+        label = T.giveExp.label, 
         suggestion = {
-            { name = "id",    help = "player id" },
-            { name = "skill", help = "skill category like Crafting" },
-            { name = "Exp",   help = "amount of experience you wish to give to player" },
+            { name = T.giveExp.name,    help = T.giveExp.help }, 
+            { name = T.giveExp.name1,   help = T.giveExp.help1 }, 
+            { name = T.giveExp.name2,   help = T.giveExp.help2 }, 
         },
         userCheck = true,
         groupAllowed = { "admin" },
@@ -56,12 +55,12 @@ Commands = {
     },
     myExp = {
         webhook = "",
-        custom = "",
-        title = "",
+        custom = T.myExp.custom,
+        title = T.myExp.title,
         commandName = "myExp",
-        label = "check your skill experience",
+        label = T.myExp.label, 
         suggestion = {
-            { name = "skill", help = "skill category like Crafting" },
+            { name = T.myExp.name, help = T.myExp.help }, 
         },
         userCheck = false,
         groupAllowed = {},
