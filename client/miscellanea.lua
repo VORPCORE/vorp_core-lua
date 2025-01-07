@@ -85,9 +85,8 @@ end)
 
 -- show players id when focus on other players
 CreateThread(function()
-    repeat Wait(2000) until LocalPlayer.state.IsInSession
+    repeat Wait(5000) until LocalPlayer.state.IsInSession
     FillUpCores()
-    local name = LocalPlayer.state.Character.FirstName .. " " .. LocalPlayer.state.Character.LastName
 
     while true do
         local sleep = 1000
@@ -96,6 +95,8 @@ CreateThread(function()
             for _, playersid in ipairs(GetActivePlayers()) do
                 if playersid ~= PlayerId() then
                     local ped = GetPlayerPed(playersid)
+                    local id = GetPlayerServerId(playersid)
+                    local name = Player(id).state.Character.FirstName .. " " .. Player(id).state.Character.LastName
                     local promptName = Config.showplayerIDwhenfocus and GetPlayerServerId(playersid) or name
                     SetPedPromptName(ped, T.PlayerWhenFocus .. promptName)
                 end
@@ -107,7 +108,7 @@ end)
 
 -- zoom in when in interiors for better navigation
 CreateThread(function()
-    repeat Wait(2000) until LocalPlayer.state.IsInSession
+    repeat Wait(5000) until LocalPlayer.state.IsInSession
 
     while true do
         Wait(500)
