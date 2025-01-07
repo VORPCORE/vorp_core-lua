@@ -37,7 +37,7 @@ PlayerCommands = {
                 VorpNotification:NotifyRightTip(T.StopAnimCooldown, 4000)
                 return
             end
-            
+
             if hogtied or IsPedCuffed(ped) or IsBeingHogtied or beingGrapple or isFalling or isOnMount or isInAir then
                 return
             end
@@ -64,7 +64,7 @@ PlayerCommands = {
 }
 
 CreateThread(function()
-    repeat Wait(0) until LocalPlayer.state.IsInSession
+    repeat Wait(5000) until LocalPlayer.state.IsInSession
     for _, value in pairs(PlayerCommands) do
         if not value.restricted then
             RegisterCommand(value.command, function()
