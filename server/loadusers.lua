@@ -1,4 +1,4 @@
-_usersLoading = {}
+local _usersLoading = {}
 _users = {}
 _healthData = {}
 
@@ -68,13 +68,13 @@ local function savePlayer(_source, reason, identifier)
     end
 end
 
-local function removePlayer(identifier)
-    if not identifier then
+local function removePlayer(identifier, license)
+    if not identifier or not license then
         return
     end
 
-    if _usersLoading[identifier] == false or _usersLoading[identifier] then
-        _usersLoading[identifier] = nil
+    if _usersLoading[license] then
+        _usersLoading[license] = nil
     end
 
     local userid = Whitelist.Functions.GetUserId(identifier)
@@ -119,8 +119,9 @@ end
 AddEventHandler('playerDropped', function(reason)
     local _source = source
     local identifier = GetPlayerIdentifierByType(_source, 'steam')
+    local license = GetPlayerIdentifierByType(_source, 'license')
     savePlayer(_source, reason, identifier)
-    removePlayer(identifier)
+    removePlayer(identifier, license) 
     if Config.ReportCrashes and Config.API_KEY ~= "" then
         ReportCrash(reason, _source)
     end
@@ -150,6 +151,9 @@ AddEventHandler("playerJoining", function()
         return print("user cant load no identifier steam or license found")
     end
 
+    if _usersLoading[license] then
+        return DropPlayer(_source, "player with this license is already in game")
+    end
     _usersLoading[license] = _source
 
     local user = MySQL.single.await('SELECT `group`, `warnings`, `char` FROM users WHERE identifier = ?', { identifier })
@@ -170,7 +174,6 @@ RegisterNetEvent('vorp:playerSpawn', function()
     if not identifier then
         return print("user cant load no identifier steam found")
     end
-    _usersLoading[identifier] = false
 
     local user = _users[identifier]
     if not user then

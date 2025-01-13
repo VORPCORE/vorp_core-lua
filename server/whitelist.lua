@@ -28,20 +28,6 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
         return CancelEvent()
     end
 
-    if Config.CheckDoubleAccounts then
-        if _users[steamIdentifier] then
-            deferrals.done(T.TwoAccounts)
-            setKickReason(T.TwoAccounts2)
-            return CancelEvent()
-        end
-
-        if _usersLoading[steamIdentifier] then
-            deferrals.done(T.AccountEarlyLoad)
-            setKickReason(T.AccountEarlyLoad2)
-            return CancelEvent()
-        end
-    end
-
     if Config.Whitelist then
         local discordIdentifier = GetDiscordID(_source)
         local isPlayerWhiteListed = CheckWhitelistStatusOnConnect(steamIdentifier)
