@@ -31,8 +31,10 @@ end
 AddEventHandler("playerConnecting", function(playerName, setKickReason, deferrals)
     local _source = source
     deferrals.defer()
+
     local steamIdentifier = GetSteamID(_source)
 
+    Wait(1)
     if not steamIdentifier then
         deferrals.done(T.NoSteam)
         setKickReason(T.NoSteam)
@@ -73,7 +75,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
 
     if Config.EnableWebhookJoinleave then
         local finaltext = string.format(T.PlayerJoinLeave.Join, playerName, steamIdentifier)
-        TriggerEvent("vorp_core:addWebhook",T.JoinTitle, Config.JoinleaveWebhookURL, finaltext)
+        TriggerEvent("vorp_core:addWebhook", T.JoinTitle, Config.JoinleaveWebhookURL, finaltext)
     end
 
     --TODO  this can de added as default in class characters
