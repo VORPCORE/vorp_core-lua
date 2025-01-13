@@ -1,4 +1,4 @@
-Namedinstances = {}
+local Namedinstances = {}
 math.randomseed(os.time())
 
 -- credits to MrDankKetchup
@@ -48,15 +48,7 @@ AddEventHandler("vorp_core:instanceplayers", function(setRoom)
         table.insert(Namedinstances[instanceSource].people, src)
     end
 
-    SetPlayerRoutingBucket(
-        src,
-        instanceSource
-    )
-
+    SetPlayerRoutingBucket(src, instanceSource)
+    --todo: document this
     TriggerClientEvent('vorp_core:instanceChanged', src, instanceSource)
-end)
-
-RegisterServerEvent('vorp_core:server:SetPlayerRoutingBucket', function(bucket)
-    local _source = source
-    SetPlayerRoutingBucket(_source, bucket)
 end)

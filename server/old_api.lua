@@ -63,7 +63,7 @@ end)
 
 
 local function _getUsedCharacter(player)
-    local sid = GetSteamID(player)
+    local sid = GetPlayerIdentifierByType(player, 'steam')
 
     if not sid then
         return nil

@@ -6,6 +6,7 @@ local function SetState(source, key, field, newValue)
         Player(source).state:set(key, state, true)
     end
 end
+
 if not Config.Skills then
     print("Update the config Skills config missing")
     return

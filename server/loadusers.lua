@@ -34,7 +34,7 @@ function LoadUser(source, setKickReason, deferrals, identifier, license)
 end
 
 function GetMaxCharactersAllowed(source)
-    local identifier = GetSteamID(source)
+    local identifier = GetPlayerIdentifierByType(source, 'steam')
     local user = _users[identifier]
     if not user then
         return
@@ -60,7 +60,7 @@ local function savePlayer(_source, reason, identifier)
 
     if Config.EnableWebhookJoinleave then
         local finaltext = string.format(T.PlayerJoinLeave.Leave, steamName, identifier, reason and (T.PlayerJoinLeave.Reason .. reason) or "")
-        TriggerEvent("vorp_core:addWebhook",T.PlayerJoinLeave.Leavetitle, Config.JoinleaveWebhookURL, finaltext)
+        TriggerEvent("vorp_core:addWebhook", T.PlayerJoinLeave.Leavetitle, Config.JoinleaveWebhookURL, finaltext)
     end
 
     if Config.SaveDiscordId then --TODO this can de added as default
@@ -118,19 +118,19 @@ end
 
 AddEventHandler('playerDropped', function(reason)
     local _source = source
-    local identifier = GetSteamID(_source)
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
     savePlayer(_source, reason, identifier)
     removePlayer(identifier)
     if Config.ReportCrashes and Config.API_KEY ~= "" then
         ReportCrash(reason, _source)
     end
-    GlobalState.PlayersInSession = GlobalState.PlayersInSession - 1  
+    GlobalState.PlayersInSession = GlobalState.PlayersInSession - 1
 end)
 
 ---@todo allow to save player when they are still in the server  example of usage is  not have to relog to select another character
 --[[ AddEventHandler("vorp_core:playerRemove", function(source)
     local _source = source
-    local identifier = GetSteamID(_source)
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
     savePlayer(_source, nil, identifier)
 end)
 
@@ -142,14 +142,15 @@ end) ]]
 
 AddEventHandler("playerJoining", function()
     local _source = source
-    local identifier = GetSteamID(_source)
-    local license = GetLicenseID(_source)
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
+    local license = GetPlayerIdentifierByType(_source, 'license')
     Player(_source).state:set('IsInSession', false, true)
 
-    if not identifier then
-        return print("user cant load no identifier steam found make sure steam web API key is set up")
+    if not identifier or not license then
+        return print("user cant load no identifier steam or license found")
     end
-    _usersLoading[identifier] = true
+
+    _usersLoading[license] = _source
 
     local user = MySQL.single.await('SELECT `group`, `warnings`, `char` FROM users WHERE identifier = ?', { identifier })
     if user then
@@ -164,7 +165,7 @@ end)
 
 RegisterNetEvent('vorp:playerSpawn', function()
     local _source = source
-    local identifier = GetSteamID(_source)
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
 
     if not identifier then
         return print("user cant load no identifier steam found")
@@ -194,7 +195,7 @@ end)
 
 RegisterNetEvent('vorp:SaveHealth', function(healthOuter, healthInner)
     local _source = source
-    local identifier = GetSteamID(_source)
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
 
     if healthInner and healthOuter then
         local user = _users[identifier] or nil
@@ -212,7 +213,7 @@ end)
 
 RegisterNetEvent('vorp:SaveStamina', function(staminaOuter, staminaInner)
     local _source = source
-    local identifier = GetSteamID(_source)
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
     if staminaOuter and staminaInner then
         local user = _users[identifier] or nil
         if user then
@@ -227,7 +228,7 @@ end)
 
 RegisterNetEvent('vorp:HealthCached', function(healthOuter, healthInner, staminaOuter, staminaInner)
     local _source = source
-    local identifier = GetSteamID(_source)
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
 
     if not identifier then
         return
@@ -246,7 +247,7 @@ end)
 RegisterNetEvent("vorp:GetValues", function()
     local _source = source
     local healthData = { hOuter = 10, hInner = 10, sOuter = 10, sInner = 10 }
-    local identifier = GetSteamID(_source)
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
     local user = _users[identifier] or nil
 
     -- Only if the player exists in online table...

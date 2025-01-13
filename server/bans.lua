@@ -20,7 +20,7 @@ end)
 
 
 AddEventHandler("vorpwarns:addtodb", function(status, target, source)
-    local sid = GetSteamID(target)
+    local sid = GetPlayerIdentifierByType(target, 'steam')
 
     if sid and _users[sid] then
         local user = _users[sid].GetUser()

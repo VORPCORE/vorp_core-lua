@@ -1,4 +1,5 @@
 GlobalState.PlayersInSession = 0
+
 ---@param source number
 ---@param identifier string
 ---@param group string

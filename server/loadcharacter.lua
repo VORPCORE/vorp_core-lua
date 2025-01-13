@@ -3,9 +3,12 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
     if GetInvokingResource() ~= "monitor" or type(eventData) ~= "table" or type(eventData.id) ~= "number" then
         return
     end
+
     local Player = eventData.id
     if Player ~= -1 then
-        local identifier = GetSteamID(Player)
+        local identifier = GetPlayerIdentifierByType(Player, 'steam')
+        if not identifier or not _users[identifier] then return end
+
         local Character = _users[identifier].GetUsedCharacter()
         if Character and Character.isdead then
             CoreFunctions.NotifyRightTip(Player, Translation[Lang].Notify.healself, 4000)
@@ -18,17 +21,17 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
 end)
 
 RegisterNetEvent('vorp:ImDead', function(isDead)
-    local source = source
-    local identifier = GetSteamID(source)
+    local _source = source
+
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
     if identifier and _users[identifier] then
         _users[identifier].GetUsedCharacter().setDead(isDead)
     end
 end)
 
-RegisterServerEvent('vorp:SaveDate')
-AddEventHandler('vorp:SaveDate', function()
+RegisterServerEvent('vorp:SaveDate', function()
     local _source = source
-    local identifier = GetSteamID(_source)
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
     local Character = _users[identifier].GetUsedCharacter()
     local charid = Character.charIdentifier
     MySQL.update("UPDATE characters SET LastLogin =NOW() WHERE charidentifier =@charidentifier", { charidentifier = charid })

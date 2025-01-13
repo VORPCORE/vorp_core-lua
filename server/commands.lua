@@ -289,7 +289,7 @@ end
 --BANPLAYERS
 function BanPlayers(data)
     local targetsteam = tonumber(data.args[1])
-    local steamid = GetSteamID(data.source)
+    local steamid = GetPlayerIdentifierByType(data.source, 'steam')
     if steamid and steamid == targetsteam then
         return CoreFunctions.NotifyRightTip(data.source, T.CantBanSelf, 4000)
     end
@@ -395,8 +395,8 @@ function SetExp(data)
     local exp = tonumber(data.args[3])
     local Character = CoreFunctions.getUser(target).getUsedCharacter
     Character.setSkills(skillName, exp)
-    SendDiscordLogs(data.config.webhook, data, data.source, skillName,  exp)
-    CoreFunctions.NotifyRightTip(data.source, Translation[Lang].Notify.Exp , 4000)
+    SendDiscordLogs(data.config.webhook, data, data.source, skillName, exp)
+    CoreFunctions.NotifyRightTip(data.source, Translation[Lang].Notify.Exp, 4000)
     CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.GivenExp, exp, skillName), 4000)
 end
 
@@ -411,7 +411,7 @@ function MyExp(data)
     local exp = skills[data.args[1]].Exp
     local lvl = skills[data.args[1]].Level
     local label = skills[data.args[1]].Label
-    local text =  Translation[Lang].Notify.Level
+    local text = Translation[Lang].Notify.Level
     CoreFunctions.NotifyRightTip(_source, text:format(label, lvl, exp, data.args[1]), 4000)
 end
 

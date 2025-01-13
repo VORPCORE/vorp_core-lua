@@ -9,30 +9,17 @@ local function CheckWhitelistStatusOnConnect(identifier)
     return false
 end
 
-function GetSteamID(src)
-    local steamId = GetPlayerIdentifierByType(src, 'steam')
-    return steamId
-end
-
 function GetDiscordID(src)
     local discordId = GetPlayerIdentifierByType(src, 'discord')
     local discordIdentifier = discordId and discordId:sub(9) or ""
     return discordIdentifier
 end
 
-function GetLicenseID(src)
-    local sid = GetPlayerIdentifiers(src)[2] or false
-    if (sid == false or sid:sub(1, 5) ~= "license") then
-        return false
-    end
-    return sid
-end
-
 AddEventHandler("playerConnecting", function(playerName, setKickReason, deferrals)
     local _source = source
     deferrals.defer()
 
-    local steamIdentifier = GetSteamID(_source)
+    local steamIdentifier = GetPlayerIdentifierByType(_source, 'steam')
 
     Wait(1)
     if not steamIdentifier then
@@ -70,8 +57,8 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     end
 
     deferrals.update(T.LoadingUser)
-
-    LoadUser(_source, setKickReason, deferrals, steamIdentifier, GetLicenseID(_source))
+    local license = GetPlayerIdentifierByType(_source, 'license')
+    LoadUser(_source, setKickReason, deferrals, steamIdentifier, license)
 
     if Config.EnableWebhookJoinleave then
         local finaltext = string.format(T.PlayerJoinLeave.Join, playerName, steamIdentifier)
@@ -87,11 +74,9 @@ end)
 AddEventHandler('playerJoining', function()
     local _source = source
 
-    if not Config.Whitelist then
-        return
-    end
+    if not Config.Whitelist then return end
 
-    local identifier = GetSteamID(_source)
+    local identifier = GetPlayerIdentifierByType(_source, 'steam')
     local discordId = GetDiscordID(_source)
     local userid = Whitelist.Functions.GetUserId(identifier)
 

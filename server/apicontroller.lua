@@ -10,8 +10,10 @@ end
 
 CoreFunctions.getUser = function(source)
     if not source then return nil end
-    local sid = GetSteamID(source)
+
+    local sid = GetPlayerIdentifierByType(source, 'steam')
     if not sid or not _users[sid] then return nil end
+
     return _users[sid].GetUser()
 end
 
@@ -151,6 +153,7 @@ CoreFunctions.Player = {
         TriggerClientEvent("vorp_core:Client:OnPlayerRespawn", source, param)
     end,
 }
+
 
 -- WIP
 --[[ CoreFunctions.Command = {
