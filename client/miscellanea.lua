@@ -96,9 +96,14 @@ CreateThread(function()
                 if playersid ~= PlayerId() then
                     local ped = GetPlayerPed(playersid)
                     local id = GetPlayerServerId(playersid)
-                    local name = Player(id).state.Character.FirstName .. " " .. Player(id).state.Character.LastName
-                    local promptName = Config.showplayerIDwhenfocus and GetPlayerServerId(playersid) or name
-                    SetPedPromptName(ped, T.PlayerWhenFocus .. promptName)
+                    local state = Player(id).state
+                    if state and state.Character then
+                        local name = Player(id).state.Character.FirstName .. " " .. Player(id).state.Character.LastName
+                        local promptName = Config.showplayerIDwhenfocus and GetPlayerServerId(playersid) or name
+                        SetPedPromptName(ped, T.PlayerWhenFocus .. promptName)
+                    else
+                        SetPedPromptName(ped, T.PlayerWhenFocus .. GetPlayerServerId(playersid))
+                    end
                 end
             end
         end
