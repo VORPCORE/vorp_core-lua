@@ -272,19 +272,18 @@ function Character(data)
             -- check if we lower level
             if newExp <= 0 and currentLevel > 1 then
                 self.skills[index].Level = currentLevel - 1
-                TriggerClientEvent("vorp_core:Client:OnPlayerLevelUp", self.source, index, self.skills[index].Level)
-                TriggerEvent("vorp_core:Server:OnPlayerLevelUp", self.source, index, self.skills[index].Level)
+                TriggerClientEvent("vorp_core:Client:OnPlayerLevelUp", self.source, index, self.skills[index].Level, currentLevel)
+                TriggerEvent("vorp_core:Server:OnPlayerLevelUp", self.source, index, self.skills[index].Level, currentLevel)
             end
         else
             local nextLevelExp = self.skills[index].NextLevel
             if currentExp >= nextLevelExp then
                 self.skills[index].Level = currentLevel + 1
                 self.skills[index].Exp = 0
-                TriggerClientEvent("vorp_core:Client:OnPlayerLevelUp", self.source, index, self.skills[index].Level)
-                TriggerEvent("vorp_core:Server:OnPlayerLevelUp", self.source, index, self.skills[index].Level)
+                TriggerClientEvent("vorp_core:Client:OnPlayerLevelUp", self.source, index, self.skills[index].Level, currentLevel)
+                TriggerEvent("vorp_core:Server:OnPlayerLevelUp", self.source, index, self.skills[index].Level, currentLevel)
             end
         end
-
     end
 
     self.IsDead = function(value)
