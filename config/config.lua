@@ -150,7 +150,7 @@ Config = {
 
     LoadinScreenTimer     = 10000,   -- Duration of loading screens in milliseconds.
 
-    LoadingScreenPlayerInfo = true,  -- Enables showing player information on the loading screen (Player name, surname and job)
+    LoadingScreenPlayerInfo = false,  -- Enables showing player information on the loading screen (Player name, surname and job)
 
     --=============================================
     --            RESPAWN SETTINGS               --
