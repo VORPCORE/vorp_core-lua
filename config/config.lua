@@ -140,15 +140,17 @@ Config = {
     --            MAP CONFIGURATIONS             --
     --=============================================
 
-    mapTypeOnFoot         = 3,     -- Radar type when on foot. 0 = Off, 1 = Regular, 2 = Expanded, 3 = Simple (compass).
+    mapTypeOnFoot         = 3,       -- Radar type when on foot. 0 = Off, 1 = Regular, 2 = Expanded, 3 = Simple (compass).
 
-    mapTypeOnMount        = 3,     -- Radar type when on horse. Same options as on foot.
+    mapTypeOnMount        = 3,       -- Radar type when on horse. Same options as on foot.
 
-    enableTypeRadar       = false, -- Enables custom radar types if true, otherwise players use game settings.
+    enableTypeRadar       = false,   -- Enables custom radar types if true, otherwise players use game settings.
 
-    Loadinscreen          = true,  -- Enables loading screens during spawn and respawn.
+    Loadinscreen          = true,    -- Enables loading screens during spawn and respawn.
 
-    LoadinScreenTimer     = 10000, -- Duration of loading screens in milliseconds.
+    LoadinScreenTimer     = 10000,   -- Duration of loading screens in milliseconds.
+
+    LoadingScreenPlayerInfo = true,  -- Enables showing player information on the loading screen (Player name, surname and job)
 
     --=============================================
     --            RESPAWN SETTINGS               --

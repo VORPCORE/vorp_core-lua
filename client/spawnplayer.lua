@@ -99,7 +99,11 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
     else
         local PlayerId = PlayerId()
         if Config.Loadinscreen then
-            Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost)
+            if Config.LoadingScreenPlayerInfo then
+                Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, LocalPlayer.state.Character.FirstName .. " " .. LocalPlayer.state.Character.LastName, "Job:" .. " " .. LocalPlayer.state.Character.JobLabel)
+            else
+                Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost)
+            end
             Wait(Config.LoadinScreenTimer)
             Wait(1000)
             ShutdownLoadingScreen()
