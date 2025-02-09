@@ -60,9 +60,9 @@ Config = {
 
     showplayerIDwhenfocus  = true,         -- Shows player Steam name when focusing on them with RMB if set to false.
 
-    DisableAutoAim         = true,         -- Disables auto-aim for controller players if set to false.
+    disableAutoAIM         = true,         -- Disables auto-aim for controller players if set to false.
 
-    DisableCinematicMode   = false,        -- Set false to disable cineamtic mode/camera (While holding "V" key)
+    DisableCinematicMode   = false,        -- Set false to disable cineamtic mode/camera (While holding "V" key) (You should be aware that disabling cinematic mode may break functionality in scripts that use it.)
     --=============================================
     --          MULTICHARACTER SUPPORT           --
     --=============================================
