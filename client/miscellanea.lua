@@ -78,6 +78,10 @@ CreateThread(function()
             Citizen.InvokeNative(0xD66A941F401E7302, 3) -- SET_PLAYER_TARGETING_MODE
             Citizen.InvokeNative(0x19B4F71703902238, 3) -- _SET_PLAYER_IN_VEHICLE_TARGETING_MODE
         end
+
+        if Config.DisableCinematicMode then -- Cinematic Camera / Mode
+            DisableCinematicModeThisFrame()
+        end
     end
 end)
 
