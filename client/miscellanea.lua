@@ -39,10 +39,10 @@ end
 local function FillUpCores()
     local a2 = DataView.ArrayBuffer(12 * 8)
     local a3 = DataView.ArrayBuffer(12 * 8)
-    Citizen.InvokeNative("0xCB5D11F9508A928D", 1, a2:Buffer(), a3:Buffer(), GetHashKey("UPGRADE_HEALTH_TANK_1"), 1084182731, Config.maxHealth, 752097756)
+    Citizen.InvokeNative(0xCB5D11F9508A928D, 1, a2:Buffer(), a3:Buffer(), GetHashKey("UPGRADE_HEALTH_TANK_1"), 1084182731, Config.maxHealth, 752097756)
     local a2 = DataView.ArrayBuffer(12 * 8)
     local a3 = DataView.ArrayBuffer(12 * 8)
-    Citizen.InvokeNative("0xCB5D11F9508A928D", 1, a2:Buffer(), a3:Buffer(), GetHashKey("UPGRADE_STAMINA_TANK_1"), 1084182731, Config.maxStamina, 752097756)
+    Citizen.InvokeNative(0xCB5D11F9508A928D, 1, a2:Buffer(), a3:Buffer(), GetHashKey("UPGRADE_STAMINA_TANK_1"), 1084182731, Config.maxStamina, 752097756)
 end
 
 -- remove event notifications
@@ -68,10 +68,8 @@ CreateThread(function()
         if event > 0 then
             for i = 0, event - 1 do
                 local eventAtIndex = GetEventAtIndex(0, i)
-                for _, value in pairs(Events) do
-                    if eventAtIndex == value then
-                        Citizen.InvokeNative(0x6035E8FBCA32AC5E) -- _UI_FEED_CLEAR_ALL_CHANNELS
-                    end
+                if Events[eventAtIndex] then
+                    Citizen.InvokeNative(0x6035E8FBCA32AC5E) -- _UI_FEED_CLEAR_ALL_CHANNELS
                 end
             end
         end
