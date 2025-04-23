@@ -1,3 +1,21 @@
+<2.9>
+- added config to disable cinematic camera (this can conflict with scripts using it)
+- optimised game events to disable awards 
+- added config to allow players to view name jobg in loading screen (optional)
+- added old level to the onPlayerLevelUp event for skills (see docs)
+- block players from joining with the same game license 
+- refactor getsteam ids using better methods.
+- fix lock pn prompt showing your name in other players 
+- added more translations 
+- added webhook for join and leaves 
+- added skill events on player level up also get triggered if they level down since you have new and old as parameter 
+- added job label to the command /myJob 
+- removed /myHours and all logic to it (it wasnt working no one reported, meaning no one needs it) 
+- added GlobalState to track number of player in session (see docs)
+- added horse ducking (like in RDO) 
+- added cool down to stop anim command 
+- deprecate old events to heal and revive and add new (see docs)
+- fixed other small issues
 <2.8>
 - added new Skills feature for characters and its own getters and setters through character class 
 - new sql column needed to sue this version
