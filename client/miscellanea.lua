@@ -46,10 +46,10 @@ local function FillUpCores()
 end
 
 -- remove event notifications
-local Events = {
-    `EVENT_CHALLENGE_GOAL_COMPLETE`,
-    `EVENT_CHALLENGE_REWARD`,
-    `EVENT_DAILY_CHALLENGE_STREAK_COMPLETED`
+local events = {
+    [`EVENT_CHALLENGE_GOAL_COMPLETE`] = true,
+    [`EVENT_CHALLENGE_REWARD`] = true,
+    [`EVENT_DAILY_CHALLENGE_STREAK_COMPLETED`] = true,
 }
 
 --f6 photo mode doesnt work so just hide the prompt
@@ -68,7 +68,7 @@ CreateThread(function()
         if event > 0 then
             for i = 0, event - 1 do
                 local eventAtIndex = GetEventAtIndex(0, i)
-                if Events[eventAtIndex] then
+                if events[eventAtIndex] then
                     Citizen.InvokeNative(0x6035E8FBCA32AC5E) -- _UI_FEED_CLEAR_ALL_CHANNELS
                 end
             end
