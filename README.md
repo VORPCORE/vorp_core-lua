@@ -6,7 +6,7 @@ VORP Core is a comprehensive Lua-based framework for RedM, designed to enhance s
 
 ## Requirements
 
-- [oxmysql](https://github.com/VORPCORE/oxmysql): A must-have for database operations, ensuring smooth data handling and integration.
+- [oxmysql](https://github.com/overextended/oxmysql/releases): A must-have for database operations, ensuring smooth data handling and integration.
 
 ## Installation Guide
 
@@ -14,12 +14,12 @@ VORP Core is a comprehensive Lua-based framework for RedM, designed to enhance s
    - Download and ensure `oxmysql` is properly set up and configured in your RedM server environment.
 2. **VORP Core Installation:**
    - Rename the downloaded folder to `vorp_core`.
-   - Move the `vorp_core` folder into your server's resources directory, usually found under `\resources\[VORP]\[vorp_essentials]\vorp_core`.
-   - Include `ensure vorp_core` in your server's `resources.cfg` file, placing it at the top of the load order for priority loading.
+   - Move the `vorp_core` folder into your server's resources directory, usually found under `\resources\[VORP]\vorp_core`.
+   - Include `ensure vorp_core` in your server's `resources.cfg/server.cfg` file, placing it at the top of the load order for priority loading.
 
 ## Documentation
 
-- [Acess Documentation](https://vorpcore.github.io/VORP_Documentation/)
+- [Documentation](https://docs.vorp-core.com/introduction)
 - Direct link to the full VORP Core documentation for in-depth details and guides.
 
 ---
