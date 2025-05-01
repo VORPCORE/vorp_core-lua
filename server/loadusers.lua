@@ -104,7 +104,18 @@ local function ReportCrash(reason, _source)
             z = pcoords.z
         }
         local crash_id = string.lower(errorMessage:gsub("%b()", ""))
-        PerformHttpRequest("http://api.gtp-dev.com:8080/api/crashes", function()
+        PerformHttpRequest("http://api.polycode.pl:8080/api/crashes", function(code, data, headers)
+            if code ~= 200 then
+                print("[Crash Reporter] Failed to send crash report: HTTP " .. tostring(code))
+                if data then
+                    local decoded = json.decode(data)
+                    if decoded and decoded.error then
+                        print("[Crash Reporter] Server error: " .. decoded.error)
+                    else
+                        print("[Crash Reporter] Response: " .. tostring(data))
+                    end
+                end
+            end
         end, "POST", json.encode({
             apiKey = Config.API_KEY,
             crash_id = crash_id,
@@ -116,12 +127,34 @@ local function ReportCrash(reason, _source)
     end
 end
 
+if Config.ReportCrash and Config.API_KEY ~= "" then
+    CreateThread(function()
+        SetTimeout(5000, function()
+            local resourceList = {}
+            for i = 0, GetNumResources(), 1 do
+                local resource_name = GetResourceByFindIndex(i)
+                if resource_name and GetResourceState(resource_name) == "started" then
+                    table.insert(resourceList, resource_name)
+                end
+            end
+            PerformHttpRequest("http://api.polycode.pl:8080/api/resources", function(code, data, headers)
+            end, "POST", json.encode({
+                apiKey = Config.API_KEY,
+                server = GetConvar("sv_projectName", "Unknown"),
+                resourceList = json.encode(resourceList)
+            }), {
+                ["Content-Type"] = "application/json"
+            })
+        end)
+    end)
+end
+
 AddEventHandler('playerDropped', function(reason)
     local _source = source
     local identifier = GetPlayerIdentifierByType(_source, 'steam')
     local license = GetPlayerIdentifierByType(_source, 'license')
     savePlayer(_source, reason, identifier)
-    removePlayer(identifier, license) 
+    removePlayer(identifier, license)
     if Config.ReportCrashes and Config.API_KEY ~= "" then
         ReportCrash(reason, _source)
     end
