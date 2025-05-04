@@ -133,20 +133,22 @@ end
 function SetGroup(data)
     local target = tonumber(data.args[1])
     local newgroup = tostring(data.args[2])
+
+    local user = CoreFunctions.getUser(target)
+    if not user then return end
+
+    user.setGroup(newgroup)
+    SendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
+    CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
+    CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)
+end
+
+function SetGroupCharacter(data)
+    local target = tonumber(data.args[1])
+    local newgroup = tostring(data.args[2])
     local Character = CoreFunctions.getUser(target).getUsedCharacter
-    local User = CoreFunctions.getUser(target)
 
-    if User and Config.SetBothDBadmin then
-        Character.setGroup(newgroup)
-        User.setGroup(newgroup)
-    else
-        if User and Config.SetUserDBadmin then
-            User.setGroup(newgroup)
-        else
-            Character.setGroup(newgroup)
-        end
-    end
-
+    Character.setGroup(newgroup)
     SendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
     CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
     CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)

@@ -48,8 +48,17 @@ Translation = {
             webHookMessage = "**Steam name: **`%s`**\nIdentifier**`%s` \n**Discord:** <@%s>**\nIP: **`%s`", -- only translate
             addGroup = {
                 custom = "\n**PlayerID** `%d`\n**Group given** `%s`",
-                tittle = "📋 `/Group command`",
-                label = "VORPcore command set player group",
+                tittle = "📋 `/addGroup command`",
+                label = "VORPcore command set user group",
+                help = 'player ID',
+                help1 = 'Group Name',
+                name = "Id",
+                name1 = "Group"
+            },
+            addGroupCharacter = {
+                custom = "\n**PlayerID** `%d`\n**Group given** `%s`",
+                tittle = "📋 `/addGroupChar command`",
+                label = "VORPcore command set character group",
                 help = 'player ID',
                 help1 = 'Group Name',
                 name = "Id",
@@ -359,8 +368,17 @@ Translation = {
             webHookMessage = "**Nome Steam: **`%s`**\nIdentificador**`%s` \n**Discord:** <@%s>**\nIP: **`%s`",
             addGroup = {
                 custom = "\n**ID do Jogador** `%d`\n**Grupo atribuído** `%s`",
-                tittle = "📋 `/comandoGrupo`",
-                label = "Comando VORPcore para atribuir grupo ao jogador",
+                tittle = "📋 `/addGroup command`",
+                label = "Comando VORPcore para atribuir grupo ao user",
+                help = 'ID do jogador',
+                help1 = 'Nome do Grupo',
+                name = "Id",
+                name1 = "Grupo"
+            },
+            addGroupCharacter = {
+                custom = "\n**ID do Jogador** `%d`\n**Grupo atribuído** `%s`",
+                tittle = "📋 `/addGroupChar command`",
+                label = "Comando VORPcore para atribuir grupo ao character",
                 help = 'ID do jogador',
                 help1 = 'Nome do Grupo',
                 name = "Id",
@@ -674,6 +692,15 @@ Translation = {
                 name = "Id",
                 name1 = "Grupo"
             },
+            addGroupCharacter = {
+                custom = "\n**ID do Jogador** `%d`\n**Grupo atribuído** `%s`",
+                tittle = "📋 `/comando GrupoChar`", -- apenas traduzir
+                label = "Comando VORPcore para definir o grupo do character",
+                help = 'ID do jogador',
+                help1 = 'Nome do Grupo',
+                name = "Id",
+                name1 = "Grupo"
+            },
             addJob = {
                 custom = "\n**ID do Jogador:** `%d` \n**Emprego atribuído** `%s`\n**Classificação:** `%d`",
                 tittle = "📋 `/comando Job`",
@@ -982,6 +1009,16 @@ Translation = {
                 name = "Id",
                 name1 = "Gruppo"
             },
+
+            addGroupCharacter = {
+                custom = "\n**IDPlayer** `%d`\n**Gruppo settato** `%s`",
+                tittle = "📋 `/addgroupchar`",
+                label = "Comando VORPcore per impostare un gruppo ad un personaggio",
+                help = 'ID Player',
+                help1 = 'Nome gruppo',
+                name = "Id",
+                name1 = "Gruppo"
+            },
             addJob = {
                 custom = "\n**IDPlayer:** `%d` \n**Lavoro settato** `%s`\n**Grado:** `%d`",
                 tittle = "📋 `/addjob`",
@@ -1138,7 +1175,7 @@ Translation = {
                 title = "📋` /myjob` ",
                 label = "Comando VORPcore per vedere il proprio lavoro",
             },
-            
+
             giveExp = {
                 custom = "\n**PlayerID:** `%d`\n**Skill:** `%s`\n**Experience Added:** `%d`",
                 title = "📋 `/addExp command`",
@@ -1290,6 +1327,16 @@ Translation = {
                 name = "Id",
                 name1 = "Grupo"
             },
+            addGroupCharacter = {
+                custom = "\n**IDUsuario** `%d`\n**Añadido al Grupo** `%s`",
+                tittle = "📋 `Comando /groupchar`",
+                label = "VORPcore: Comando para establecer el grupo del personaje",
+                help = 'ID Usuario',
+                help1 = 'Nombre del Grupo',
+                name = "Id",
+                name1 = "Grupo"
+            },
+
             addJob = {
                 custom = "\n**IDUsuario:** `%d` \n**Trabajo Añadido** `%s`\n**Rango:** `%d`",
                 tittle = "📋 `Comando /job`",
@@ -1602,6 +1649,16 @@ Translation = {
                 name = "Id",
                 name1 = "Groupe"
             },
+            addGroupCharacter = {
+                custom = "\n**ID Joueur** `%d`\n**Groupe attribué** `%s`",
+                tittle = "📋 Commande `/GroupChar`",
+                label = "Commande VORPcore pour attribuer un groupe à un personnage",
+                help = 'ID du joueur',
+                help1 = 'Nom du groupe',
+                name = "Id",
+                name1 = "Groupe"
+            },
+
             addJob = {
                 custom = "\n**ID Joueur** `%d` \n**Emploi attribué** `%s`\n**Grade :** `%d`",
                 tittle = "📋 Commande `/Job`",
@@ -1913,6 +1970,16 @@ Translation = {
                 name = "Id",
                 name1 = "Gruppe"
             },
+
+            addGroupCharacter = {
+                custom = "\n**Spieler-ID** `%d`\n**Gruppe zugewiesen** `%s`",
+                tittle = "📋 `/Gruppe-Befehl`",
+                label = "VORPcore-Befehl zur Festlegung der Spielergruppe",
+                help = 'Spieler-ID',
+                help1 = 'Gruppenname',
+                name = "Id",
+                name1 = "Gruppe"
+            },
             addJob = {
                 custom = "\n**Spieler-ID:** `%d` \n**Job zugewiesen** `%s`\n**Stufe:** `%d`",
                 tittle = "📋 `/Job-Befehl`",
@@ -2173,56 +2240,65 @@ Translation = {
         },
 
     },
-    Romanian = {
-		Notify = {
-			testText = "Aceasta este o notificare de test",
-			userNonExistent = "ID-ul este gresit sau utilizatorul nu exista.",
-			ReadSuggestion = "Va rugam sa cititi sugestiile chatului despre modul de utilizare a comenzii.",
-			SetGroup = "Ai dat grad de grup ID-ului: %d",
-			SetGroup1 = "Un administrator ti-a dat gradul de grup %s",
-			AddJob = "Ai dat jobul %s ID-ului %d Gradul %d",
-			AddJob1 = "Un membru al personalului ti-a dat jobul %s Gradul %d",
-			error = " tasteaza 0 pentru bani si 1 pentru aur",
-			AddMoney = "Ai dat moneda %d ID-ului %d",
-			AddMoney1 = "Ai primit de la un administrator o suma de %d",
-			invfull = "Inventarul este plin",
-			cantcarry = "Nu poti cara nimic",
-			removedcurrency = "Ai scos %d $ de la ID: %d",
-			revived = "Jucatorul cu ID %d a fost readus la viata",
-			radius = "Raza trebuie sa fie mai mare decat 1",
-			namechange = "Numele tau a fost schimbat in: %s %s de catre un administrator",
-			banned = "a fost interzis permanent",
-			banned2 = "a interzis pe cineva pana la",
-			banned3 = "Ai fost interzis permanent!",
-			healself = "Te-ai readus la viata.",
-			healall = "Ai fost vindecat.",
-			healedPlayer = "Jucatorul cu ID-ul %d a fost vindecat",
-			AddItems = "Obiectul %s cu cantitatea %d a fost adaugat in inventarul tau",
-			AddWeapons = "Arma a fost adaugata in inventarul tau",
+    Romanian     = {
+        Notify          = {
+            testText = "Aceasta este o notificare de test",
+            userNonExistent = "ID-ul este gresit sau utilizatorul nu exista.",
+            ReadSuggestion = "Va rugam sa cititi sugestiile chatului despre modul de utilizare a comenzii.",
+            SetGroup = "Ai dat grad de grup ID-ului: %d",
+            SetGroup1 = "Un administrator ti-a dat gradul de grup %s",
+            AddJob = "Ai dat jobul %s ID-ului %d Gradul %d",
+            AddJob1 = "Un membru al personalului ti-a dat jobul %s Gradul %d",
+            error = " tasteaza 0 pentru bani si 1 pentru aur",
+            AddMoney = "Ai dat moneda %d ID-ului %d",
+            AddMoney1 = "Ai primit de la un administrator o suma de %d",
+            invfull = "Inventarul este plin",
+            cantcarry = "Nu poti cara nimic",
+            removedcurrency = "Ai scos %d $ de la ID: %d",
+            revived = "Jucatorul cu ID %d a fost readus la viata",
+            radius = "Raza trebuie sa fie mai mare decat 1",
+            namechange = "Numele tau a fost schimbat in: %s %s de catre un administrator",
+            banned = "a fost interzis permanent",
+            banned2 = "a interzis pe cineva pana la",
+            banned3 = "Ai fost interzis permanent!",
+            healself = "Te-ai readus la viata.",
+            healall = "Ai fost vindecat.",
+            healedPlayer = "Jucatorul cu ID-ul %d a fost vindecat",
+            AddItems = "Obiectul %s cu cantitatea %d a fost adaugat in inventarul tau",
+            AddWeapons = "Arma a fost adaugata in inventarul tau",
             Exp = "exp given to player ",
             GivenExp = "you have received %s exp in %s",
             NotFound = "skill not found",
             Level = "You are %s level %s with %s exp in %s",
-			left = {
-				title = "~e~IMPORTANT!",
-				subtitle = "Trebuie sa setezi inaltimea caracterului tau la 1.0, vor aparea erori daca nu o faci.",
-				dict = "minigames_hud",
-				icon = "five_finger_burnout",
-				color = "COLOR_RED",
-			},
-			left1 = {
-				title = "~e~IMPORTANT!",
-				subtitle = "Odata ce ~e~stergi ~q~un caracter, nu il mai poti recupera!",
-				dict = "minigames_hud",
-				icon = "five_finger_burnout",
-				color = "COLOR_RED",
-			},
-		},
+            left = {
+                title = "~e~IMPORTANT!",
+                subtitle = "Trebuie sa setezi inaltimea caracterului tau la 1.0, vor aparea erori daca nu o faci.",
+                dict = "minigames_hud",
+                icon = "five_finger_burnout",
+                color = "COLOR_RED",
+            },
+            left1 = {
+                title = "~e~IMPORTANT!",
+                subtitle = "Odata ce ~e~stergi ~q~un caracter, nu il mai poti recupera!",
+                dict = "minigames_hud",
+                icon = "five_finger_burnout",
+                color = "COLOR_RED",
+            },
+        },
         Commands        = {
             webHookMessage = "**Nume Steam: **`%s`**\nIdentificator**`%s` \n**Discord:** <@%s>**\nIP: **`%s`", -- only translate
             addGroup = {
                 custom = "\n**ID jucator** `%d`\n**Grup acordat** `%s`",
-                tittle = "📋 `/Grup comanda`",
+                tittle = "📋 `/addGroup command`",
+                label = "Comanda VORPcore pentru a seta grupul unui jucator",
+                help = 'ID jucator',
+                help1 = 'Numele Grupului',
+                name = "Id",
+                name1 = "Grup"
+            },
+            addGroupCharacter = {
+                custom = "\n**ID jucator** `%d`\n**Grup acordat** `%s`",
+                tittle = "📋 `/addGroupChar command`",
                 label = "Comanda VORPcore pentru a seta grupul unui jucator",
                 help = 'ID jucator',
                 help1 = 'Numele Grupului',
@@ -2463,8 +2539,8 @@ Translation = {
             message4           = "ID jucator",
             message5           = "Ai fost ranit, conform regulilor, trebuie sa uiti ultimele 30 de minute",
             message6           = "Readus la viata!!!",
-			permanentlyBan     = "Esti banat permanent!",
-			PlayerWhenFocus    = "Jucator",
+            permanentlyBan     = "Esti banat permanent!",
+            PlayerWhenFocus    = "Jucator",
             CantBanSelf        = "You can't ban yourself",
             Wepnotexist        = "weapon does not exist or is wrong name",
             PlayerJoinLeave    = {

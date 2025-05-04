@@ -36,15 +36,15 @@ local T = Translation[Lang].Commands
 --==============================
 Commands = {
     giveExp = {
-        webhook = "", 
+        webhook = "",
         custom = T.giveExp.custom,
-        title = T.giveExp.title, 
+        title = T.giveExp.title,
         commandName = "addExp",
-        label = T.giveExp.label, 
+        label = T.giveExp.label,
         suggestion = {
-            { name = T.giveExp.name,    help = T.giveExp.help }, 
-            { name = T.giveExp.name1,   help = T.giveExp.help1 }, 
-            { name = T.giveExp.name2,   help = T.giveExp.help2 }, 
+            { name = T.giveExp.name,  help = T.giveExp.help },
+            { name = T.giveExp.name1, help = T.giveExp.help1 },
+            { name = T.giveExp.name2, help = T.giveExp.help2 },
         },
         userCheck = true,
         groupAllowed = { "admin" },
@@ -58,9 +58,9 @@ Commands = {
         custom = T.myExp.custom,
         title = T.myExp.title,
         commandName = "myExp",
-        label = T.myExp.label, 
+        label = T.myExp.label,
         suggestion = {
-            { name = T.myExp.name, help = T.myExp.help }, 
+            { name = T.myExp.name, help = T.myExp.help },
         },
         userCheck = false,
         groupAllowed = {},
@@ -85,6 +85,24 @@ Commands = {
         aceAllowed = 'vorpcore.setGroup.Command',
         callFunction = function(...)
             SetGroup(...)
+        end
+    },
+    addGroupCharacter = {
+        webhook = "",
+        custom = T.addGroupCharacter.custom,
+        title = T.addGroupCharacter.tittle,
+        ---#end webhook
+        commandName = "addGroupChar",
+        label = T.addGroupCharacter.label,
+        suggestion = {
+            { name = T.addGroupCharacter.name,  help = T.addGroupCharacter.help },
+            { name = T.addGroupCharacter.name1, help = T.addGroupCharacter.help1 },
+        },
+        userCheck = true,
+        groupAllowed = { "admin" },
+        aceAllowed = 'vorpcore.setGroup.Command',
+        callFunction = function(...)
+            SetGroupCharacter(...)
         end
     },
     addJob = {
