@@ -15,6 +15,30 @@ function GetDiscordID(src)
     return discordIdentifier
 end
 
+local function checkBannedUser(setKickReason, deferrals, identifier)
+    local resultList = MySQL.single.await('SELECT banned, banneduntil FROM users WHERE identifier = ?', { identifier })
+
+    if resultList then
+        local user = resultList
+        if user.banned == true then
+            local bannedUntilTime = user.banneduntil
+            local currentTime = tonumber(os.time(os.date("!*t")))
+
+            if bannedUntilTime == 0 then
+                deferrals.done(T.permanentlyBan)
+                setKickReason(T.permanentlyBan)
+            elseif bannedUntilTime > currentTime then
+                local bannedUntil = os.date(Config.DateTimeFormat, bannedUntilTime + Config.TimeZoneDifference * 3600)
+                deferrals.done(T.BannedUser .. bannedUntil .. Config.TimeZone)
+                setKickReason(T.BannedUser .. bannedUntil .. Config.TimeZone)
+            else
+                TriggerEvent("vorpbans:addtodb", false, identifier, 0)
+            end
+        end
+    end
+    deferrals.done()
+end
+
 AddEventHandler("playerConnecting", function(playerName, setKickReason, deferrals)
     local _source = source
     deferrals.defer()
@@ -43,8 +67,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     end
 
     deferrals.update(T.LoadingUser)
-    local license = GetPlayerIdentifierByType(_source, 'license')
-    LoadUser(_source, setKickReason, deferrals, steamIdentifier, license)
+    checkBannedUser(setKickReason, deferrals, steamIdentifier)
 
     if Config.EnableWebhookJoinleave then
         local finaltext = string.format(T.PlayerJoinLeave.Join, playerName, steamIdentifier)

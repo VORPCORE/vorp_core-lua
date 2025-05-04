@@ -4,34 +4,7 @@ _healthData = {}
 
 local T = Translation[Lang].MessageOfSystem
 
-function LoadUser(source, setKickReason, deferrals, identifier, license)
-    local resultList = MySQL.single.await('SELECT banned, banneduntil FROM users WHERE identifier = ?', { identifier })
 
-    if resultList then
-        local user = resultList
-        if user.banned == true then
-            local bannedUntilTime = user.banneduntil
-            local currentTime = tonumber(os.time(os.date("!*t")))
-
-            if bannedUntilTime == 0 then
-                deferrals.done(T.permanentlyBan)
-                setKickReason(T.permanentlyBan)
-            elseif bannedUntilTime > currentTime then
-                local bannedUntil = os.date(Config.DateTimeFormat, bannedUntilTime + Config.TimeZoneDifference * 3600)
-                deferrals.done(T.BannedUser .. bannedUntil .. Config.TimeZone)
-                setKickReason(T.BannedUser .. bannedUntil .. Config.TimeZone)
-            else
-                TriggerEvent("vorpbans:addtodb", false, identifier, 0)
-            end
-        end
-
-        deferrals.done()
-    else
-        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, Config.MaxCharacters })
-        _users[identifier] = User(source, identifier, "user", 0, license, Config.MaxCharacters)
-        deferrals.done()
-    end
-end
 
 function GetMaxCharactersAllowed(source)
     local identifier = GetPlayerIdentifierByType(source, 'steam')
@@ -194,8 +167,11 @@ AddEventHandler("playerJoining", function()
         _users[identifier] = User(_source, identifier, user.group, user.warnings, license, user.char)
         _users[identifier].LoadCharacters()
     else
-        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, "user", 0, 0, 0, Config.MaxCharacters })
-        _users[identifier] = User(_source, identifier, "user", 0, license, Config.MaxCharacters)
+        local count = MySQL.scalar.await('SELECT COUNT(*) FROM users')
+        local defaultGroup = count == 0 and "admin" or "user" -- add admin for the first player usually is always the owner
+
+        MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, defaultGroup, 0, 0, 0, Config.MaxCharacters })
+        _users[identifier] = User(_source, identifier, defaultGroup, 0, license, Config.MaxCharacters)
     end
 end)
 
@@ -302,6 +278,7 @@ RegisterNetEvent("vorp:GetValues", function()
     TriggerClientEvent("vorp:GetHealthFromCore", _source, healthData)
 end)
 
+-- clean up users table if character is deleted
 if Config.DeleteFromUsersTable and not Config.Whitelist then
     MySQL.ready(function()
         local query = "DELETE FROM users WHERE NOT EXISTS (SELECT 1 FROM characters WHERE characters.identifier = users.identifier);"
