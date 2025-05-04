@@ -167,8 +167,8 @@ AddEventHandler("playerJoining", function()
         _users[identifier] = User(_source, identifier, user.group, user.warnings, license, user.char)
         _users[identifier].LoadCharacters()
     else
-        local count = MySQL.scalar.await('SELECT COUNT(*) FROM users')
-        local defaultGroup = count == 0 and "admin" or "user" -- add admin for the first player usually is always the owner
+        local count = MySQL.scalar.await('SELECT COUNT(*) FROM users') or 0
+        local defaultGroup = count == 0 and "admin" or "user"
 
         MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, defaultGroup, 0, 0, 0, Config.MaxCharacters })
         _users[identifier] = User(_source, identifier, defaultGroup, 0, license, Config.MaxCharacters)
