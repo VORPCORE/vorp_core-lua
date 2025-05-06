@@ -95,15 +95,6 @@ createApp({
 	methods: {
 		onMessage(event) {
 			let item = event.data;
-			if (item !== undefined && item.type === "getRes") {
-				fetch(`https://${GetParentResourceName()}/getRes`, {
-					method: 'POST',
-					body: JSON.stringify({
-						width: window.innerWidth,
-						height: window.innerHeight
-					})
-				})
-			}
 			if (item !== undefined && item.type === "ui") {
 				switch (event.data.action) {
 					case "initiate":

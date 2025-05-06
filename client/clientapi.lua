@@ -74,17 +74,10 @@ CoreFunctions.NotifyLeftRank = function(title, subtitle, dict, icon, duration, c
     VorpNotification:NotifyLeftRank(tostring(title), tostring(subtitle), tostring(dict), tostring(icon), tonumber(duration), tostring(color or "COLOR_WHITE"))
 end
 
-local promise = promise.new()
 
 CoreFunctions.Graphics = {
-
     ScreenResolution = function()
-        if ScreenResolution then
-            return ScreenResolution
-        end
-        SendNUIMessage({ type = "getRes" })
-        ScreenResolution = Citizen.Await(promise)
-        return ScreenResolution
+        return GetCurrentScreenResolution()
     end
 }
 
@@ -103,11 +96,6 @@ CoreFunctions.Callback = {
 
 exports('GetCore', function()
     return CoreFunctions
-end)
-
-RegisterNUICallback('getRes', function(args, cb)
-    promise:resolve(args)
-    cb('ok')
 end)
 
 --- use exports
