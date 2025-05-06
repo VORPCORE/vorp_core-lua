@@ -77,7 +77,8 @@ end
 
 CoreFunctions.Graphics = {
     ScreenResolution = function()
-        return GetCurrentScreenResolution()
+        local width, height = GetCurrentScreenResolution()
+        return { width = width, height = height }
     end
 }
 
