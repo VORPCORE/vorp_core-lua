@@ -237,7 +237,12 @@ function Character(data)
     end
 
     self.Xp = function(value)
-        if value then self.xp = value end
+        if value ~= nil then
+            local numValue = tonumber(value)
+            if type(numValue) == "number" then
+                self.xp = numValue
+            end
+        end
         return self.xp
     end
 
@@ -361,13 +366,21 @@ function Character(data)
     end
 
     self.addXp = function(quantity)
-        self.xp = self.xp + quantity
-        self.updateCharUi()
+        local currentXp = self.xp
+        local numQuantity = tonumber(quantity)
+        if type(currentXp) == "number" and type(numQuantity) == "number" then
+            self.xp = currentXp + numQuantity
+            self.updateCharUi()
+        end
     end
 
     self.removeXp = function(quantity)
-        self.Xp = self.xp - quantity
-        self.updateCharUi()
+        local currentXp = self.xp
+        local numQuantity = tonumber(quantity)
+        if type(currentXp) == "number" and type(numQuantity) == "number" then
+            self.xp = currentXp - numQuantity 
+            self.updateCharUi()
+        end
     end
 
     self.saveHealthAndStamina = function(healthOuter, healthInner, staminaOuter, staminaInner)
