@@ -141,7 +141,7 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
         end
     end
 
-    TriggerEvent("vorp:client:PlayerSpawned")
+    TriggerEvent("vorp_core:Client:onPlayerSpawned")
 
     SetTimeout(2000, function()
         DoScreenFadeIn(4000)
