@@ -140,6 +140,9 @@ AddEventHandler('vorp:initCharacter', function(coords, heading, isdead)
             CoreAction.Admin.HealPlayer()
         end
     end
+
+    TriggerEvent("vorp:client:PlayerSpawned")
+
     SetTimeout(2000, function()
         DoScreenFadeIn(4000)
         repeat Wait(500) until IsScreenFadedIn()
