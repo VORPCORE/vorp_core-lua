@@ -1,3 +1,10 @@
+<3.0>
+- moved webhooks to a new config file
+- added new event to catch when player has finished loading (onPlayerSpawned)
+- added logic to set frist player to admin usually is the owner.
+- added command to give group to character (addGroupChar) since there is one for user groups (addGroup)
+- report crash api has changed make this update so you continue to report crashes 
+- fixed award events that wasnt cancelling them 
 <2.9>
 - added config to disable cinematic camera (this can conflict with scripts using it)
 - optimised game events to disable awards 

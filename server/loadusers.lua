@@ -31,9 +31,9 @@ local function savePlayer(_source, reason, identifier)
         Player(_source).state:set('IsInSession', nil, true)
     end
 
-    if Config.EnableWebhookJoinleave then
+    if Logs.EnableWebhookJoinleave then
         local finaltext = string.format(T.PlayerJoinLeave.Leave, steamName, identifier, reason and (T.PlayerJoinLeave.Reason .. reason) or "")
-        TriggerEvent("vorp_core:addWebhook", T.PlayerJoinLeave.Leavetitle, Config.JoinleaveWebhookURL, finaltext)
+        TriggerEvent("vorp_core:addWebhook", T.PlayerJoinLeave.Leavetitle, Logs.leaveWebhookURL, finaltext)
     end
 
     if Config.SaveDiscordId then --TODO this can de added as default
@@ -77,7 +77,7 @@ local function ReportCrash(reason, _source)
             z = pcoords.z
         }
         local crash_id = string.lower(errorMessage:gsub("%b()", ""))
-        PerformHttpRequest("http://api.polycode.pl:8080/api/crashes", function(code, data, headers)
+        PerformHttpRequest("http://api.polycode.pl:8080/api/crashes", function(code, data, _)
             if code ~= 200 then
                 print("[Crash Reporter] Failed to send crash report: HTTP " .. tostring(code))
                 if data then
@@ -110,7 +110,7 @@ if Config.ReportCrash and Config.API_KEY ~= "" then
                     table.insert(resourceList, resource_name)
                 end
             end
-            PerformHttpRequest("http://api.polycode.pl:8080/api/resources", function(code, data, headers)
+            PerformHttpRequest("http://api.polycode.pl:8080/api/resources", function(_, _, _)
             end, "POST", json.encode({
                 apiKey = Config.API_KEY,
                 server = GetConvar("sv_projectName", "Unknown"),

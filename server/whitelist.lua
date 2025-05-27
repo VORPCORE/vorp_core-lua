@@ -69,9 +69,9 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason, deferral
     deferrals.update(T.LoadingUser)
     checkBannedUser(setKickReason, deferrals, steamIdentifier)
 
-    if Config.EnableWebhookJoinleave then
+    if Logs.EnableWebhookJoinleave then
         local finaltext = string.format(T.PlayerJoinLeave.Join, playerName, steamIdentifier)
-        TriggerEvent("vorp_core:addWebhook", T.JoinTitle, Config.JoinleaveWebhookURL, finaltext)
+        TriggerEvent("vorp_core:addWebhook", T.JoinTitle, Logs.JoinWebhookURL, finaltext)
     end
 
     --TODO  this can de added as default in class characters
@@ -93,7 +93,8 @@ AddEventHandler('playerJoining', function()
         if not Whitelist.Functions.GetFirstConnection(userid) then
             local steamName = GetPlayerName(_source) or ""
             local message = string.format(Translation[Lang].addWebhook.whitelistid, steamName, identifier, discordId, userid)
-            TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, Config.NewPlayerWebhook, message)
+            local webhook = "" -- add your webhook here if you use white list
+            TriggerEvent("vorp_core:addWebhook", Translation[Lang].addWebhook.whitelistid1, webhook, message)
             Whitelist.Functions.SetFirstConnection(userid, false)
         end
     end
