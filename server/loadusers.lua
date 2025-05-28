@@ -33,7 +33,7 @@ local function savePlayer(_source, reason, identifier)
 
     if Logs.EnableWebhookJoinleave then
         local finaltext = string.format(T.PlayerJoinLeave.Leave, steamName, identifier, reason and (T.PlayerJoinLeave.Reason .. reason) or "")
-        TriggerEvent("vorp_core:addWebhook", T.PlayerJoinLeave.Leavetitle, Logs.leaveWebhookURL, finaltext)
+        TriggerEvent("vorp_core:addWebhook", T.PlayerJoinLeave.Leavetitle, Logs.LeaveWebhookURL, finaltext)
     end
 
     if Config.SaveDiscordId then --TODO this can de added as default
