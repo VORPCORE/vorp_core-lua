@@ -196,7 +196,7 @@ Commands = {
         },
         userCheck = true,
         groupAllowed = { "admin" },
-        aceAllowed = 'vorpcore.setGroup.Command',
+        aceAllowed = 'vorpcore.addMoney.Command',
         callFunction = function(...)
             AddMoney(...)
         end
