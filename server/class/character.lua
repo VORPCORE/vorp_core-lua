@@ -250,6 +250,11 @@ function Character(data)
             print("Skill not found in config")
             return
         end
+        local levelsData = Config.Skills[index].Levels
+        if not levelsData then
+            print("Skill not found in config")
+            return
+        end
 
         local oldExp = self.skills[index].Exp
         local newExp = oldExp + value
@@ -264,14 +269,9 @@ function Character(data)
         local currentLevel = self.skills[index].Level
         local MaxLevel = self.skills[index].MaxLevel
 
-        -- if its maxed then return
-        if MaxLevel == currentLevel then return end
-
-
         if value < 0 then -- we are deducting exp
             -- check if we lower level
             if newExp < 0 and currentLevel > 1 then
-                local levelsData = Config.Skills[index].Levels
                 local newLevel = currentLevel - 1
                 local expLoss = math.abs(value) -- Gives us how much XP was lost (as value would be negative when deducting XP)
                 local leftoverLoss = expLoss - oldExp
@@ -287,9 +287,10 @@ function Character(data)
                 TriggerEvent("vorp_core:Server:OnPlayerLevelUp", self.source, index, self.skills[index].Level, currentLevel)
             end
         else
+            if MaxLevel == currentLevel then return end
+
             local nextLevelExp = self.skills[index].NextLevel
-            if currentExp >= nextLevelExp then
-                local levelsData = Config.Skills[index].Levels
+            if currentExp > nextLevelExp and MaxLevel ~= currentLevel then
                 local newLevel = currentLevel + 1
 
                 self.skills[index].Level = newLevel
