@@ -217,6 +217,8 @@ Config = {
     --===========================================
     --    DISCORD RICH PRESENCE INTEGRATION    --
     --===========================================
+    updateThreshold         = 60000,                      -- Rich Presence update threshold. (60000 = 1 Minute)
+
     appid                   = nil,                        -- Discord Application ID. Replace this with your own application's ID.
 
     biglogo                 = "LOGOname",                 -- Name of the image asset to use for the large icon in the rich presence.
@@ -228,6 +230,8 @@ Config = {
     smalllogodesc           = "Join us for a good time ", -- Description displayed when hovering over the small icon.
 
     richpresencebutton      = "Join Discord",             -- Text displayed on the rich presence button.
+
+    maxclient               = 48,                         -- Shows the server player capacity/max client.
 
     shownameandid           = true,                       -- Whether to display the player's Steam name and ID.
 

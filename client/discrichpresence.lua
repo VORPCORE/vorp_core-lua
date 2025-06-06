@@ -1,5 +1,5 @@
 CreateThread(function()
-    local maxplayers = GetConvarInt('sv_maxClients', 48)
+    local maxplayers = GetConvarInt('sv_maxClients', Config.maxclient)
     SetDiscordAppId(Config.appid)
     SetDiscordRichPresenceAsset(Config.biglogo)
     SetDiscordRichPresenceAssetText(Config.biglogodesc)
@@ -20,6 +20,6 @@ CreateThread(function()
         else
             SetRichPresence(playercount .. "/" .. maxplayers)
         end
-        Wait(60000) -- 1 min update
+        Wait(Config.updateThreshold) -- 60000 = 1 Min update
     end
 end)
