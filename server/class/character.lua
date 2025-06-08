@@ -250,12 +250,8 @@ function Character(data)
             print("Skill not found in config")
             return
         end
-        local levelsData = Config.Skills[index].Levels
-        if not levelsData then
-            print("Skill not found in config")
-            return
-        end
 
+        local levelsData = Config.Skills[index].Levels
         local oldExp = self.skills[index].Exp
         local newExp = oldExp + value
 
@@ -273,6 +269,11 @@ function Character(data)
             -- check if we lower level
             if newExp < 0 and currentLevel > 1 then
                 local newLevel = currentLevel - 1
+                if not newLevel then
+                    print("New level could not be found")
+                    return
+                end
+
                 local expLoss = math.abs(value) -- Gives us how much XP was lost (as value would be negative when deducting XP)
                 local leftoverLoss = expLoss - oldExp
                 local prevLevelCap = levelsData[newLevel].NextLevel
@@ -290,8 +291,12 @@ function Character(data)
             if MaxLevel == currentLevel then return end
 
             local nextLevelExp = self.skills[index].NextLevel
-            if currentExp > nextLevelExp and MaxLevel ~= currentLevel then
+            if currentExp > nextLevelExp then
                 local newLevel = currentLevel + 1
+                if not newLevel then
+                    print("New level could not be found")
+                    return
+                end
 
                 self.skills[index].Level = newLevel
                 self.skills[index].Exp = currentExp - nextLevelExp -- (Rollover the xp eg 102/100 will mean 2 xp into next level)
