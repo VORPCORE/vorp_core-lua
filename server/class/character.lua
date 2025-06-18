@@ -251,6 +251,7 @@ function Character(data)
             return
         end
 
+        local levelsData = Config.Skills[index].Levels
         local oldExp = self.skills[index].Exp
         local newExp = oldExp + value
 
@@ -264,22 +265,44 @@ function Character(data)
         local currentLevel = self.skills[index].Level
         local MaxLevel = self.skills[index].MaxLevel
 
-        -- if its maxed then return
-        if MaxLevel == currentLevel then return end
-
-
         if value < 0 then -- we are deducting exp
             -- check if we lower level
-            if newExp <= 0 and currentLevel > 1 then
-                self.skills[index].Level = currentLevel - 1
+            if newExp < 0 and currentLevel > 1 then
+                local newLevel = currentLevel - 1
+                if not newLevel then
+                    print("New level could not be found")
+                    return
+                end
+
+                local expLoss = math.abs(value) -- Gives us how much XP was lost (as value would be negative when deducting XP)
+                local leftoverLoss = expLoss - oldExp
+                local prevLevelCap = levelsData[newLevel].NextLevel
+                local newExpInPrevLevel = prevLevelCap - leftoverLoss -- (Rollover the xp into previous level cap)
+
+                self.skills[index].Level = newLevel
+                self.skills[index].Exp = newExpInPrevLevel
+                self.skills[index].Label = levelsData[newLevel].Label
+                self.skills[index].NextLevel = levelsData[newLevel].NextLevel
+
                 TriggerClientEvent("vorp_core:Client:OnPlayerLevelUp", self.source, index, self.skills[index].Level, currentLevel)
                 TriggerEvent("vorp_core:Server:OnPlayerLevelUp", self.source, index, self.skills[index].Level, currentLevel)
             end
         else
+            if MaxLevel == currentLevel then return end
+
             local nextLevelExp = self.skills[index].NextLevel
-            if currentExp >= nextLevelExp then
-                self.skills[index].Level = currentLevel + 1
-                self.skills[index].Exp = 0
+            if currentExp > nextLevelExp then
+                local newLevel = currentLevel + 1
+                if not newLevel then
+                    print("New level could not be found")
+                    return
+                end
+
+                self.skills[index].Level = newLevel
+                self.skills[index].Exp = currentExp - nextLevelExp -- (Rollover the xp eg 102/100 will mean 2 xp into next level)
+                self.skills[index].Label = levelsData[newLevel].Label
+                self.skills[index].NextLevel = levelsData[newLevel].NextLevel
+                
                 TriggerClientEvent("vorp_core:Client:OnPlayerLevelUp", self.source, index, self.skills[index].Level, currentLevel)
                 TriggerEvent("vorp_core:Server:OnPlayerLevelUp", self.source, index, self.skills[index].Level, currentLevel)
             end
