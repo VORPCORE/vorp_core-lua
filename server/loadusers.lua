@@ -134,7 +134,7 @@ AddEventHandler('playerDropped', function(reason)
     GlobalState.PlayersInSession = GlobalState.PlayersInSession - 1
 end)
 
----@todo allow to save player when they are still in the server  example of usage is  not have to relog to select another character
+-- todo: allow to save player when they are still in the server  example of usage is  not have to relog to select another character
 --[[ AddEventHandler("vorp_core:playerRemove", function(source)
     local _source = source
     local identifier = GetPlayerIdentifierByType(_source, 'steam')
@@ -149,8 +149,8 @@ end) ]]
 
 AddEventHandler("playerJoining", function()
     local _source = source
-    local identifier = GetPlayerIdentifierByType(_source, 'steam')
-    local license = GetPlayerIdentifierByType(_source, 'license')
+    local identifier <const> = GetPlayerIdentifierByType(_source, 'steam')
+    local license <const> = GetPlayerIdentifierByType(_source, 'license')
     Player(_source).state:set('IsInSession', false, true)
 
     if not identifier or not license then
@@ -162,13 +162,13 @@ AddEventHandler("playerJoining", function()
     end
     _usersLoading[license] = _source
 
-    local user = MySQL.single.await('SELECT `group`, `warnings`, `char` FROM users WHERE identifier = ?', { identifier })
+    local user <const> = MySQL.single.await('SELECT `group`, `warnings`, `char` FROM users WHERE identifier = ?', { identifier })
     if user then
         _users[identifier] = User(_source, identifier, user.group, user.warnings, license, user.char)
         _users[identifier].LoadCharacters()
     else
-        local count = MySQL.scalar.await('SELECT COUNT(*) FROM users') or 0
-        local defaultGroup = count == 0 and "admin" or "user"
+        local count <const> = MySQL.scalar.await('SELECT COUNT(*) FROM users') or 0
+        local defaultGroup <const> = count == 0 and "admin" or Config.initGroup
 
         MySQL.insert("INSERT INTO users VALUES(?,?,?,?,?,?)", { identifier, defaultGroup, 0, 0, 0, Config.MaxCharacters })
         _users[identifier] = User(_source, identifier, defaultGroup, 0, license, Config.MaxCharacters)
@@ -176,32 +176,32 @@ AddEventHandler("playerJoining", function()
 end)
 
 
+-- incremental room so its never the same
+local roomId = 0
 RegisterNetEvent('vorp:playerSpawn', function()
     local _source = source
-    local identifier = GetPlayerIdentifierByType(_source, 'steam')
 
+    local identifier <const> = GetPlayerIdentifierByType(_source, 'steam')
     if not identifier then
-        return print("user cant load no identifier steam found")
+        return print("user cant load no identifier steam found", identifier)
     end
 
-    local user = _users[identifier]
+    local user <const> = _users[identifier]
     if not user then
-        return
+        return print("user not found with identifier", identifier)
     end
+
+    roomId = roomId + 1
+    TriggerEvent('vorp_core:instanceplayers', roomId)
 
     user.Source(_source)
-
-    local numCharacters = user.Numofcharacters()
-
+    local numCharacters <const> = user.Numofcharacters()
     if numCharacters <= 0 then
         return TriggerEvent("vorp_CreateNewCharacter", _source)
-    else
-        if tonumber(user._charperm) > 1 then
-            return TriggerEvent("vorp_character:server:GoToSelectionMenu", _source)
-        else
-            return TriggerEvent("vorp_character:server:SpawnUniqueCharacter", _source)
-        end
     end
+
+    local eventName <const> = tonumber(user._charperm) > 1 and "GoToSelectionMenu" or "SpawnUniqueCharacter"
+    TriggerEvent(("vorp_character:server:%s"):format(eventName), _source)
 end)
 
 
