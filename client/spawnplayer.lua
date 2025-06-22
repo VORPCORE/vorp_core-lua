@@ -49,24 +49,28 @@ end
 -- PLAYERSPAWN
 AddEventHandler('playerSpawned', function()
     DoScreenFadeOut(0)
-    local random = GetRandomIntInRange(0, 10000) + PlayerId()
-    TriggerServerEvent('vorp_core:instanceplayers', random)
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost) --_DISPLAY_LOADING_SCREENS
     DisplayRadar(false)
     SetMinimapHideFow(false)
-    Wait(2000)
+    SetEntityCanBeDamaged(PlayerPedId(), false)
     TriggerServerEvent("vorp:playerSpawn")
+
+    Wait(2000)
     SetTimeout(7000, function()
         ShutdownLoadingScreen()
     end)
-    SetEntityCanBeDamaged(PlayerPedId(), false)
+
+    local isInSession = false
     CreateThread(function()
-        while not LocalPlayer.state.IsInSession do
+        while not isInSession do
             Wait(0)
             DisableControlAction(0, `INPUT_MP_TEXT_CHAT_ALL`, true)
             DisableControlAction(0, `INPUT_QUICK_USE_ITEM`, true)
         end
     end)
+
+    repeat Wait(1000) until LocalPlayer.state.IsInSession
+    isInSession = true
 end)
 
 --EVENTS character Innitialize
