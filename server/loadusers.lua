@@ -192,7 +192,7 @@ RegisterNetEvent('vorp:playerSpawn', function()
     end
 
     roomId = roomId + 1
-    TriggerEvent('vorp_core:instanceplayers', roomId)
+    SetPlayerRoutingBucket(_source, roomId)
 
     user.Source(_source)
     local numCharacters <const> = user.Numofcharacters()
