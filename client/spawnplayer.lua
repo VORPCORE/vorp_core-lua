@@ -48,6 +48,7 @@ end
 
 -- PLAYERSPAWN
 AddEventHandler('playerSpawned', function()
+    exports.spawnmanager:setAutoSpawn(false)
     DoScreenFadeOut(0)
     Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, T.Hold, T.Load, T.Almost) --_DISPLAY_LOADING_SCREENS
     DisplayRadar(false)

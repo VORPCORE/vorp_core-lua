@@ -234,7 +234,6 @@ CreateThread(function()
                 PressKey = false
                 UiPromptSetEnabled(prompt, true)
                 NetworkSetInSpectatorMode(false, PlayerPedId())
-                exports.spawnmanager.setAutoSpawn(false)
                 TriggerServerEvent("vorp:ImDead", true) -- internal event
                 local getKillerPed = GetPedSourceOfDeath(PlayerPedId())
                 local killerServerId = 0
