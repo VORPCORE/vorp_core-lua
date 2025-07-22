@@ -20,14 +20,19 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
     end
 end)
 
+
 RegisterNetEvent('vorp:ImDead', function(isDead)
     local _source = source
 
     local identifier = GetPlayerIdentifierByType(_source, 'steam')
     if identifier and _users[identifier] then
-        _users[identifier].GetUsedCharacter().setDead(isDead)
+        local Character = _users[identifier].GetUsedCharacter()
+        if Character then
+            Character.setDead(isDead)
+        end
     end
 end)
+
 
 RegisterServerEvent('vorp:SaveDate', function()
     local _source = source
