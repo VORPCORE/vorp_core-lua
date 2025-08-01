@@ -59,24 +59,21 @@ AddEventHandler('vorp_core:Server:OnPlayerDeath', function(killerServerId)
         return
     end
 
-    local Character = _users[identifier].GetUsedCharacter()
-    if Character then
-        local title = Translation[Lang].addWebhook.deathLogTitle
-        local webhook = Logs.DeathWebhookURL
-        local description = Translation[Lang].addWebhook.playerDied .. "\n" 
-        .. Translation[Lang].addWebhook.victimSteamName .. victimSteamName .. "\n" 
-        .. Translation[Lang].addWebhook.victimSteamId .. identifier .. "\n" 
-        .. Translation[Lang].addWebhook.victimServerId .. _source .. "\n" 
-        
-        if killerServerId ~= 0 then
-            local killerIdentifier = GetPlayerIdentifierByType(killerServerId, 'steam')
-            local killerSteamName = GetPlayerName(killerServerId)
-            description = description 
-            .. Translation[Lang].addWebhook.killerSteamName .. killerSteamName .. "\n" 
-            .. Translation[Lang].addWebhook.killerSteamId .. killerIdentifier .. "\n" 
-            .. Translation[Lang].addWebhook.killerServerId .. killerServerId
-        end
+    local title = Translation[Lang].addWebhook.deathLogTitle
+    local webhook = Logs.DeathWebhookURL
+    local description = Translation[Lang].addWebhook.playerDied .. "\n"
+        .. Translation[Lang].addWebhook.victimSteamName .. victimSteamName .. "\n"
+        .. Translation[Lang].addWebhook.victimSteamId .. identifier .. "\n"
+        .. Translation[Lang].addWebhook.victimServerId .. _source .. "\n"
 
-        CoreFunctions.AddWebhook(title, webhook, description)
+    if killerServerId ~= 0 then
+        local killerIdentifier = GetPlayerIdentifierByType(killerServerId, 'steam')
+        local killerSteamName = GetPlayerName(killerServerId)
+        description = description
+            .. Translation[Lang].addWebhook.killerSteamName .. killerSteamName .. "\n"
+            .. Translation[Lang].addWebhook.killerSteamId .. killerIdentifier .. "\n"
+            .. Translation[Lang].addWebhook.killerServerId .. killerServerId
     end
+
+    CoreFunctions.AddWebhook(title, webhook, description)
 end)
