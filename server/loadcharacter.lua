@@ -61,7 +61,7 @@ AddEventHandler('vorp_core:Server:OnPlayerDeath', function(killerServerId)
 
     local title = Translation[Lang].addWebhook.deathLogTitle
     local webhook = Logs.DeathWebhookURL
-    local description = Translation[Lang].addWebhook.playerDied .. "\n"
+    local description = Translation[Lang].addWebhook.PlayerDied .. "\n"
         .. Translation[Lang].addWebhook.victimSteamName .. victimSteamName .. "\n"
         .. Translation[Lang].addWebhook.victimSteamId .. identifier .. "\n"
         .. Translation[Lang].addWebhook.victimServerId .. _source .. "\n"
