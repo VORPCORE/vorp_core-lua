@@ -1,4 +1,28 @@
-local ScreenResolution = nil
+
+---@class CORE_CLIENT
+---@field public instancePlayers fun(set:boolean)
+------------------------------- should not use these, use the lib instead --------------------------------------------------------------
+---@field public AddWebhook fun(title:string, webhook:string, description:string, color:string, name:string, logo:string?, footerlogo:string?, avatar:string?)
+---@field public NotifyTip fun(text:string, duration:number)
+---@field public NotifyLeft fun(title:string, subtitle:string, dict:string, icon:string, duration:number, color:string)
+---@field public NotifyRightTip fun(text:string, duration:number)
+---@field public NotifyObjective fun(text:string, duration:number)
+---@field public NotifyTop fun(text:string, location:string, duration:number)
+---@field public NotifySimpleTop fun(text:string, subtitle:string, duration:number)
+---@field public NotifyAvanced fun(text:string, dict:string, icon:string, text_color:string, duration:number, quality:number, showquality:boolean)
+---@field public NotifyBasicTop fun(text:string, duration:number)
+---@field public NotifyCenter fun(text:string, duration:number, text_color:string)
+---@field public NotifyBottomRight fun(text:string, duration:number)
+---@field public NotifyFail fun(text:string, subtitle:string, duration:number)
+---@field public NotifyDead fun(title:string, audioRef:string, audioName:string, duration:number)
+---@field public NotifyUpdate fun(title:string, subtitle:string, duration:number)
+---@field public NotifyWarning fun(title:string, msg:string, audioRef:string, audioName:string, duration:number)
+---@field public NotifyLeftRank fun(title:string, subtitle:string, dict:string, icon:string, duration:number, color:string)
+-----------------------------------------------------------------------------------------------------------------------------------------
+---@field public Graphics.ScreenResolution fun():{width:number, height:number}
+---@field public Callback.Register fun(name:string, callback:function)
+---@field public Callback.TriggerAsync fun(name:string, callback:function, ...:any?)
+---@field public Callback.TriggerAwait fun(name:string, ...:any?):any
 local CoreFunctions = {}
 
 CoreFunctions.RpcCall = function(name, callback, ...)
@@ -76,6 +100,7 @@ end
 
 
 CoreFunctions.Graphics = {
+    ---@return {width:number, height:number}
     ScreenResolution = function()
         local width, height = GetCurrentScreenResolution()
         return { width = width, height = height }
@@ -83,13 +108,23 @@ CoreFunctions.Graphics = {
 }
 
 CoreFunctions.Callback = {
-
+    --- register a client callback to be triggered by the server
+    ---@param name string
+    ---@param callback function
     Register = function(name, callback)
         ClientRPC.Callback.Register(name, callback)
     end,
+    --- asynchronous callback
+    ---@param name string callback name
+    ---@param callback function callback function
+    ---@param ... any callback arguments if any
     TriggerAsync = function(name, callback, ...)
         ClientRPC.Callback.TriggerAsync(name, callback, ...)
     end,
+    --- synchronous callback
+    ---@param name string callback name
+    ---@param ... any callback arguments if any
+    ---@return any callback return value if more than one send as a table
     TriggerAwait = function(name, ...)
         return ClientRPC.Callback.TriggerAwait(name, ...)
     end

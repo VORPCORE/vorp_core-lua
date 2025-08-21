@@ -1,24 +1,14 @@
--------------------------------------------------------------------------------------------------
---------------------------------------- VORP ADMIN COMMANDS -------------------------------------
--------------------------------------------------------------------------------------------------
+local T<const> = Translation[Lang].MessageOfSystem
 
-local T = Translation[Lang].MessageOfSystem
-
-local function CheckUser(target)
-    if not CoreFunctions.getUser(tonumber(target)) then
-        return false
-    end
-    return true
+local function checkUser(target)
+    return CoreFunctions.getUser(tonumber(target))
 end
 
-local function CheckArgs(args, requiered)
-    if #args == requiered then
-        return true
-    end
-    return false
+local function checkArgs(args, requiered)
+    return #args == requiered
 end
 
-local function CheckAce(ace, source)
+local function checkAce(ace, source)
     if not ace then
         return true
     end
@@ -38,7 +28,7 @@ local function CheckAce(ace, source)
     return false
 end
 
-local function LogMessage(_source)
+local function logMessage(_source)
     local Identifier = GetPlayerIdentifier(_source, 1) -- steam id
     local getDiscord = GetPlayerIdentifierByType(_source, 'discord')
     local discordId = getDiscord and string.sub(getDiscord, 9) or "No discord found"
@@ -50,7 +40,7 @@ local function LogMessage(_source)
     return message
 end
 
-local function CheckGroupAllowed(Table, Group)
+local function checkGroupAllowed(Table, Group)
     if not next(Table) then
         return true
     end
@@ -63,7 +53,7 @@ local function CheckGroupAllowed(Table, Group)
     return false
 end
 
-local function CheckJobAllowed(Table, Job)
+local function checkJobAllowed(Table, Job)
     if not Table or not next(Table) then
         return true
     end
@@ -77,7 +67,7 @@ local function CheckJobAllowed(Table, Job)
     return false
 end
 
-function RegisterCommands(value, key)
+local function registerCommands(value, key)
     RegisterCommand(value.commandName, function(source, args, rawCommand)
         local _source = source
 
@@ -87,21 +77,21 @@ function RegisterCommands(value, key)
 
         local group = CoreFunctions.getUser(_source).getGroup -- admin group
 
-        if not CheckAce(value.aceAllowed, _source) and not CheckGroupAllowed(value.groupAllowed, group) then
+        if not checkAce(value.aceAllowed, _source) and not checkGroupAllowed(value.groupAllowed, group) then
             return CoreFunctions.NotifyObjective(_source, T.NoPermissions, 4000)
         end
 
         if value.userCheck then
-            if not CheckUser(args[1]) then
+            if not checkUser(args[1]) then
                 return CoreFunctions.NotifyObjective(_source, Translation[Lang].Notify.userNonExistent, 4000)
             end
         end
 
-        if value.jobAllow and not CheckJobAllowed(value.jobAllow, _source) then
+        if value.jobAllow and not checkJobAllowed(value.jobAllow, _source) then
             return CoreFunctions.NotifyObjective(_source, T.NoPermissions, 4000)
         end
 
-        if not CheckArgs(args, (key == "addJob" and #args == 5) and #value.suggestion + 1 or #value.suggestion) then
+        if not checkArgs(args, (key == "addJob" and #args == 5) and #value.suggestion + 1 or #value.suggestion) then
             return CoreFunctions.NotifyObjective(_source, Translation[Lang].Notify.ReadSuggestion, 4000)
         end
 
@@ -113,15 +103,15 @@ end
 -- cor main commands
 CreateThread(function()
     for key, value in pairs(Commands) do
-        RegisterCommands(value, key)
+        registerCommands(value, key)
     end
 end)
 
 --====================================== FUNCTIONS =========================================================--
 
-local function SendDiscordLogs(link, data, arg1, arg2, arg3)
+local function sendDiscordLogs(link, data, arg1, arg2, arg3)
     if link then
-        local message = LogMessage(data.source)
+        local message = logMessage(data.source)
         local custom = data.config.custom
         local finaltext = message .. string.format(custom, arg1, arg2, arg3)
         local title = data.config.title
@@ -138,7 +128,7 @@ function SetGroup(data)
     if not user then return end
 
     user.setGroup(newgroup)
-    SendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
+    sendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
     CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
     CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)
 end
@@ -149,7 +139,7 @@ function SetGroupCharacter(data)
     local Character = CoreFunctions.getUser(target).getUsedCharacter
 
     Character.setGroup(newgroup)
-    SendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
+    sendDiscordLogs(data.config.webhook, data, data.source, newgroup, "")
     CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.SetGroup, target), 4000)
     CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.SetGroup1, newgroup), 4000)
 end
@@ -165,7 +155,7 @@ function AddJob(data)
     Character.setJob(newjob)
     Character.setJobGrade(jobgrade)
     Character.setJobLabel(joblabel)
-    SendDiscordLogs(data.config.webhook, data, data.source, newjob, jobgrade)
+    sendDiscordLogs(data.config.webhook, data, data.source, newjob, jobgrade)
     CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.AddJob, newjob, target, jobgrade), 4000)
     CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddJob1, newjob, jobgrade), 4000)
 end
@@ -183,7 +173,7 @@ function AddMoney(data)
 
     Character.addCurrency(montype, quantity)
 
-    SendDiscordLogs(data.config.webhook, data, data.source, montype, quantity)
+    sendDiscordLogs(data.config.webhook, data, data.source, montype, quantity)
     CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.AddMoney, quantity, target), 4000)
     CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddMoney1, quantity), 4000)
 end
@@ -212,7 +202,7 @@ function AddItems(data)
     end
 
     VORPInv:addItem(target, item, count)
-    SendDiscordLogs(data.config.webhook, data, data.source, item, count)
+    sendDiscordLogs(data.config.webhook, data, data.source, item, count)
     CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.AddItems, item, count), 4000)
 end
 
@@ -229,7 +219,7 @@ function AddWeapons(data)
     if not result then
         return CoreFunctions.NotifyRightTip(target, T.Wepnotexist, 4000)
     end
-    SendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
+    sendDiscordLogs(data.config.webhook, data, data.source, weaponHash, "")
     CoreFunctions.NotifyRightTip(target, Translation[Lang].Notify.AddWeapons, 4000)
 end
 
@@ -245,7 +235,7 @@ function RemmoveCurrency(data)
     local Character = CoreFunctions.getUser(target).getUsedCharacter
 
     Character.removeCurrency(montype, quantity)
-    SendDiscordLogs(data.config.webhook, data, data.source, montype, quantity)
+    sendDiscordLogs(data.config.webhook, data, data.source, montype, quantity)
     CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.removedcurrency, quantity, target), 4000)
 end
 
@@ -253,20 +243,20 @@ end
 function RevivePlayer(data)
     local target = tonumber(data.args[1])
     CoreFunctions.Player.Revive(target)
-    SendDiscordLogs(data.config.webhook, data, target, "", "")
+    sendDiscordLogs(data.config.webhook, data, target, "", "")
     CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.revived, target), 4000)
 end
 
 --TELPORTPLAYER
 function TeleporPlayer(data)
     TriggerClientEvent('vorp:teleportWayPoint', data.source)
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    sendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --DELETEHORSES
 function DeleteHorse(data)
     TriggerClientEvent("vorp:delHorse", data.source)
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    sendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --DELETEWAGONS
@@ -277,14 +267,14 @@ function DeleteWagons(data)
         return CoreFunctions.NotifyRightTip(data.source, Translation[Lang].Notify.radius, 4000)
     end
     TriggerClientEvent("vorp:deleteVehicle", data.source, radius)
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    sendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --HEALPLAYERS
 function HealPlayers(data)
     local target = tonumber(data.args[1])
     CoreFunctions.Player.Heal(target)
-    SendDiscordLogs(data.config.webhook, data, target, "", "")
+    sendDiscordLogs(data.config.webhook, data, target, "", "")
     CoreFunctions.NotifyRightTip(data.source, string.format(Translation[Lang].Notify.healedPlayer, target), 4000)
 end
 
@@ -314,21 +304,21 @@ function BanPlayers(data)
     TriggerEvent("vorpbans:addtodb", true, targetsteam, banTime)
 
     local text = banTime == 0 and Translation[Lang].Notify.banned or (Translation[Lang].Notify.banned2 .. os.date(Config.DateTimeFormat, datetime + Config.TimeZoneDifference * 3600) .. Config.TimeZone)
-    SendDiscordLogs(data.config.webhook, data, data.source, text, "")
+    sendDiscordLogs(data.config.webhook, data, data.source, text, "")
 end
 
 --UNBANPLAYERS
 function UnBanPlayers(data)
     local targetsteam = tonumber(data.args[1])
     TriggerEvent("vorpbans:addtodb", false, targetsteam, 0)
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    sendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --WHITELISTPLAYERS
 function AddPlayerToWhitelist(data)
     local target = tostring(data.args[1])
     Whitelist.Functions.InsertWhitelistedUser({ identifier = target, status = true })
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    sendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --UNWHITELISTPLAYERS
@@ -336,7 +326,7 @@ function RemovePlayerFromWhitelist(data)
     local target = tostring(data.args[1])
     local userid = Whitelist.Functions.GetUserId(target)
     Whitelist.Functions.WhitelistUser(userid, false)
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    sendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --UNWARNPLAYERS
@@ -344,7 +334,7 @@ function UnWarnPlayer(data)
     local source = tonumber(data.source)
     local target = tonumber(data.args[1])
     TriggerEvent("vorpwarns:addtodb", false, target, source)
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    sendDiscordLogs(data.config.webhook, data, data.source, "", "")
 end
 
 --WARN PLAYERS
@@ -353,7 +343,7 @@ function WarnPlayers(data)
     local target = tonumber(data.args[1])
     if data.source ~= target then -- dont warn yourself
         TriggerEvent("vorpwarns:addtodb", true, target, source)
-        SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+        sendDiscordLogs(data.config.webhook, data, data.source, "", "")
     end
 end
 
@@ -364,7 +354,7 @@ function AddCharCanCreateMore(data)
     local Character = CoreFunctions.getUser(target)
     if not Character then return end
     Character.setCharperm(number)
-    SendDiscordLogs(data.config.webhook, data, data.source, "", "")
+    sendDiscordLogs(data.config.webhook, data, data.source, "", "")
     CoreFunctions.NotifyRightTip(data.source, T.AddChar .. target, 4000)
 end
 
@@ -377,7 +367,7 @@ function ModifyCharName(data)
     local Character = CoreFunctions.getUser(target).getUsedCharacter
     Character.setFirstname(firstname)
     Character.setLastname(lastname)
-    SendDiscordLogs(data.config.webhook, data, data.source, firstname, lastname)
+    sendDiscordLogs(data.config.webhook, data, data.source, firstname, lastname)
     CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.namechange, firstname, lastname), 4000)
 end
 
@@ -397,7 +387,7 @@ function SetExp(data)
     local exp = tonumber(data.args[3])
     local Character = CoreFunctions.getUser(target).getUsedCharacter
     Character.setSkills(skillName, exp)
-    SendDiscordLogs(data.config.webhook, data, data.source, skillName, exp)
+    sendDiscordLogs(data.config.webhook, data, data.source, skillName, exp)
     CoreFunctions.NotifyRightTip(data.source, Translation[Lang].Notify.Exp, 4000)
     CoreFunctions.NotifyRightTip(target, string.format(Translation[Lang].Notify.GivenExp, exp, skillName), 4000)
 end
@@ -420,11 +410,11 @@ end
 --============================================ CHAT ADD SUGGESTION ========================================================--
 
 function AddCommandSuggestions(_source, group, value)
-    if CheckAce(value.aceAllowed, _source) or CheckGroupAllowed(value.groupAllowed, group) then
+    if checkAce(value.aceAllowed, _source) or checkGroupAllowed(value.groupAllowed, group) then
         return TriggerClientEvent("chat:addSuggestion", _source, "/" .. value.commandName, value.label, value.suggestion)
     end
 
-    if value.jobAllow and CheckJobAllowed(value.jobAllow, _source) then
+    if value.jobAllow and checkJobAllowed(value.jobAllow, _source) then
         return TriggerClientEvent("chat:addSuggestion", _source, "/" .. value.commandName, value.label, value.suggestion)
     end
 
@@ -433,12 +423,11 @@ end
 
 RegisterServerEvent("vorp:chatSuggestion", function()
     local _source = source
-    local user    = CoreFunctions.getUser(_source)
-
+    local user    = checkUser(_source)
     if not user then return end
 
     local group = user.getGroup
-    for key, value in pairs(Commands) do
+    for _, value in pairs(Commands) do
         AddCommandSuggestions(_source, group, value)
     end
 

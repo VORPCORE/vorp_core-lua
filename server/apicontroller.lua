@@ -1,3 +1,35 @@
+---@class CORE_SERVER
+---@field public maxCharacters fun(source:number):number
+---@field public getUsers fun():table
+---@field public getUser fun(source:number):table | nil
+---@field public getUserByCharId fun(charid:number):table | nil
+---@field public NotifyTip fun(source:number, text:string, duration:number)
+---@field public NotifyLeft fun(source:number, title:string, subtitle:string, dict:string, icon:string, duration:number, color:string)
+---@field public NotifyRightTip fun(source:number, text:string, duration:number)
+---@field public NotifyObjective fun(source:number, text:string, duration:number)
+---@field public NotifyTop fun(source:number, text:string, location:string, duration:number)
+---@field public NotifySimpleTop fun(source:number, text:string, subtitle:string, duration:number)
+---@field public NotifyAvanced fun(source:number, text:string, dict:string, icon:string, text_color:string, duration:number, quality:number, showquality:boolean)
+---@field public NotifyCenter fun(source:number, text:string, duration:number, color:string)
+---@field public NotifyBottomRight fun(source:number, text:string, duration:number)
+---@field public NotifyFail fun(source:number, text:string, subtitle:string, duration:number)
+---@field public NotifyDead fun(source:number, title:string, audioRef:string, audioName:string, duration:number)
+---@field public NotifyUpdate fun(source:number, title:string, subtitle:string, duration:number)
+---@field public NotifyBasicTop fun(source:number, title:string, duration:number)
+---@field public NotifyWarning fun(source:number, title:string, msg:string, audioRef:string, audioName:string, duration:number)
+---@field public NotifyLeftRank fun(source:number, title:string, subtitle:string, dict:string, icon:string, duration:number, color:string)
+---@field public dbUpdateAddTables fun(tbl:table)
+---@field public dbUpdateAddUpdates fun(updt:table)
+---@field public AddWebhook fun(title:string, webhook:string, description:string, color:string, name:string, logo:string?, footerlogo:string?, avatar:string?)
+---@field public Callback.Register fun(name:string, callback:function)
+---@field public Callback.TriggerAsync fun(name:string, source:number, callback:function, ...:any?)
+---@field public Callback.TriggerAwait fun(name:string, source:number, ...:any?):any
+---@field public Whitelist.getEntry fun(identifier:string):table
+---@field public Whitelist.whitelistUser fun(steam:string):nil | boolean
+---@field public Whitelist.unWhitelistUser fun(steam:string):nil | boolean
+---@field public Player.Heal fun(source:number)
+---@field public Player.Revive fun(source:number, param:any)
+---@field public Player.Respawn fun(source:number, param:any)
 CoreFunctions = {}
 
 CoreFunctions.maxCharacters = function(source)
@@ -11,7 +43,7 @@ end
 CoreFunctions.getUser = function(source)
     if not source then return nil end
 
-    local sid = GetPlayerIdentifierByType(source, 'steam')
+    local sid = GetPlayerIdentifierByType(tostring(source), 'steam')
     if not sid or not _users[sid] then return nil end
 
     return _users[sid].GetUser()
@@ -19,7 +51,7 @@ end
 
 CoreFunctions.getUserByCharId = function(charid)
     if charid == nil then return nil end
-    for k, v in pairs(_users) do
+    for _, v in pairs(_users) do
         if v.usedCharacterId ~= -1 and tonumber(v.usedCharacterId) == tonumber(charid) then
             return v.GetUser()
         end
@@ -99,20 +131,34 @@ CoreFunctions.AddWebhook = function(title, webhook, description, color, name, lo
 end
 
 CoreFunctions.Callback = {
-
+    --- register a server callback to be triggered by the client
+    ---@param name string callback name
+    ---@param callback function callback function
     Register = function(name, callback)
         ServerRPC.Callback.Register(name, callback)
     end,
+    --- asynchronous callback
+    ---@param name string callback name
+    ---@param source number source id
+    ---@param callback function callback function
+    ---@param ... any callback arguments if any
     TriggerAsync = function(name, source, callback, ...)
         ServerRPC.Callback.TriggerAsync(name, source, callback, ...)
     end,
+    --- synchronous callback
+    ---@param name string callback name
+    ---@param source number source id
+    ---@param ... any callback arguments if any
+    ---@return any callback return value if more than one send as a table
     TriggerAwait = function(name, source, ...)
         return ServerRPC.Callback.TriggerAwait(name, source, ...)
     end
 }
 
 CoreFunctions.Whitelist = {
-
+    --- get a whitelist entry by identifier
+    ---@param identifier string identifier
+    ---@return table? entry
     getEntry = function(identifier)
         if not identifier then return nil end
         local userid = Whitelist.Functions.GetUserId(identifier)
@@ -122,11 +168,15 @@ CoreFunctions.Whitelist = {
         return nil
     end,
 
+    --- whitelist a user
+    ---@param steam string steam identifier
+    ---@return  nil | boolean
     whitelistUser = function(steam)
         if not steam then return end
         return Whitelist.Functions.InsertWhitelistedUser({ identifier = steam, status = true })
     end,
-
+    --- unwhitelist a user
+    ---@param steam string steam identifier
     unWhitelistUser = function(steam)
         if not steam then return end
         local id = Whitelist.Functions.GetUserId(steam)
@@ -137,81 +187,30 @@ CoreFunctions.Whitelist = {
 }
 
 CoreFunctions.Player = {
+    --- heal a player
+    ---@param source number source id
     Heal = function(source)
         if not source then return end
         TriggerEvent("vorp_core:Server:OnPlayerHeal", source)
         TriggerClientEvent("vorp_core:Client:OnPlayerHeal", source)
     end,
+    --- revive a player
+    ---@param source number source id
+    ---@param param any parameter
     Revive = function(source, param)
         if not source then return end
         TriggerEvent("vorp_core:Server:OnPlayerRevive", source, param)
         TriggerClientEvent("vorp_core:Client:OnPlayerRevive", source, param)
     end,
+    --- respawn a player
+    ---@param source number source id
+    ---@param param any parameter
     Respawn = function(source, param)
         if not source then return end
         TriggerEvent("vorp_core:Server:OnPlayerRespawn", source, param)
         TriggerClientEvent("vorp_core:Client:OnPlayerRespawn", source, param)
     end,
 }
-
-
--- WIP
---[[ CoreFunctions.Command = {
-
-    Register = function(data)
-        if Commands[data.name] then
-            print('^1[ERROR] ^0Command ^1' .. data.name .. ' ^0already exists.')
-            return
-        end
-
-        Commands[data.name] = data
-
-        for index, value in pairs(data) do
-            RegisterCommands(value, index)
-        end
-    end,
-
-    Remove = function(name)
-        if not Commands[name] then
-            print('^1[ERROR] ^0Command ^1' .. name .. ' ^0does not exist can only remove commands you have added through core export.')
-            return
-        end
-        Commands[name] = nil
-    end
-}
- ]]
-
-
---Example usage
-
---[[ local data = {
-    CommandName = {                               -- must be unique
-        --webhook
-        webhook = "link",                         -- discord log when someone uses this command leave to false if you dont need
-        custom = "message to display on webhook", -- for webhook
-        title = "webhook title",                  -- webhook title
-        ---#end webhook
-        commandName = "command name",             -- name of the command to use
-        label = "command label",                  -- label of command when using
-        suggestion = {                            -- chat arguments needed this is needd to check all arguments have met
-            { name = "Id",  help = "palyer id" }, -- add how many you need
-            { name = "msg", help = "description" },
-        },
-        userCheck = true,                         -- does this command need to check if user is online ? lets say its an admin comand and argument is a player id or it could be identifier or char id etc
-        groupAllowed = { "admin" },               -- from users table in the database this group will be allowed to use this command
-        aceAllowed = 'vorpcore.setGroup.Command', -- ace allow or false must have this in your permissions file
-        jobsAllow = {},                           -- jobs allowed ? remove or leave empty if not needed, not supporting ranks yet
-        callFunction = function(data)             -- dont touch
-            -- you can run code here trigger client events or server events , exports etc,
-            -- local source = data.source -- player id
-            -- local args = data.args -- arguments from chat
-            -- local raw = data.rawCommand
-            -- local data = data.config -- all the values you set above
-        end
-    }
-}
- ]]
-
 
 exports('GetCore', function()
     return CoreFunctions
