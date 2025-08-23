@@ -21,15 +21,15 @@
 ---@field public dbUpdateAddTables fun(tbl:table)
 ---@field public dbUpdateAddUpdates fun(updt:table)
 ---@field public AddWebhook fun(title:string, webhook:string, description:string, color:string, name:string, logo:string?, footerlogo:string?, avatar:string?)
----@field public Callback.Register fun(name:string, callback:function)
----@field public Callback.TriggerAsync fun(name:string, source:number, callback:function, ...:any?)
----@field public Callback.TriggerAwait fun(name:string, source:number, ...:any?):any
----@field public Whitelist.getEntry fun(identifier:string):table
----@field public Whitelist.whitelistUser fun(steam:string):nil | boolean
----@field public Whitelist.unWhitelistUser fun(steam:string):nil | boolean
----@field public Player.Heal fun(source:number)
----@field public Player.Revive fun(source:number, param:any)
----@field public Player.Respawn fun(source:number, param:any)
+---@field public Register fun(name:string, callback:function)
+---@field public TriggerAsync fun(name:string, source:number, callback:function, ...:any?)
+---@field public TriggerAwait fun(name:string, source:number, ...:any?):any
+---@field public getEntry fun(identifier:string):table
+---@field public whitelistUser fun(steam:string):nil | boolean
+---@field public unWhitelistUser fun(steam:string):nil | boolean
+---@field public Heal fun(source:number)
+---@field public Revive fun(source:number, param:any)
+---@field public Respawn fun(source:number, param:any)
 CoreFunctions = {}
 
 CoreFunctions.maxCharacters = function(source)
@@ -234,3 +234,5 @@ end)
 CoreFunctions.addRpcCallback = function(name, callback)
     ServerRPC.Callback.Register(name, callback)
 end
+
+

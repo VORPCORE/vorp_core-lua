@@ -20,9 +20,9 @@
 ---@field public NotifyLeftRank fun(title:string, subtitle:string, dict:string, icon:string, duration:number, color:string)
 -----------------------------------------------------------------------------------------------------------------------------------------
 ---@field public Graphics.ScreenResolution fun():{width:number, height:number}
----@field public Callback.Register fun(name:string, callback:function)
----@field public Callback.TriggerAsync fun(name:string, callback:function, ...:any?)
----@field public Callback.TriggerAwait fun(name:string, ...:any?):any
+---@field public Register fun(name:string, callback:function)
+---@field public TriggerAsync fun(name:string, callback:function, ...:any?)
+---@field public TriggerAwait fun(name:string, ...:any?):any
 local CoreFunctions = {}
 
 CoreFunctions.RpcCall = function(name, callback, ...)
@@ -139,3 +139,4 @@ end)
 AddEventHandler('getCore', function(cb)
     return cb(CoreFunctions)
 end)
+
