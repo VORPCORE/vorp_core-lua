@@ -208,7 +208,6 @@ function CoreAction.Utils.LoadModel(hash)
     if not HasModelLoaded(hash) then
         RequestModel(hash, false)
         repeat Wait(0) until HasModelLoaded(hash)
-        return true
     end
 
     return true
