@@ -217,7 +217,6 @@ function CoreAction.Utils.LoadTexture(hash)
     if not HasStreamedTextureDictLoaded(hash) then
         RequestStreamedTextureDict(hash, true)
         repeat Wait(0) until HasStreamedTextureDictLoaded(hash)
-        return true
     end
     return true
 end
